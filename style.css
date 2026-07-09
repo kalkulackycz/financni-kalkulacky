@@ -1,0 +1,44 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f4f6f8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.menu { display: flex; gap: 8px; margin-bottom: 20px; width: 100%; max-width: 480px; }
+.menu a {
+    flex: 1; text-align: center; padding: 10px;
+    background: white; border-radius: 8px; text-decoration: none;
+    color: #444; font-weight: 600; font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.menu a.aktivni { background-color: #4f46e5; color: white; }
+
+.kalkulacka {
+    background: white; border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    padding: 32px; width: 100%; max-width: 480px;
+}
+
+h1 { font-size: 24px; margin-bottom: 24px; color: #1a1a2e; }
+label { display: block; font-size: 14px; font-weight: 600; color: #444; margin-top: 16px; margin-bottom: 6px; }
+input { width: 100%; padding: 10px 12px; border: 1px solid #d0d5dd; border-radius: 8px; font-size: 15px; }
+input:focus { outline: none; border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
+
+button {
+    width: 100%; margin-top: 24px; padding: 12px;
+    background-color: #4f46e5; color: white; border: none;
+    border-radius: 8px; font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: background-color 0.2s;
+}
+button:hover { background-color: #4338ca; }
+
+#vysledek, #vysledekSporeni, #vysledekPujcka {
+    margin-top: 20px; font-size: 20px; color: #1a1a2e; text-align: center;
+}
+.detaily { margin-top: 12px; font-size: 14px; color: #555; text-align: center; line-height: 1.6; }
+#graf, #grafSporeni, #grafPujcka { display: block; max-width: 100%; margin: 24px auto 0 auto; }

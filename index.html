@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Hypoteční kalkulačka</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body>
+    <nav class="menu">
+        <a href="index.html" class="aktivni">Hypotéka</a>
+        <a href="sporeni.html">Spoření</a>
+        <a href="pujcka.html">Půjčka</a>
+    </nav>
+
+    <div class="kalkulacka">
+        <h1>Hypoteční kalkulačka</h1>
+        <label for="castka">Výše úvěru (Kč):</label>
+        <input type="number" id="castka" value="3000000">
+        <label for="urok">Úroková sazba (% ročně):</label>
+        <input type="number" id="urok" value="5.5" step="0.1">
+        <label for="doba">Doba splácení (roky):</label>
+        <input type="number" id="doba" value="30">
+        <button id="vypocitat">Vypočítat</button>
+        <h2 id="vysledek"></h2>
+        <div id="detaily" class="detaily"></div>
+        <canvas id="graf" width="400" height="300"></canvas>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
