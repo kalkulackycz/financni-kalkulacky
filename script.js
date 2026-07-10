@@ -1,38 +1,20 @@
-let mujGraf = null;
+const btn = document.getElementById('vypocitat');
+let mujGraf;
 
-document.getElementById("vypocitat").addEventListener("click", function() {
-    const P = parseFloat(document.getElementById("castka").value);
-    const rocniSazba = parseFloat(document.getElementById("urok").value);
-    const n = parseFloat(document.getElementById("doba").value) * 12;
-    const r = rocniSazba / 100 / 12;
+if (btn) {
+    btn.addEventListener('click', () => {
+        let c = document.getElementById('castka').value;
+        let u = document.getElementById('urok').value / 100 / 12;
+        let d = document.getElementById('doba').value * 12;
+        let splatka = (c * u) / (1 - Math.pow(1 + u, -d));
+        
+        document.getElementById('vysledek').innerHTML = "Měsíční splátka: " + Math.round(splatka) + " Kč";
 
-    const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-    const vysledek = Math.round(mesicniSplatka);
-    const celkemZaplaceno = Math.round(mesicniSplatka * n);
-    const celkoveUroky = celkemZaplaceno - P;
-
-    document.getElementById("vysledek").textContent = "Měsíční splátka: " + vysledek.toLocaleString("cs-CZ") + " Kč";
-    document.getElementById("detaily").innerHTML =
-        "<p>Celkem zaplatíte: <strong>" + celkemZaplaceno.toLocaleString("cs-CZ") + " Kč</strong></p>" +
-        "<p>Z toho úroky: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>";
-
-    if (mujGraf !== null) {
-        mujGraf.destroy();
-    }
-    
-    const ctx = document.getElementById("graf").getContext("2d");
-    mujGraf = new Chart(ctx, {
-        type: "doughnut",
-        data: { 
-            labels: ["Jistina", "Úroky"], 
-            datasets: [{ 
-                data: [P, celkoveUroky], 
-                backgroundColor: ["#4f46e5", "#f97316"] 
-            }] 
-        },
-        options: { 
-            responsive: true, 
-            plugins: { legend: { position: "bottom" } } 
-        }
+        const ctx = document.getElementById('graf').getContext('2d');
+        if (mujGraf) mujGraf.destroy();
+        mujGraf = new Chart(ctx, {
+            type: 'pie',
+            data: { labels: ['Jistina', 'Úroky'], datasets: [{ data: [c, splatka * d - c], backgroundColor: ['#4f46e5', '#e2e8f0'] }] }
+        });
     });
-});
+}
