@@ -25,25 +25,21 @@ document.getElementById("vypocitatPujcka").addEventListener("click", function() 
         "<p>Z toho úroky: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>" +
         "<p>Celková cena půjčky (vč. poplatku): <strong>" + Math.round(celkovaCena).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-    // Opravená cesta k datům pro Chart.js v4
-    if (mujGrafPujcka !== null) {
-        mujGrafPujcka.data.datasets[0].data = [P, Math.max(0, celkoveUroky), poplatek];
-        mujGrafPujcka.update(); 
-    } else {
-        const ctx = document.getElementById("grafPujcka").getContext("2d");
-        mujGrafPujcka = new Chart(ctx, {
-            type: "doughnut",
-            data: {
-                labels: ["Jistina (půjčené peníze)", "Úroky", "Poplatek"],
-                datasets: [{ data: [P, Math.max(0, celkoveUroky), poplatek], backgroundColor: ["#4f46e5", "#f97316", "#ef4444"] }]
-            },
-            options: { 
-                responsive: true, 
-                plugins: { legend: { position: "bottom" } },
-                animation: { duration: 1000, easing: 'easeOutQuart' }
-            }
-        });
-    }
+    if (mujGrafPujcka !== null) mujGrafPujcka.destroy();
+
+    const ctx = document.getElementById("grafPujcka").getContext("2d");
+    mujGrafPujcka = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+            labels: ["Jistina (půjčené peníze)", "Úroky", "Poplatek"],
+            datasets: [{ data: [P, Math.max(0, celkoveUroky), poplatek], backgroundColor: ["#4f46e5", "#f97316", "#ef4444"] }]
+        },
+        options: { 
+            responsive: true, 
+            plugins: { legend: { position: "bottom" } },
+            animation: { duration: 800, easing: 'easeOutQuart' }
+        }
+    });
 });
 
 document.getElementById("vypocitatPujcka").click();
