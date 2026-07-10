@@ -22,21 +22,27 @@ document.getElementById("vypocitat").addEventListener("click", function() {
         "<p>Celkem zaplatíte: <strong>" + celkemZaplaceno.toLocaleString("cs-CZ") + " Kč</strong></p>" +
         "<p>Z toho na úrocích: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-    // Vyčištění starého grafu
-    if (mujGraf !== null) mujGraf.destroy();
-
-    // Vykreslení nového animovaného grafu
-    const ctx = document.getElementById("graf").getContext("2d");
-    mujGraf = new Chart(ctx, {
-        type: "doughnut",
-        data: {
-            labels: ["Jistina (půjčené peníze)", "Úroky"],
-            datasets: [{ data: [P, Math.max(0, celkoveUroky)], backgroundColor: ["#4f46e5", "#f97316"] }]
-        },
-        options: { 
-            responsive: true, 
-            legend: { position: "bottom" },
-            animation: { duration: 1000, easing: "easeOutQuart" } // Plynulá animace protočení kola
-        }
-    });
+    // Plynulá animace: Pokud už graf existuje, pouze mu přepíšeme data a pohneme s ním
+    if (mujGraf !== null) {
+        mujGraf.data.datasets[0].data = [P, Math.max(0, celkoveUroky)];
+        mujGraf.update(); // Spustí plynulý animovaný pohyb barevných částí
+    } else {
+        // Pokud klikáme poprvé, vytvoříme graf, který se plynule rozbalí
+        const ctx = document.getElementById("graf").getContext("2d");
+        mujGraf = new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: ["Jistina (půjčené peníze)", "Úroky"],
+                datasets: [{ 
+                    data: [P, Math.max(0, celkoveUroky)], 
+                    backgroundColor: ["#4f46e5", "#f97316"] 
+                }]
+            },
+            options: { 
+                responsive: true, 
+                plugins: { legend: { position: "bottom" } },
+                animation: { duration: 1000, easing: 'easeOutQuart' }
+            }
+        });
+    }
 });
