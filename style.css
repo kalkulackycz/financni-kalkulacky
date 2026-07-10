@@ -174,6 +174,29 @@ button:hover {
     text-decoration: underline;
 }
 
+.info-box {
+    display: block;
+    margin-top: 20px;
+    padding: 14px 16px;
+    background-color: #eef2ff;
+    border: 1px solid #c7d2fe;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    color: #3730a3;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.info-box:hover {
+    background-color: #e0e7ff;
+}
+
+.info-box span {
+    color: #4f46e5;
+}
+
 @media (max-width: 500px) {
     body {
         padding: 20px 12px;
