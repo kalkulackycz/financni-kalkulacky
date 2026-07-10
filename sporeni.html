@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Kalkulačka spoření zdarma. Zjistěte, kolik naspoříte při pravidelném měsíčním vkladu a jakém úroku.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH"></script>
+    <script async src="https://googletagmanager.com"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -15,13 +15,14 @@
     </script>
     <title>Kalkulačka spoření</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <script src="https://cloudflare.com"></script>
 </head>
 <body>
     <nav class="menu">
         <a href="index.html">Hypotéka</a>
         <a href="sporeni.html" class="aktivni">Spoření</a>
         <a href="pujcka.html">Půjčka</a>
+        <a href="refinancovani.html">Refinancování</a>
     </nav>
 
     <div class="kalkulacka">
@@ -41,6 +42,25 @@
         </a>
 
         <canvas id="grafSporeni" width="400" height="300"></canvas>
+
+        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
+            <h2 style="font-size: 18px; margin-top: 10px; margin-bottom: 16px;">Časté otázky ke spoření</h2>
+
+            <div class="faq-polozka">
+                <h3>How funguje složené úročení?</h3>
+                <p>Složené úročení znamená, že úroky, které každý rok vyděláte, se přičtou k vašemu vkladu. Další rok se pak úročí nejen vaše původní peníze, ale i tyto získané úroky. Čím déle spoříte, tím rychleji vaše peníze rostou.</p>
+            </div>
+
+            <div class="faq-polozka">
+                <h3>Musím z výnosů ze spoření platit daně?</h3>
+                <p>Ano, výnosy z úroků na spořicích účtech a termínovaných vkladech podléhají srážkové dani ve výši 15 %. Banka tuto daň strhává z úroků automaticky, takže vy sami nemusíte nic nikam vykazovat ani řešit daňové přiznání.</p>
+            </div>
+
+            <div class="faq-polozka">
+                <h3>Stačí běžný spořicí účet na ochranu před inflací?</h3>
+                <p>Bohužel většinou nestačí. Úroky na klasických spořicích účtech bývají dlouhodobě nižší než míra inflace. Peníze sice rostou číselně, ale jejich reálná kupní síla pomalu klesá. Podívejte se na naše podrobné <a href="inflace-vysvetlene.html" style="color: #4f46e5; text-decoration: underline;">vysvětlení dopadů inflace</a>.</p>
+            </div>
+        </div>
     </div>
 
     <footer class="paticka">

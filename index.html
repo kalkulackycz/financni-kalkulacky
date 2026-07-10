@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Bezplatná online hypoteční kalkulačka. Spočítejte si měsíční splátku, celkové úroky a získejte přehledný graf zdarma.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH"></script>
+    <script async src="https://googletagmanager.com"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -15,13 +15,14 @@
     </script>
     <title>Hypoteční kalkulačka</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <script src="https://cloudflare.com"></script>
 </head>
 <body>
     <nav class="menu">
         <a href="index.html" class="aktivni">Hypotéka</a>
         <a href="sporeni.html">Spoření</a>
         <a href="pujcka.html">Půjčka</a>
+        <a href="refinancovani.html">Refinancování</a>
     </nav>
 
     <div class="kalkulacka">
@@ -41,6 +42,25 @@
         </a>
 
         <canvas id="graf" width="400" height="300"></canvas>
+
+        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
+            <h2 style="font-size: 18px; margin-top: 10px; margin-bottom: 16px;">Časté otázky k hypotékám</h2>
+
+            <div class="faq-polozka">
+                <h3>Co je to fixace úrokové sazby?</h3>
+                <p>Fixace je období (zpravidla 1, 3, 5 nebo 10 let), po které vám banka garantuje neměnnou úrokovou sazbu a výši měsíční splátky. Během této doby se vaše splátka nezmění, i kdyby úroky na trhu vzrostly.</p>
+            </div>
+
+            <div class="faq-polozka">
+                <h3>Kolik musím mít naspořeno z vlastních zdrojů?</h3>
+                <p>Podle pravidel ČNB musíte mít standardně naspořeno alespoň 20 % z hodnoty nemovitosti (tzv. LTV 80 %). Mladí žadatelé do 36 let mohou v některých případech získat hypotéku až do 90 % hodnoty nemovitosti, stačí jim tedy 10 % vlastních peněz.</p>
+            </div>
+
+            <div class="faq-polozka">
+                <h3>Jaké další náklady mě čekají kromě splátek hypotéky?</h3>
+                <p>Při vyřizování hypotéky musíte počítat s poplatkem za odhad nemovitosti, poplatkem za vklad do katastru nemovitostí a povinným pojištěním nemovitosti, které banky vyžadují jako zástavu.</p>
+            </div>
+        </div>
     </div>
 
     <footer class="paticka">

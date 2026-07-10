@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://sitemaps.org">
   <url>
-    <loc>https://kalkulackycz.github.io/financni-kalkulacky/index.html</loc>
+    <loc>https://github.io</loc>
   </url>
   <url>
-    <loc>https://kalkulackycz.github.io/financni-kalkulacky/sporeni.html</loc>
+    <loc>https://github.io</loc>
   </url>
   <url>
-    <loc>https://kalkulackycz.github.io/financni-kalkulacky/pujcka.html</loc>
+    <loc>https://github.io</loc>
+  </url>
+  <url>
+    <loc>https://github.io</loc>
+  </url>
+  <url>
+    <loc>https://github.io</loc>
+  </url>
+  <url>
+    <loc>https://github.io</loc>
   </url>
 </urlset>

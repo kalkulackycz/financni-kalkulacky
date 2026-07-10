@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kalkulačka refinancování online zdarma. Spočítejte si, kolik ušetříte na měsíční splátce a celkovém přeplatku při převodu úvěru.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔄</text></svg>">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://googletagmanager.com"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-2BW708HYKH');
+    </script>
+    <title>Kalkulačka refinancování</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cloudflare.com"></script>
+</head>
+<body>
+    <nav class="menu">
+        <a href="index.html">Hypotéka</a>
+        <a href="sporeni.html">Spoření</a>
+        <a href="pujcka.html">Půjčka</a>
+        <a href="refinancovani.html" class="aktivni">Refinancování</a>
+    </nav>
+
+    <div class="kalkulacka">
+        <h1>Kalkulačka refinancování</h1>
+        
+        <label for="zbytekDluhu">Zbývající výše úvěru (Kč):</label>
+        <input type="number" id="zbytekDluhu" value="1500000">
+        
+        <label for="staryUrok">Současná úroková sazba (% ročně):</label>
+        <input type="number" id="staryUrok" value="5.9" step="0.1">
+        
+        <label for="novyUrok">Nová úroková sazba (% ročně):</label>
+        <input type="number" id="novyUrok" value="4.2" step="0.1">
+        
+        <label for="dobaRefin">Zbývající doba splácení (roky):</label>
+        <input type="number" id="dobaRefin" value="20">
+        
+        <button id="vypocitatRefin">Vypočítat úsporu</button>
+        
+        <h2 id="vysledekRefin"></h2>
+        <div id="detailyRefin" class="detaily"></div>
+
+        <a href="rpsn-vysvetlene.html" class="info-box">
+            💡 Chceš vědět, jak poplatky ovlivní úsporu? <span>Vysvětlíme ti RPSN →</span>
+        </a>
+
+        <canvas id="grafRefin" width="400" height="300"></canvas>
+
+        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
+            <h2 style="font-size: 18px; margin-top: 10px; margin-bottom: 16px;">Časté otázky k refinancování</h2>
+
+            <div class="faq-polozka">
+                <h3>Kdy se vyplatí úvěr refinancovat?</h3>
+                <p>Refinancování dává největší smysl ve chvíli, kdy tržní úrokové sazby klesnou pod úroveň vaší současné smlouvy, nebo když vám končí období fixace u hypotéky.</p>
+            </div>
+
+            <div class="faq-polozka">
+                <h3>Jak rychle získám peníze na doplacení staré půjčky?</h3>
+                <p>Nová banka obvykle vyřídí celý proces administrativy za vás. Finanční prostředky na doplacení původního dluhu převede přímo na účet staré banky ihned po schválení procesu.</p>
+            </div>
+
+            <div class="faq-polozka">
+                <h3>Xco ovlivňuje schválení u nové banky?</h3>
+                <p>Klíčová je vaše platební morálka. Pokud jste starý úvěr spláceli včas a bez zpoždění, nová banka na vás nahlíží jako na spolehlivého klienta a schválení bývá velmi rychlé.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="paticka">
+        <p>Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
+    </footer>
+
+    <script src="refinancovani.js"></script>
+</body>
+</html>
