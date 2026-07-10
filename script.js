@@ -1,5 +1,11 @@
 let mujGraf = null;
 
+// Funkce pro rychlé nastavení úroku z tlačítek
+function nastavUrok(hodnota) {
+    document.getElementById("urok").value = hodnota;
+    document.getElementById("vypocitat").click();
+}
+
 document.getElementById("vypocitat").addEventListener("click", function() {
     const P = parseFloat(document.getElementById("castka").value);
     const rocniSazba = parseFloat(document.getElementById("urok").value);
