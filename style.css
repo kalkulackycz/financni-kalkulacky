@@ -49,118 +49,49 @@ body {
     text-align: center;
 }
 
-h1 {
-    font-size: 20px;
-    margin-bottom: 20px;
-    color: #1a1a2e;
+h1 { font-size: 20px; margin-bottom: 20px; color: #1a1a2e; }
+label { display: block; text-align: left; font-size: 14px; margin-top: 15px; margin-bottom: 5px; color: #555; }
+input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
+
+/* HLAVNÍ TLAČÍTKA (Vypočítat) */
+button { 
+    width: 100%; 
+    padding: 12px; 
+    margin-top: 20px; 
+    background-color: #4f46e5; 
+    color: white; 
+    border: none; 
+    border-radius: 8px; 
+    font-weight: 600; 
+    cursor: pointer; 
+    font-size: 15px; 
 }
 
-label {
-    display: block;
-    text-align: left;
-    font-size: 14px;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    color: #555;
+/* POMOCNÁ TLAČÍTKA (Scénáře) - specificky upraveno, aby se neovlivňovala */
+.scenare { margin-top: 25px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; }
+.scenare p { font-size: 13px; color: #888; margin-bottom: 10px; }
+
+.scenare button { 
+    display: inline-block; 
+    width: auto; 
+    background-color: #e0e7ff; 
+    color: #4f46e5; 
+    padding: 8px 12px; 
+    margin: 4px; 
+    font-size: 12px; 
+    font-weight: 500; 
+    border: none; 
+    border-radius: 6px; 
+    cursor: pointer; 
 }
 
-input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-}
+.scenare button:hover { background-color: #c7d2fe; }
 
-button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 20px;
-    background-color: #4f46e5;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 15px;
-}
+#vysledek, #vysledekSporeni, #vysledekPujcka { margin-top: 25px; font-size: 18px; color: #1a1a2e; }
+#detaily, #detailySporeni, #detailyPujcka { margin-top: 10px; font-size: 14px; color: #444; }
+#graf { margin-top: 20px; }
 
-/* --- TATO ČÁST ŘEŠÍ TVŮJ PROBLÉM --- */
-.scenare {
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-    text-align: center;
-}
-
-.scenare p {
-    font-size: 13px;
-    color: #888;
-    margin-bottom: 10px;
-}
-
-.scenare button {
-    display: inline-block;
-    width: auto;
-    background-color: #e0e7ff;
-    color: #4f46e5;
-    padding: 8px 12px;
-    margin: 4px;
-    font-size: 12px;
-    font-weight: 500;
-}
-
-.scenare button:hover {
-    background-color: #c7d2fe;
-}
-/* ------------------------------------- */
-
-#vysledek {
-    margin-top: 25px;
-    font-size: 18px;
-    color: #1a1a2e;
-}
-
-#detaily {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #444;
-}
-
-#graf {
-    margin-top: 20px;
-}
-
-.clanek h2 {
-    font-size: 17px;
-    margin-top: 24px;
-    margin-bottom: 12px;
-    color: #1a1a2e;
-}
-
-.faq-polozka {
-    margin-bottom: 16px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #eee;
-}
-
-.faq-polozka h3 {
-    font-size: 15px;
-    color: #4f46e5;
-    margin-bottom: 6px;
-}
-
-.faq-polozka p {
-    font-size: 14px;
-    color: #555;
-    line-height: 1.5;
-}
-
-.info-box {
-    margin-top: 20px;
-    padding: 14px;
-    background: #f8fafc;
-    border-radius: 8px;
-    font-size: 13px;
-    color: #64748b;
-}
+.faq-polozka { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #eee; }
+.faq-polozka h3 { font-size: 15px; color: #4f46e5; margin-bottom: 6px; }
+.faq-polozka p { font-size: 14px; color: #555; line-height: 1.5; }
+.info-box { margin-top: 20px; padding: 14px; background: #f8fafc; border-radius: 8px; font-size: 13px; color: #64748b; }
