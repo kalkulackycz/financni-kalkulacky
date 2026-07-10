@@ -1,48 +1,35 @@
-let mujGraf = null;
+window.addEventListener("DOMContentLoaded", function() {
+    let mujGraf = null;
 
-document.getElementById("vypocitat").addEventListener("click", function() {
-    const P = parseFloat(document.getElementById("castka").value);
-    const rocniSazba = parseFloat(document.getElementById("urok").value);
-    const n = parseFloat(document.getElementById("doba").value) * 12;
-    const r = rocniSazba / 100 / 12;
+    document.getElementById("vypocitat").addEventListener("click", function() {
+        const P = parseFloat(document.getElementById("castka").value);
+        const rocniSazba = parseFloat(document.getElementById("urok").value);
+        const n = parseFloat(document.getElementById("doba").value) * 12;
+        const r = rocniSazba / 100 / 12;
 
-    if (isNaN(P) || isNaN(rocniSazba) || isNaN(n) || P <= 0) {
-        alert("Prosím, vyplňte všechny hodnoty správně.");
-        return;
-    }
+        const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+        const vysledek = Math.round(mesicniSplatka);
+        const celkemZaplaceno = Math.round(mesicniSplatka * n);
+        const celkoveUroky = celkemZaplaceno - P;
 
-    const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-    const vysledek = Math.round(mesicniSplatka);
-    const celkemZaplaceno = Math.round(mesicniSplatka * n);
-    const celkoveUroky = celkemZaplaceno - P;
+        document.getElementById("vysledek").textContent =
+            "Měsíční splátka: " + vysledek.toLocaleString("cs-CZ") + " Kč";
+        document.getElementById("detaily").innerHTML =
+            "<p>Celkem zaplatíte: <strong>" + celkemZaplaceno.toLocaleString("cs-CZ") + " Kč</strong></p>" +
+            "<p>Z toho na úrocích: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-    document.getElementById("vysledek").textContent =
-        "Měsíční splátka: " + vysledek.toLocaleString("cs-CZ") + " Kč";
-    document.getElementById("detaily").innerHTML =
-        "<p>Celkem zaplatíte: <strong>" + celkemZaplaceno.toLocaleString("cs-CZ") + " Kč</strong></p>" +
-        "<p>Z toho na úrocích: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>";
+        if (mujGraf !== null) mujGraf.destroy();
 
-    // Plynulá animace: Pokud už graf existuje, pouze mu přepíšeme data a pohneme s ním
-    if (mujGraf !== null) {
-        mujGraf.data.datasets[0].data = [P, Math.max(0, celkoveUroky)];
-        mujGraf.update(); // Spustí plynulý animovaný pohyb barevných částí
-    } else {
-        // Pokud klikáme poprvé, vytvoříme graf, který se plynule rozbalí
         const ctx = document.getElementById("graf").getContext("2d");
         mujGraf = new Chart(ctx, {
             type: "doughnut",
             data: {
                 labels: ["Jistina (půjčené peníze)", "Úroky"],
-                datasets: [{ 
-                    data: [P, Math.max(0, celkoveUroky)], 
-                    backgroundColor: ["#4f46e5", "#f97316"] 
-                }]
+                datasets: [{ data: [P, celkoveUroky], backgroundColor: ["#4f46e5", "#f97316"] }]
             },
-            options: { 
-                responsive: true, 
-                plugins: { legend: { position: "bottom" } },
-                animation: { duration: 1000, easing: 'easeOutQuart' }
-            }
+            options: { responsive: true, plugins: { legend: { position: "bottom" } } }
         });
-    }
+    });
+
+    document.getElementById("vypocitat").click();
 });
