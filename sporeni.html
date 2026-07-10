@@ -1,72 +1,53 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Kalkulačka spoření zdarma. Zjistěte, kolik naspoříte při pravidelném měsíčním vkladu and jakém úroku.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://googletagmanager.com"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-2BW708HYKH');
-    </script>
-    <title>Kalkulačka spoření</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cloudflare.com"></script>
-</head>
-<body>
-    <nav class="menu">
-        <a href="index.html">Hypotéka</a>
-        <a href="sporeni.html" class="aktivni">Spoření</a>
-        <a href="pujcka.html">Půjčka</a>
-        <a href="refinancovani.html">Refinancování</a>
-    </nav>
+let mujGrafSporeni = null;
 
-    <div class="kalkulacka">
-        <h1>Kalkulačka spoření</h1>
-        <label for="mesicniVklad">Měsíční vklad (Kč):</label>
-        <input type="number" id="mesicniVklad" value="3000">
-        <label for="urokSporeni">Roční úrok (%):</label>
-        <input type="number" id="urokSporeni" value="4" step="0.1">
-        <label for="dobaSporeni">Doba spoření (roky):</label>
-        <input type="number" id="dobaSporeni" value="10">
-        <button id="vypocitatSporeni">Vypočítat</button>
-        <h2 id="vysledekSporeni"></h2>
-        <div id="detailySporeni" class="detaily"></div>
+document.getElementById("vypocitatSporeni").addEventListener("click", function() {
+    const vklad = parseFloat(document.getElementById("mesicniVklad").value);
+    const rocniUrok = parseFloat(document.getElementById("urokSporeni").value);
+    const roky = parseFloat(document.getElementById("dobaSporeni").value);
+    
+    if (isNaN(vklad) || isNaN(rocniUrok) || isNaN(roky) || vklad <= 0) {
+        alert("Prosím, vyplňte všechny hodnoty správně.");
+        return;
+    }
 
-        <a href="inflace-vysvetlene.html" class="info-box">
-            💡 Proč peníze na účtu ztrácí hodnotu? <span>Vysvětlíme ti to →</span>
-        </a>
+    const mesice = roky * 12;
+    const r = rocniUrok / 100 / 12;
 
-        <canvas id="grafSporeni" width="400" height="300"></canvas>
+    let celkemVlozeno = vklad * mesice;
+    let celkovaCastka = 0;
 
-        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
-            <h2 style="font-size: 18px; margin-top: 10px; margin-bottom: 16px;">Časté otázky ke spoření</h2>
+    if (r > 0) {
+        celkovaCastka = vklad * ((Math.pow(1 + r, mesice) - 1) / r) * (1 + r);
+    } else {
+        celkovaCastka = celkemVlozeno;
+    }
 
-            <div class="faq-polozka">
-                <h3>Jak funguje složené úročení?</h3>
-                <p>Složené úročení znamená, že úroky, které každý rok vyděláte, se přičtou k vašemu vkladu. Další rok se pak úročí nejen vaše původní peníze, ale i tyto získané úroky. Čím déle spoříte, tím rychleji vaše peníze rostou.</p>
-            </div>
+    const urokCelkem = celkovaCastka - celkemVlozeno;
 
-            <div class="faq-polozka">
-                <h3>Musím z výnosů ze spoření platit daně?</h3>
-                <p>Ano, výnosy z úroků na spořicích účtech and termínovaných vkladech podléhají srážkové dani ve výši 15 %. Banka tuto daň strhává z úroků automaticky, takže vy sami nemusíte nic nikam vykazovat ani řešit daňové přiznání.</p>
-            </div>
+    document.getElementById("vysledekSporeni").textContent =
+        "Naspořená částka: " + Math.round(celkovaCastka).toLocaleString("cs-CZ") + " Kč";
+    document.getElementById("detailySporeni").innerHTML =
+        "<p>Celkem vloženo: <strong>" + Math.round(celkemVlozeno).toLocaleString("cs-CZ") + " Kč</strong></p>" +
+        "<p>Získaný úrok: <strong>" + Math.round(urokCelkem).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-            <div class="faq-polozka">
-                <h3>Stačí běžný spořicí účet na ochranu před inflací?</h3>
-                <p>Bohužel většinou nestačí. Úroky na klasických spořicích účtech bývají dlouhodobě nižší než míra inflace. Peníze sice rostou číselně, ale jejich reálná kupní síla pomalu klesá. Podívejte se na naše podrobné <a href="inflace-vysvetlene.html" style="color: #4f46e5; text-decoration: underline;">vysvětlení dopadů inflace</a>.</p>
-            </div>
-        </div>
-    </div>
+    if (mujGrafSporeni !== null) {
+        mujGrafSporeni.data.datasets[0].data = [celkemVlozeno, Math.max(0, urokCelkem)];
+        mujGrafSporeni.update(); 
+    } else {
+        const ctx = document.getElementById("grafSporeni").getContext("2d");
+        mujGrafSporeni = new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: ["Vaše vklady", "Získané úroky"],
+                datasets: [{ data: [celkemVlozeno, Math.max(0, urokCelkem)], backgroundColor: ["#4f46e5", "#22c55e"] }]
+            },
+            options: { 
+                responsive: true, 
+                plugins: { legend: { position: "bottom" } },
+                animation: { duration: 1000, easing: 'easeOutQuart' }
+            }
+        });
+    }
+});
 
-    <footer class="paticka">
-        <p>Kalkulačky slouží pouze pro orientační výpočet and nenahrazují odborné finanční poradenství.</p>
-    </footer>
-
-    <script src="sporeni.js"></script>
-</body>
-</html>
+document.getElementById("vypocitatSporeni").click();

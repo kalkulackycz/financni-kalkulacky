@@ -25,10 +25,9 @@ document.getElementById("vypocitatPujcka").addEventListener("click", function() 
         "<p>Z toho úroky: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>" +
         "<p>Celková cena půjčky (vč. poplatku): <strong>" + Math.round(celkovaCena).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-    // Plynulá aktualizace grafu místo jeho ničení
     if (mujGrafPujcka !== null) {
         mujGrafPujcka.data.datasets[0].data = [P, Math.max(0, celkoveUroky), poplatek];
-        mujGrafPujcka.update(); // Spustí animovaný pohyb grafu
+        mujGrafPujcka.update(); 
     } else {
         const ctx = document.getElementById("grafPujcka").getContext("2d");
         mujGrafPujcka = new Chart(ctx, {
@@ -46,5 +45,4 @@ document.getElementById("vypocitatPujcka").addEventListener("click", function() 
     }
 });
 
-// Inicializační plynulé vykreslení při načtení
 document.getElementById("vypocitatPujcka").click();

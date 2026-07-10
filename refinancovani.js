@@ -33,10 +33,9 @@ document.getElementById("vypocitatRefin").addEventListener("click", function() {
         "<p>Nová měsíční splátka: <strong>" + Math.round(novyVysledek).toLocaleString("cs-CZ") + " Kč</strong></p>" +
         "<p>Celková úspora za " + (n / 12) + " let: <strong style='color: #22c55e;'>" + Math.round(Math.max(0, celkovaUspora)).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-    // Plynulá aktualizace grafu místo jeho ničení
     if (mujGrafRefin !== null) {
         mujGrafRefin.data.datasets[0].data = [P, Math.max(0, noveCelkoveUroky)];
-        mujGrafRefin.update(); // Spustí animovaný pohyb grafu
+        mujGrafRefin.update(); 
     } else {
         const ctx = document.getElementById("grafRefin").getContext("2d");
         mujGrafRefin = new Chart(ctx, {
@@ -57,5 +56,4 @@ document.getElementById("vypocitatRefin").addEventListener("click", function() {
     }
 });
 
-// Inicializační plynulé vykreslení při načtení
 document.getElementById("vypocitatRefin").click();
