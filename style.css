@@ -116,6 +116,15 @@ button:hover {
     margin: 24px auto 0 auto;
 }
 
+.paticka {
+    margin-top: 24px;
+    max-width: 480px;
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    line-height: 1.5;
+}
+
 @media (max-width: 500px) {
     body {
         padding: 20px 12px;
