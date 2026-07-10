@@ -32,7 +32,7 @@ window.addEventListener("DOMContentLoaded", function() {
         document.getElementById("detailyRefin").innerHTML =
             "<p>Původní měsíční splátka: <strong>" + Math.round(staryVysledek).toLocaleString("cs-CZ") + " Kč</strong></p>" +
             "<p>Nová měsíční splátka: <strong>" + Math.round(novyVysledek).toLocaleString("cs-CZ") + " Kč</strong></p>" +
-            "<p>Celková úspora za " + (n / 12) + " let: <strong style='color: #22c55e;'>" + Math.round(Math.max(0, celkovaUspora)).toLocaleString("cs-CZ") + " Kč</strong></p>";
+            "<p>Celková úspora za " + (n / 12) + " let: <strong style='color: #22c55e;'> " + Math.round(Math.max(0, celkovaUspora)).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
         if (mujGrafRefin !== null) mujGrafRefin.destroy();
 
