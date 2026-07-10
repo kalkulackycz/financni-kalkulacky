@@ -22,28 +22,33 @@ document.getElementById("vypocitat").addEventListener("click", function() {
         "<p>Celkem zaplatíte: <strong>" + celkemZaplaceno.toLocaleString("cs-CZ") + " Kč</strong></p>" +
         "<p>Z toho na úrocích: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-    // Plynulé překreslení grafu: starý smažeme z paměti a vykreslíme čistý nový
+    // SPRÁVNÁ AKTUALIZACE PRO VERZI 4.4.0 (Přes index)
     if (mujGraf !== null) {
-        mujGraf.destroy();
-    }
-
-    const ctx = document.getElementById("graf").getContext("2d");
-    mujGraf = new Chart(ctx, {
-        type: "doughnut",
-        data: {
-            labels: ["Jistina (půjčené peníze)", "Úroky"],
-            datasets: [{
-                data: [P, Math.max(0, celkoveUroky)],
-                backgroundColor: ["#4f46e5", "#f97316"]
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: "bottom"
+        mujGraf.data.datasets[0].data = [P, Math.max(0, celkoveUroky)];
+        mujGraf.update(); // Spustí plynulý, klouzavý pohyb koláče
+    } else {
+        const ctx = document.getElementById("graf").getContext("2d");
+        mujGraf = new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: ["Jistina (půjčené peníze)", "Úroky"],
+                datasets: [{
+                    data: [P, Math.max(0, celkoveUroky)],
+                    backgroundColor: ["#4f46e5", "#f97316"]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: "bottom"
+                    }
+                },
+                animation: {
+                    duration: 800,
+                    easing: 'easeOutQuart'
                 }
             }
-        }
-    });
+        });
+    }
 });
