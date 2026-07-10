@@ -2,24 +2,51 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <title>Spoření</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kalkulačka spoření zdarma. Zjistěte, kolik naspoříte při pravidelném měsíčním vkladu a jakém úroku.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-2BW708HYKH');
+    </script>
+    <title>Kalkulačka spoření</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 </head>
 <body>
-<div class="kalkulacka">
-    <div class="menu">
-        <a href="index.html">Hypotéka</a> | <a href="sporeni.html">Spoření</a> | <a href="pujcka.html">Půjčka</a>
+    <nav class="menu">
+        <a href="index.html">Hypotéka</a>
+        <a href="sporeni.html" class="aktivni">Spoření</a>
+        <a href="pujcka.html">Půjčka</a>
+    </nav>
+
+    <div class="kalkulacka">
+        <h1>Kalkulačka spoření</h1>
+        <label for="mesicniVklad">Měsíční vklad (Kč):</label>
+        <input type="number" id="mesicniVklad" value="3000">
+        <label for="urokSporeni">Roční úrok (%):</label>
+        <input type="number" id="urokSporeni" value="4" step="0.1">
+        <label for="dobaSporeni">Doba spoření (roky):</label>
+        <input type="number" id="dobaSporeni" value="10">
+        <button id="vypocitatSporeni">Vypočítat</button>
+        <h2 id="vysledekSporeni"></h2>
+        <div id="detailySporeni" class="detaily"></div>
+
+        <a href="inflace-vysvetlene.html" class="info-box">
+            💡 Proč peníze na účtu ztrácí hodnotu? <span>Vysvětlíme ti to →</span>
+        </a>
+
+        <canvas id="grafSporeni" width="400" height="300"></canvas>
     </div>
-    <h1>Spoření</h1>
-    <input type="number" id="vklad" placeholder="Měsíční vklad (Kč)" value="3000">
-    <input type="number" id="urok" placeholder="Úrok (%)" value="4">
-    <input type="number" id="doba" placeholder="Doba (roky)" value="10">
-    <button id="vypocitat">Vypočítat</button>
-    <div id="vysledek"></div>
-    <canvas id="graf"></canvas>
-    <a href="inflace-info.html" class="link">💡 Jak inflace ovlivňuje úspory? →</a>
-</div>
-<script src="script.js"></script>
+
+    <footer class="paticka">
+        <p>Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
+    </footer>
+
+    <script src="sporeni.js"></script>
 </body>
 </html>

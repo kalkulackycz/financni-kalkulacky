@@ -1,28 +1,31 @@
 let grafSporeni = null;
 
 document.getElementById("vypocitatSporeni").addEventListener("click", function() {
-    const vklad = parseFloat(document.getElementById("mesicniVklad").value);
-    const rocniUrok = parseFloat(document.getElementById("urokSporeni").value) / 100;
+    const mesicniVklad = parseFloat(document.getElementById("mesicniVklad").value);
+    const rocniUrok = parseFloat(document.getElementById("urokSporeni").value);
     const roky = parseFloat(document.getElementById("dobaSporeni").value);
-    
-    let celkem = 0;
-    for (let i = 0; i < roky * 12; i++) {
-        celkem = (celkem + vklad) * (1 + rocniUrok / 12);
-    }
-    
-    const vkladyCelkem = vklad * roky * 12;
-    const zisk = celkem - vkladyCelkem;
+    const mesicniUrok = rocniUrok / 100 / 12;
+    const pocetMesicu = roky * 12;
 
-    document.getElementById("vysledekSporeni").textContent = "Naspořeno celkem: " + Math.round(celkem).toLocaleString("cs-CZ") + " Kč";
-    document.getElementById("detailySporeni").innerHTML = 
-        "<p>Vlastní vklady: <strong>" + vkladyCelkem.toLocaleString("cs-CZ") + " Kč</strong></p>" +
-        "<p>Úrokový výnos: <strong>" + Math.round(zisk).toLocaleString("cs-CZ") + " Kč</strong></p>";
+    const konecnaHodnota = mesicniVklad * ((Math.pow(1 + mesicniUrok, pocetMesicu) - 1) / mesicniUrok);
+    const celkemVlozeno = mesicniVklad * pocetMesicu;
+    const vydelaneUroky = konecnaHodnota - celkemVlozeno;
+
+    document.getElementById("vysledekSporeni").textContent =
+        "Naspoříte: " + Math.round(konecnaHodnota).toLocaleString("cs-CZ") + " Kč";
+    document.getElementById("detailySporeni").innerHTML =
+        "<p>Celkem vloženo: <strong>" + Math.round(celkemVlozeno).toLocaleString("cs-CZ") + " Kč</strong></p>" +
+        "<p>Vyděláno na úrocích: <strong>" + Math.round(vydelaneUroky).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
     if (grafSporeni !== null) grafSporeni.destroy();
+
     const ctx = document.getElementById("grafSporeni").getContext("2d");
     grafSporeni = new Chart(ctx, {
         type: "doughnut",
-        data: { labels: ["Vklady", "Úroky"], datasets: [{ data: [vkladyCelkem, zisk], backgroundColor: ["#4f46e5", "#10b981"] }] },
+        data: {
+            labels: ["Vloženo", "Vyděláno na úrocích"],
+            datasets: [{ data: [celkemVlozeno, vydelaneUroky], backgroundColor: ["#4f46e5", "#22c55e"] }]
+        },
         options: { responsive: true, plugins: { legend: { position: "bottom" } } }
     });
 });
