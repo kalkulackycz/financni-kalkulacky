@@ -22,10 +22,10 @@ document.getElementById("vypocitat").addEventListener("click", function() {
         "<p>Celkem zaplatíte: <strong>" + celkemZaplaceno.toLocaleString("cs-CZ") + " Kč</strong></p>" +
         "<p>Z toho na úrocích: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-    // SPRÁVNÁ AKTUALIZACE PRO VERZI 4.4.0 (Přes index)
+    // TADY JE TA OPRAVA: Přidán index [0], který chyběl a shazoval celou stránku
     if (mujGraf !== null) {
         mujGraf.data.datasets[0].data = [P, Math.max(0, celkoveUroky)];
-        mujGraf.update(); // Spustí plynulý, klouzavý pohyb koláče
+        mujGraf.update(); // Teď už se graf plynule a animovaně pohne
     } else {
         const ctx = document.getElementById("graf").getContext("2d");
         mujGraf = new Chart(ctx, {
