@@ -30,25 +30,21 @@ document.getElementById("vypocitatSporeni").addEventListener("click", function()
         "<p>Celkem vloženo: <strong>" + Math.round(celkemVlozeno).toLocaleString("cs-CZ") + " Kč</strong></p>" +
         "<p>Získaný úrok: <strong>" + Math.round(urokCelkem).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-    // Správný přístup k přepsání dat v poli [0]
-    if (mujGrafSporeni !== null) {
-        mujGrafSporeni.data.datasets[0].data = [celkemVlozeno, Math.max(0, urokCelkem)];
-        mujGrafSporeni.update(); 
-    } else {
-        const ctx = document.getElementById("grafSporeni").getContext("2d");
-        mujGrafSporeni = new Chart(ctx, {
-            type: "doughnut",
-            data: {
-                labels: ["Vaše vklady", "Získané úroky"],
-                datasets: [{ data: [celkemVlozeno, Math.max(0, urokCelkem)], backgroundColor: ["#4f46e5", "#22c55e"] }]
-            },
-            options: { 
-                responsive: true, 
-                plugins: { legend: { position: "bottom" } },
-                animation: { duration: 1000, easing: 'easeOutQuart' }
-            }
-        });
-    }
+    if (mujGrafSporeni !== null) mujGrafSporeni.destroy();
+
+    const ctx = document.getElementById("grafSporeni").getContext("2d");
+    mujGrafSporeni = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+            labels: ["Vaše vklady", "Získané úroky"],
+            datasets: [{ data: [celkemVlozeno, Math.max(0, urokCelkem)], backgroundColor: ["#4f46e5", "#22c55e"] }]
+        },
+        options: { 
+            responsive: true, 
+            plugins: { legend: { position: "bottom" } },
+            animation: { duration: 800, easing: 'easeOutQuart' }
+        }
+    });
 });
 
 document.getElementById("vypocitatSporeni").click();

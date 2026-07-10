@@ -33,28 +33,24 @@ document.getElementById("vypocitatRefin").addEventListener("click", function() {
         "<p>Nová měsíční splátka: <strong>" + Math.round(novyVysledek).toLocaleString("cs-CZ") + " Kč</strong></p>" +
         "<p>Celková úspora za " + (n / 12) + " let: <strong style='color: #22c55e;'>" + Math.round(Math.max(0, celkovaUspora)).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-    // Správný přístup k přepsání dat v poli [0]
-    if (mujGrafRefin !== null) {
-        mujGrafRefin.data.datasets[0].data = [P, Math.max(0, noveCelkoveUroky)];
-        mujGrafRefin.update(); 
-    } else {
-        const ctx = document.getElementById("grafRefin").getContext("2d");
-        mujGrafRefin = new Chart(ctx, {
-            type: "doughnut",
-            data: {
-                labels: ["Zbývající jistina", "Nové budoucí úroky"],
-                datasets: [{ 
-                    data: [P, Math.max(0, noveCelkoveUroky)], 
-                    backgroundColor: ["#4f46e5", "#f97316"] 
-                }]
-            },
-            options: { 
-                responsive: true, 
-                plugins: { legend: { position: "bottom" } },
-                animation: { duration: 1000, easing: 'easeOutQuart' }
-            }
-        });
-    }
+    if (mujGrafRefin !== null) mujGrafRefin.destroy();
+
+    const ctx = document.getElementById("grafRefin").getContext("2d");
+    mujGrafRefin = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+            labels: ["Zbývající jistina", "Nové budoucí úroky"],
+            datasets: [{ 
+                data: [P, Math.max(0, noveCelkoveUroky)], 
+                backgroundColor: ["#4f46e5", "#f97316"] 
+            }]
+        },
+        options: { 
+            responsive: true, 
+            plugins: { legend: { position: "bottom" } },
+            animation: { duration: 800, easing: 'easeOutQuart' }
+        }
+    });
 });
 
 document.getElementById("vypocitatRefin").click();
