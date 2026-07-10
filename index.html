@@ -5,30 +5,37 @@
     <title>Hypotéka</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/128/3135/3135706.png">
     <style>
-        body { font-family: sans-serif; background-color: #f4f6f8; display: flex; justify-content: center; padding: 40px 20px; }
+        /* TADY JSOU STYLY PŘÍMO V SOUBORU - TOHLE MUSÍ FUNGOVAT */
+        body { font-family: sans-serif; background-color: #f4f6f8; display: flex; justify-content: center; padding: 40px 20px; margin: 0; }
         .kalkulacka { background: white; padding: 32px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 480px; }
         h1 { text-align: center; color: #1a1a2e; margin-bottom: 20px; }
         label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; }
-        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         button { width: 100%; padding: 12px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .vysledek-box { background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; margin-top: 20px; text-align: center; }
-        .paticka { margin-top: 30px; font-size: 11px; color: #999; text-align: center; border-top: 1px solid #eee; padding-top: 10px; }
+        .menu { text-align: center; margin-bottom: 20px; }
+        .menu a { margin: 0 10px; color: #4f46e5; text-decoration: none; }
+        .info-link { display: block; text-align: center; margin-top: 20px; color: #4f46e5; font-size: 14px; }
     </style>
 </head>
 <body>
-    <div class="kalkulacka">
-        <h1>Hypotéka</h1>
-        <label>Výše úvěru (Kč):</label><input type="number" id="castka" value="3000000">
-        <label>Úrok (%):</label><input type="number" id="urok" value="5.5">
-        <label>Doba (roky):</label><input type="number" id="doba" value="30">
-        <button id="vypocitat">Vypočítat</button>
-        
-        <div class="vysledek-box">
-            <h2 id="vysledek">Zadej údaje a vypočítej</h2>
-        </div>
 
-        <div class="paticka">Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odbornou finanční radu.</div>
+<div class="kalkulacka">
+    <div class="menu">
+        <a href="index.html">Hypotéka</a> | <a href="sporeni.html">Spoření</a> | <a href="pujcka.html">Půjčka</a>
     </div>
-    <script src="script.js"></script>
+
+    <h1>Hypotéka</h1>
+    <label>Výše úvěru (Kč):</label>
+    <input type="number" id="castka" value="3000000">
+    <label>Úrok (%):</label>
+    <input type="number" id="urok" value="5.5">
+    <label>Doba (roky):</label>
+    <input type="number" id="doba" value="30">
+    
+    <button id="vypocitat">Vypočítat</button>
+
+    <a href="hypoteka-info.html" class="info-link">💡 Kolik si můžu půjčit? Vysvětlíme ti to →</a>
+</div>
+
 </body>
 </html>
