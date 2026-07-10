@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Bezplatná online hypoteční kalkulačka. Spočítejte si měsíční splátku, celkové úroky a získejte přehledný graf zdarma.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -31,26 +32,18 @@
         <input type="number" id="urok" value="5.5" step="0.1">
         <label for="doba">Doba splácení (roky):</label>
         <input type="number" id="doba" value="30">
-        
         <button id="vypocitat">Vypočítat</button>
-
-        <div class="scenare">
-            <p>Rychlá simulace úroku:</p>
-            <button onclick="nastavUrok(4.5)">Optimistické (4,5 %)</button>
-            <button onclick="nastavUrok(5.5)">Reálné (5,5 %)</button>
-            <button onclick="nastavUrok(6.5)">Pesimistické (6,5 %)</button>
-        </div>
-
         <h2 id="vysledek"></h2>
-        <div id="detaily"></div>
-        <canvas id="graf"></canvas>
+        <div id="detaily" class="detaily"></div>
 
-        <div class="info-box">
-            <p><strong>Tip:</strong> Nevíte, kolik si můžete půjčit? Přečtěte si náš článek: <a href="kolik-pujcit-hypoteka.html">Kolik si můžu půjčit na hypotéku?</a></p>
-        </div>
+        <a href="kolik-pujcit-hypoteka.html" class="info-box">
+            💡 Kolik si vůbec můžu půjčit? <span>Zjisti to →</span>
+        </a>
+
+        <canvas id="graf" width="400" height="300"></canvas>
     </div>
 
-    <footer>
+    <footer class="paticka">
         <p>Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
     </footer>
 
