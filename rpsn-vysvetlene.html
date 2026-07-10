@@ -5,47 +5,39 @@
     <title>Co je RPSN?</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/128/3135/3135706.png">
     
-    <link rel="stylesheet" href="style.css">
-    
+    <style>
+        body { font-family: sans-serif; background-color: #f4f6f8; display: flex; justify-content: center; padding: 40px 20px; }
+        .kalkulacka { background: white; padding: 32px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 480px; }
+        h1 { text-align: center; color: #1a1a2e; margin-bottom: 20px; }
+        .faq-box { background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; margin-top: 20px; }
+        .otazka { font-weight: bold; color: #4f46e5; margin-top: 15px; display: block; }
+        .odpoved { color: #444; line-height: 1.5; font-size: 14px; margin-bottom: 10px; }
+        .zpet { display: block; text-align: center; margin-top: 25px; color: #4f46e5; font-weight: bold; text-decoration: none; }
+        .paticka { margin-top: 30px; font-size: 11px; color: #999; text-align: center; border-top: 1px solid #eee; padding-top: 10px; }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-2BW708HYKH');
-    </script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-2BW708HYKH');</script>
 </head>
 <body>
     <div class="kalkulacka">
         <h1>Co je RPSN?</h1>
-        <p style="font-size: 14px; color: #444; line-height: 1.6;">
-            RPSN (roční procentní sazba nákladů) je číslo, které ukazuje <strong>skutečnou cenu půjčky za rok</strong> – ne jen úrok, ale i poplatky a další náklady.
-        </p>
+        <p>RPSN je číslo, které ukazuje <strong>skutečnou cenu půjčky</strong> – zahrnuje úrok i všechny poplatky.</p>
 
-        <h2 style="font-size: 18px; margin-top: 10px;">Časté otázky</h2>
-        
-        <div class="faq-kontejner">
-            <div class="faq-polozka">
-                <h3>Proč je RPSN vyšší než úrok?</h3>
-                <p>Protože úrok je jen jedna část ceny. RPSN k němu přičítá poplatky za sjednání, vedení účtu a další povinné náklady.</p>
-            </div>
-
-            <div class="faq-polozka">
-                <h3>Na co se dívat při srovnávání půjček?</h3>
-                <p>Vždy na RPSN, ne na úrok. Nabídka s nízkým úrokem, ale vysokým poplatkem může vyjít dráž než nabídka s vyšším úrokem a bez poplatků.</p>
-            </div>
-
-            <div class="faq-polozka">
-                <h3>Je RPSN ze zákona povinná?</h3>
-                <p>Ano, věřitelé v ČR musí RPSN uvádět ze zákona – díky tomu jde půjčky snadno porovnat.</p>
-            </div>
+        <div class="faq-box">
+            <span class="otazka">Proč je RPSN vyšší než úrok?</span>
+            <p class="odpoved">Protože úrok je jen jedna část ceny. RPSN k němu přičítá poplatky za sjednání a vedení účtu.</p>
+            
+            <span class="otazka">Na co se dívat při srovnávání půjček?</span>
+            <p class="odpoved">Vždy na RPSN. Nabídka s nízkým úrokem, ale vysokým poplatkem, je často dražší.</p>
+            
+            <span class="otazka">Je RPSN ze zákona povinná?</span>
+            <p class="odpoved">Ano, věřitelé ji musí uvádět, aby šly půjčky snadno porovnat.</p>
         </div>
 
-        <a href="pujcka.html" class="zpet-odkaz">← Spočítat si vlastní půjčku</a>
+        <a href="pujcka.html" class="zpet">← Spočítat si vlastní půjčku</a>
 
-        <footer class="paticka">
-            <p>Tento text je pouze informativní a nenahrazuje odbornou finanční radu.</p>
-        </footer>
+        <div class="paticka">Tento text je pouze informativní a nenahrazuje odbornou finanční radu.</div>
     </div>
 </body>
 </html>
