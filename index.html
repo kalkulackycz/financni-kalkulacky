@@ -4,28 +4,30 @@
     <meta charset="UTF-8">
     <title>Hypotéka</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/128/3135/3135706.png">
-    <link rel="stylesheet" href="style.css">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH"></script>
-    <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-2BW708HYKH');</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f6f8; display: flex; justify-content: center; padding: 40px 20px; }
+        .kalkulacka { background: white; padding: 32px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 480px; }
+        h1 { text-align: center; color: #1a1a2e; margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        button { width: 100%; padding: 12px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .vysledek-box { background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; margin-top: 20px; text-align: center; }
+        .paticka { margin-top: 30px; font-size: 11px; color: #999; text-align: center; border-top: 1px solid #eee; padding-top: 10px; }
+    </style>
 </head>
 <body>
-    <nav class="menu">
-        <a href="index.html" class="aktivni">Hypotéka</a>
-        <a href="sporeni.html">Spoření</a>
-        <a href="pujcka.html">Půjčka</a>
-    </nav>
     <div class="kalkulacka">
         <h1>Hypotéka</h1>
         <label>Výše úvěru (Kč):</label><input type="number" id="castka" value="3000000">
         <label>Úrok (%):</label><input type="number" id="urok" value="5.5">
         <label>Doba (roky):</label><input type="number" id="doba" value="30">
         <button id="vypocitat">Vypočítat</button>
-        <h2 id="vysledek"></h2>
-        <div id="detaily" class="detaily"></div>
-        <a href="kolik-pujcit-hypoteka.html" class="info-box">💡 Kolik si můžu půjčit? <span>Vysvětlíme ti to →</span></a>
-        <canvas id="graf"></canvas>
-        <footer class="paticka"><p>Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p></footer>
+        
+        <div class="vysledek-box">
+            <h2 id="vysledek">Zadej údaje a vypočítej</h2>
+        </div>
+
+        <div class="paticka">Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odbornou finanční radu.</div>
     </div>
     <script src="script.js"></script>
 </body>
