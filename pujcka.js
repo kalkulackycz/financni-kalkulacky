@@ -25,6 +25,7 @@ document.getElementById("vypocitatPujcka").addEventListener("click", function() 
         "<p>Z toho úroky: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>" +
         "<p>Celková cena půjčky (vč. poplatku): <strong>" + Math.round(celkovaCena).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
+    // Správný přístup k přepsání dat v poli [0]
     if (mujGrafPujcka !== null) {
         mujGrafPujcka.data.datasets[0].data = [P, Math.max(0, celkoveUroky), poplatek];
         mujGrafPujcka.update(); 

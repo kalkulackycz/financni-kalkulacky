@@ -30,10 +30,10 @@ document.getElementById("vypocitatSporeni").addEventListener("click", function()
         "<p>Celkem vloženo: <strong>" + Math.round(celkemVlozeno).toLocaleString("cs-CZ") + " Kč</strong></p>" +
         "<p>Získaný úrok: <strong>" + Math.round(urokCelkem).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-    // Plynulá aktualizace grafu místo jeho ničení
+    // Správný přístup k přepsání dat v poli [0]
     if (mujGrafSporeni !== null) {
         mujGrafSporeni.data.datasets[0].data = [celkemVlozeno, Math.max(0, urokCelkem)];
-        mujGrafSporeni.update(); // Spustí animovaný pohyb grafu
+        mujGrafSporeni.update(); 
     } else {
         const ctx = document.getElementById("grafSporeni").getContext("2d");
         mujGrafSporeni = new Chart(ctx, {
@@ -51,5 +51,4 @@ document.getElementById("vypocitatSporeni").addEventListener("click", function()
     }
 });
 
-// Inicializační plynulé vykreslení při načtení
 document.getElementById("vypocitatSporeni").click();

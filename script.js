@@ -22,7 +22,7 @@ document.getElementById("vypocitat").addEventListener("click", function() {
         "<p>Celkem zaplatíte: <strong>" + celkemZaplaceno.toLocaleString("cs-CZ") + " Kč</strong></p>" +
         "<p>Z toho na úrocích: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-    // Správná aktualizace Chart.js pro plynulý pohyb
+    // Správný přístup k přepsání dat v poli [0]
     if (mujGraf !== null) {
         mujGraf.data.datasets[0].data = [P, Math.max(0, celkoveUroky)];
         mujGraf.update(); 
