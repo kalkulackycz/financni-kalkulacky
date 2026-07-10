@@ -4,30 +4,39 @@
     <meta charset="UTF-8">
     <title>Půjčka</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/128/3135/3135706.png">
-    <link rel="stylesheet" href="style.css">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH"></script>
-    <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-2BW708HYKH');</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: sans-serif; background: #f4f6f8; display: flex; justify-content: center; padding: 20px; margin: 0; }
+        .box { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
+        .menu { text-align: center; margin-bottom: 20px; font-weight: bold; }
+        .menu a { margin: 0 10px; color: #4f46e5; text-decoration: none; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        #vysledek { text-align: center; font-size: 18px; margin: 20px 0; font-weight: bold; padding: 15px; background: #f8fafc; border-radius: 8px; }
+        .link { display: block; text-align: center; margin-top: 20px; color: #4f46e5; text-decoration: none; font-size: 14px; }
+    </style>
 </head>
 <body>
-    <nav class="menu">
-        <a href="index.html">Hypotéka</a>
-        <a href="sporeni.html">Spoření</a>
-        <a href="pujcka.html" class="aktivni">Půjčka</a>
-    </nav>
-    <div class="kalkulacka">
-        <h1>Půjčka</h1>
-        <label>Výše půjčky (Kč):</label><input type="number" id="vysePujcky" value="100000">
-        <label>Úrok (%):</label><input type="number" id="urokPujcka" value="8.9">
-        <label>Poplatek (Kč):</label><input type="number" id="poplatek" value="1500">
-        <label>Doba (roky):</label><input type="number" id="dobaPujcka" value="5">
-        <button id="vypocitatPujcka">Vypočítat</button>
-        <h2 id="vysledekPujcka"></h2>
-        <div id="detailyPujcka" class="detaily"></div>
-        <a href="rpsn-vysvetlene.html" class="info-box">💡 Nevíš, co znamená RPSN? <span>Vysvětlíme ti to →</span></a>
-        <canvas id="grafPujcka"></canvas>
-        <footer class="paticka"><p>Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p></footer>
+<div class="box">
+    <div class="menu">
+        <a href="index.html">Hypotéka</a> | <a href="sporeni.html">Spoření</a> | <a href="pujcka.html">Půjčka</a>
     </div>
-    <script src="pujcka.js"></script>
+    <h1>Půjčka</h1>
+    <input type="number" id="castka" placeholder="Výše půjčky (Kč)" value="100000">
+    <input type="number" id="urok" placeholder="Úrok (%)" value="12">
+    <input type="number" id="doba" placeholder="Doba (roky)" value="5">
+    <button onclick="vypocitej()">Vypočítat</button>
+    <div id="vysledek">Zadej údaje...</div>
+    <a href="rpsn-vysvetlene.html" class="link">💡 Co je RPSN? →</a>
+</div>
+<script>
+    function vypocitej() {
+        let c = document.getElementById('castka').value;
+        let u = document.getElementById('urok').value / 100 / 12;
+        let d = document.getElementById('doba').value * 12;
+        let splatka = (c * u) / (1 - Math.pow(1 + u, -d));
+        document.getElementById('vysledek').innerHTML = "Měsíční splátka: " + Math.round(splatka) + " Kč";
+    }
+</script>
 </body>
 </html>
