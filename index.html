@@ -15,7 +15,6 @@
     </script>
     <title>Hypoteční kalkulačka</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cloudflare.com"></script>
 </head>
 <body>
     <nav class="menu">
@@ -41,7 +40,6 @@
             💡 Kolik si vůbec můžu půjčit? <span>Zjisti to →</span>
         </a>
 
-        <!-- TENTO ELEMENT ZDE CHYBĚL A PROTO GRAF NEBYL VIDĚT -->
         <canvas id="graf" width="400" height="300"></canvas>
 
         <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
@@ -68,7 +66,8 @@
         <p>Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
     </footer>
 
-    <script src="script.js?v=2026_oprava1"></script>
-
+    <!-- NOVÝ SPOLEHLIVÝ ODKAZ NA KNIHOVNU GRAFŮ, KTERÝ SE NAČTE VŽDY VE SPRÁVNÉM POŘADÍ -->
+    <script src="https://jsdelivr.net"></script>
+    <script src="script.js?v=2026_oprava2"></script>
 </body>
 </html>
