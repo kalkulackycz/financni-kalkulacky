@@ -1,7 +1,69 @@
+// AUTOMATICKÉ NAČTENÍ EXTERNÍCH SOUBORŮ (Ochrana před ořezáváním textu)
+(function() {
+    // 1. Automatické načtení Google Analytics
+    var gTagUrl = "https://googletagmanager.com";
+    var s1 = document.createElement("script");
+    s1.async = true;
+    s1.src = gTagUrl;
+    document.head.appendChild(s1);
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function() { dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', 'G-2BW708HYKH');
+
+    // 2. Automatické načtení Chart.js grafů
+    var chartUrl = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js";
+    var s2 = document.createElement("script");
+    s2.src = chartUrl;
+    document.head.appendChild(s2);
+})();
+
 window.addEventListener("DOMContentLoaded", function() {
     let mujGraf = null;
 
-    // NOVĚ PŘIDÁNO: Přeskakování mezi políčky pomocí klávesy Enter
+    document.getElementById("vypocitat").addEventListener("click", function() {
+        const P = parseFloat(document.getElementById("castka").value);
+        const rocniSazba = parseFloat(document.getElementById("urok").value);
+        const n = parseFloat(document.getElementById("doba").value) * 12;
+        const r = rocniSazba / 100 / 12;
+
+        const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+        const vysledek = Math.round(mesicniSplatka);
+        const celkemZaplaceno = Math.round(mesicniSplatka * n);
+        const celkoveUroky = celkemZaplaceno - P;
+
+        document.getElementById("vysledek").textContent =
+            "Měsíční splátka: " + vysledek.toLocaleString("cs-CZ") + " Kč";
+        document.getElementById("detaily").innerHTML =
+            "<p>Celkem zaplatíte: <strong>" + celkemZaplaceno.toLocaleString("cs-CZ") + " Kč</strong></p>" +
+            "<p>Z toho na úrocích: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>";
+
+        if (mujGraf !== null) mujGraf.destroy();
+
+        // Počkáme sekundu, pokud by se knihovna Chart.js na pomalém internetu ještě stahovala
+        if (typeof Chart !== "undefined") {
+            vykresliGraf(P, celkoveUroky);
+        } else {
+            setTimeout(function() {
+                if (typeof Chart !== "undefined") vykresliGraf(P, celkoveUroky);
+            }, 500);
+        }
+    });
+
+    function vykresliGraf(P, celkoveUroky) {
+        const ctx = document.getElementById("graf").getContext("2d");
+        mujGraf = new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: ["Jistina (půjčené peníze)", "Úroky"],
+                datasets: [{ data: [P, celkoveUroky], backgroundColor: ["#4f46e5", "#f97316"] }]
+            },
+            options: { responsive: true, plugins: { legend: { position: "bottom" } } }
+        });
+    }
+
+    // Propojení klávesy Enter pro skákání dolů
     const inputCastka = document.getElementById("castka");
     const inputUrok = document.getElementById("urok");
     const inputDoba = document.getElementById("doba");
@@ -25,40 +87,13 @@ window.addEventListener("DOMContentLoaded", function() {
         inputDoba.addEventListener("keydown", function(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
-                tlacitkoVypocitat.click(); // Na posledním políčku Enter rovnou spočítá výsledky
+                tlacitkoVypocitat.click();
             }
         });
     }
 
-    document.getElementById("vypocitat").addEventListener("click", function() {
-        const P = parseFloat(document.getElementById("castka").value);
-        const rocniSazba = parseFloat(document.getElementById("urok").value);
-        const n = parseFloat(document.getElementById("doba").value) * 12;
-        const r = rocniSazba / 100 / 12;
-
-        const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-        const vysledek = Math.round(mesicniSplatka);
-        const celkemZaplaceno = Math.round(mesicniSplatka * n);
-        const celkoveUroky = celkemZaplaceno - P;
-
-        document.getElementById("vysledek").textContent =
-            "Měsíční splátka: " + vysledek.toLocaleString("cs-CZ") + " Kč";
-        document.getElementById("detaily").innerHTML =
-            "<p>Celkem zaplatíte: <strong>" + celkemZaplaceno.toLocaleString("cs-CZ") + " Kč</strong></p>" +
-            "<p>Z toho na úrocích: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>";
-
-        if (mujGraf !== null) mujGraf.destroy();
-
-        const ctx = document.getElementById("graf").getContext("2d");
-        mujGraf = new Chart(ctx, {
-            type: "doughnut",
-            data: {
-                labels: ["Jistina (půjčené peníze)", "Úroky"],
-                datasets: [{ data: [P, celkoveUroky], backgroundColor: ["#4f46e5", "#f97316"] }]
-            },
-            options: { responsive: true, plugins: { legend: { position: "bottom" } } }
-        });
-    });
-
-    document.getElementById("vypocitat").click();
+    // Spustíme první výpočet po malé pauze, aby se stihla inicializovat knihovna na pozadí
+    setTimeout(function() {
+        document.getElementById("vypocitat").click();
+    }, 300);
 });
