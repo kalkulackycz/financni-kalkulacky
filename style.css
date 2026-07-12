@@ -223,3 +223,22 @@ button:hover {
         font-size: 16px;
     }
 }
+
+/* --- NOVĚ PŘIDANÉ PRVKY PRO REFINANCOVÁNÍ (VERZE 0.2) --- */
+#vysledekRefin {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #1a1a2e;
+}
+
+#grafRefin {
+    display: block;
+    max-width: 100%;
+    margin: 24px auto 0 auto;
+}
+
+@media (max-width: 500px) {
+    #vysledekRefin {
+        font-size: 17px;
+    }
+}
