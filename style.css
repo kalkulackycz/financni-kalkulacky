@@ -224,7 +224,7 @@ button:hover {
     }
 }
 
-/* --- NOVĚ PŘIDANÉ PRVKY PRO REFINANCOVÁNÍ (VERZE 0.2) --- */
+/* --- PRVKY PRO REFINANCOVÁNÍ --- */
 #vysledekRefin {
     margin-top: 20px;
     font-size: 20px;
@@ -240,5 +240,29 @@ button:hover {
 @media (max-width: 500px) {
     #vysledekRefin {
         font-size: 17px;
+    }
+}
+
+/* --- NOVĚ PŘIDANÉ OPRAVY PRO DOKONALÉ MENU (VERZE 0.2) --- */
+.menu {
+    align-items: stretch; /* Všechna tlačítka budou mít stejnou výšku */
+}
+
+.menu a {
+    display: flex;
+    align-items: center;    /* Centrování textu svisle */
+    justify-content: center; /* Centrování textu vodorovně */
+    font-size: 13px;        /* Mírné zmenšení písma, aby text lépe seděl */
+    padding: 10px 6px;      /* Optimalizace vnitřního okraje */
+    line-height: 1.2;
+}
+
+@media (max-width: 500px) {
+    .menu {
+        gap: 4px; /* Zmenšení mezer na malých mobilech */
+    }
+    .menu a {
+        font-size: 10px; /* Zmenšení písma na mobilech, aby se menu vešlo na jeden řádek */
+        padding: 8px 2px;
     }
 }
