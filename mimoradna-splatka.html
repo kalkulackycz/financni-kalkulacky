@@ -15,6 +15,7 @@
         <a href="pujcka.html">Půjčka</a>
         <a href="refinancovani.html">Refinancování</a>
         <a href="mimoradna-splatka.html" class="aktivni">Mimořádná splátka</a>
+        <a href="mzda.html">Čistá mzda</a>
     </nav>
     <div class="kalkulacka">
         <h1>Kalkulačka mimořádné splátky</h1>
@@ -25,7 +26,7 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k současnému zůstatku dluhu">?</span>
                 <span class="bublina-text">Aktuální zbývající částka, kterou bance ještě celkově dlužíte.</span>
             </div>
-            <input type="number" id="aktualniDluh" value="3000000">
+            <input type="number" id="aktualniDluh" value="3000000" step="any">
         </div>
         
         <div class="pole-s-napovedou">
@@ -34,7 +35,7 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k úrokové sazbě">?</span>
                 <span class="bublina-text">Vaše současná roční úroková sazba na hypoteční smlouvě.</span>
             </div>
-            <input type="number" id="urokMimoradna" value="5.5" step="0.1">
+            <input type="number" id="urokMimoradna" value="5.5" step="any">
         </div>
         
         <div class="pole-s-napovedou">
@@ -52,7 +53,7 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k výši mimořádné splátky">?</span>
                 <span class="bublina-text">Částka, kterou plánujete bance poslat jednorázově mimo pravidelnou splátku.</span>
             </div>
-            <input type="number" id="vyskaSplatky" value="200000">
+            <input type="number" id="vyskaSplatky" value="200000" step="any">
         </div>
         
         <button id="vypocitatMimoradnou">Vypočítat úsporu</button>

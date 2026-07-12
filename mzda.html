@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Výpočet čisté mzdy online. Spočítejte si čistý plat po odečtení daně, sociálního a zdravotního pojištění včetně slevy na poplatníka.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💼</text></svg>">
+    <title>Kalkulačka čisté mzdy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="menu">
+        <a href="index.html">Hypotéka</a>
+        <a href="sporeni.html">Spoření</a>
+        <a href="pujcka.html">Půjčka</a>
+        <a href="refinancovani.html">Refinancování</a>
+        <a href="mimoradna-splatka.html">Mimořádná splátka</a>
+        <a href="mzda.html" class="aktivni">Čistá mzda</a>
+    </nav>
+    <div class="kalkulacka">
+        <h1>Kalkulačka čisté mzdy</h1>
+        
+        <div class="pole-s-napovedou">
+            <div class="label-radek">
+                <label for="hrubaMzda">Hrubá mzda (Kč / měsíc):</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k hrubé mzdě">?</span>
+                <span class="bublina-text">Vaše měsíční mzda sjednaná v pracovní smlouvě před odečtením daní a pojištění.</span>
+            </div>
+            <input type="number" id="hrubaMzda" value="45000">
+        </div>
+        
+        <button id="vypocitatMzdu">Vypočítat čistou mzdu</button>
+        
+        <h2 id="vysledekMzda" style="text-align: center; margin-top: 20px;"></h2>
+        <div id="detailyMzda" class="detaily"></div>
+
+        <canvas id="grafMzda" width="400" height="300"></canvas>
+
+        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
+            <h2>Časté otázky ke mzdám</h2>
+            <div class="faq-polozka">
+                <h3>Co všechno se strhává z hrubé mzdy?</h3>
+                <p>Z hrubé mzdy zaměstnance se standardně strhává sociální pojištění (7,1 % od roku 2024 vč. nemocenského), zdravotní pojištění (4,5 %) a záloha na daň z příjmů (15 % do limitu, nad limit 23 %).</p>
+            </div>
+            <div class="faq-polozka">
+                <h3>Jak funguje sleva na poplatníka?</h3>
+                <p>Sleva na poplatníka je základní daňová úleva, na kterou má nárok každý pracující člověk, který u zaměstnavatele podepíše růžové prohlášení. Tato částka se odečítá přímo od vypočtené daně z příjmů, čímž zvyšuje vaši čistou mzdu.</p>
+            </div>
+            <div class="faq-polozka">
+                <h3>Co platí zaměstnavatel navíc?</h3>
+                <p>Zaměstnavatel odvádí za každého zaměstnance ještě další prostředky nad rámec hrubé mzdy – konkrétně 24,8 % na sociální pojištění a 9 % na zdravotní pojištění. Tyto výdaje tvoří tzv. superhrubou mzdu.</p>
+            </div>
+        </div>
+    </div>
+    <footer class="paticka">
+        <p>Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné mzdové ani účetní poradenství.</p>
+    </footer>
+    <script src="mzda.js"></script>
+</body>
+</html>
