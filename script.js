@@ -1,6 +1,5 @@
 // AUTOMATICKÉ NAČTENÍ EXTERNÍCH SOUBORŮ (Verze 0.12)
 (function() {
-    // 1. Automatické načtení Google Analytics
     var gTagUrl = "https://googletagmanager.com";
     var s1 = document.createElement("script");
     s1.async = true;
@@ -12,14 +11,12 @@
     gtag('js', new Date());
     gtag('config', 'G-2BW708HYKH');
 
-    // 2. Automatické načtení Chart.js s bezpečným spouštěčem po úspěšném stažení
     var chartUrl = "https://cloudflare.com";
     var s2 = document.createElement("script");
     s2.src = chartUrl;
     s2.onload = function() {
-        // Jakmile se skript bezpečně stáhne, vyšleme signál, že Chart.js je připraven
         window.ChartJsPripraven = true;
-        // Pokud už uživatel kliknul nebo chceme výchozí výpočet, bezpečně vykreslíme graf
+        // Po úspěšném stažení knihovny okamžitě vyvoláme první bezpečný výpočet
         var tlacitko = document.getElementById("vypocitat");
         if (tlacitko) tlacitko.click();
     };
@@ -30,42 +27,50 @@ window.addEventListener("DOMContentLoaded", function() {
     let mujGraf = null;
 
     document.getElementById("vypocitat").addEventListener("click", function() {
+        // Načtení hodnot z políček formuláře hypotéky
         const P = parseFloat(document.getElementById("castka").value);
-        const rocniSazba = parseFloat(document.getElementById("urok").value);
-        const n = parseFloat(document.getElementById("doba").value) * 12;
+        
+        let urokText = document.getElementById("urok").value;
+        urokText = urokText.replace(",", ".");
+        const rocniSazba = parseFloat(urokText);
+        
+        const roky = parseFloat(document.getElementById("doba").value);
+        const n = roky * 12;
         const r = rocniSazba / 100 / 12;
 
-        if (isNaN(P) || isNaN(rocniSazba) || isNaN(n) || P <= 0) {
+        // Pokud pole nejsou správně vyplněná, zastavíme výpočet, aby nevznikla chyba v konzoli
+        if (isNaN(P) || isNaN(rocniSazba) || isNaN(roky) || P <= 0) {
             return;
         }
 
+        // Výpočet měsíční anuitní splátky hypotéky
         const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
         const vysledek = Math.round(mesicniSplatka);
         const celkemZaplaceno = Math.round(mesicniSplatka * n);
         const celkoveUroky = celkemZaplaceno - P;
 
-        document.getElementById("vysledek").textContent =
-            "Měsíční splátka: " + vysledek.toLocaleString("cs-CZ") + " Kč";
+        // Vepsání výsledků do textových polí pod tlačítkem
+        document.getElementById("vysledek").textContent = "Měsíční splátka: " + vysledek.toLocaleString("cs-CZ") + " Kč";
         document.getElementById("detaily").innerHTML =
             "<p>Celkem zaplatíte: <strong>" + celkemZaplaceno.toLocaleString("cs-CZ") + " Kč</strong></p>" +
             "<p>Z toho na úrocích: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-        // BEZPEČNÁ KONTROLA: Graf vykreslíme pouze tehdy, pokud knihovna reálně existuje v paměti
+        // Vykreslení koláčového grafu (Jistina vs Úroky)
         if (window.ChartJsPripraven && typeof Chart !== "undefined") {
             if (mujGraf !== null) mujGraf.destroy();
             const ctx = document.getElementById("graf").getContext("2d");
             mujGraf = new Chart(ctx, {
                 type: "doughnut",
-                data: {
-                    labels: ["Jistina (půjčené peníze)", "Úroky"],
-                    datasets: [{ data: [P, celkoveUroky], backgroundColor: ["#4f46e5", "#f97316"] }]
+                data: { 
+                    labels: ["Jistina (půjčené peníze)", "Úroky"], 
+                    datasets: [{ data: [P, Math.max(0, celkoveUroky)], backgroundColor: ["#4f46e5", "#f97316"] }] 
                 },
                 options: { responsive: true, plugins: { legend: { position: "bottom" } } }
             });
         }
     });
 
-    // Propojení klávesy Enter pro skákání dolů
+    // Propojení klávesy Enter pro plynulé skákání kurzoru dolů
     const inputCastka = document.getElementById("castka");
     const inputUrok = document.getElementById("urok");
     const inputDoba = document.getElementById("doba");
@@ -94,7 +99,7 @@ window.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Výchozí spuštění proběhne automaticky přes onload událost nahoře, jakmile dorazí Chart.js
+    // Pokud už byla knihovna stažena dříve, spustíme výpočet rovnou
     if (window.ChartJsPripraven) {
         document.getElementById("vypocitat").click();
     }
