@@ -34,8 +34,8 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k úrokové sazbě">?</span>
                 <span class="bublina-text">Roční úroková sazba nabízená bankou. Například 5.5 %.</span>
             </div>
-            <!-- Změněno na input bez typu number, aby prohlížeč neblokoval českou čárku -->
-            <input id="urok" value="5.5">
+            <!-- VRÁCENO ZPĚT: Čisté číselné pole s podporou desetinných kroků -->
+            <input type="number" id="urok" value="5.5" step="any">
         </div>
         
         <div class="pole-s-napovedou">
