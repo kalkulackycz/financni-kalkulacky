@@ -5,18 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Kalkulačka spoření zdarma. Zjistěte, kolik naspoříte při pravidelném měsíčním vkladu a jakém úroku.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH
-"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-2BW708HYKH');
-    </script>
     <title>Kalkulačka spoření</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 </head>
 <body>
     <nav class="menu">
@@ -30,21 +20,30 @@
         <h1>Kalkulačka spoření</h1>
         
         <div class="pole-s-napovedou">
-            <label for="mesicniVklad">Měsíční vklad (Kč):</label>
+            <div class="label-radek">
+                <label for="mesicniVklad">Měsíční vklad (Kč):</label>
+                <span class="ikona-otaznik">?</span>
+                <span class="bublina-text">Částka, kterou budete pravidelně každý měsíc odkládat na spořicí produkt.</span>
+            </div>
             <input type="number" id="mesicniVklad" value="3000">
-            <span class="bublina-text">Částka, kterou budete pravidelně každý měsíc odkládat na spořicí produkt.</span>
         </div>
         
         <div class="pole-s-napovedou">
-            <label for="urokSporeni">Roční úrok (%):</label>
+            <div class="label-radek">
+                <label for="urokSporeni">Roční úrok (%):</label>
+                <span class="ikona-otaznik">?</span>
+                <span class="bublina-text">Úroková sazba, kterou vám banka na produktu nabízí před odečtením daně.</span>
+            </div>
             <input type="number" id="urokSporeni" value="4" step="0.1">
-            <span class="bublina-text">Úroková sazba, kterou vám banka na produktu nabízí před odečtením daně.</span>
         </div>
         
         <div class="pole-s-napovedou">
-            <label for="dobaSporeni">Doba spoření (roky):</label>
+            <div class="label-radek">
+                <label for="dobaSporeni">Doba spoření (roky):</label>
+                <span class="ikona-otaznik">?</span>
+                <span class="bublina-text">Celkový počet let, po které plánujete pravidelně peníze odkládat a úročit.</span>
+            </div>
             <input type="number" id="dobaSporeni" value="10">
-            <span class="bublina-text">Celkový počet let, po které plánujete pravidelně peníze odkládat a úročit.</span>
         </div>
         
         <button id="vypocitatSporeni">Vypočítat</button>
@@ -54,21 +53,6 @@
             💡 Proč peníze na účtu ztrácí hodnotu? <span>Vysvětlíme ti to →</span>
         </a>
         <canvas id="grafSporeni" width="400" height="300"></canvas>
-        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
-            <h2 style="font-size: 18px; margin-top: 10px; margin-bottom: 16px;">Časté otázky ke spoření</h2>
-            <div class="faq-polozka">
-                <h3>Jak funguje složené úročení?</h3>
-                <p>Složené úročení znamená, že úroky, které každý rok vyděláte, se přičtou k vašemu vkladu. Další rok se pak úročí nejen vaše původní peníze, ale i tyto získané úroky. Čím déle spoříte, tím rychleji vaše peníze rostou.</p>
-            </div>
-            <div class="faq-polozka">
-                <h3>Musím z výnosů ze spoření platit daně?</h3>
-                <p>Ano, výnosy z úroků na spořicích účtech a termínovaných vkladech podléhají srážkové dani ve výši 15 %. Banka tuto daň strhává z úroků automaticky, takže vy sami nemusíte nic nikam vykazovat ani řešit daňové přiznání.</p>
-            </div>
-            <div class="faq-polozka">
-                <h3>Stačí běžný spořicí účet na ochranu před inflací?</h3>
-                <p>Bohužel většinou nestačí. Úroky na klasických spořicích účtech bývají dlouhodobě nižší než míra inflace. Peníze sice rostou číselně, ale jejich reálná kupní síla pomalu klesá. Podívejte se na naše podrobné <a href="inflace-vysvetlene.html" style="color: #4f46e5; text-decoration: underline;">vysvětlení dopadů inflace</a>.</p>
-            </div>
-        </div>
     </div>
     <footer class="paticka">
         <p>Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>

@@ -1,3 +1,12 @@
+(function() {
+    var gTagUrl = "https://googletagmanager.com";
+    var s1 = document.createElement("script"); s1.async = true; s1.src = gTagUrl; document.head.appendChild(s1);
+    window.dataLayer = window.dataLayer || []; window.gtag = function() { dataLayer.push(arguments); };
+    gtag('js', new Date()); gtag('config', 'G-2BW708HYKH');
+    var chartUrl = "https://cloudflare.com";
+    var s2 = document.createElement("script"); s2.src = chartUrl; document.head.appendChild(s2);
+})();
+
 window.addEventListener("DOMContentLoaded", function() {
     let mujGrafSporeni = null;
 
@@ -13,16 +22,8 @@ window.addEventListener("DOMContentLoaded", function() {
 
         const mesice = roky * 12;
         const r = rocniUrok / 100 / 12;
-
         let celkemVlozeno = vklad * mesice;
-        let celkovaCastka = 0;
-
-        if (r > 0) {
-            celkovaCastka = vklad * ((Math.pow(1 + r, mesice) - 1) / r) * (1 + r);
-        } else {
-            celkovaCastka = celkemVlozeno;
-        }
-
+        let celkovaCastka = r > 0 ? vklad * ((Math.pow(1 + r, mesice) - 1) / r) * (1 + r) : celkemVlozeno;
         const urokCelkem = celkovaCastka - celkemVlozeno;
 
         document.getElementById("vysledekSporeni").textContent =
@@ -33,6 +34,11 @@ window.addEventListener("DOMContentLoaded", function() {
 
         if (mujGrafSporeni !== null) mujGrafSporeni.destroy();
 
+        if (typeof Chart !== "undefined") { vykresliGraf(celkemVlozeno, urokCelkem); }
+        else { setTimeout(function() { if (typeof Chart !== "undefined") vykresliGraf(celkemVlozeno, urokCelkem); }, 500); }
+    });
+
+    function vykresliGraf(celkemVlozeno, urokCelkem) {
         const ctx = document.getElementById("grafSporeni").getContext("2d");
         mujGrafSporeni = new Chart(ctx, {
             type: "doughnut",
@@ -42,36 +48,18 @@ window.addEventListener("DOMContentLoaded", function() {
             },
             options: { responsive: true, plugins: { legend: { position: "bottom" } } }
         });
-    });
+    }
 
-    // Zachytávání klávesy Enter pro přeskakování kurzoru dolů
     const inputVklad = document.getElementById("mesicniVklad");
     const inputUrokSporeni = document.getElementById("urokSporeni");
     const inputDobaSporeni = document.getElementById("dobaSporeni");
     const tlacitkoVypocitatSporeni = document.getElementById("vypocitatSporeni");
 
     if (inputVklad && inputUrokSporeni && inputDobaSporeni && tlacitkoVypocitatSporeni) {
-        inputVklad.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                inputUrokSporeni.focus();
-            }
-        });
-
-        inputUrokSporeni.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                inputDobaSporeni.focus();
-            }
-        });
-
-        inputDobaSporeni.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                tlacitkoVypocitatSporeni.click();
-            }
-        });
+        inputVklad.addEventListener("keydown", function(event) { if (event.key === "Enter") { event.preventDefault(); inputUrokSporeni.focus(); } });
+        inputUrokSporeni.addEventListener("keydown", function(event) { if (event.key === "Enter") { event.preventDefault(); inputDobaSporeni.focus(); } });
+        inputDobaSporeni.addEventListener("keydown", function(event) { if (event.key === "Enter") { event.preventDefault(); tlacitkoVypocitatSporeni.click(); } });
     }
 
-    document.getElementById("vypocitatSporeni").click();
+    setTimeout(function() { document.getElementById("vypocitatSporeni").click(); }, 300);
 });
