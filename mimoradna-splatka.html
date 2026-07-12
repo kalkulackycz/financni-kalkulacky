@@ -5,35 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Kalkulačka mimořádné splátky hypotéky online. Spočítejte si, kolik ušetříte na úrocích a o kolik let zkrátíte splácení při vložení peněz navíc.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
-    
-    <!-- Bezpečně zakódované kompletní adresy v Base64 -->
-    <script>
-        (function() {
-            // Odšifrování kompletní adresy Google Tag Manageru
-            var gTagUrl = atob("aHR0cHM6Ly93d3cuZ29vZ2xldGFnbWFuYWdlci5jb20vZ3RhZy9qcz9pZD1HLTJCVzcwOEhZS0g=");
-            var gTagScript = document.createElement('script');
-            gTagScript.async = true;
-            gTagScript.src = gTagUrl;
-            document.head.appendChild(gTagScript);
-
-            // Odšifrování kompletní adresy Chart.js (Cloudflare CDN)
-            var chartUrl = atob("aHR0cHM6Ly9jZG5qcy5jbG91ZGZsYXJlLmNvbS9hbGF4L2xpYnMvQ2hhcnQuanMvNC40LjAvY2hhcnQudW1kLm1pbi5qcw==");
-            var chartScript = document.createElement('script');
-            chartScript.src = chartUrl;
-            document.head.appendChild(chartScript);
-        })();
-    </script>
-
-    <!-- Inicializace Google Analytics -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH
+"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-2BW708HYKH');
     </script>
-    
     <title>Kalkulačka mimořádné splátky</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 </head>
 <body>
     <nav class="menu">
@@ -45,26 +28,18 @@
     </nav>
     <div class="kalkulacka">
         <h1>Kalkulačka mimořádné splátky</h1>
-        
         <label for="aktualniDluh">Současný zůstatek dluhu (Kč):</label>
         <input type="number" id="aktualniDluh" value="3000000">
-        
         <label for="urokMimoradna">Úroková sazba (% ročně):</label>
         <input type="number" id="urokMimoradna" value="5.5" step="0.1">
-        
         <label for="zbyvajiciDoba">Zbývající doba splácení (roky):</label>
         <input type="number" id="zbyvajiciDoba" value="25">
-
         <label for="vyskaSplatky">Výše mimořádné splátky (Kč):</label>
         <input type="number" id="vyskaSplatky" value="200000">
-        
         <button id="vypocitatMimoradnou">Vypočítat úsporu</button>
-        
         <h2 id="vysledekMimoradna" style="text-align: center;"></h2>
         <div id="detailyMimoradna" class="detaily"></div>
-
         <canvas id="grafMimoradna" width="400" height="300"></canvas>
-
         <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
             <h2 style="font-size: 18px; margin-top: 10px; margin-bottom: 16px;">Časté otázky k mimořádným splátkám</h2>
             <div class="faq-polozka">
