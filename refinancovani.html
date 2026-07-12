@@ -22,7 +22,7 @@
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="zbytekDluhu">Zbývající výše úvěru (Kč):</label>
-                <span class="ikona-otaznik">?</span>
+                <span class="ikona-otaznik" aria-label="Nápověda ke zbývající výši úvěru">?</span>
                 <span class="bublina-text">Aktuální dlužná částka, kterou musíte bance ještě celkově doplatit.</span>
             </div>
             <input type="number" id="zbytekDluhu" value="1500000">
@@ -31,7 +31,7 @@
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="staryUrok">Současná úroková sazba (% ročně):</label>
-                <span class="ikona-otaznik">?</span>
+                <span class="ikona-otaznik" aria-label="Nápověda k současné úrokové sazbě">?</span>
                 <span class="bublina-text">Úrok, který na stávající smlouvě aktuálně bance platíte.</span>
             </div>
             <input type="number" id="staryUrok" value="5.9" step="0.1">
@@ -40,7 +40,7 @@
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="novyUrok">Nová úroková sazba (% ročně):</label>
-                <span class="ikona-otaznik">?</span>
+                <span class="ikona-otaznik" aria-label="Nápověda k nové úrokové sazbě">?</span>
                 <span class="bublina-text">Nabízená úroková sazba od nové banky, pro kterou počítáte úsporu.</span>
             </div>
             <input type="number" id="novyUrok" value="4.2" step="0.1">
@@ -49,7 +49,7 @@
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="dobaRefin">Zbývající doba splácení (roky):</label>
-                <span class="ikona-otaznik">?</span>
+                <span class="ikona-otaznik" aria-label="Nápověda ke zbývající době splácení">?</span>
                 <span class="bublina-text">Počet let, které zbývají do úplného konce původní splatnosti úvěru.</span>
             </div>
             <input type="number" id="dobaRefin" value="20">
@@ -58,17 +58,14 @@
         <button id="vypocitatRefin">Vypočítat úsporu</button>
         <h2 id="vysledekRefin" style="text-align: center;"></h2>
         <div id="detailyRefin" class="detaily"></div>
-        
         <a href="rpsn-vysvetlene.html" class="info-box">
             💡 Chceš vědět, jak poplatky ovlivní úsporu? <span>Vysvětlíme ti RPSN →</span>
         </a>
-        
         <canvas id="grafRefin" width="400" height="300"></canvas>
-        
         <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
-            <h2 style="font-size: 18px; margin-top: 10px; margin-bottom: 16px;">Časté otázky k refinancování</h2>
+            <h2>Časté otázky k refinancování</h2>
             <div class="faq-polozka">
-                <h3>Kdy se vyplatí úvěr refinancovat?</h3>
+                <h3>Kdy mohu úvěr refinancovat?</h3>
                 <p>Refinancování dává největší smysl ve chvíli, kdy tržní úrokové sazby klesnou pod úroveň vaší současné smlouvy, nebo když vám končí období fixace u hypotéky.</p>
             </div>
             <div class="faq-polozka">

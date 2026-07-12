@@ -22,7 +22,7 @@
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="aktualniDluh">Současný zůstatek dluhu (Kč):</label>
-                <span class="ikona-otaznik">?</span>
+                <span class="ikona-otaznik" aria-label="Nápověda k současnému zůstatku dluhu">?</span>
                 <span class="bublina-text">Aktuální zbývající částka, kterou bance ještě celkově dlužíte.</span>
             </div>
             <input type="number" id="aktualniDluh" value="3000000">
@@ -31,7 +31,7 @@
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="urokMimoradna">Úroková sazba (% ročně):</label>
-                <span class="ikona-otaznik">?</span>
+                <span class="ikona-otaznik" aria-label="Nápověda k úrokové sazbě">?</span>
                 <span class="bublina-text">Vaše současná roční úroková sazba na hypoteční smlouvě.</span>
             </div>
             <input type="number" id="urokMimoradna" value="5.5" step="0.1">
@@ -40,7 +40,7 @@
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="zbyvajiciDoba">Zbývající doba splácení (roky):</label>
-                <span class="ikona-otaznik">?</span>
+                <span class="ikona-otaznik" aria-label="Nápověda ke zbývající době splácení">?</span>
                 <span class="bublina-text">Počet let, který vám zbývá do úplného doplacení celé hypotéky.</span>
             </div>
             <input type="number" id="zbyvajiciDoba" value="25">
@@ -49,7 +49,7 @@
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="vyskaSplatky">Výše mimořádné splátky (Kč):</label>
-                <span class="ikona-otaznik">?</span>
+                <span class="ikona-otaznik" aria-label="Nápověda k výši mimořádné splátky">?</span>
                 <span class="bublina-text">Částka, kterou plánujete bance poslat jednorázově mimo pravidelnou splátku.</span>
             </div>
             <input type="number" id="vyskaSplatky" value="200000">
@@ -58,15 +58,12 @@
         <button id="vypocitatMimoradnou">Vypočítat úsporu</button>
         <h2 id="vysledekMimoradna" style="text-align: center;"></h2>
         <div id="detailyMimoradna" class="detaily"></div>
-        
         <a href="inflace-vysvetlene.html" class="info-box">
-            💡 Chceš vědět, jak inflace ovlivňuje hodnotu tvých peněz? <span>Vysvětlíme ti to →</span>
+            💡 Chceš vědět, jak inflace ovlivní hodnotu tvých peněz? <span>Vysvětlíme ti to →</span>
         </a>
-        
         <canvas id="grafMimoradna" width="400" height="300"></canvas>
-
         <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
-            <h2 style="font-size: 18px; margin-top: 10px; margin-bottom: 16px;">Časté otázky k mimořádným splátkám</h2>
+            <h2>Časté otázky k mimořádným splátkám</h2>
             <div class="faq-polozka">
                 <h3>Kdy mohu vložit mimořádnou splátku bez poplatků?</h3>
                 <p>Podle zákona o spotřebitelském úvěru můžete u hypoték vložit mimořádnou splátku do výše 25 % celkové výše úvěru každý rok měsíc před výročí uzavření smlouvy zcela zdarma.</p>
