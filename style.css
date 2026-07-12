@@ -13,17 +13,13 @@ body {
     padding: 40px 20px;
 }
 
-/* --- PROFESIONÁLNÍ UPRAVENÁ LIŠTA MENU --- */
+/* --- NOVÉ MODERNÍ MENU SE SAMOSTATNÝMI TLAČÍTKY A ANIMACÍ MÁČKNUTÍ --- */
 .menu {
     display: flex;
-    gap: 0; /* Zrušena mezera mezi tlačítky pro ucelený vzhled */
+    gap: 8px; /* Vrácena mezera mezi samostatná tlačítka */
     margin-bottom: 24px;
     width: 100%;
-    max-width: 580px; /* Mírně rozšířeno pro pohodlné usazení 6 tlačítek */
-    background: white;
-    border-radius: 10px;
-    padding: 6px; /* Vnitřní polstrování panelu */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Jemný stín pod celou lištou */
+    max-width: 620px; /* Rozšířeno pro pohodlné mezery mezi 6 tlačítky */
     align-items: stretch;
 }
 
@@ -34,26 +30,37 @@ body {
     justify-content: center;
     text-align: center;
     padding: 10px 4px;
-    background: transparent; /* Odstraněn samostatný bílý podklad tlačítek */
-    border-radius: 6px; /* Jemné vnitřní zaoblení aktivního prvku */
+    background-color: #ffffff; /* Čistě bílý podklad tlačítek */
+    border-radius: 8px;
     text-decoration: none;
     color: #2d2d2d;
     font-weight: 600;
     font-size: 13px;
     line-height: 1.2;
-    box-shadow: none; /* Odstraněny rušivé stíny jednotlivých krabiček */
-    transition: background-color 0.2s, color 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04); /* Velmi jemný stín pro prémiový vzhled */
+    transition: background-color 0.15s, color 0.15s, transform 0.1s, box-shadow 0.1s;
+    cursor: pointer;
 }
 
 /* Efekt při najetí myší na neaktivní tlačítko */
 .menu a:hover:not(.aktivni) {
-    background-color: #f1f5f9;
+    background-color: #f8fafc;
     color: #4f46e5;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.08); /* Mírné rozsvícení stínu */
 }
 
+/* AKTIVNÍ TLAČÍTKO: Fialový podklad s efektem hloubky (zatlačení) */
 .menu a.aktivni {
-    background-color: #4f46e5; /* Výrazné fialové podbarvení aktivní záložky */
-    color: white;
+    background-color: #4f46e5;
+    color: #ffffff;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05); /* Vnitřní stín simuluje stlačení */
+}
+
+/* --- MECHANICKÁ ANIMACE ZMÁČKNUTÍ --- */
+/* Při fyzickém kliknutí myší se tlačítko mírně posune o 2px dolů and zmenší se jeho stín */
+.menu a:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
 /* --- ZBYTEK STYLŮ ZŮSTÁVÁ NETKNUTÝ --- */
@@ -232,8 +239,8 @@ button:hover {
     }
 
     .menu {
-        gap: 2px;
-        padding: 4px;
+        gap: 4px;
+        padding: 0;
     }
 
     .menu a {
