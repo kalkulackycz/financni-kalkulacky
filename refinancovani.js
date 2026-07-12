@@ -36,22 +36,25 @@ window.addEventListener("DOMContentLoaded", function() {
 
         if (mujGrafRefin !== null) mujGrafRefin.destroy();
 
-        const ctx = document.getElementById("grafRefin").getContext("2d");
-        mujGrafRefin = new Chart(ctx, {
-            type: "doughnut",
-            data: {
-                labels: ["Zbývající jistina", "Nové budoucí úroky"],
-                datasets: [{ 
-                    data: [P, Math.max(0, noveCelkoveUroky)], 
-                    backgroundColor: ["#4f46e5", "#f97316"] 
-                }]
-            },
-            options: { 
-                responsive: true, 
-                plugins: { legend: { position: "bottom" } },
-                animation: { duration: 800, easing: 'easeOutQuart' }
-            }
-        });
+        const canvasElement = document.getElementById("grafRefin");
+        if (canvasElement) {
+            const ctx = canvasElement.getContext("2d");
+            mujGrafRefin = new Chart(ctx, {
+                type: "doughnut",
+                data: {
+                    labels: ["Zbývající jistina", "Nové budoucí úroky"],
+                    datasets: [{ 
+                        data: [P, Math.max(0, noveCelkoveUroky)], 
+                        backgroundColor: ["#4f46e5", "#f97316"] 
+                    }]
+                },
+                options: { 
+                    responsive: true, 
+                    plugins: { legend: { position: "bottom" } },
+                    animation: { duration: 800, easing: 'easeOutQuart' }
+                }
+            });
+        }
     });
 
     document.getElementById("vypocitatRefin").click();

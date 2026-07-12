@@ -7,6 +7,11 @@ window.addEventListener("DOMContentLoaded", function() {
         const n = parseFloat(document.getElementById("doba").value) * 12;
         const r = rocniSazba / 100 / 12;
 
+        if (isNaN(P) || isNaN(rocniSazba) || isNaN(n) || P <= 0) {
+            alert("Prosím, vyplňte všechny hodnoty správně.");
+            return;
+        }
+
         const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
         const vysledek = Math.round(mesicniSplatka);
         const celkemZaplaceno = Math.round(mesicniSplatka * n);
@@ -20,15 +25,18 @@ window.addEventListener("DOMContentLoaded", function() {
 
         if (mujGraf !== null) mujGraf.destroy();
 
-        const ctx = document.getElementById("graf").getContext("2d");
-        mujGraf = new Chart(ctx, {
-            type: "doughnut",
-            data: {
-                labels: ["Jistina (půjčené peníze)", "Úroky"],
-                datasets: [{ data: [P, celkoveUroky], backgroundColor: ["#4f46e5", "#f97316"] }]
-            },
-            options: { responsive: true, plugins: { legend: { position: "bottom" } } }
-        });
+        const canvasElement = document.getElementById("graf");
+        if (canvasElement) {
+            const ctx = canvasElement.getContext("2d");
+            mujGraf = new Chart(ctx, {
+                type: "doughnut",
+                data: {
+                    labels: ["Jistina (půjčené peníze)", "Úroky"],
+                    datasets: [{ data: [P, celkoveUroky], backgroundColor: ["#4f46e5", "#f97316"] }]
+                },
+                options: { responsive: true, plugins: { legend: { position: "bottom" } } }
+            });
+        }
     });
 
     document.getElementById("vypocitat").click();
