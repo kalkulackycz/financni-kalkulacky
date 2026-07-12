@@ -21,31 +21,27 @@ window.addEventListener("DOMContentLoaded", function() {
         }
 
         // Aktuální sazebník odvodů zaměstnance
-        const szPojisteniSazba = 0.071; // 7.1 % (sociální + nemocenské)
-        const zdPojisteniSazba = 0.045; // 4.5 % (zdravotní)
-        const danSazba = 0.15;          // 15 % základní daň
-        const slevaPoplatnik = 2570;    // Základní měsíční sleva na poplatníka
+        const szPojisteniSazba = 0.071; 
+        const zdPojisteniSazba = 0.045; 
+        const danSazba = 0.15;          
+        const slevaPoplatnik = 2570;    
 
         // Výpočty jednotlivých složek
         const socPoj = Math.ceil(hruba * szPojisteniSazba);
         const zdravPoj = Math.ceil(hruba * zdPojisteniSazba);
         
-        // Výpočet daně před slevou a uplatnění slevy
         let danPredSlevou = Math.ceil(hruba * danSazba);
         let cistaDan = danPredSlevou - slevaPoplatnik;
-        if (cistaDan < 0) cistaDan = 0; // Daň nemůže jít do mínusu, pokud nejsou bonusy na děti
+        if (cistaDan < 0) cistaDan = 0; 
 
-        // Finální čistá mzda
         const cistaMzda = hruba - socPoj - zdravPoj - cistaDan;
 
-        // Vepsání textových výsledků
         document.getElementById("vysledekMzda").textContent = "Čistá mzda: " + Math.round(cistaMzda).toLocaleString("cs-CZ") + " Kč";
         document.getElementById("detailyMzda").innerHTML =
             "<p>Sociální pojištění: <strong>" + socPoj.toLocaleString("cs-CZ") + " Kč</strong></p>" +
             "<p>Zdravotní pojištění: <strong>" + zdravPoj.toLocaleString("cs-CZ") + " Kč</strong></p>" +
             "<p>Daň z příjmu po slevě: <strong>" + cistaDan.toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-        // Vykreslení grafu rozdělení hrubé mzdy
         if (window.ChartJsPripraven && typeof Chart !== "undefined") {
             if (mujGrafMzda !== null) mujGrafMzda.destroy();
             const ctx = document.getElementById("grafMzda").getContext("2d");
@@ -60,7 +56,6 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Propojení Enteru na políčku hrubé mzdy pro okamžitý výpočet
     const inputHruba = document.getElementById("hrubaMzda");
     const tlacitkoVypocitatMzdu = document.getElementById("vypocitatMzdu");
 
@@ -73,7 +68,9 @@ window.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    // OPRAVENO: Název tlačítka změněn na správné vypocitatMzdu pro plynulý start grafu
     if (window.ChartJsPripraven) {
-        document.getElementById("vypocitatMzdu").click();
+        var tlacitkoStart = document.getElementById("vypocitatMzdu");
+        if (tlacitkoStart) tlacitkoStart.click();
     }
 });
