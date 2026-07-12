@@ -243,7 +243,7 @@ button:hover {
     }
 }
 
-/* --- NOVÉ OPRAVY PRO MENU (VERZE 0.2) --- */
+/* --- OPRAVY PRO MENU (VERZE 0.2) --- */
 .menu {
     align-items: stretch;
 }
@@ -273,13 +273,46 @@ button:hover {
     width: 100%;
 }
 
+.label-radek {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    margin-bottom: 6px;
+    position: relative;
+}
+
+.label-radek label {
+    margin: 0;
+}
+
+.ikona-otaznik {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    background-color: #d0d5dd;
+    color: #667085;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: help;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.ikona-otaznik:hover {
+    background-color: #4f46e5;
+    color: #ffffff;
+}
+
 .bublina-text {
     visibility: hidden;
     position: absolute;
-    bottom: calc(100% + 4px);
+    bottom: calc(100% + 6px);
     left: 50%;
     transform: translateX(-50%);
-    background-color: #1e1b4b; /* Tmavý podklad */
+    background-color: #1e1b4b;
     color: #ffffff;
     text-align: center;
     padding: 8px 12px;
@@ -295,7 +328,6 @@ button:hover {
     pointer-events: none;
 }
 
-/* Malá šipka směřující dolů */
 .bublina-text::after {
     content: "";
     position: absolute;
@@ -307,14 +339,21 @@ button:hover {
     border-color: #1e1b4b transparent transparent transparent;
 }
 
-/* UPRAVENO: Zobrazení POUZE při najetí myší. Při psaní (:focus) nebo opuštění myší bublina ihned zmizí. */
-.pole-s-napovedou:hover .bublina-text {
+.ikona-otaznik:hover + .bublina-text {
     visibility: visible;
     opacity: 1;
 }
 
-/* Pokud má políčko aktivní kurzor pro zápis, nápovědu natvrdo skryjeme, aby nepřekážela */
-.pole-s-napovedou input:focus + .bublina-text {
-    visibility: hidden;
-    opacity: 0;
+/* --- NOVĚ PŘIDANÁ OPRAVA PRO ROZHOZENÉ OTAZNÍKY (VERZE 0.2) --- */
+/* Zajištění, že label i volně stojící otazník v prvních stránkách zůstanou na stejném řádku */
+.pole-s-napovedou label {
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+.pole-s-napovedou .ikona-otaznik {
+    margin-left: 6px;
+    vertical-align: middle;
+    position: relative;
+    top: -2px; /* Přesné srovnání s výškou textu labelu */
 }
