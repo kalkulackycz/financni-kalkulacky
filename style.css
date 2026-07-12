@@ -267,7 +267,7 @@ button:hover {
     }
 }
 
-/* --- NOVÝ DESIGN PRO BUBLE-TOOLTIPY (NÁPOVĚDU) --- */
+/* --- DESIGN PRO BUBLE-TOOLTIPY (NÁPOVĚDU) --- */
 .pole-s-napovedou {
     position: relative;
     width: 100%;
@@ -307,9 +307,14 @@ button:hover {
     border-color: #1e1b4b transparent transparent transparent;
 }
 
-/* Zobrazení při najetí myší nebo focusu */
-.pole-s-napovedou:hover .bublina-text,
-.pole-s-napovedou input:focus + .bublina-text {
+/* UPRAVENO: Zobrazení POUZE při najetí myší. Při psaní (:focus) nebo opuštění myší bublina ihned zmizí. */
+.pole-s-napovedou:hover .bublina-text {
     visibility: visible;
     opacity: 1;
+}
+
+/* Pokud má políčko aktivní kurzor pro zápis, nápovědu natvrdo skryjeme, aby nepřekážela */
+.pole-s-napovedou input:focus + .bublina-text {
+    visibility: hidden;
+    opacity: 0;
 }
