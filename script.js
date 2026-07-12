@@ -1,7 +1,7 @@
 // AUTOMATICKÉ NAČTENÍ EXTERNÍCH SOUBORŮ (Ochrana před ořezáváním textu)
 (function() {
     // 1. Automatické načtení Google Analytics
-    var gTagUrl = "https://googletagmanager.com";
+    var gTagUrl = "https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH";
     var s1 = document.createElement("script");
     s1.async = true;
     s1.src = gTagUrl;
