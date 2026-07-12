@@ -6,7 +6,8 @@
     <meta name="description" content="Kalkulačka spoření zdarma. Zjistěte, kolik naspoříte při pravidelném měsíčním vkladu a jakém úroku.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://w3.org viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH
+"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -27,17 +28,30 @@
     </nav>
     <div class="kalkulacka">
         <h1>Kalkulačka spoření</h1>
-        <label for="mesicniVklad">Měsíční vklad (Kč):</label>
-        <input type="number" id="mesicniVklad" value="3000">
-        <label for="urokSporeni">Roční úrok (%):</label>
-        <input type="number" id="urokSporeni" value="4" step="0.1">
-        <label for="dobaSporeni">Doba spoření (roky):</label>
-        <input type="number" id="dobaSporeni" value="10">
+        
+        <div class="pole-s-napovedou">
+            <label for="mesicniVklad">Měsíční vklad (Kč):</label>
+            <input type="number" id="mesicniVklad" value="3000">
+            <span class="bublina-text">Částka, kterou budete pravidelně každý měsíc odkládat na spořicí produkt.</span>
+        </div>
+        
+        <div class="pole-s-napovedou">
+            <label for="urokSporeni">Roční úrok (%):</label>
+            <input type="number" id="urokSporeni" value="4" step="0.1">
+            <span class="bublina-text">Úroková sazba, kterou vám banka na produktu nabízí před odečtením daně.</span>
+        </div>
+        
+        <div class="pole-s-napovedou">
+            <label for="dobaSporeni">Doba spoření (roky):</label>
+            <input type="number" id="dobaSporeni" value="10">
+            <span class="bublina-text">Celkový počet let, po které plánujete pravidelně peníze odkládat a úročit.</span>
+        </div>
+        
         <button id="vypocitatSporeni">Vypočítat</button>
         <h2 id="vysledekSporeni"></h2>
         <div id="detailySporeni" class="detaily"></div>
         <a href="inflace-vysvetlene.html" class="info-box">
-            💡 Proč peníze na účtu ztrácí hodnotu? <span>Vysvětlíme ti do →</span>
+            💡 Proč peníze na účtu ztrácí hodnotu? <span>Vysvětlíme ti to →</span>
         </a>
         <canvas id="grafSporeni" width="400" height="300"></canvas>
         <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
