@@ -243,26 +243,73 @@ button:hover {
     }
 }
 
-/* --- NOVĚ PŘIDANÉ OPRAVY PRO DOKONALÉ MENU (VERZE 0.2) --- */
+/* --- NOVÉ OPRAVY PRO MENU (VERZE 0.2) --- */
 .menu {
-    align-items: stretch; /* Všechna tlačítka budou mít stejnou výšku */
+    align-items: stretch;
 }
 
 .menu a {
     display: flex;
-    align-items: center;    /* Centrování textu svisle */
-    justify-content: center; /* Centrování textu vodorovně */
-    font-size: 13px;        /* Mírné zmenšení písma, aby text lépe seděl */
-    padding: 10px 6px;      /* Optimalizace vnitřního okraje */
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    padding: 10px 6px;
     line-height: 1.2;
 }
 
 @media (max-width: 500px) {
     .menu {
-        gap: 4px; /* Zmenšení mezer na malých mobilech */
+        gap: 4px;
     }
     .menu a {
-        font-size: 10px; /* Zmenšení písma na mobilech, aby se menu vešlo na jeden řádek */
+        font-size: 10px;
         padding: 8px 2px;
     }
+}
+
+/* --- NOVÝ DESIGN PRO BUBLE-TOOLTIPY (NÁPOVĚDU) --- */
+.pole-s-napovedou {
+    position: relative;
+    width: 100%;
+}
+
+.bublina-text {
+    visibility: hidden;
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1e1b4b; /* Tmavý podklad */
+    color: #ffffff;
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    width: 260px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 99;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+}
+
+/* Malá šipka směřující dolů */
+.bublina-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #1e1b4b transparent transparent transparent;
+}
+
+/* Zobrazení při najetí myší nebo focusu */
+.pole-s-napovedou:hover .bublina-text,
+.pole-s-napovedou input:focus + .bublina-text {
+    visibility: visible;
+    opacity: 1;
 }
