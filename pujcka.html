@@ -25,6 +25,7 @@
                 <label for="vysePujcky">Výše půjčky (Kč):</label>
             </div>
             <input type="text" id="vysePujcky" value="100 000">
+            <input type="range" id="vysePujcky-slider" min="10000" max="1000000" step="10000" value="100000">
             <div id="vysePujcky-chyba" class="chyba-text"></div>
         </div>
         
@@ -35,6 +36,7 @@
                 <span class="bublina-text">Roční úrok bez započtených poplatků. Skutečnou cenu vám pak ukáže RPSN.</span>
             </div>
             <input type="text" id="urokPujcka" value="8,9">
+            <input type="range" id="urokPujcka-slider" min="1" max="30" step="0.1" value="8.9">
             <div id="urokPujcka-chyba" class="chyba-text"></div>
         </div>
         
@@ -45,6 +47,7 @@
                 <span class="bublina-text">Jednorázový poplatek banky za vyřízení žádosti. Přičítá se k celkové ceně.</span>
             </div>
             <input type="text" id="poplatek" value="1 500">
+            <input type="range" id="poplatek-slider" min="0" max="10000" step="100" value="1500">
             <div id="poplatek-chyba" class="chyba-text"></div>
         </div>
         
@@ -55,6 +58,7 @@
                 <span class="bublina-text">Doba v letech, po kterou budete spotřebitelský úvěr pravidelně splácet.</span>
             </div>
             <input type="text" id="dobaPujcka" value="5">
+            <input type="range" id="dobaPujcka-slider" min="1" max="20" step="1" value="5">
             <div id="dobaPujcka-chyba" class="chyba-text"></div>
         </div>
         

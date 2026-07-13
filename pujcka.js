@@ -40,10 +40,37 @@ window.addEventListener("DOMContentLoaded", function() {
             e.target.value = e.target.value.replace(/\s/g, '');
         });
     }
+
+    // Propojení sliderů s inputy
+    function propojSlider(inputId, sliderId, isFloat = false) {
+        const input = document.getElementById(inputId);
+        const slider = document.getElementById(sliderId);
+
+        slider.addEventListener('input', function() {
+            if (isFloat) {
+                input.value = slider.value.replace('.', ',');
+            } else {
+                input.value = parseInt(slider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+            }
+            document.getElementById("vypocitatPujcka").click();
+        });
+
+        input.addEventListener('input', function() {
+            let val = input.value.replace(/\s/g, '').replace(',', '.');
+            if (!isNaN(val) && val !== '') {
+                slider.value = val;
+            }
+        });
+    }
+
+    propojSlider('vysePujcky', 'vysePujcky-slider');
+    propojSlider('urokPujcka', 'urokPujcka-slider', true);
+    propojSlider('poplatek', 'poplatek-slider');
+    propojSlider('dobaPujcka', 'dobaPujcka-slider');
+
     document.getElementById("vypocitatPujcka").addEventListener("click", function() {
         const chybovaHlaska = document.getElementById("chybova-hlaska");
         if (chybovaHlaska) chybovaHlaska.style.display = "none";
-
         const vyseInput = document.getElementById("vysePujcky");
         const urokInput = document.getElementById("urokPujcka");
         const poplatekInput = document.getElementById("poplatek");

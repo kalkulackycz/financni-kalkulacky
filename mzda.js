@@ -107,6 +107,21 @@ window.addEventListener("DOMContentLoaded", function() {
 
     zapnoutFormatovani('hrubaMzda', 'hrubaMzda-chyba', 'Např.: 45 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
 
+    // Propojení slideru
+    const mzdaInput = document.getElementById("hrubaMzda");
+    const mzdaSlider = document.getElementById("hrubaMzda-slider");
+
+    mzdaSlider.addEventListener('input', function() {
+        mzdaInput.value = parseInt(mzdaSlider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+        document.getElementById("vypocitatMzdu").click();
+    });
+    mzdaInput.addEventListener('input', function() {
+        let val = mzdaInput.value.replace(/\s/g, '');
+        if (!isNaN(val) && val !== '') {
+            mzdaSlider.value = val;
+        }
+    });
+
     const inputHruba = document.getElementById("hrubaMzda");
     const tlacitkoVypocitatMzdu = document.getElementById("vypocitatMzdu");
 

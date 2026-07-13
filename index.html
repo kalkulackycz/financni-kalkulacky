@@ -27,6 +27,7 @@
                 <span class="bublina-text">Zadejte celkovou částku, kterou si plánujete od banky půjčit na pořízení nemovitosti.</span>
             </div>
             <input type="text" id="castka" value="3 000 000">
+            <input type="range" id="castka-slider" min="100000" max="10000000" step="100000" value="3000000">
             <div id="castka-chyba" class="chyba-text"></div>
         </div>
         
@@ -37,6 +38,7 @@
                 <span class="bublina-text">Roční úroková sazba nabízená bankou. Například 5.5 %.</span>
             </div>
             <input type="text" id="urok" value="5,5">
+            <input type="range" id="urok-slider" min="1" max="15" step="0.1" value="5.5">
             <div id="urok-chyba" class="chyba-text"></div>
         </div>
         
@@ -47,6 +49,7 @@
                 <span class="bublina-text">Počet let, po které budete úvěr bance splácet. Standardně 25 až 30 let.</span>
             </div>
             <input type="text" id="doba" value="30">
+            <input type="range" id="doba-slider" min="5" max="40" step="1" value="30">
             <div id="doba-chyba" class="chyba-text"></div>
         </div>
         
@@ -89,7 +92,7 @@
             </div>
             <div class="faq-polozka">
                 <h3>Kolik musím mít naspořeno z vlastních zdrojů?</h3>
-                <p>Podle pravidel ČNB musíte mít standardně naspořeno alespoň 20 % z hodnoty nemovitosti (tzv. LTV 80 %). Mladí žadatelé do 36 let mohou v některých případech získat hypotéku až do 90 % hodnoty nemovitosti, stačí jim tedy 10 % vlastních peněz.</p>
+                <p>Podle pravidel ČNB musíte mít standardně naspořeno alespoň 20 % z hodnoty nemovitosti (tzv. LTV 80 %). Mladí žadatelé do 36 let mohou v některých případech získat hypotéku až do 90 % hodnoty nemovitosti, stačí jim tedy 10 % vlastních penőség.</p>
             </div>
             <div class="faq-polozka">
                 <h3>Jaké další náklady mě čekají kromě splátek hypotéky?</h3>

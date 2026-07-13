@@ -147,6 +147,33 @@ window.addEventListener("DOMContentLoaded", function() {
     zapnoutFormatovani('castka', 'castka-chyba', 'Např.: 3 000 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
     zapnoutFormatovani('urok', 'urok-chyba', 'Např.: 5,5', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
     zapnoutFormatovani('doba', 'doba-chyba', 'Např.: 30', v => !isNaN(v) && parseFloat(v) > 0);
+
+    // Propojení sliderů s inputy
+    function propojSlider(inputId, sliderId) {
+        const input = document.getElementById(inputId);
+        const slider = document.getElementById(sliderId);
+
+        slider.addEventListener('input', function() {
+            if (inputId === 'urok') {
+                input.value = slider.value.replace('.', ',');
+            } else {
+                input.value = parseInt(slider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+            }
+        document.getElementById("vypocitat").click();
+});
+
+        input.addEventListener('input', function() {
+            let val = input.value.replace(/\s/g, '').replace(',', '.');
+            if (!isNaN(val) && val !== '') {
+                slider.value = val;
+            }
+        });
+    }
+
+    propojSlider('castka', 'castka-slider');
+    propojSlider('urok', 'urok-slider');
+    propojSlider('doba', 'doba-slider');
+
     const inputCastka = document.getElementById("castka");
     const inputUrok = document.getElementById("urok");
     const inputDoba = document.getElementById("doba");

@@ -41,6 +41,33 @@ window.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    // Propojení sliderů s inputy
+    function propojSlider(inputId, sliderId, isFloat = false) {
+        const input = document.getElementById(inputId);
+        const slider = document.getElementById(sliderId);
+
+        slider.addEventListener('input', function() {
+            if (isFloat) {
+                input.value = slider.value.replace('.', ',');
+            } else {
+                input.value = parseInt(slider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+            }
+            document.getElementById("vypocitatRefin").click();
+        });
+
+        input.addEventListener('input', function() {
+            let val = input.value.replace(/\s/g, '').replace(',', '.');
+            if (!isNaN(val) && val !== '') {
+                slider.value = val;
+            }
+        });
+    }
+
+    propojSlider('zbytekDluhu', 'zbytekDluhu-slider');
+    propojSlider('staryUrok', 'staryUrok-slider', true);
+    propojSlider('novyUrok', 'novyUrok-slider', true);
+    propojSlider('dobaRefin', 'dobaRefin-slider');
+
     document.getElementById("vypocitatRefin").addEventListener("click", function() {
         const chybovaHlaska = document.getElementById("chybova-hlaska");
         if (chybovaHlaska) chybovaHlaska.style.display = "none";

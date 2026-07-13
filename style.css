@@ -103,6 +103,12 @@ input:focus {
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
+input[type="range"] {
+    margin-top: 10px;
+    width: 100%;
+    cursor: pointer;
+}
+
 .input-chyba {
     border-color: #ef4444 !important;
     background-color: #fef2f2;

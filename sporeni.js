@@ -39,14 +39,41 @@ window.addEventListener("DOMContentLoaded", function() {
             e.target.value = e.target.value.replace(/\s/g, '');
         });
     }
+
+    // Propojení sliderů s inputy
+    function propojSlider(inputId, sliderId, isFloat = false) {
+        const input = document.getElementById(inputId);
+        const slider = document.getElementById(sliderId);
+
+        slider.addEventListener('input', function() {
+            if (isFloat) {
+                input.value = slider.value.replace('.', ',');
+            } else {
+                input.value = parseInt(slider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+            }
+            document.getElementById("vypocitatSporeni").click();
+        });
+
+        input.addEventListener('input', function() {
+            let val = input.value.replace(/\s/g, '').replace(',', '.');
+            if (!isNaN(val) && val !== '') {
+                slider.value = val;
+            }
+        });
+    }
+
+    propojSlider('mesicniVklad', 'mesicniVklad-slider');
+    propojSlider('urokSporeni', 'urokSporeni-slider', true);
+    propojSlider('dobaSporeni', 'dobaSporeni-slider');
+
     document.getElementById("vypocitatSporeni").addEventListener("click", function() {
         const chybovaHlaska = document.getElementById("chybova-hlaska");
         if (chybovaHlaska) chybovaHlaska.style.display = "none";
-
+        
         const vkladInput = document.getElementById("mesicniVklad");
         const urokInput = document.getElementById("urokSporeni");
         const dobaInput = document.getElementById("dobaSporeni");
-        
+
         const vklad = parseFloat(vkladInput.value.replace(/\s/g, ''));
         const rocniUrok = parseFloat(urokInput.value.replace(",", "."));
         const roky = parseFloat(dobaInput.value);
