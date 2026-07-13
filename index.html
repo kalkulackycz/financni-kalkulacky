@@ -27,6 +27,7 @@
                 <span class="bublina-text">Zadejte celkovou částku, kterou si plánujete od banky půjčit na pořízení nemovitosti.</span>
             </div>
             <input type="text" id="castka" value="3 000 000">
+            <div id="castka-chyba" class="chyba-text"></div>
         </div>
         
         <div class="pole-s-napovedou">
@@ -35,7 +36,8 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k úrokové sazbě">?</span>
                 <span class="bublina-text">Roční úroková sazba nabízená bankou. Například 5.5 %.</span>
             </div>
-            <input type="number" id="urok" value="5.5" step="any">
+            <input type="text" id="urok" value="5,5">
+            <div id="urok-chyba" class="chyba-text"></div>
         </div>
         
         <div class="pole-s-napovedou">
@@ -44,7 +46,8 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k době splácení">?</span>
                 <span class="bublina-text">Počet let, po které budete úvěr bance splácet. Standardně 25 až 30 let.</span>
             </div>
-            <input type="number" id="doba" value="30">
+            <input type="text" id="doba" value="30">
+            <div id="doba-chyba" class="chyba-text"></div>
         </div>
         
         <button id="vypocitat">Vypočítat</button>

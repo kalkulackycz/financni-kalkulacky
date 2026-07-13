@@ -25,6 +25,7 @@
                 <label for="mesicniVklad">Měsíční vklad (Kč):</label>
             </div>
             <input type="text" id="mesicniVklad" value="5 000">
+            <div id="mesicniVklad-chyba" class="chyba-text"></div>
         </div>
         
         <div class="pole-s-napovedou">
@@ -33,7 +34,8 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k ročnímu úroku">?</span>
                 <span class="bublina-text">Úroková sazba, kterou vám banka na produktu nabízí před odečtením daně.</span>
             </div>
-            <input type="number" id="urokSporeni" value="4" step="any">
+            <input type="text" id="urokSporeni" value="4">
+            <div id="urokSporeni-chyba" class="chyba-text"></div>
         </div>
         
         <div class="pole-s-napovedou">
@@ -42,7 +44,8 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k době spoření">?</span>
                 <span class="bublina-text">Celkový počet let, po které plánujete pravidelně peníze odkládat a úročit.</span>
             </div>
-            <input type="number" id="dobaSporeni" value="10">
+            <input type="text" id="dobaSporeni" value="10">
+            <div id="dobaSporeni-chyba" class="chyba-text"></div>
         </div>
         
         <button id="vypocitatSporeni">Vypočítat</button>
@@ -61,7 +64,7 @@
             </div>
             <div class="faq-polozka">
                 <h3>Musím z výnosů ze spoření platit daně?</h3>
-                <p>Ano, výnosy z úroků na spořicích účtech a termínovaných vkladech podléhají srážkové dani ve výši 15 %. Banka tuto daň strhává z úroků automaticky, takže vy sami nemusíte nic nikam vykazovat ani řešit daňové přiznání.</p>
+                <p>Ano, výnosy z úroků na spořicích účtech a termívaných vkladech podléhají srážkové dani ve výši 15 %. Banka tuto daň strhává z úroků automaticky, takže vy sami nemusíte nic nikam vykazovat ani řešit daňové přiznání.</p>
             </div>
             <div class="faq-polozka">
                 <h3>Stačí běžný spořicí účet na ochranu před inflací?</h3>

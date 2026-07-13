@@ -10,38 +10,56 @@
 window.addEventListener("DOMContentLoaded", function() {
     let mujGrafSporeni = null;
 
-    // Funkce pro formátování vstupu
-    function zapnoutFormatovani(inputId) {
+    // Pomocná funkce pro validaci
+    function validujInput(input, chybaId, napoveda, podminka) {
+        if (!podminka) {
+            document.getElementById(chybaId).innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
+            document.getElementById(chybaId).style.display = "block";
+            input.classList.add("input-chyba");
+            return false;
+        } else {
+            document.getElementById(chybaId).style.display = "none";
+            input.classList.remove("input-chyba");
+            return true;
+        }
+    }
+    // Funkce pro formátování a validaci vstupu
+    function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
         const el = document.getElementById(inputId);
-        // Formátujeme až když uživatel vyjede z políčka
         el.addEventListener('blur', function(e) {
             let val = e.target.value.replace(/\s/g, '');
-            if (val !== "" && !isNaN(val)) {
+            if (val !== "" && !isNaN(val.replace(",", "."))) {
+                if (inputId === 'mesicniVklad') {
                 e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
             }
+            }
+            validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
         });
-        // Při kliknutí do pole zase odstraníme mezery pro snadnou editaci
         el.addEventListener('focus', function(e) {
             e.target.value = e.target.value.replace(/\s/g, '');
         });
     }
-    zapnoutFormatovani('mesicniVklad');
-
     document.getElementById("vypocitatSporeni").addEventListener("click", function() {
         const chybovaHlaska = document.getElementById("chybova-hlaska");
         if (chybovaHlaska) chybovaHlaska.style.display = "none";
-        const vklad = parseFloat(document.getElementById("mesicniVklad").value.replace(/\s/g, ''));
-        const rocniUrok = parseFloat(document.getElementById("urokSporeni").value);
-        const roky = parseFloat(document.getElementById("dobaSporeni").value);
-        
-        if (isNaN(vklad) || isNaN(rocniUrok) || isNaN(roky) || vklad <= 0) {
-            if (chybovaHlaska) {
-                chybovaHlaska.textContent = "Prosím, vyplňte všechny hodnoty správně.";
-                chybovaHlaska.style.display = "block";
-            }
-            return;
-        }
 
+        const vkladInput = document.getElementById("mesicniVklad");
+        const urokInput = document.getElementById("urokSporeni");
+        const dobaInput = document.getElementById("dobaSporeni");
+        
+        const vklad = parseFloat(vkladInput.value.replace(/\s/g, ''));
+        const rocniUrok = parseFloat(urokInput.value.replace(",", "."));
+        const roky = parseFloat(dobaInput.value);
+
+        const jeVkladOk = !isNaN(vklad) && vklad > 0;
+        const jeUrokOk = !isNaN(rocniUrok) && rocniUrok >= 0;
+        const jeDobaOk = !isNaN(roky) && roky > 0;
+
+        validujInput(vkladInput, "mesicniVklad-chyba", "Např.: 5 000", jeVkladOk);
+        validujInput(urokInput, "urokSporeni-chyba", "Např.: 4", jeUrokOk);
+        validujInput(dobaInput, "dobaSporeni-chyba", "Např.: 10", jeDobaOk);
+
+        if (!jeVkladOk || !jeUrokOk || !jeDobaOk) return;
         const mesice = roky * 12;
         const r = rocniUrok / 100 / 12;
         let celkemVlozeno = vklad * mesice;
@@ -88,6 +106,10 @@ window.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+
+    zapnoutFormatovani('mesicniVklad', 'mesicniVklad-chyba', 'Např.: 5 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
+    zapnoutFormatovani('urokSporeni', 'urokSporeni-chyba', 'Např.: 4', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
+    zapnoutFormatovani('dobaSporeni', 'dobaSporeni-chyba', 'Např.: 10', v => !isNaN(v) && parseFloat(v) > 0);
 
     const inputVklad = document.getElementById("mesicniVklad");
     const inputUrokSporeni = document.getElementById("urokSporeni");

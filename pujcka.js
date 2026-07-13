@@ -10,39 +10,64 @@
 window.addEventListener("DOMContentLoaded", function() {
     let mujGrafPujcka = null;
 
-    // Funkce pro formátování vstupu
-    function zapnoutFormatovani(inputId) {
+    // Pomocná funkce pro validaci
+    function validujInput(input, chybaId, napoveda, podminka) {
+        if (!podminka) {
+            document.getElementById(chybaId).innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
+            document.getElementById(chybaId).style.display = "block";
+            input.classList.add("input-chyba");
+            return false;
+        } else {
+            document.getElementById(chybaId).style.display = "none";
+            input.classList.remove("input-chyba");
+            return true;
+        }
+    }
+    // Funkce pro formátování a validaci vstupu
+    function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
         const el = document.getElementById(inputId);
-        // Formátujeme až když uživatel vyjede z políčka
         el.addEventListener('blur', function(e) {
             let val = e.target.value.replace(/\s/g, '');
-            if (val !== "" && !isNaN(val)) {
+            if (val !== "" && !isNaN(val.replace(",", "."))) {
+                 // U částek formátujeme, u procent/let necháváme nebo upravujeme dle typu
+                if (inputId !== 'urokPujcka' && inputId !== 'dobaPujcka') {
                 e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
             }
+            }
+            validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
         });
-        // Při kliknutí do pole zase odstraníme mezery pro snadnou editaci
         el.addEventListener('focus', function(e) {
             e.target.value = e.target.value.replace(/\s/g, '');
         });
     }
-    zapnoutFormatovani('vysePujcky');
-
     document.getElementById("vypocitatPujcka").addEventListener("click", function() {
         const chybovaHlaska = document.getElementById("chybova-hlaska");
         if (chybovaHlaska) chybovaHlaska.style.display = "none";
-        const P = parseFloat(document.getElementById("vysePujcky").value.replace(/\s/g, ''));
-        const rocniSazba = parseFloat(document.getElementById("urokPujcka").value);
-        const poplatek = parseFloat(document.getElementById("poplatek").value);
-        const n = parseFloat(document.getElementById("dobaPujcka").value) * 12;
-        const r = rocniSazba / 100 / 12;
 
-        if (isNaN(P) || isNaN(rocniSazba) || isNaN(poplatek) || isNaN(n) || P <= 0) {
-            if (chybovaHlaska) {
-                chybovaHlaska.textContent = "Prosím, vyplňte všechny hodnoty správně.";
-                chybovaHlaska.style.display = "block";
-            }
-            return;
-        }
+        const vyseInput = document.getElementById("vysePujcky");
+        const urokInput = document.getElementById("urokPujcka");
+        const poplatekInput = document.getElementById("poplatek");
+        const dobaInput = document.getElementById("dobaPujcka");
+
+        const P = parseFloat(vyseInput.value.replace(/\s/g, ''));
+        const rocniSazba = parseFloat(urokInput.value.replace(",", "."));
+        const poplatek = parseFloat(poplatekInput.value.replace(/\s/g, ''));
+        const roky = parseFloat(dobaInput.value);
+
+        const jeVyseOk = !isNaN(P) && P > 0;
+        const jeUrokOk = !isNaN(rocniSazba) && rocniSazba >= 0;
+        const jePoplatekOk = !isNaN(poplatek) && poplatek >= 0;
+        const jeDobaOk = !isNaN(roky) && roky > 0;
+
+        validujInput(vyseInput, "vysePujcky-chyba", "Např.: 100 000", jeVyseOk);
+        validujInput(urokInput, "urokPujcka-chyba", "Např.: 8,9", jeUrokOk);
+        validujInput(poplatekInput, "poplatek-chyba", "Např.: 1 500", jePoplatekOk);
+        validujInput(dobaInput, "dobaPujcka-chyba", "Např.: 5", jeDobaOk);
+
+        if (!jeVyseOk || !jeUrokOk || !jePoplatekOk || !jeDobaOk) return;
+
+        const n = roky * 12;
+        const r = rocniSazba / 100 / 12;
 
         const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
         const vysledek = Math.round(mesicniSplatka);
@@ -92,7 +117,10 @@ window.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // OPRAVENO: Přesné cílení prvků pro sjíždění dolů přes Enter
+    zapnoutFormatovani('vysePujcky', 'vysePujcky-chyba', 'Např.: 100 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
+    zapnoutFormatovani('urokPujcka', 'urokPujcka-chyba', 'Např.: 8,9', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
+    zapnoutFormatovani('poplatek', 'poplatek-chyba', 'Např.: 1 500', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) >= 0);
+    zapnoutFormatovani('dobaPujcka', 'dobaPujcka-chyba', 'Např.: 5', v => !isNaN(v) && parseFloat(v) > 0);
     const inputVyse = document.getElementById("vysePujcky");
     const inputUrokPujcka = document.getElementById("urokPujcka");
     const inputPoplatek = document.getElementById("poplatek");

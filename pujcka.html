@@ -25,6 +25,7 @@
                 <label for="vysePujcky">Výše půjčky (Kč):</label>
             </div>
             <input type="text" id="vysePujcky" value="100 000">
+            <div id="vysePujcky-chyba" class="chyba-text"></div>
         </div>
         
         <div class="pole-s-napovedou">
@@ -33,7 +34,8 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k úrokové sazbě">?</span>
                 <span class="bublina-text">Roční úrok bez započtených poplatků. Skutečnou cenu vám pak ukáže RPSN.</span>
             </div>
-            <input type="number" id="urokPujcka" value="8.9" step="any">
+            <input type="text" id="urokPujcka" value="8,9">
+            <div id="urokPujcka-chyba" class="chyba-text"></div>
         </div>
         
         <div class="pole-s-napovedou">
@@ -42,7 +44,8 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k poplatku za sjednání">?</span>
                 <span class="bublina-text">Jednorázový poplatek banky za vyřízení žádosti. Přičítá se k celkové ceně.</span>
             </div>
-            <input type="number" id="poplatek" value="1500" step="any">
+            <input type="text" id="poplatek" value="1 500">
+            <div id="poplatek-chyba" class="chyba-text"></div>
         </div>
         
         <div class="pole-s-napovedou">
@@ -51,7 +54,8 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k době splácení">?</span>
                 <span class="bublina-text">Doba v letech, po kterou budete spotřebitelský úvěr pravidelně splácet.</span>
             </div>
-            <input type="number" id="dobaPujcka" value="5">
+            <input type="text" id="dobaPujcka" value="5">
+            <div id="dobaPujcka-chyba" class="chyba-text"></div>
         </div>
         
         <button id="vypocitatPujcka">Vypočítat</button>

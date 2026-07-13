@@ -13,37 +13,45 @@
 window.addEventListener("DOMContentLoaded", function() {
     let mujGrafMzda = null;
 
-    // Funkce pro formátování vstupu
-    function zapnoutFormatovani(inputId) {
+    // Pomocná funkce pro validaci
+    function validujInput(input, chybaId, napoveda, podminka) {
+        if (!podminka) {
+            document.getElementById(chybaId).innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
+            document.getElementById(chybaId).style.display = "block";
+            input.classList.add("input-chyba");
+            return false;
+        } else {
+            document.getElementById(chybaId).style.display = "none";
+            input.classList.remove("input-chyba");
+            return true;
+        }
+    }
+    // Funkce pro formátování a validaci vstupu
+    function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
         const el = document.getElementById(inputId);
-        // Formátujeme až když uživatel vyjede z políčka
         el.addEventListener('blur', function(e) {
             let val = e.target.value.replace(/\s/g, '');
             if (val !== "" && !isNaN(val)) {
                 e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
             }
+            validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
         });
-        // Při kliknutí do pole zase odstraníme mezery pro snadnou editaci
         el.addEventListener('focus', function(e) {
             e.target.value = e.target.value.replace(/\s/g, '');
         });
     }
-    zapnoutFormatovani('hrubaMzda');
-
     document.getElementById("vypocitatMzdu").addEventListener("click", function() {
         const chybovaHlaska = document.getElementById("chybova-hlaska");
         if (chybovaHlaska) chybovaHlaska.style.display = "none";
 
-        const hruba = parseFloat(document.getElementById("hrubaMzda").value.replace(/\s/g, ''));
+        const hrubaInput = document.getElementById("hrubaMzda");
+        const hruba = parseFloat(hrubaInput.value.replace(/\s/g, ''));
 
-        if (isNaN(hruba) || hruba <= 0) {
-            if (chybovaHlaska) {
-                chybovaHlaska.textContent = "Prosím, zadejte platnou hrubou mzdu.";
-                chybovaHlaska.style.display = "block";
-            }
-            return;
-        }
+        const jeHrubaOk = !isNaN(hruba) && hruba > 0;
 
+        validujInput(hrubaInput, "hrubaMzda-chyba", "Např.: 45 000", jeHrubaOk);
+
+        if (!jeHrubaOk) return;
         // Aktuální sazebník odvodů zaměstnance
         const szPojisteniSazba = 0.071; 
         const zdPojisteniSazba = 0.045; 
@@ -96,6 +104,8 @@ window.addEventListener("DOMContentLoaded", function() {
             });
         }
     });
+
+    zapnoutFormatovani('hrubaMzda', 'hrubaMzda-chyba', 'Např.: 45 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
 
     const inputHruba = document.getElementById("hrubaMzda");
     const tlacitkoVypocitatMzdu = document.getElementById("vypocitatMzdu");

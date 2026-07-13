@@ -12,25 +12,44 @@
 window.addEventListener("DOMContentLoaded", function() {
     let mujGraf = null;
 
+    // Pomocná funkce pro validaci
+    function validujInput(input, chybaId, napoveda, podminka) {
+        if (!podminka) {
+            document.getElementById(chybaId).innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
+            document.getElementById(chybaId).style.display = "block";
+            input.classList.add("input-chyba");
+            return false;
+        } else {
+            document.getElementById(chybaId).style.display = "none";
+            input.classList.remove("input-chyba");
+            return true;
+        }
+    }
+
     document.getElementById("vypocitat").addEventListener("click", function() {
         const chybovaHlaska = document.getElementById("chybova-hlaska");
         if (chybovaHlaska) chybovaHlaska.style.display = "none";
 
-        const P = parseFloat(document.getElementById("castka").value.replace(/\s/g, ''));
-        let urokText = document.getElementById("urok").value;
-        urokText = urokText.replace(",", ".");
+        const castkaInput = document.getElementById("castka");
+        const urokInput = document.getElementById("urok");
+        const dobaInput = document.getElementById("doba");
+
+        const P = parseFloat(castkaInput.value.replace(/\s/g, ''));
+        const urokText = urokInput.value.replace(",", ".");
         const rocniSazba = parseFloat(urokText);
-        const roky = parseFloat(document.getElementById("doba").value);
+        const roky = parseFloat(dobaInput.value);
+
+        const jeCastkaOk = !isNaN(P) && P > 0;
+        const jeUrokOk = !isNaN(rocniSazba) && rocniSazba >= 0;
+        const jeDobaOk = !isNaN(roky) && roky > 0;
+
+        validujInput(castkaInput, "castka-chyba", "Např.: 3 000 000", jeCastkaOk);
+        validujInput(urokInput, "urok-chyba", "Např.: 5,5", jeUrokOk);
+        validujInput(dobaInput, "doba-chyba", "Např.: 30", jeDobaOk);
+
+        if (!jeCastkaOk || !jeUrokOk || !jeDobaOk) return;
         const n = roky * 12;
         const r = rocniSazba / 100 / 12;
-
-        if (isNaN(P) || isNaN(rocniSazba) || isNaN(roky) || P <= 0) {
-            if (chybovaHlaska) {
-                chybovaHlaska.textContent = "Prosím, zadejte platné údaje.";
-                chybovaHlaska.style.display = "block";
-            }
-            return;
-        }
 
         const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
         const vysledek = Math.round(mesicniSplatka);
@@ -111,21 +130,23 @@ window.addEventListener("DOMContentLoaded", function() {
     };
 
     // Funkce pro formátování vstupu
-    function zapnoutFormatovani(inputId) {
+    function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
         const el = document.getElementById(inputId);
-        // Formátujeme až když uživatel vyjede z políčka
         el.addEventListener('blur', function(e) {
             let val = e.target.value.replace(/\s/g, '');
-            if (val !== "" && !isNaN(val)) {
-                e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+            if (val !== "" && !isNaN(val.replace(",", "."))) {
+                e.target.value = (val.includes(",") ? val : parseInt(val).toLocaleString('cs-CZ')).replace(/\u00A0/g, ' ');
             }
+            validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
         });
-        // Při kliknutí do pole zase odstraníme mezery pro snadnou editaci
         el.addEventListener('focus', function(e) {
             e.target.value = e.target.value.replace(/\s/g, '');
         });
     }
-    zapnoutFormatovani('castka');
+
+    zapnoutFormatovani('castka', 'castka-chyba', 'Např.: 3 000 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
+    zapnoutFormatovani('urok', 'urok-chyba', 'Např.: 5,5', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
+    zapnoutFormatovani('doba', 'doba-chyba', 'Např.: 30', v => !isNaN(v) && parseFloat(v) > 0);
     const inputCastka = document.getElementById("castka");
     const inputUrok = document.getElementById("urok");
     const inputDoba = document.getElementById("doba");

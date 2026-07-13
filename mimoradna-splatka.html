@@ -25,6 +25,7 @@
                 <label for="aktualniDluh">Aktuální dluh (Kč):</label>
             </div>
             <input type="text" id="aktualniDluh" value="2 000 000">
+            <div id="aktualniDluh-chyba" class="chyba-text"></div>
         </div>
         
         <div class="pole-s-napovedou">
@@ -33,7 +34,8 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k úrokové sazbě">?</span>
                 <span class="bublina-text">Vaše současná roční úroková sazba na hypoteční smlouvě.</span>
             </div>
-            <input type="number" id="urokMimoradna" value="5.5" step="any">
+            <input type="text" id="urokMimoradna" value="5,5">
+            <div id="urokMimoradna-chyba" class="chyba-text"></div>
         </div>
         
         <div class="pole-s-napovedou">
@@ -42,7 +44,8 @@
                 <span class="ikona-otaznik" aria-label="Nápověda ke zbývající době splácení">?</span>
                 <span class="bublina-text">Počet let, který vám zbývá do úplného doplacení celé hypotéky.</span>
             </div>
-            <input type="number" id="zbyvajiciDoba" value="25">
+            <input type="text" id="zbyvajiciDoba" value="25">
+            <div id="zbyvajiciDoba-chyba" class="chyba-text"></div>
         </div>
 
         <div class="pole-s-napovedou">
@@ -50,6 +53,7 @@
                 <label for="vyskaSplatky">Výše splátky (Kč):</label>
             </div>
             <input type="text" id="vyskaSplatky" value="100 000">
+            <div id="vyskaSplatky-chyba" class="chyba-text"></div>
         </div>
         
         <button id="vypocitatMimoradnou">Vypočítat</button>

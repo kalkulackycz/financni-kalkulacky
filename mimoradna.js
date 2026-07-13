@@ -10,47 +10,59 @@
 window.addEventListener("DOMContentLoaded", function() {
     let mujGrafMimoradna = null;
 
-    // Funkce pro formátování vstupu
-    function zapnoutFormatovani(inputId) {
+    // Pomocná funkce pro validaci
+    function validujInput(input, chybaId, napoveda, podminka) {
+        if (!podminka) {
+            document.getElementById(chybaId).innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
+            document.getElementById(chybaId).style.display = "block";
+            input.classList.add("input-chyba");
+            return false;
+        } else {
+            document.getElementById(chybaId).style.display = "none";
+            input.classList.remove("input-chyba");
+            return true;
+        }
+    }
+    // Funkce pro formátování a validaci vstupu
+    function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
         const el = document.getElementById(inputId);
-        // Formátujeme až když uživatel vyjede z políčka
         el.addEventListener('blur', function(e) {
             let val = e.target.value.replace(/\s/g, '');
-            if (val !== "" && !isNaN(val)) {
+            if (val !== "" && !isNaN(val.replace(",", "."))) {
+                if (inputId === 'aktualniDluh' || inputId === 'vyskaSplatky') {
                 e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
             }
+            }
+            validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
         });
-        // Při kliknutí do pole zase odstraníme mezery pro snadnou editaci
         el.addEventListener('focus', function(e) {
             e.target.value = e.target.value.replace(/\s/g, '');
         });
     }
-    zapnoutFormatovani('aktualniDluh');
-    zapnoutFormatovani('vyskaSplatky');
-
     document.getElementById("vypocitatMimoradnou").addEventListener("click", function() {
         const chybovaHlaska = document.getElementById("chybova-hlaska");
         if (chybovaHlaska) chybovaHlaska.style.display = "none";
-        const dluh = parseFloat(document.getElementById("aktualniDluh").value.replace(/\s/g, ''));
-        const rocniSazba = parseFloat(document.getElementById("urokMimoradna").value);
-        const roky = parseFloat(document.getElementById("zbyvajiciDoba").value);
-        const mimoradnaSplatka = parseFloat(document.getElementById("vyskaSplatky").value.replace(/\s/g, ''));
+        const dluhInput = document.getElementById("aktualniDluh");
+        const urokInput = document.getElementById("urokMimoradna");
+        const dobaInput = document.getElementById("zbyvajiciDoba");
+        const splatkaInput = document.getElementById("vyskaSplatky");
 
-        if (isNaN(dluh) || isNaN(rocniSazba) || isNaN(roky) || isNaN(mimoradnaSplatka) || dluh <= 0 || mimoradnaSplatka <= 0) {
-            if (chybovaHlaska) {
-                chybovaHlaska.textContent = "Prosím, vyplňte všechny hodnoty správně.";
-                chybovaHlaska.style.display = "block";
-            }
-            return;
-        }
-        if (mimoradnaSplatka >= dluh) {
-            if (chybovaHlaska) {
-                chybovaHlaska.textContent = "Mimořádná splátka nemůže být vyšší než samotný dluh.";
-                chybovaHlaska.style.display = "block";
-            }
-            return;
-        }
+        const dluh = parseFloat(dluhInput.value.replace(/\s/g, ''));
+        const rocniSazba = parseFloat(urokInput.value.replace(",", "."));
+        const roky = parseFloat(dobaInput.value);
+        const mimoradnaSplatka = parseFloat(splatkaInput.value.replace(/\s/g, ''));
 
+        const jeDluhOk = !isNaN(dluh) && dluh > 0;
+        const jeUrokOk = !isNaN(rocniSazba) && rocniSazba >= 0;
+        const jeDobaOk = !isNaN(roky) && roky > 0;
+        const jeSplatkaOk = !isNaN(mimoradnaSplatka) && mimoradnaSplatka > 0 && mimoradnaSplatka < dluh;
+
+        validujInput(dluhInput, "aktualniDluh-chyba", "Např.: 2 000 000", jeDluhOk);
+        validujInput(urokInput, "urokMimoradna-chyba", "Např.: 5,5", jeUrokOk);
+        validujInput(dobaInput, "zbyvajiciDoba-chyba", "Např.: 25", jeDobaOk);
+        validujInput(splatkaInput, "vyskaSplatky-chyba", "Např.: 100 000 (méně než dluh)", jeSplatkaOk);
+
+        if (!jeDluhOk || !jeUrokOk || !jeDobaOk || !jeSplatkaOk) return;
         const r = rocniSazba / 100 / 12;
         const nPuvodni = roky * 12;
         const mesicniSplatka = dluh * (r * Math.pow(1 + r, nPuvodni)) / (Math.pow(1 + r, nPuvodni) - 1);
@@ -110,7 +122,10 @@ window.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // OPRAVENO: Sjíždění dolů přes 4 políčka pro mimořádné splátky
+    zapnoutFormatovani('aktualniDluh', 'aktualniDluh-chyba', 'Např.: 2 000 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
+    zapnoutFormatovani('urokMimoradna', 'urokMimoradna-chyba', 'Např.: 5,5', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
+    zapnoutFormatovani('zbyvajiciDoba', 'zbyvajiciDoba-chyba', 'Např.: 25', v => !isNaN(v) && parseFloat(v) > 0);
+    zapnoutFormatovani('vyskaSplatky', 'vyskaSplatky-chyba', 'Např.: 100 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
     const inputDluh = document.getElementById("aktualniDluh");
     const inputUrokMimoradna = document.getElementById("urokMimoradna");
     const inputZbyvajiciDoba = document.getElementById("zbyvajiciDoba");

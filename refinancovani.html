@@ -25,6 +25,7 @@
                 <label for="zbytekDluhu">Zbývající jistina (Kč):</label>
             </div>
             <input type="text" id="zbytekDluhu" value="2 000 000">
+            <div id="zbytekDluhu-chyba" class="chyba-text"></div>
         </div>
         
         <div class="pole-s-napovedou">
@@ -33,7 +34,8 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k současné úrokové sazbě">?</span>
                 <span class="bublina-text">Úrok, který na stávající smlouvě aktuálně bance platíte.</span>
             </div>
-            <input type="number" id="staryUrok" value="5.9" step="any">
+            <input type="text" id="staryUrok" value="5,9">
+            <div id="staryUrok-chyba" class="chyba-text"></div>
         </div>
         
         <div class="pole-s-napovedou">
@@ -42,7 +44,8 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k nové úrokové sazbě">?</span>
                 <span class="bublina-text">Nabízená úroková sazba od nové banky, pro kterou počítáte úsporu.</span>
             </div>
-            <input type="number" id="novyUrok" value="4.2" step="any">
+            <input type="text" id="novyUrok" value="4,2">
+            <div id="novyUrok-chyba" class="chyba-text"></div>
         </div>
         
         <div class="pole-s-napovedou">
@@ -51,7 +54,8 @@
                 <span class="ikona-otaznik" aria-label="Nápověda ke zbývající době splácení">?</span>
                 <span class="bublina-text">Počet let, které zbývají do úplného konce původní splatnosti úvěru.</span>
             </div>
-            <input type="number" id="dobaRefin" value="20">
+            <input type="text" id="dobaRefin" value="20">
+            <div id="dobaRefin-chyba" class="chyba-text"></div>
         </div>
         
         <button id="vypocitatRefin">Vypočítat</button>

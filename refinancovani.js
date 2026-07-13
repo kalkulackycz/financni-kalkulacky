@@ -10,40 +10,67 @@
 window.addEventListener("DOMContentLoaded", function() {
     let mujGrafRefin = null;
 
-    // Funkce pro formátování vstupu
-    function zapnoutFormatovani(inputId) {
+    // Pomocná funkce pro validaci
+    function validujInput(input, chybaId, napoveda, podminka) {
+        if (!podminka) {
+            document.getElementById(chybaId).innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
+            document.getElementById(chybaId).style.display = "block";
+            input.classList.add("input-chyba");
+            return false;
+        } else {
+            document.getElementById(chybaId).style.display = "none";
+            input.classList.remove("input-chyba");
+            return true;
+        }
+    }
+
+    // Funkce pro formátování a validaci vstupu
+    function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
         const el = document.getElementById(inputId);
-        // Formátujeme až když uživatel vyjede z políčka
         el.addEventListener('blur', function(e) {
             let val = e.target.value.replace(/\s/g, '');
-            if (val !== "" && !isNaN(val)) {
-                e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+            if (val !== "" && !isNaN(val.replace(",", "."))) {
+                if (inputId === 'zbytekDluhu') {
+                    e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+                }
             }
+            validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
         });
-        // Při kliknutí do pole zase odstraníme mezery pro snadnou editaci
         el.addEventListener('focus', function(e) {
             e.target.value = e.target.value.replace(/\s/g, '');
         });
     }
-    zapnoutFormatovani('zbytekDluhu');
 
     document.getElementById("vypocitatRefin").addEventListener("click", function() {
         const chybovaHlaska = document.getElementById("chybova-hlaska");
         if (chybovaHlaska) chybovaHlaska.style.display = "none";
-        const P = parseFloat(document.getElementById("zbytekDluhu").value.replace(/\s/g, ''));
-        const staryUrokRocni = parseFloat(document.getElementById("staryUrok").value);
-        const novyUrokRocni = parseFloat(document.getElementById("novyUrok").value);
-        const n = parseFloat(document.getElementById("dobaRefin").value) * 12;
+
+        const jistinaInput = document.getElementById("zbytekDluhu");
+        const staryUrokInput = document.getElementById("staryUrok");
+        const novyUrokInput = document.getElementById("novyUrok");
+        const dobaInput = document.getElementById("dobaRefin");
+
+        const P = parseFloat(jistinaInput.value.replace(/\s/g, ''));
+        const staryUrokRocni = parseFloat(staryUrokInput.value.replace(",", "."));
+        const novyUrokRocni = parseFloat(novyUrokInput.value.replace(",", "."));
+        const roky = parseFloat(dobaInput.value);
+
+        const jeJistinaOk = !isNaN(P) && P > 0;
+        const jeStaryUrokOk = !isNaN(staryUrokRocni) && staryUrokRocni >= 0;
+        const jeNovyUrokOk = !isNaN(novyUrokRocni) && novyUrokRocni >= 0;
+        const jeDobaOk = !isNaN(roky) && roky > 0;
+
+        validujInput(jistinaInput, "zbytekDluhu-chyba", "Např.: 2 000 000", jeJistinaOk);
+        validujInput(staryUrokInput, "staryUrok-chyba", "Např.: 5,9", jeStaryUrokOk);
+        validujInput(novyUrokInput, "novyUrok-chyba", "Např.: 4,2", jeNovyUrokOk);
+        validujInput(dobaInput, "dobaRefin-chyba", "Např.: 20", jeDobaOk);
+
+        if (!jeJistinaOk || !jeStaryUrokOk || !jeNovyUrokOk || !jeDobaOk) return;
+
+        const n = roky * 12;
+
         const rStary = staryUrokRocni / 100 / 12;
         const rNovy = novyUrokRocni / 100 / 12;
-
-        if (isNaN(P) || isNaN(staryUrokRocni) || isNaN(novyUrokRocni) || isNaN(n) || P <= 0) {
-            if (chybovaHlaska) {
-                chybovaHlaska.textContent = "Prosím, vyplňte všechny hodnoty správně.";
-                chybovaHlaska.style.display = "block";
-            }
-            return;
-        }
 
         const staryVysledek = P * (rStary * Math.pow(1 + rStary, n)) / (Math.pow(1 + rStary, n) - 1);
         const novyVysledek = P * (rNovy * Math.pow(1 + rNovy, n)) / (Math.pow(1 + rNovy, n) - 1);
@@ -93,6 +120,11 @@ window.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+
+    zapnoutFormatovani('zbytekDluhu', 'zbytekDluhu-chyba', 'Např.: 2 000 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
+    zapnoutFormatovani('staryUrok', 'staryUrok-chyba', 'Např.: 5,9', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
+    zapnoutFormatovani('novyUrok', 'novyUrok-chyba', 'Např.: 4,2', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
+    zapnoutFormatovani('dobaRefin', 'dobaRefin-chyba', 'Např.: 20', v => !isNaN(v) && parseFloat(v) > 0);
 
     // OPRAVENO: Sekvenční řetězení Enteru pro refinancování
     const inputZbytek = document.getElementById("zbytekDluhu");
