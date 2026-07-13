@@ -10,18 +10,44 @@
 window.addEventListener("DOMContentLoaded", function() {
     let mujGrafMimoradna = null;
 
+    // Funkce pro formátování vstupu
+    function zapnoutFormatovani(inputId) {
+        const el = document.getElementById(inputId);
+        // Formátujeme až když uživatel vyjede z políčka
+        el.addEventListener('blur', function(e) {
+            let val = e.target.value.replace(/\s/g, '');
+            if (val !== "" && !isNaN(val)) {
+                e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+            }
+        });
+        // Při kliknutí do pole zase odstraníme mezery pro snadnou editaci
+        el.addEventListener('focus', function(e) {
+            e.target.value = e.target.value.replace(/\s/g, '');
+        });
+    }
+    zapnoutFormatovani('aktualniDluh');
+    zapnoutFormatovani('vyskaSplatky');
+
     document.getElementById("vypocitatMimoradnou").addEventListener("click", function() {
-        const dluh = parseFloat(document.getElementById("aktualniDluh").value);
+        const chybovaHlaska = document.getElementById("chybova-hlaska");
+        if (chybovaHlaska) chybovaHlaska.style.display = "none";
+        const dluh = parseFloat(document.getElementById("aktualniDluh").value.replace(/\s/g, ''));
         const rocniSazba = parseFloat(document.getElementById("urokMimoradna").value);
         const roky = parseFloat(document.getElementById("zbyvajiciDoba").value);
-        const mimoradnaSplatka = parseFloat(document.getElementById("vyskaSplatky").value);
+        const mimoradnaSplatka = parseFloat(document.getElementById("vyskaSplatky").value.replace(/\s/g, ''));
 
         if (isNaN(dluh) || isNaN(rocniSazba) || isNaN(roky) || isNaN(mimoradnaSplatka) || dluh <= 0 || mimoradnaSplatka <= 0) {
-            alert("Prosím, vyplňte všechny hodnoty správně.");
+            if (chybovaHlaska) {
+                chybovaHlaska.textContent = "Prosím, vyplňte všechny hodnoty správně.";
+                chybovaHlaska.style.display = "block";
+            }
             return;
         }
         if (mimoradnaSplatka >= dluh) {
-            alert("Mimořádná splátka nemůže být vyšší než samotný dluh.");
+            if (chybovaHlaska) {
+                chybovaHlaska.textContent = "Mimořádná splátka nemůže být vyšší než samotný dluh.";
+                chybovaHlaska.style.display = "block";
+            }
             return;
         }
 
@@ -63,7 +89,24 @@ window.addEventListener("DOMContentLoaded", function() {
         mujGrafMimoradna = new Chart(ctx, {
             type: "doughnut",
             data: { labels: ["Nové úroky", "Čistá finanční úspora"], datasets: [{ data: [Math.round(Math.max(0, urokyNove)), Math.round(Math.max(0, usporaNaUrocich))], backgroundColor: ["#f97316", "#22c55e"] }] },
-            options: { responsive: true, plugins: { legend: { position: "bottom" } } }
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: "bottom" },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) label += ': ';
+                                if (context.parsed !== null) {
+                                    label += context.parsed.toLocaleString('cs-CZ') + ' Kč';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
         });
     }
 
@@ -83,3 +126,4 @@ window.addEventListener("DOMContentLoaded", function() {
 
     setTimeout(function() { document.getElementById("vypocitatMimoradnou").click(); }, 300);
 });
+

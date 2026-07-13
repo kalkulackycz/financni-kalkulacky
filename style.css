@@ -224,7 +224,42 @@ button:hover {
     text-decoration: underline;
 }
 
+/* --- STYLY PRO AMORTIZAČNÍ TABULKU --- */
+.tabulka-obal {
+    width: 100%;
+    overflow-x: auto; /* Pro mobily, aby tabulka nepřetékala */
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+#amortizacni-tabulka {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: right;
+}
+
+#amortizacni-tabulka th, #amortizacni-tabulka td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+#amortizacni-tabulka th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 600;
+}
+
+#amortizacni-tabulka tr:last-child td {
+    border-bottom: none;
+}
+
+#amortizacni-tabulka td:first-child, #amortizacni-tabulka th:first-child {
+    text-align: center;
+}
+
 /* --- RESPONZIVNÍ ÚPRAVY PRO MOBILY --- */
+
 @media (max-width: 500px) {
     body {
         padding: 20px 12px;

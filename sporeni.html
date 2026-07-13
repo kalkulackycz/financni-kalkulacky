@@ -23,10 +23,8 @@
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="mesicniVklad">Měsíční vklad (Kč):</label>
-                <span class="ikona-otaznik" aria-label="Nápověda k měsíčnímu vkladu">?</span>
-                <span class="bublina-text">Částka, kterou budete pravidelně každý měsíc odkládat na spořicí produkt.</span>
             </div>
-            <input type="number" id="mesicniVklad" value="3000" step="any">
+            <input type="text" id="mesicniVklad" value="5 000">
         </div>
         
         <div class="pole-s-napovedou">
@@ -48,6 +46,7 @@
         </div>
         
         <button id="vypocitatSporeni">Vypočítat</button>
+        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
         <h2 id="vysledekSporeni"></h2>
         <div id="detailySporeni" class="detaily"></div>
         <a href="inflace-vysvetlene.html" class="info-box">
@@ -76,3 +75,4 @@
     <script src="sporeni.js"></script>
 </body>
 </html>
+

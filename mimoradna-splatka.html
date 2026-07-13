@@ -22,11 +22,9 @@
         
         <div class="pole-s-napovedou">
             <div class="label-radek">
-                <label for="aktualniDluh">Současný zůstatek dluhu (Kč):</label>
-                <span class="ikona-otaznik" aria-label="Nápověda k současnému zůstatku dluhu">?</span>
-                <span class="bublina-text">Aktuální zbývající částka, kterou bance ještě celkově dlužíte.</span>
+                <label for="aktualniDluh">Aktuální dluh (Kč):</label>
             </div>
-            <input type="number" id="aktualniDluh" value="3000000" step="any">
+            <input type="text" id="aktualniDluh" value="2 000 000">
         </div>
         
         <div class="pole-s-napovedou">
@@ -49,14 +47,13 @@
 
         <div class="pole-s-napovedou">
             <div class="label-radek">
-                <label for="vyskaSplatky">Výše mimořádné splátky (Kč):</label>
-                <span class="ikona-otaznik" aria-label="Nápověda k výši mimořádné splátky">?</span>
-                <span class="bublina-text">Částka, kterou plánujete bance poslat jednorázově mimo pravidelnou splátku.</span>
+                <label for="vyskaSplatky">Výše splátky (Kč):</label>
             </div>
-            <input type="number" id="vyskaSplatky" value="200000" step="any">
+            <input type="text" id="vyskaSplatky" value="100 000">
         </div>
         
-        <button id="vypocitatMimoradnou">Vypočítat úsporu</button>
+        <button id="vypocitatMimoradnou">Vypočítat</button>
+        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
         <h2 id="vysledekMimoradna" style="text-align: center;"></h2>
         <div id="detailyMimoradna" class="detaily"></div>
         <a href="inflace-vysvetlene.html" class="info-box">
@@ -85,3 +82,4 @@
     <script src="mimoradna.js"></script>
 </body>
 </html>
+

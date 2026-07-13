@@ -22,11 +22,9 @@
         
         <div class="pole-s-napovedou">
             <div class="label-radek">
-                <label for="zbytekDluhu">Zbývající výše úvěru (Kč):</label>
-                <span class="ikona-otaznik" aria-label="Nápověda ke zbývající výši úvěru">?</span>
-                <span class="bublina-text">Aktuální dlužná částka, kterou musíte bance ještě celkově doplatit.</span>
+                <label for="zbytekDluhu">Zbývající jistina (Kč):</label>
             </div>
-            <input type="number" id="zbytekDluhu" value="1500000" step="any">
+            <input type="text" id="zbytekDluhu" value="2 000 000">
         </div>
         
         <div class="pole-s-napovedou">
@@ -56,7 +54,8 @@
             <input type="number" id="dobaRefin" value="20">
         </div>
         
-        <button id="vypocitatRefin">Vypočítat úsporu</button>
+        <button id="vypocitatRefin">Vypočítat</button>
+        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
         <h2 id="vysledekRefin" style="text-align: center;"></h2>
         <div id="detailyRefin" class="detaily"></div>
         <a href="rpsn-vysvetlene.html" class="info-box">
@@ -85,3 +84,4 @@
     <script src="refinancovani.js"></script>
 </body>
 </html>
+

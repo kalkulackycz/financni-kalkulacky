@@ -13,10 +13,34 @@
 window.addEventListener("DOMContentLoaded", function() {
     let mujGrafMzda = null;
 
+    // Funkce pro formátování vstupu
+    function zapnoutFormatovani(inputId) {
+        const el = document.getElementById(inputId);
+        // Formátujeme až když uživatel vyjede z políčka
+        el.addEventListener('blur', function(e) {
+            let val = e.target.value.replace(/\s/g, '');
+            if (val !== "" && !isNaN(val)) {
+                e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+            }
+        });
+        // Při kliknutí do pole zase odstraníme mezery pro snadnou editaci
+        el.addEventListener('focus', function(e) {
+            e.target.value = e.target.value.replace(/\s/g, '');
+        });
+    }
+    zapnoutFormatovani('hrubaMzda');
+
     document.getElementById("vypocitatMzdu").addEventListener("click", function() {
-        const hruba = parseFloat(document.getElementById("hrubaMzda").value);
+        const chybovaHlaska = document.getElementById("chybova-hlaska");
+        if (chybovaHlaska) chybovaHlaska.style.display = "none";
+
+        const hruba = parseFloat(document.getElementById("hrubaMzda").value.replace(/\s/g, ''));
 
         if (isNaN(hruba) || hruba <= 0) {
+            if (chybovaHlaska) {
+                chybovaHlaska.textContent = "Prosím, zadejte platnou hrubou mzdu.";
+                chybovaHlaska.style.display = "block";
+            }
             return;
         }
 
@@ -51,7 +75,24 @@ window.addEventListener("DOMContentLoaded", function() {
                     labels: ["Čistá mzda", "Sociální pojištění", "Zdravotní pojištění", "Daň z příjmu"],
                     datasets: [{ data: [cistaMzda, socPoj, zdravPoj, cistaDan], backgroundColor: ["#22c55e", "#4f46e5", "#f97316", "#ef4444"] }]
                 },
-                options: { responsive: true, plugins: { legend: { position: "bottom" } } }
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: "bottom" },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) label += ': ';
+                                    if (context.parsed !== null) {
+                                        label += context.parsed.toLocaleString('cs-CZ') + ' Kč';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
             });
         }
     });
@@ -74,3 +115,4 @@ window.addEventListener("DOMContentLoaded", function() {
         if (tlacitkoStart) tlacitkoStart.click();
     }
 });
+

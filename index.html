@@ -26,7 +26,7 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k výši úvěru">?</span>
                 <span class="bublina-text">Zadejte celkovou částku, kterou si plánujete od banky půjčit na pořízení nemovitosti.</span>
             </div>
-            <input type="number" id="castka" value="3000000" step="any">
+            <input type="text" id="castka" value="3 000 000">
         </div>
         
         <div class="pole-s-napovedou">
@@ -48,12 +48,36 @@
         </div>
         
         <button id="vypocitat">Vypočítat</button>
+        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
         <h2 id="vysledek"></h2>
         <div id="detaily" class="detaily"></div>
         <a href="kolik-pujcit-hypoteka.html" class="info-box">
             💡 Kolik si vůbec můžu půjčit? <span>Zjisti to →</span>
         </a>
         <canvas id="graf" width="400" height="300"></canvas>
+
+        <div id="sekce-tabulka" style="margin-top: 24px; display: none;">
+            <button id="tlacitko-tabulka" class="sekundarni-tlacitko">
+                Zobrazit splátkový kalendář <span class="sipka">↓</span>
+            </button>
+            <div id="obal-tabulky" style="display: none; margin-top: 16px;">
+                <h2 style="font-size: 18px; margin-bottom: 16px;">Splátkový kalendář (po letech)</h2>
+                <div class="tabulka-obal">
+                    <table id="amortizacni-tabulka">
+                        <thead>
+                            <tr>
+                                <th>Rok</th>
+                                <th>Splátka jistiny</th>
+                                <th>Splátka úroku</th>
+                                <th>Zůstatek dluhu</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
             <h2>Časté otázky k hypotékám</h2>
             <div class="faq-polozka">
@@ -76,3 +100,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+

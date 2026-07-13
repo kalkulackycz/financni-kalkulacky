@@ -23,10 +23,8 @@
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="vysePujcky">Výše půjčky (Kč):</label>
-                <span class="ikona-otaznik" aria-label="Nápověda k výši půjčky">?</span>
-                <span class="bublina-text">Celková finanční částka, kterou si chcete od poskytovatele zapůjčit.</span>
             </div>
-            <input type="number" id="vysePujcky" value="100000" step="any">
+            <input type="text" id="vysePujcky" value="100 000">
         </div>
         
         <div class="pole-s-napovedou">
@@ -57,6 +55,7 @@
         </div>
         
         <button id="vypocitatPujcka">Vypočítat</button>
+        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
         <h2 id="vysledekPujcka"></h2>
         <div id="detailyPujcka" class="detaily"></div>
         <a href="rpsn-vysvetlene.html" class="info-box">
@@ -85,3 +84,4 @@
     <script src="pujcka.js"></script>
 </body>
 </html>
+

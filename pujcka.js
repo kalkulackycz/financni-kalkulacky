@@ -10,15 +10,37 @@
 window.addEventListener("DOMContentLoaded", function() {
     let mujGrafPujcka = null;
 
+    // Funkce pro formátování vstupu
+    function zapnoutFormatovani(inputId) {
+        const el = document.getElementById(inputId);
+        // Formátujeme až když uživatel vyjede z políčka
+        el.addEventListener('blur', function(e) {
+            let val = e.target.value.replace(/\s/g, '');
+            if (val !== "" && !isNaN(val)) {
+                e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+            }
+        });
+        // Při kliknutí do pole zase odstraníme mezery pro snadnou editaci
+        el.addEventListener('focus', function(e) {
+            e.target.value = e.target.value.replace(/\s/g, '');
+        });
+    }
+    zapnoutFormatovani('vysePujcky');
+
     document.getElementById("vypocitatPujcka").addEventListener("click", function() {
-        const P = parseFloat(document.getElementById("vysePujcky").value);
+        const chybovaHlaska = document.getElementById("chybova-hlaska");
+        if (chybovaHlaska) chybovaHlaska.style.display = "none";
+        const P = parseFloat(document.getElementById("vysePujcky").value.replace(/\s/g, ''));
         const rocniSazba = parseFloat(document.getElementById("urokPujcka").value);
         const poplatek = parseFloat(document.getElementById("poplatek").value);
         const n = parseFloat(document.getElementById("dobaPujcka").value) * 12;
         const r = rocniSazba / 100 / 12;
 
         if (isNaN(P) || isNaN(rocniSazba) || isNaN(poplatek) || isNaN(n) || P <= 0) {
-            alert("Prosím, vyplňte všechny hodnoty správně.");
+            if (chybovaHlaska) {
+                chybovaHlaska.textContent = "Prosím, vyplňte všechny hodnoty správně.";
+                chybovaHlaska.style.display = "block";
+            }
             return;
         }
 
@@ -49,7 +71,24 @@ window.addEventListener("DOMContentLoaded", function() {
                 labels: ["Jistina (půjčené peníze)", "Úroky", "Poplatek"],
                 datasets: [{ data: [P, Math.max(0, celkoveUroky), poplatek], backgroundColor: ["#4f46e5", "#f97316", "#ef4444"] }]
             },
-            options: { responsive: true, plugins: { legend: { position: "bottom" } } }
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: "bottom" },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) label += ': ';
+                                if (context.parsed !== null) {
+                                    label += context.parsed.toLocaleString('cs-CZ') + ' Kč';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
         });
     }
 
@@ -69,3 +108,4 @@ window.addEventListener("DOMContentLoaded", function() {
 
     setTimeout(function() { document.getElementById("vypocitatPujcka").click(); }, 300);
 });
+

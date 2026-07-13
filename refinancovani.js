@@ -1,5 +1,5 @@
 (function() {
-    var gTagUrl = "https://googletagmanager.cohttps://www.googletagmanager.com/gtag/js?id=G-2BW708HYKHm";
+    var gTagUrl = "https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH";
     var s1 = document.createElement("script"); s1.async = true; s1.src = gTagUrl; document.head.appendChild(s1);
     window.dataLayer = window.dataLayer || []; window.gtag = function() { dataLayer.push(arguments); };
     gtag('js', new Date()); gtag('config', 'G-2BW708HYKH');
@@ -10,8 +10,27 @@
 window.addEventListener("DOMContentLoaded", function() {
     let mujGrafRefin = null;
 
+    // Funkce pro formátování vstupu
+    function zapnoutFormatovani(inputId) {
+        const el = document.getElementById(inputId);
+        // Formátujeme až když uživatel vyjede z políčka
+        el.addEventListener('blur', function(e) {
+            let val = e.target.value.replace(/\s/g, '');
+            if (val !== "" && !isNaN(val)) {
+                e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+            }
+        });
+        // Při kliknutí do pole zase odstraníme mezery pro snadnou editaci
+        el.addEventListener('focus', function(e) {
+            e.target.value = e.target.value.replace(/\s/g, '');
+        });
+    }
+    zapnoutFormatovani('zbytekDluhu');
+
     document.getElementById("vypocitatRefin").addEventListener("click", function() {
-        const P = parseFloat(document.getElementById("zbytekDluhu").value);
+        const chybovaHlaska = document.getElementById("chybova-hlaska");
+        if (chybovaHlaska) chybovaHlaska.style.display = "none";
+        const P = parseFloat(document.getElementById("zbytekDluhu").value.replace(/\s/g, ''));
         const staryUrokRocni = parseFloat(document.getElementById("staryUrok").value);
         const novyUrokRocni = parseFloat(document.getElementById("novyUrok").value);
         const n = parseFloat(document.getElementById("dobaRefin").value) * 12;
@@ -19,7 +38,10 @@ window.addEventListener("DOMContentLoaded", function() {
         const rNovy = novyUrokRocni / 100 / 12;
 
         if (isNaN(P) || isNaN(staryUrokRocni) || isNaN(novyUrokRocni) || isNaN(n) || P <= 0) {
-            alert("Prosím, vyplňte všechny hodnoty správně.");
+            if (chybovaHlaska) {
+                chybovaHlaska.textContent = "Prosím, vyplňte všechny hodnoty správně.";
+                chybovaHlaska.style.display = "block";
+            }
             return;
         }
 
@@ -51,7 +73,24 @@ window.addEventListener("DOMContentLoaded", function() {
         mujGrafRefin = new Chart(ctx, {
             type: "doughnut",
             data: { labels: ["Zbývající jistina", "Nové budoucí úroky"], datasets: [{ data: [P, Math.max(0, noveCelkoveUroky)], backgroundColor: ["#4f46e5", "#f97316"] }] },
-            options: { responsive: true, plugins: { legend: { position: "bottom" } } }
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: "bottom" },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) label += ': ';
+                                if (context.parsed !== null) {
+                                    label += context.parsed.toLocaleString('cs-CZ') + ' Kč';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
         });
     }
 
@@ -71,3 +110,4 @@ window.addEventListener("DOMContentLoaded", function() {
 
     setTimeout(function() { document.getElementById("vypocitatRefin").click(); }, 300);
 });
+

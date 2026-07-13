@@ -26,10 +26,11 @@
                 <span class="ikona-otaznik" aria-label="Nápověda k hrubé mzdě">?</span>
                 <span class="bublina-text">Vaše měsíční mzda sjednaná v pracovní smlouvě před odečtením daní a pojištění.</span>
             </div>
-            <input type="number" id="hrubaMzda" value="45000">
+            <input type="text" id="hrubaMzda" value="45 000">
         </div>
         
         <button id="vypocitatMzdu">Vypočítat čistou mzdu</button>
+        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
         
         <h2 id="vysledekMzda" style="text-align: center; margin-top: 20px;"></h2>
         <div id="detailyMzda" class="detaily"></div>
@@ -63,3 +64,4 @@
     <script src="mzda.js"></script>
 </body>
 </html>
+
