@@ -10,6 +10,26 @@
 })();
 
 window.addEventListener("DOMContentLoaded", function() {
+    // Globální logika pro otazníky (PC hover / Mobil klik)
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('ikona-otaznik') || e.target.closest('.tabulka-napoveda')) {
+            const target = e.target.closest('.tabulka-napoveda') || e.target;
+            const bublina = target.nextElementSibling;
+            if (bublina && bublina.classList.contains('bublina-text')) {
+                document.querySelectorAll('.bublina-text').forEach(b => {
+                    if (b !== bublina) b.classList.remove('aktivni');
+                });
+                bublina.classList.toggle('aktivni');
+                if (bublina.classList.contains('aktivni')) {
+                    setTimeout(() => bublina.classList.remove('aktivni'), 3000);
+                }
+                e.stopPropagation();
+            }
+        } else {
+            document.querySelectorAll('.bublina-text').forEach(b => b.classList.remove('aktivni'));
+        }
+    });
+
     let mujGraf = null;
 
     // Pomocná funkce pro validaci
@@ -25,7 +45,6 @@ window.addEventListener("DOMContentLoaded", function() {
             return true;
         }
     }
-
     document.getElementById("vypocitat").addEventListener("click", function() {
         const chybovaHlaska = document.getElementById("chybova-hlaska");
         if (chybovaHlaska) chybovaHlaska.style.display = "none";
@@ -75,7 +94,7 @@ window.addEventListener("DOMContentLoaded", function() {
         for (let m = 1; m <= n; m++) {
             const urokVtomtoMesici = zbyvajiciJistina * r;
             const jistinaVtomtoMesici = mesicniSplatka - urokVtomtoMesici;
-            
+
             kumulovanyUrokRok += urokVtomtoMesici;
             kumulovanaJistinaRok += jistinaVtomtoMesici;
             zbyvajiciJistina -= jistinaVtomtoMesici;
@@ -86,7 +105,7 @@ window.addEventListener("DOMContentLoaded", function() {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `<td>${rok}</td><td>${Math.round(kumulovanaJistinaRok).toLocaleString("cs-CZ")} Kč</td><td>${Math.round(kumulovanyUrokRok).toLocaleString("cs-CZ")} Kč</td><td>${Math.max(0, Math.round(zbyvajiciJistina)).toLocaleString("cs-CZ")} Kč</td>`;
                 tabulkaTelo.appendChild(tr);
-                
+
                 // Vynulovat kumulátory pro další rok
                 kumulovanyUrokRok = 0;
                 kumulovanaJistinaRok = 0;

@@ -8,6 +8,26 @@
 })();
 
 window.addEventListener("DOMContentLoaded", function() {
+    // Inicializace klikacích otazníků
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('ikona-otaznik') || e.target.closest('.tabulka-napoveda')) {
+            const target = e.target.closest('.tabulka-napoveda') || e.target;
+            const bublina = target.nextElementSibling;
+            if (bublina && bublina.classList.contains('bublina-text')) {
+                document.querySelectorAll('.bublina-text').forEach(b => {
+                    if (b !== bublina) b.classList.remove('aktivni');
+                });
+                bublina.classList.toggle('aktivni');
+                if (bublina.classList.contains('aktivni')) {
+                    setTimeout(() => bublina.classList.remove('aktivni'), 3000);
+                }
+                e.stopPropagation();
+            }
+        } else {
+            document.querySelectorAll('.bublina-text').forEach(b => b.classList.remove('aktivni'));
+        }
+    });
+
     let mujGrafSporeni = null;
 
     // Pomocná funkce pro validaci
@@ -32,7 +52,7 @@ window.addEventListener("DOMContentLoaded", function() {
                 if (inputId === 'mesicniVklad') {
                 e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
             }
-            }
+    }
             validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
         });
         el.addEventListener('focus', function(e) {

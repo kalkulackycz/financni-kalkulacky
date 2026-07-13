@@ -13,13 +13,15 @@ body {
     padding: 40px 20px;
 }
 
-/* --- NOVÉ MODERNÍ MENU SE SAMOSTATNÝMI TLAČÍTKY A ANIMACÍ MÁČKNUTÍ --- */
+
+/* ================= MENU ================= */
+
 .menu {
     display: flex;
-    gap: 8px; /* Vrácena mezera mezi samostatná tlačítka */
+    gap: 8px;
     margin-bottom: 24px;
     width: 100%;
-    max-width: 620px; /* Rozšířeno pro pohodlné mezery mezi 6 tlačítky */
+    max-width: 620px;
     align-items: stretch;
 }
 
@@ -30,54 +32,61 @@ body {
     justify-content: center;
     text-align: center;
     padding: 10px 4px;
-    background-color: #ffffff; /* Čistě bílý podklad tlačítek */
+    background-color: #ffffff;
     border-radius: 8px;
     text-decoration: none;
     color: #2d2d2d;
     font-weight: 600;
     font-size: 13px;
     line-height: 1.2;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04); /* Velmi jemný stín pro prémiový vzhled */
-    transition: background-color 0.15s, color 0.15s, transform 0.1s, box-shadow 0.1s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    transition: background-color .15s, color .15s, transform .1s;
     cursor: pointer;
 }
 
-/* Efekt při najetí myší na neaktivní tlačítko */
 .menu a:hover:not(.aktivni) {
     background-color: #f8fafc;
     color: #4f46e5;
-    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.08); /* Mírné rozsvícení stínu */
 }
 
-/* AKTIVNÍ TLAČÍTKO: Fialový podklad s efektem hloubky (zatlačení) */
 .menu a.aktivni {
     background-color: #4f46e5;
     color: #ffffff;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05); /* Vnitřní stín simuluje stlačení */
+    box-shadow:
+        inset 0 2px 4px rgba(0,0,0,.15),
+        0 1px 2px rgba(0,0,0,.05);
 }
 
-/* --- MECHANICKÁ ANIMACE ZMÁČKNUTÍ --- */
-/* Při fyzickém kliknutí myší se tlačítko mírně posune o 2px dolů and zmenší se jeho stín */
 .menu a:active {
     transform: translateY(2px);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
-/* --- ZBYTEK STYLŮ ZŮSTÁVÁ NETKNUTÝ --- */
+
+/* ================= HLAVNÍ KONTEJNER ================= */
+
 .kalkulacka {
     background: white;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px rgba(0,0,0,.08);
     padding: 32px;
     width: 100%;
     max-width: 480px;
 }
+
 
 h1 {
     font-size: 24px;
     margin-bottom: 24px;
     color: #1a1a2e;
 }
+
+
+h2 {
+    color: #1a1a2e;
+}
+
+
+/* ================= VSTUPY ================= */
 
 label {
     display: block;
@@ -88,6 +97,7 @@ label {
     margin-bottom: 6px;
 }
 
+
 input {
     width: 100%;
     padding: 10px 12px;
@@ -97,22 +107,27 @@ input {
     color: #1a1a2e;
 }
 
+
 input:focus {
     outline: none;
     border-color: #4f46e5;
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    box-shadow: 0 0 0 3px rgba(79,70,229,.1);
 }
+
 
 input[type="range"] {
     margin-top: 10px;
-    width: 100%;
     cursor: pointer;
 }
+
+
+/* chyba vstupu */
 
 .input-chyba {
     border-color: #ef4444 !important;
     background-color: #fef2f2;
 }
+
 
 .chyba-text {
     color: #ef4444;
@@ -121,6 +136,7 @@ input[type="range"] {
     display: none;
 }
 
+
 .napoveda-format {
     display: block;
     font-size: 11px;
@@ -128,6 +144,9 @@ input[type="range"] {
     margin-top: 2px;
     font-style: italic;
 }
+
+
+/* ================= TLAČÍTKO ================= */
 
 button {
     width: 100%;
@@ -140,21 +159,31 @@ button {
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color .2s;
 }
+
 
 button:hover {
     background-color: #4338ca;
 }
 
-#vysledek, #vysledekSporeni, #vysledekPujcka, #vysledekMzda {
+
+/* ================= VÝSLEDKY ================= */
+
+#vysledek,
+#vysledekSporeni,
+#vysledekPujcka,
+#vysledekMzda {
+
     margin-top: 20px;
     font-size: 20px;
     color: #1a1a2e;
     text-align: center;
 }
 
+
 .detaily {
+
     margin-top: 12px;
     font-size: 14px;
     color: #334155;
@@ -162,248 +191,444 @@ button:hover {
     line-height: 1.6;
 }
 
-#graf, #grafSporeni, #grafPujcka, #grafRefin, #grafMimoradna, #grafMzda {
-    display: block;
-    max-width: 100%;
-    margin: 24px auto 0 auto;
+
+#detailyMzda {
+
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 8px;
 }
 
-.paticka {
-    margin-top: 24px;
-    max-width: 480px;
-    text-align: center;
-    font-size: 12px;
-    color: #64748b;
-    line-height: 1.5;
+
+#detailyMzda p {
+
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+}
+/* ================= GRAF ================= */
+
+#graf,
+#grafSporeni,
+#grafPujcka,
+#grafRefin,
+#grafMimoradna,
+#grafMzda {
+
+    display:block;
+    max-width:100%;
+    margin:24px auto 0 auto;
 }
 
-.clanek {
-    text-align: left;
+
+#grafMzda {
+
+    max-width:380px;
 }
 
-.uvod {
-    font-size: 15px;
-    line-height: 1.6;
-    color: #1e293b;
-    margin-top: 8px;
-}
 
-.clanek h2 {
-    font-size: 17px;
-    margin-top: 24px;
-    margin-bottom: 12px;
-    color: #1a1a2e;
-}
-
-.faq-polozka {
-    margin-bottom: 16px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.faq-polozka h3 {
-    font-size: 15px;
-    color: #3730a3;
-    margin-bottom: 6px;
-}
-
-.faq-polozka p {
-    font-size: 14px;
-    color: #334155;
-    line-height: 1.5;
-}
-
-.zpet-odkaz {
-    display: inline-block;
-    margin-top: 16px;
-    color: #3730a3;
-    font-weight: 600;
-    font-size: 14px;
-    text-decoration: none;
-}
-
-.zpet-odkaz:hover {
-    text-decoration: underline;
-}
+/* ================= INFO BOX ================= */
 
 .info-box {
-    display: block;
-    margin-top: 20px;
-    padding: 14px 16px;
-    background-color: #e0e7ff;
-    border: 1px solid #b4c6fc;
-    border-radius: 8px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 14px;
-    color: #1e1b4b;
-    font-weight: 600;
-    transition: background-color 0.2s;
+
+    display:block;
+    margin-top:20px;
+    padding:14px 16px;
+    background-color:#e0e7ff;
+    border:1px solid #b4c6fc;
+    border-radius:8px;
+    text-align:center;
+    text-decoration:none;
+    font-size:14px;
+    color:#1e1b4b;
+    font-weight:600;
+    transition:background-color .2s;
 }
+
 
 .info-box:hover {
-    background-color: #c7d2fe;
+
+    background-color:#c7d2fe;
 }
+
 
 .info-box span {
-    color: #3730a3;
-    text-decoration: underline;
+
+    color:#3730a3;
+    text-decoration:underline;
 }
 
-/* --- STYLY PRO AMORTIZAČNÍ TABULKU --- */
-.tabulka-obal {
-    width: 100%;
-    overflow-x: auto; /* Pro mobily, aby tabulka nepřetékala */
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
+
+/* ================= ČLÁNEK ================= */
+
+.clanek {
+
+    text-align:left;
 }
+
+
+.uvod {
+
+    font-size:15px;
+    line-height:1.6;
+    color:#1e293b;
+    margin-top:8px;
+}
+
+
+.clanek h2 {
+
+    font-size:17px;
+    margin-top:24px;
+    margin-bottom:12px;
+    color:#1a1a2e;
+}
+
+
+.faq-polozka {
+
+    margin-bottom:16px;
+    padding-bottom:16px;
+    border-bottom:1px solid #e2e8f0;
+}
+
+
+.faq-polozka h3 {
+
+    font-size:15px;
+    color:#3730a3;
+    margin-bottom:6px;
+}
+
+
+.faq-polozka p {
+
+    font-size:14px;
+    color:#334155;
+    line-height:1.5;
+}
+
+
+/* ================= PATIČKA ================= */
+
+.paticka {
+
+    margin-top:24px;
+    max-width:480px;
+    text-align:center;
+    font-size:12px;
+    color:#64748b;
+    line-height:1.5;
+}
+
+
+/* ================= ODKAZY ================= */
+
+.zpet-odkaz {
+
+    display:inline-block;
+    margin-top:16px;
+    color:#3730a3;
+    font-weight:600;
+    font-size:14px;
+    text-decoration:none;
+}
+
+
+.zpet-odkaz:hover {
+
+    text-decoration:underline;
+}
+
+
+/* ================= TABULKY ================= */
+
+.tabulka-obal {
+
+    width:100%;
+    overflow-x:auto;
+    border:1px solid #e2e8f0;
+    border-radius:8px;
+}
+
 
 #amortizacni-tabulka {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-    text-align: right;
+
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+    text-align:right;
 }
 
-#amortizacni-tabulka th, #amortizacni-tabulka td {
-    padding: 10px 8px;
-    border-bottom: 1px solid #e2e8f0;
+
+#amortizacni-tabulka th,
+#amortizacni-tabulka td {
+
+    padding:10px 8px;
+    border-bottom:1px solid #e2e8f0;
 }
+
 
 #amortizacni-tabulka th {
-    background-color: #f8fafc;
-    color: #475569;
-    font-weight: 600;
+
+    background:#f8fafc;
+    color:#475569;
+    font-weight:600;
 }
+
 
 #amortizacni-tabulka tr:last-child td {
-    border-bottom: none;
+
+    border-bottom:none;
 }
 
-#amortizacni-tabulka td:first-child, #amortizacni-tabulka th:first-child {
-    text-align: center;
+
+#amortizacni-tabulka td:first-child,
+#amortizacni-tabulka th:first-child {
+
+    text-align:center;
 }
 
-/* --- RESPONZIVNÍ ÚPRAVY PRO MOBILY --- */
 
-@media (max-width: 500px) {
-    body {
-        padding: 20px 12px;
-    }
+/* ================= NÁPOVĚDA ================= */
 
-    .kalkulacka {
-        padding: 20px;
-    }
-
-    h1 {
-        font-size: 20px;
-    }
-
-    .menu {
-        gap: 4px;
-        padding: 0;
-    }
-
-    .menu a {
-        font-size: 10px;
-        padding: 8px 2px;
-    }
-
-    #vysledek, #vysledekSporeni, #vysledekPujcka, #vysledekRefin, #vysledekMzda {
-        font-size: 17px;
-    }
-
-    input, button {
-        font-size: 16px;
-    }
-}
-
-/* --- STYLACE PRO IKONY OTAZNÍKŮ A BUBLINY --- */
 .pole-s-napovedou {
-    position: relative;
-    width: 100%;
+
+    position:relative;
+    width:100%;
 }
+
 
 .label-radek {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 16px;
-    margin-bottom: 6px;
-    position: relative;
+
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-top:16px;
+    margin-bottom:6px;
+    position:relative;
 }
+
 
 .label-radek label {
-    margin: 0;
+
+    margin:0;
 }
+
 
 .ikona-otaznik {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 16px;
-    height: 16px;
-    background-color: #64748b;
-    color: #ffffff;
-    border-radius: 50%;
-    font-size: 11px;
-    font-weight: bold;
-    cursor: help;
-    transition: background-color 0.2s, color 0.2s;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:16px;
+    height:16px;
+    background:#64748b;
+    color:white;
+    border-radius:50%;
+    font-size:11px;
+    font-weight:bold;
+    cursor:help;
+    transition:.2s;
 }
+
 
 .ikona-otaznik:hover {
-    background-color: #4f46e5;
-    color: #ffffff;
+
+    background:#4f46e5;
 }
+
 
 .bublina-text {
-    visibility: hidden;
-    position: absolute;
-    bottom: calc(100% + 6px);
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #1e1b4b;
-    color: #ffffff;
-    text-align: center;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.4;
-    width: 260px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 99;
-    opacity: 0;
-    transition: opacity 0.2s, transform 0.2s;
-    pointer-events: none;
+
+    visibility:hidden;
+    position:absolute;
+    bottom:calc(100% + 6px);
+    left:50%;
+    transform:translateX(-50%);
+    background:#1e1b4b;
+    color:white;
+    text-align:center;
+    padding:8px 12px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:500;
+    line-height:1.4;
+    width:260px;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    z-index:99;
+    opacity:0;
+    transition:.2s;
+    pointer-events:none;
 }
+
 
 .bublina-text::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #1e1b4b transparent transparent transparent;
+
+    content:"";
+    position:absolute;
+    top:100%;
+    left:50%;
+    margin-left:-5px;
+    border-width:5px;
+    border-style:solid;
+    border-color:#1e1b4b transparent transparent transparent;
 }
+
 
 .ikona-otaznik:hover + .bublina-text {
-    visibility: visible;
-    opacity: 1;
+
+    visibility:visible;
+    opacity:1;
+}
+/* ================= DOPLŇKY PRO MZDU ================= */
+
+.vysledek-mzda {
+    font-size:24px;
+    font-weight:700;
+    color:#059669;
+    text-align:center;
+    margin-top:20px;
 }
 
-.pole-s-napovedou label {
-    display: inline-block;
-    margin-bottom: 6px;
+
+#mzda-tabulka {
+
+    width:100%;
+    margin-top:20px;
+    border-collapse:collapse;
+    font-size:14px;
 }
 
-.pole-s-napovedou .ikona-otaznik {
-    margin-left: 6px;
-    vertical-align: middle;
-    position: relative;
-    top: -2px;
+
+#mzda-tabulka td {
+
+    padding:8px;
+    border-bottom:1px solid #e2e8f0;
 }
 
+
+#mzda-tabulka td:last-child {
+
+    text-align:right;
+    font-weight:600;
+}
+
+
+/* ================= MOBIL ================= */
+
+@media (max-width:500px) {
+
+    body {
+
+        padding:20px 12px;
+    }
+
+
+    .kalkulacka {
+
+        padding:20px;
+    }
+
+
+    h1 {
+
+        font-size:20px;
+    }
+
+
+    .menu {
+
+        gap:4px;
+        padding:0;
+    }
+
+
+    .menu a {
+
+        font-size:10px;
+        padding:8px 2px;
+    }
+
+
+    #vysledek,
+    #vysledekSporeni,
+    #vysledekPujcka,
+    #vysledekRefin,
+    #vysledekMzda {
+
+        font-size:17px;
+    }
+
+
+    input,
+    button {
+
+        font-size:16px;
+    }
+
+
+    #grafMzda {
+
+        width:100%!important;
+        height:auto!important;
+    }
+
+
+    .bublina-text {
+
+        width:220px;
+    }
+
+
+}
+
+
+/* ================= OSTATNÍ KALKULAČKY ================= */
+
+.vysledek-box {
+
+    margin-top:20px;
+    padding:15px;
+    background:#f8fafc;
+    border-radius:8px;
+}
+
+
+/* zvýraznění částek */
+
+.castka {
+
+    font-weight:700;
+    color:#059669;
+}
+
+
+/* jemný oddělovač */
+
+.oddeleni {
+
+    border-top:1px solid #e2e8f0;
+    margin:20px 0;
+}
+
+
+/* zabránění přetečení */
+
+canvas {
+
+    max-width:100%;
+}
+
+
+/* lepší vzhled na tabletech */
+
+@media (min-width:501px) and (max-width:800px) {
+
+    .kalkulacka {
+
+        max-width:520px;
+    }
+
+}

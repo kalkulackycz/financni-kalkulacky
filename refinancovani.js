@@ -8,6 +8,26 @@
 })();
 
 window.addEventListener("DOMContentLoaded", function() {
+    // Inicializace klikacích otazníků
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('ikona-otaznik') || e.target.closest('.tabulka-napoveda')) {
+            const target = e.target.closest('.tabulka-napoveda') || e.target;
+            const bublina = target.nextElementSibling;
+            if (bublina && bublina.classList.contains('bublina-text')) {
+                document.querySelectorAll('.bublina-text').forEach(b => {
+                    if (b !== bublina) b.classList.remove('aktivni');
+                });
+                bublina.classList.toggle('aktivni');
+                if (bublina.classList.contains('aktivni')) {
+                    setTimeout(() => bublina.classList.remove('aktivni'), 3000);
+                }
+                e.stopPropagation();
+            }
+        } else {
+            document.querySelectorAll('.bublina-text').forEach(b => b.classList.remove('aktivni'));
+        }
+    });
+
     let mujGrafRefin = null;
 
     // Pomocná funkce pro validaci

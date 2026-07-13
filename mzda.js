@@ -1,143 +1,572 @@
-// AUTOMATICKÉ NAČTENÍ EXTERNÍCH SOUBORŮ (Verze 0.12)
-(function() {
-    var gTagUrl = "https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH";
-    var s1 = document.createElement("script"); s1.async = true; s1.src = gTagUrl; document.head.appendChild(s1);
-    window.dataLayer = window.dataLayer || []; window.gtag = function() { dataLayer.push(arguments); };
-    gtag('js', new Date()); gtag('config', 'G-2BW708HYKH');
-    var chartUrl = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js";
-    var s2 = document.createElement("script"); s2.src = chartUrl;
-    s2.onload = function() { window.ChartJsPripraven = true; var tlacitko = document.getElementById("vypocitatMzdu"); if (tlacitko) tlacitko.click(); };
-    document.head.appendChild(s2);
-})();
+window.addEventListener("DOMContentLoaded", function () {
 
-window.addEventListener("DOMContentLoaded", function() {
-    let mujGrafMzda = null;
+const CONFIG = {
 
-    // Pomocná funkce pro validaci
-    function validujInput(input, chybaId, napoveda, podminka) {
-        if (!podminka) {
-            document.getElementById(chybaId).innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
-            document.getElementById(chybaId).style.display = "block";
-            input.classList.add("input-chyba");
-            return false;
-        } else {
-            document.getElementById(chybaId).style.display = "none";
-            input.classList.remove("input-chyba");
-            return true;
-        }
-    }
-    // Funkce pro formátování a validaci vstupu
-    function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
-        const el = document.getElementById(inputId);
-        el.addEventListener('blur', function(e) {
-            let val = e.target.value.replace(/\s/g, '');
-            if (val !== "" && !isNaN(val)) {
-                e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
-            }
-            validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
-        });
-        el.addEventListener('focus', function(e) {
-            e.target.value = e.target.value.replace(/\s/g, '');
-        });
-    }
-    document.getElementById("vypocitatMzdu").addEventListener("click", function() {
-        const chybovaHlaska = document.getElementById("chybova-hlaska");
-        if (chybovaHlaska) chybovaHlaska.style.display = "none";
+    SLEVA_POPLATNIK: 2570,
 
-        const hrubaInput = document.getElementById("hrubaMzda");
-        const hruba = parseFloat(hrubaInput.value.replace(/\s/g, ''));
+    INVALIDITA: {
+        1: 210,
+        2: 210,
+        3: 420
+    },
 
-        const jeHrubaOk = !isNaN(hruba) && hruba > 0;
+    SLEVA_ZTP: 1345,
 
-        validujInput(hrubaInput, "hrubaMzda-chyba", "Např.: 45 000", jeHrubaOk);
+    PRUMERNA_MZDA: 48967,
 
-        if (!jeHrubaOk) return;
-        // Aktuální sazebník odvodů zaměstnance
-        const szPojisteniSazba = 0.071; 
-        const zdPojisteniSazba = 0.045; 
-        const danSazba = 0.15;          
-        const slevaPoplatnik = 2570;    
+    get LIMIT_DAN_23_MESIC() {
+        return Math.floor((this.PRUMERNA_MZDA * 3) / 100) * 100;
+    },
 
-        // Výpočty jednotlivých složek
-        const socPoj = Math.ceil(hruba * szPojisteniSazba);
-        const zdravPoj = Math.ceil(hruba * zdPojisteniSazba);
-        
-        let danPredSlevou = Math.ceil(hruba * danSazba);
-        let cistaDan = danPredSlevou - slevaPoplatnik;
-        if (cistaDan < 0) cistaDan = 0; 
+    MIN_PRIJEM_ROCNI_BONUS: 134400,
 
-        const cistaMzda = hruba - socPoj - zdravPoj - cistaDan;
+    MAX_DANOVY_BONUS_MESIC: 5025,
 
-        document.getElementById("vysledekMzda").textContent = "Čistá mzda: " + Math.round(cistaMzda).toLocaleString("cs-CZ") + " Kč";
-        document.getElementById("detailyMzda").innerHTML =
-            "<p>Sociální pojištění: <strong>" + socPoj.toLocaleString("cs-CZ") + " Kč</strong></p>" +
-            "<p>Zdravotní pojištění: <strong>" + zdravPoj.toLocaleString("cs-CZ") + " Kč</strong></p>" +
-            "<p>Daň z příjmu po slevě: <strong>" + cistaDan.toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-        if (window.ChartJsPripraven && typeof Chart !== "undefined") {
-            if (mujGrafMzda !== null) mujGrafMzda.destroy();
-            const ctx = document.getElementById("grafMzda").getContext("2d");
-            mujGrafMzda = new Chart(ctx, {
-                type: "doughnut",
-                data: {
-                    labels: ["Čistá mzda", "Sociální pojištění", "Zdravotní pojištění", "Daň z příjmu"],
-                    datasets: [{ data: [cistaMzda, socPoj, zdravPoj, cistaDan], backgroundColor: ["#22c55e", "#4f46e5", "#f97316", "#ef4444"] }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: "bottom" },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) label += ': ';
-                                    if (context.parsed !== null) {
-                                        label += context.parsed.toLocaleString('cs-CZ') + ' Kč';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-    });
-
-    zapnoutFormatovani('hrubaMzda', 'hrubaMzda-chyba', 'Např.: 45 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
-
-    // Propojení slideru
-    const mzdaInput = document.getElementById("hrubaMzda");
-    const mzdaSlider = document.getElementById("hrubaMzda-slider");
-
-    mzdaSlider.addEventListener('input', function() {
-        mzdaInput.value = parseInt(mzdaSlider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
-        document.getElementById("vypocitatMzdu").click();
-    });
-    mzdaInput.addEventListener('input', function() {
-        let val = mzdaInput.value.replace(/\s/g, '');
-        if (!isNaN(val) && val !== '') {
-            mzdaSlider.value = val;
-        }
-    });
-
-    const inputHruba = document.getElementById("hrubaMzda");
-    const tlacitkoVypocitatMzdu = document.getElementById("vypocitatMzdu");
-
-    if (inputHruba && tlacitkoVypocitatMzdu) {
-        inputHruba.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                tlacitkoVypocitatMzdu.click();
-            }
-        });
+    DETI_SAZBY: {
+        1:1267,
+        2:1860,
+        3:2320
     }
 
-    // OPRAVENO: Název tlačítka změněn na správné vypocitatMzdu pro plynulý start grafu
-    if (window.ChartJsPripraven) {
-        var tlacitkoStart = document.getElementById("vypocitatMzdu");
-        if (tlacitkoStart) tlacitkoStart.click();
+};
+
+
+
+const hrubaInput = document.getElementById("hrubaMzda");
+const slider = document.getElementById("hrubaMzda-slider");
+
+const tlacitko = document.getElementById("vypocitatMzdu");
+
+const vysledek = document.getElementById("vysledekMzda");
+const detaily = document.getElementById("detailyMzda");
+
+const graf = document.getElementById("grafMzda");
+
+const pocetDeti = document.getElementById("pocetDeti");
+const ztpBox = document.getElementById("kontejner-ztp-deti");
+
+let mujGraf = null;
+
+
+
+function cislo(v){
+
+    return Number(
+        String(v)
+        .replace(/\s/g,"")
+        .replace(/\u00A0/g,"")
+    ) || 0;
+
+}
+
+
+
+
+function format(v){
+
+    return Math.round(v)
+    .toLocaleString("cs-CZ");
+
+}
+
+
+
+
+function generujZTP(){
+
+    if(!ztpBox) return;
+
+
+    let pocet = Number(pocetDeti.value);
+
+
+    ztpBox.innerHTML="";
+
+
+    for(let i=1;i<=pocet;i++){
+
+        ztpBox.innerHTML += `
+
+        <label>
+
+        <input 
+        type="checkbox"
+        class="ztp-dite"
+        value="${i}">
+
+        Dítě ${i} ZTP/P
+
+        </label>
+
+        `;
+
     }
+
+}
+
+
+
+
+function vypocitej(){
+
+
+let hruba = cislo(hrubaInput.value);
+
+
+
+if(hruba<=0)
+return;
+
+
+
+let deti = Number(pocetDeti.value)||0;
+
+
+
+let ztpDeti =
+[
+...document.querySelectorAll(".ztp-dite:checked")
+]
+.map(x=>Number(x.value));
+
+
+
+let poplatnik =
+document.getElementById("slevaPoplatnik").checked;
+
+
+
+let invalidita =
+Number(document.getElementById("invalidita").value);
+
+
+
+let ztp =
+document.getElementById("ztpP").checked;
+
+
+
+
+
+// odvody
+
+let socialni =
+Math.ceil(hruba*0.071);
+
+
+let zdravotni =
+Math.ceil(hruba*0.045);
+
+
+
+
+
+// daň
+
+let zaklad =
+Math.floor(hruba/100)*100;
+
+
+let dan;
+
+
+if(zaklad > CONFIG.LIMIT_DAN_23_MESIC){
+
+dan =
+Math.ceil(CONFIG.LIMIT_DAN_23_MESIC*0.15)
++
+Math.ceil(
+(zaklad-CONFIG.LIMIT_DAN_23_MESIC)*0.23
+);
+
+}else{
+
+
+dan =
+Math.ceil(zaklad*0.15);
+
+
+}
+
+
+
+
+
+// slevy
+
+let slevy = 0;
+
+
+if(poplatnik)
+slevy += CONFIG.SLEVA_POPLATNIK;
+
+
+if(CONFIG.INVALIDITA[invalidita])
+slevy += CONFIG.INVALIDITA[invalidita];
+
+
+if(ztp)
+slevy += CONFIG.SLEVA_ZTP;
+
+
+
+
+
+let danPoSleve = Math.max(
+0,
+dan-slevy
+);
+
+
+
+
+
+// děti
+
+let slevaDeti=0;
+
+
+for(let i=1;i<=deti;i++){
+
+let castka =
+CONFIG.DETI_SAZBY[Math.min(i,3)];
+
+
+if(ztpDeti.includes(i))
+castka*=2;
+
+
+slevaDeti+=castka;
+
+}
+
+
+
+
+
+let danPoDetech =
+danPoSleve-slevaDeti;
+
+
+
+let bonus=0;
+
+
+let danKPlaceni;
+
+
+
+if(danPoDetech<0){
+
+
+bonus=Math.min(
+Math.abs(danPoDetech),
+CONFIG.MAX_DANOVY_BONUS_MESIC
+);
+
+
+if(hruba*12 < CONFIG.MIN_PRIJEM_ROCNI_BONUS){
+
+bonus=0;
+
+}
+
+
+
+danKPlaceni=0;
+
+
+}else{
+
+
+danKPlaceni=danPoDetech;
+
+
+}
+
+
+
+
+
+
+
+let cista =
+
+hruba
+
+-socialni
+
+-zdravotni
+
+-danKPlaceni
+
++bonus;
+
+
+
+
+
+
+
+vysledek.textContent =
+
+"Čistý měsíční příjem: "
++
+format(cista)
++
+" Kč";
+
+
+
+
+
+detaily.innerHTML = `
+
+
+<p>
+Hrubá mzda:
+<strong>${format(hruba)} Kč</strong>
+</p>
+
+
+<p>
+Sociální pojištění:
+<strong>-${format(socialni)} Kč</strong>
+</p>
+
+
+<p>
+Zdravotní pojištění:
+<strong>-${format(zdravotni)} Kč</strong>
+</p>
+
+
+<p>
+Daň před slevami:
+<strong>${format(dan)} Kč</strong>
+</p>
+
+
+<p>
+Slevy na dani:
+<strong>-${format(slevy)} Kč</strong>
+</p>
+
+
+<p>
+Daňové zvýhodnění děti:
+<strong>-${format(slevaDeti)} Kč</strong>
+</p>
+
+
+${bonus>0?
+
+`
+<p>
+Daňový bonus:
+<strong>+${format(bonus)} Kč</strong>
+</p>
+`
+
+:""}
+
+
+
+<p>
+<b>
+Čistá mzda:
+${format(cista)} Kč
+</b>
+</p>
+
+
+`;
+
+
+
+
+
+if(window.Chart){
+
+
+if(mujGraf)
+mujGraf.destroy();
+
+
+mujGraf=new Chart(
+graf,
+{
+
+type:"doughnut",
+
+
+data:{
+
+
+labels:[
+
+"Čistá mzda",
+
+"Sociální",
+
+"Zdravotní",
+
+"Daň"
+
+],
+
+
+datasets:[{
+
+data:[
+
+cista,
+
+socialni,
+
+zdravotni,
+
+danKPlaceni
+
+]
+
+
+}]
+
+
+},
+
+
+
+options:{
+
+
+responsive:true,
+
+
+plugins:{
+
+
+legend:{
+
+
+position:"bottom"
+
+}
+
+
+}
+
+
+}
+
+
+}
+
+);
+
+
+
+}
+
+
+
+
+
+}
+
+
+
+
+
+
+// LISTENERY
+
+
+tlacitko.addEventListener(
+"click",
+vypocitej
+);
+
+
+
+slider.addEventListener(
+"input",
+function(){
+
+hrubaInput.value =
+format(this.value);
+
+vypocitej();
+
+}
+
+);
+
+
+
+hrubaInput.addEventListener(
+"input",
+function(){
+
+let v=cislo(this.value);
+
+
+if(v)
+slider.value=v;
+
+
+}
+);
+
+
+
+hrubaInput.addEventListener(
+"blur",
+function(){
+
+this.value=format(cislo(this.value));
+
+vypocitej();
+
+}
+);
+
+
+
+
+pocetDeti.addEventListener(
+"change",
+function(){
+
+generujZTP();
+
+vypocitej();
+
+}
+);
+
+
+
+document
+.querySelectorAll(
+"#slevaPoplatnik,#invalidita,#ztpP"
+)
+.forEach(
+e=>e.addEventListener(
+"change",
+vypocitej
+)
+);
+
+
+
+
+generujZTP();
+
+vypocitej();
+
+
+
 });
-
