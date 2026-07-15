@@ -35,6 +35,13 @@
             margin-bottom: 10px;
             color: #4f46e5;
         }
+        .odkazy-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -49,19 +56,28 @@
         <h1>Finanční Mapa</h1>
         <p class="uvod">"Pomáháme vám lépe se orientovat ve světě financí. Kalkulačky, vysvětlení a praktické průvodce na jednom místě."</p>
 
+        <h2 style="margin-top: 40px;">Oblasti financí</h2>
         <div class="karty-grid">
             <div class="karta"><h3>Bydlení</h3><p>Hypotéky a rozhodování o vlastním bydlení</p></div>
             <div class="karta"><h3>Osobní finance</h3><p>Mzda, spoření a lepší plánování peněz</p></div>
             <div class="karta"><h3>Úvěry</h3><p>Půjčky, refinancování a chytré splácení</p></div>
         </div>
 
+        <h2 style="margin-top: 40px;">Oblíbené kalkulačky</h2>
+        <div class="karty-grid">
+            <a href="index.html" class="karta"><h3>🏠 Hypoteční kalkulačka</h3></a>
+            <a href="sporeni.html" class="karta"><h3>💰 Kalkulačka spoření</h3></a>
+            <a href="pujcka.html" class="karta"><h3>💳 Kalkulačka půjčky</h3></a>
+            <a href="refinancovani.html" class="karta"><h3>🔄 Refinancování</h3></a>
+            <a href="mimoradna-splatka.html" class="karta"><h3>📉 Mimořádná splátka</h3></a>
+            <a href="mzda.html" class="karta"><h3>💼 Čistá mzda</h3></a>
+        </div>
+
         <h2 style="margin-top: 40px;">Finanční průvodci</h2>
-        <p>Vysvětlujeme finance jednoduše a srozumitelně.</p>
-        <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 30px;">
-            <a href="kolik-pujcit-hypoteka.html" class="karta"><h3>Jak funguje hypotéka</h3></a>
-            <a href="mzda-vysvetlene.html" class="karta"><h3>Čistá mzda vysvětlení</h3></a>
-            <a href="inflace-vysvetlene.html" class="karta"><h3>Inflace</h3></a>
-            <a href="rpsn-vysvetlene.html" class="karta"><h3>RPSN</h3></a>
+        <div class="odkazy-grid">
+            <a href="kolik-pujcit-hypoteka.html" class="zpet-odkaz">Jak funguje hypotéka</a> |
+            <a href="inflace-vysvetlene.html" class="zpet-odkaz">Inflace</a> |
+            <a href="rpsn-vysvetlene.html" class="zpet-odkaz">RPSN</a>
         </div>
 
     </div>
