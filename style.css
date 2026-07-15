@@ -516,6 +516,14 @@ button:hover {
 }
 
 
+.sleva-radek {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 5px 0;
+}
+
+
 /* ================= MOBIL ================= */
 
 @media (max-width:500px) {
@@ -631,4 +639,49 @@ canvas {
         max-width:520px;
     }
 
+}
+/* Oprava rozložení checkbox řádků na mzdové kalkulačce */
+.sleva-radek {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-bottom: 12px;
+    flex-wrap: nowrap;
+}
+
+.sleva-radek input[type="checkbox"] {
+    width: 18px !important;
+    height: 18px !important;
+    flex-shrink: 0;
+    margin: 0;
+}
+
+.sleva-radek label {
+    flex: 1;
+    text-align: left;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #334155;
+    cursor: pointer;
+}
+
+.sleva-radek .ikona-otaznik {
+    flex-shrink: 0;
+    margin-left: 0;
+}
+
+#kontejner-ztp-deti .sleva-radek {
+    margin-left: 4px;
+}
+
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #94a3b8;
+    border-radius: 8px;
+    font-size: 15px;
+    background: white;
+    color: #1a1a2e;
 }

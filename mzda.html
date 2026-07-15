@@ -3,238 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="Výpočet čisté mzdy online. Spočítejte si čistý plat po odečtení daně, sociálního a zdravotního pojištění včetně slev a daňových zvýhodnění.">
-
+    <meta name="description" content="Výpočet čisté mzdy online pro rok 2026. Spočítejte si čistou mzdu po odečtení daně, sociálního a zdravotního pojištění včetně slev na dani a daňového zvýhodnění na děti.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💼</text></svg>">
-
     <title>Kalkulačka čisté mzdy</title>
-
     <link rel="stylesheet" href="style.css">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 </head>
-
 <body>
+    <nav class="menu">
+        <a href="index.html">Hypotéka</a>
+        <a href="sporeni.html">Spoření</a>
+        <a href="pujcka.html">Půjčka</a>
+        <a href="refinancovani.html">Refinancování</a>
+        <a href="mimoradna-splatka.html">Mimořádná splátka</a>
+        <a href="mzda.html" class="aktivni">Čistá mzda</a>
+    </nav>
+    <div class="kalkulacka">
+        <h1>Kalkulačka čisté mzdy</h1>
 
-<nav class="menu">
-    <a href="index.html">Hypotéka</a>
-    <a href="sporeni.html">Spoření</a>
-    <a href="pujcka.html">Půjčka</a>
-    <a href="refinancovani.html">Refinancování</a>
-    <a href="mimoradna-splatka.html">Mimořádná splátka</a>
-    <a href="mzda.html" class="aktivni">Čistá mzda</a>
-</nav>
+        <div class="pole-s-napovedou">
+            <div class="label-radek">
+                <label for="hrubaMzda">Hrubá mzda (Kč / měsíc):</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k hrubé mzdě">?</span>
+                <span class="bublina-text">Vaše měsíční mzda sjednaná v pracovní smlouvě před odečtením daní a pojištění.</span>
+            </div>
+            <input type="text" id="hrubaMzda" value="45 000">
+            <input type="range" id="hrubaMzda-slider" min="10000" max="300000" step="1000" value="45000">
+            <div id="hrubaMzda-chyba" class="chyba-text"></div>
+        </div>
 
+        <div class="pole-s-napovedou">
+            <div class="label-radek">
+                <label for="pocetDeti">Počet dětí:</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k počtu dětí">?</span>
+                <span class="bublina-text">Počet vyživovaných dětí, na které uplatňujete daňové zvýhodnění.</span>
+            </div>
+            <select id="pocetDeti">
+                <option value="0">Žádné</option>
+                <option value="1">1 dítě</option>
+                <option value="2" selected>2 děti</option>
+                <option value="3">3 děti</option>
+                <option value="4">4 děti</option>
+                <option value="5">5 dětí</option>
+            </select>
+        </div>
 
-<div class="kalkulacka">
+        <div id="kontejner-ztp-deti"></div>
 
-<h1>Kalkulačka čisté mzdy</h1>
+        <div class="sleva-radek">
+            <input type="checkbox" id="slevaPoplatnik" checked>
+            <label for="slevaPoplatnik">Základní sleva na poplatníka</label>
+            <span class="ikona-otaznik" aria-label="Nápověda ke slevě na poplatníka">?</span>
+            <span class="bublina-text">Základní daňová sleva, na kterou má nárok téměř každý pracující, pokud podepsal prohlášení poplatníka.</span>
+        </div>
 
+        <div class="pole-s-napovedou">
+            <div class="label-radek">
+                <label for="invalidita">Invalidní důchod:</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k invaliditě">?</span>
+                <span class="bublina-text">Vyberte stupeň invalidity, pokud pobíráte invalidní důchod.</span>
+            </div>
+            <select id="invalidita">
+                <option value="0">Nemám</option>
+                <option value="1">1. stupeň</option>
+                <option value="2">2. stupeň</option>
+                <option value="3">3. stupeň</option>
+            </select>
+        </div>
 
-<div class="pole-s-napovedou">
+        <div class="sleva-radek">
+            <input type="checkbox" id="ztpP">
+            <label for="ztpP">Držitel průkazu ZTP/P</label>
+            <span class="ikona-otaznik" aria-label="Nápověda k ZTP/P">?</span>
+            <span class="bublina-text">Sleva pro držitele průkazu ZTP/P (zvlášť těžké postižení).</span>
+        </div>
 
-    <div class="label-radek">
+        <button id="vypocitatMzdu">Vypočítat čistou mzdu</button>
+        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
 
-        <label for="hrubaMzda">
-            Hrubá mzda (Kč / měsíc):
-        </label>
+        <h2 id="vysledekMzda"></h2>
+        <div id="detailyMzda" class="detaily"></div>
+        <canvas id="grafMzda" width="400" height="300"></canvas>
 
-        <span class="ikona-otaznik">?</span>
-
-        <span class="bublina-text">
-            Vaše mzda před odečtením daní a pojištění.
-        </span>
-
+        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
+            <h2>Časté otázky ke mzdám</h2>
+            <div class="faq-polozka">
+                <h3>Co všechno se strhává z hrubé mzdy?</h3>
+                <p>Z hrubé mzdy zaměstnance se standardně strhává sociální pojištění (7,1 % vč. nemocenského), zdravotní pojištění (4,5 %) a záloha na daň z příjmů (15 % do limitu, nad limit 23 %).</p>
+            </div>
+            <div class="faq-polozka">
+                <h3>Komu pomůže sleva na poplatníka?</h3>
+                <p>Sleva na poplatníka je základní daňová úleva, na kterou má nárok každý pracující člověk, který u zaměstnavatele podepíše růžové prohlášení. Tato částka se odečítá přímo od vypočtené daně z příjmů, čímž zvyšuje vaši čistou mzdu.</p>
+            </div>
+            <div class="faq-polozka">
+                <h3>Co platí zaměstnavatel navíc?</h3>
+                <p>Zaměstnavatel odvádí za každého zaměstnance ještě další prostředky nad rámec hrubé mzdy – konkrétně 24,8 % na sociální pojištění a 9 % na zdravotní pojištění. Tyto výdaje tvoří tzv. superhrubou mzdu.</p>
+            </div>
+        </div>
     </div>
-
-
-    <input 
-        type="text" 
-        id="hrubaMzda" 
-        value="45 000"
-        autocomplete="off"
-        inputmode="numeric"
-    >
-
-
-    <input 
-        type="range" 
-        id="hrubaMzda-slider"
-        min="10000"
-        max="200000"
-        step="1000"
-        value="45000"
-    >
-
-
-    <div id="hrubaMzda-chyba" class="chyba-text"></div>
-
-</div>
-
-
-
-<div class="dalsi-volby">
-
-
-<label for="pocetDeti">
-Počet dětí:
-</label>
-
-<select id="pocetDeti">
-
-<option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3 a více</option>
-
-</select>
-
-
-<div id="kontejner-ztp-deti"></div>
-
-
-
-<label>
-<input type="checkbox" id="slevaPoplatnik" checked>
-Sleva na poplatníka
-</label>
-
-
-
-<label for="invalidita">
-Invalidita:
-</label>
-
-<select id="invalidita">
-
-<option value="0">
-Bez invalidity
-</option>
-
-<option value="1">
-1. stupeň
-</option>
-
-<option value="2">
-2. stupeň
-</option>
-
-<option value="3">
-3. stupeň
-</option>
-
-</select>
-
-
-
-<label>
-<input type="checkbox" id="ztpP">
-Držitel ZTP/P
-</label>
-
-
-</div>
-
-
-
-
-<button id="vypocitatMzdu">
-Vypočítat čistou mzdu
-</button>
-
-
-
-<div id="chybova-hlaska"></div>
-
-
-
-<h2 id="vysledekMzda"></h2>
-
-
-
-<div id="detailyMzda" class="detaily"></div>
-
-
-
-<a href="mzda-vysvetlene.html" class="info-box">
-💡 Chceš vědět, jak legálně platit nižší daně a zvýšit čistý plat?
-<span>Zjisti to zde →</span>
-</a>
-
-
-
-<canvas id="grafMzda" width="400" height="300"></canvas>
-
-
-
-
-
-<div class="clanek">
-
-<h2>Časté otázky ke mzdám</h2>
-
-
-<div class="faq-polozka">
-
-<h3>
-Co všechno se strhává z hrubé mzdy?
-</h3>
-
-<p>
-Z hrubé mzdy zaměstnance se odvádí sociální pojištění,
-zdravotní pojištění a záloha na daň z příjmů.
-</p>
-
-</div>
-
-
-
-<div class="faq-polozka">
-
-<h3>
-Komu pomůže sleva na poplatníka?
-</h3>
-
-<p>
-Sleva na poplatníka snižuje vypočtenou daň a využívá ji většina zaměstnanců.
-</p>
-
-</div>
-
-
-
-<div class="faq-polozka">
-
-<h3>
-Co platí zaměstnavatel navíc?
-</h3>
-
-<p>
-Zaměstnavatel odvádí další povinné odvody nad rámec hrubé mzdy.
-</p>
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-<footer class="paticka">
-
-<p>
-Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné poradenství.
-</p>
-
-</footer>
-
-
-
-<script src="mzda.js"></script>
-
+    <footer class="paticka">
+        <p>Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné mzdové ani účetní poradenství.</p>
+    </footer>
+    <script src="mzda.js"></script>
 </body>
 </html>

@@ -32,7 +32,6 @@ window.addEventListener("DOMContentLoaded", function() {
 
     let mujGraf = null;
 
-    // Pomocná funkce pro validaci
     function validujInput(input, chybaId, napoveda, podminka) {
         if (!podminka) {
             document.getElementById(chybaId).innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
@@ -45,7 +44,25 @@ window.addEventListener("DOMContentLoaded", function() {
             return true;
         }
     }
+
+    // Naformátuje hodnotu pole na "3 000 000" nebo "5,5" a uloží zpět do inputu
+    function naformatujPole(inputId) {
+        const el = document.getElementById(inputId);
+        let val = el.value.replace(/\s/g, '');
+        if (val === "" || isNaN(val.replace(",", "."))) return;
+        if (val.includes(",")) {
+            el.value = val;
+        } else {
+            el.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+        }
+    }
+
     document.getElementById("vypocitat").addEventListener("click", function() {
+        // Nejdřív naformátuj všechna pole, ať se čísla zobrazí správně i po ručním psaní
+        naformatujPole("castka");
+        naformatujPole("urok");
+        naformatujPole("doba");
+
         const chybovaHlaska = document.getElementById("chybova-hlaska");
         if (chybovaHlaska) chybovaHlaska.style.display = "none";
 
@@ -76,44 +93,41 @@ window.addEventListener("DOMContentLoaded", function() {
         const celkoveUroky = celkemZaplaceno - P;
 
         document.getElementById("vysledek").textContent = "Měsíční splátka: " + vysledek.toLocaleString("cs-CZ") + " Kč";
-                document.getElementById("detaily").innerHTML =
+        document.getElementById("detaily").innerHTML =
             "<p>Celkem zaplatíte: <strong>" + celkemZaplaceno.toLocaleString("cs-CZ") + " Kč</strong></p>" +
             "<p>Z toho na úrocích: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
-        // Logika tabulky
         const tabulkaTelo = document.querySelector("#amortizacni-tabulka tbody");
-        tabulkaTelo.innerHTML = "";
-        document.getElementById("sekce-tabulka").style.display = "block";
-        document.getElementById("obal-tabulky").style.display = "none";
-        document.getElementById("tlacitko-tabulka").classList.remove("aktivni");
+        if (tabulkaTelo) {
+            tabulkaTelo.innerHTML = "";
+            document.getElementById("sekce-tabulka").style.display = "block";
+            document.getElementById("obal-tabulky").style.display = "none";
+            document.getElementById("tlacitko-tabulka").classList.remove("aktivni");
 
-        let zbyvajiciJistina = P;
-        let kumulovanyUrokRok = 0;
-        let kumulovanaJistinaRok = 0;
+            let zbyvajiciJistina = P;
+            let kumulovanyUrokRok = 0;
+            let kumulovanaJistinaRok = 0;
 
-        for (let m = 1; m <= n; m++) {
-            const urokVtomtoMesici = zbyvajiciJistina * r;
-            const jistinaVtomtoMesici = mesicniSplatka - urokVtomtoMesici;
+            for (let m = 1; m <= n; m++) {
+                const urokVtomtoMesici = zbyvajiciJistina * r;
+                const jistinaVtomtoMesici = mesicniSplatka - urokVtomtoMesici;
 
-            kumulovanyUrokRok += urokVtomtoMesici;
-            kumulovanaJistinaRok += jistinaVtomtoMesici;
-            zbyvajiciJistina -= jistinaVtomtoMesici;
+                kumulovanyUrokRok += urokVtomtoMesici;
+                kumulovanaJistinaRok += jistinaVtomtoMesici;
+                zbyvajiciJistina -= jistinaVtomtoMesici;
 
-            // Každých 12 měsíců (nebo na konci) přidáme řádek do tabulky
-            if (m % 12 === 0 || m === n) {
-                const rok = Math.ceil(m / 12);
-                const tr = document.createElement("tr");
-                tr.innerHTML = `<td>${rok}</td><td>${Math.round(kumulovanaJistinaRok).toLocaleString("cs-CZ")} Kč</td><td>${Math.round(kumulovanyUrokRok).toLocaleString("cs-CZ")} Kč</td><td>${Math.max(0, Math.round(zbyvajiciJistina)).toLocaleString("cs-CZ")} Kč</td>`;
-                tabulkaTelo.appendChild(tr);
-
-                // Vynulovat kumulátory pro další rok
-                kumulovanyUrokRok = 0;
-                kumulovanaJistinaRok = 0;
+                if (m % 12 === 0 || m === n) {
+                    const rok = Math.ceil(m / 12);
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `<td>${rok}</td><td>${Math.round(kumulovanaJistinaRok).toLocaleString("cs-CZ")} Kč</td><td>${Math.round(kumulovanyUrokRok).toLocaleString("cs-CZ")} Kč</td><td>${Math.max(0, Math.round(zbyvajiciJistina)).toLocaleString("cs-CZ")} Kč</td>`;
+                    tabulkaTelo.appendChild(tr);
+                    kumulovanyUrokRok = 0;
+                    kumulovanaJistinaRok = 0;
+                }
             }
         }
 
         if (window.ChartJsPripraven && typeof Chart !== "undefined") {
-
             if (mujGraf !== null) mujGraf.destroy();
             const ctx = document.getElementById("graf").getContext("2d");
             mujGraf = new Chart(ctx, {
@@ -141,21 +155,18 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Ovládání rozbalování tabulky
-    document.getElementById("tlacitko-tabulka").onclick = function() {
-        const obal = document.getElementById("obal-tabulky");
-        this.classList.toggle("aktivni");
-        obal.style.display = (obal.style.display === "none") ? "block" : "none";
-    };
+    if (document.getElementById("tlacitko-tabulka")) {
+        document.getElementById("tlacitko-tabulka").onclick = function() {
+            const obal = document.getElementById("obal-tabulky");
+            this.classList.toggle("aktivni");
+            obal.style.display = (obal.style.display === "none") ? "block" : "none";
+        };
+    }
 
-    // Funkce pro formátování vstupu
     function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
         const el = document.getElementById(inputId);
         el.addEventListener('blur', function(e) {
-            let val = e.target.value.replace(/\s/g, '');
-            if (val !== "" && !isNaN(val.replace(",", "."))) {
-                e.target.value = (val.includes(",") ? val : parseInt(val).toLocaleString('cs-CZ')).replace(/\u00A0/g, ' ');
-            }
+            naformatujPole(inputId);
             validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
         });
         el.addEventListener('focus', function(e) {
@@ -167,7 +178,6 @@ window.addEventListener("DOMContentLoaded", function() {
     zapnoutFormatovani('urok', 'urok-chyba', 'Např.: 5,5', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
     zapnoutFormatovani('doba', 'doba-chyba', 'Např.: 30', v => !isNaN(v) && parseFloat(v) > 0);
 
-    // Propojení sliderů s inputy
     function propojSlider(inputId, sliderId) {
         const input = document.getElementById(inputId);
         const slider = document.getElementById(sliderId);
@@ -178,8 +188,8 @@ window.addEventListener("DOMContentLoaded", function() {
             } else {
                 input.value = parseInt(slider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
             }
-        document.getElementById("vypocitat").click();
-});
+            document.getElementById("vypocitat").click();
+        });
 
         input.addEventListener('input', function() {
             let val = input.value.replace(/\s/g, '').replace(',', '.');
@@ -198,14 +208,32 @@ window.addEventListener("DOMContentLoaded", function() {
     const inputDoba = document.getElementById("doba");
     const tlacitkoVypocitat = document.getElementById("vypocitat");
 
+    // Klávesa Enter: naformátuj aktuální pole a přesuň se na další
     if (inputCastka && inputUrok && inputDoba && tlacitkoVypocitat) {
-        inputCastka.addEventListener("keydown", function(event) { if (event.key === "Enter") { event.preventDefault(); inputUrok.focus(); } });
-        inputUrok.addEventListener("keydown", function(event) { if (event.key === "Enter") { event.preventDefault(); inputDoba.focus(); } });
-        inputDoba.addEventListener("keydown", function(event) { if (event.key === "Enter") { event.preventDefault(); tlacitkoVypocitat.click(); } });
+        inputCastka.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                naformatujPole("castka");
+                inputUrok.focus();
+            }
+        });
+        inputUrok.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                naformatujPole("urok");
+                inputDoba.focus();
+            }
+        });
+        inputDoba.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                naformatujPole("doba");
+                tlacitkoVypocitat.click();
+            }
+        });
     }
 
     if (window.ChartJsPripraven) {
         document.getElementById("vypocitat").click();
     }
 });
-

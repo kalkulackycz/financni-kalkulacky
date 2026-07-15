@@ -19,7 +19,7 @@
     </nav>
     <div class="kalkulacka">
         <h1>Hypoteční kalkulačka</h1>
-        
+
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="castka">Výše úvěru (Kč):</label>
@@ -27,21 +27,21 @@
                 <span class="bublina-text">Zadejte celkovou částku, kterou si plánujete od banky půjčit na pořízení nemovitosti.</span>
             </div>
             <input type="text" id="castka" value="3 000 000">
-            <input type="range" id="castka-slider" min="100000" max="10000000" step="100000" value="3000000">
+            <input type="range" id="castka-slider" min="100000" max="15000000" step="50000" value="3000000">
             <div id="castka-chyba" class="chyba-text"></div>
         </div>
-        
+
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="urok">Úroková sazba (% ročně):</label>
                 <span class="ikona-otaznik" aria-label="Nápověda k úrokové sazbě">?</span>
-                <span class="bublina-text">Roční úroková sazba nabízená bankou. Například 5.5 %.</span>
+                <span class="bublina-text">Roční úroková sazba nabízená bankou. Například 5,5 %.</span>
             </div>
             <input type="text" id="urok" value="5,5">
             <input type="range" id="urok-slider" min="1" max="15" step="0.1" value="5.5">
             <div id="urok-chyba" class="chyba-text"></div>
         </div>
-        
+
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="doba">Doba splácení (roky):</label>
@@ -52,7 +52,7 @@
             <input type="range" id="doba-slider" min="5" max="40" step="1" value="30">
             <div id="doba-chyba" class="chyba-text"></div>
         </div>
-        
+
         <button id="vypocitat">Vypočítat</button>
         <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
         <h2 id="vysledek"></h2>
@@ -61,29 +61,6 @@
             💡 Kolik si vůbec můžu půjčit? <span>Zjisti to →</span>
         </a>
         <canvas id="graf" width="400" height="300"></canvas>
-
-        <div id="sekce-tabulka" style="margin-top: 24px; display: none;">
-            <button id="tlacitko-tabulka" class="sekundarni-tlacitko">
-                Zobrazit splátkový kalendář <span class="sipka">↓</span>
-            </button>
-            <div id="obal-tabulky" style="display: none; margin-top: 16px;">
-                <h2 style="font-size: 18px; margin-bottom: 16px;">Splátkový kalendář (po letech)</h2>
-                <div class="tabulka-obal">
-                    <table id="amortizacni-tabulka">
-                        <thead>
-                            <tr>
-                                <th>Rok</th>
-                                <th>Splátka jistiny</th>
-                                <th>Splátka úroku</th>
-                                <th>Zůstatek dluhu</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
         <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
             <h2>Časté otázky k hypotékám</h2>
             <div class="faq-polozka">
@@ -92,7 +69,7 @@
             </div>
             <div class="faq-polozka">
                 <h3>Kolik musím mít naspořeno z vlastních zdrojů?</h3>
-                <p>Podle pravidel ČNB musíte mít standardně naspořeno alespoň 20 % z hodnoty nemovitosti (tzv. LTV 80 %). Mladí žadatelé do 36 let mohou v některých případech získat hypotéku až do 90 % hodnoty nemovitosti, stačí jim tedy 10 % vlastních penőség.</p>
+                <p>Podle pravidel ČNB musíte mít standardně naspořeno alespoň 20 % z hodnoty nemovitosti (tzv. LTV 80 %). Mladí žadatelé do 36 let mohou v některých případech získat hypotéku až do 90 % hodnoty nemovitosti, stačí jim tedy 10 % vlastních peněz.</p>
             </div>
             <div class="faq-polozka">
                 <h3>Jaké další náklady mě čekají kromě splátek hypotéky?</h3>
@@ -106,4 +83,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
