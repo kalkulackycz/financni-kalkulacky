@@ -393,10 +393,43 @@ button:hover {
 
 /* ================= NÁPOVĚDA ================= */
 
+/* Oprava nápověd - jednotně pro celý web */
 .pole-s-napovedou {
+    position: relative;
+    display: inline-block;
+    cursor: default;
+}
 
-    position:relative;
-    width:100%;
+/* Oprava: Reakce pouze na najetí na otazník */
+.pole-s-napovedou .bublina-text {
+    visibility: hidden;
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    background-color: #4f46e5;
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    z-index: 9999;
+    white-space: normal;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+/* Změna: Hover spouští zobrazení pouze pokud najedu na ikonu otazníku */
+.pole-s-napovedou .ikona-otaznik:hover + .bublina-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Zajištění, aby řádky nápovědu neřezaly */
+.sleva-radek, .label-radek {
+    overflow: visible !important;
 }
 
 
@@ -412,10 +445,8 @@ button:hover {
 
 
 .label-radek label {
-
     margin:0;
 }
-
 
 .ikona-otaznik {
 
@@ -440,48 +471,6 @@ button:hover {
 }
 
 
-.bublina-text {
-
-    visibility:hidden;
-    position:absolute;
-    bottom:calc(100% + 6px);
-    left:50%;
-    transform:translateX(-50%);
-    background:#1e1b4b;
-    color:white;
-    text-align:center;
-    padding:8px 12px;
-    border-radius:6px;
-    font-size:12px;
-    font-weight:500;
-    line-height:1.4;
-    width:260px;
-    box-shadow:0 4px 12px rgba(0,0,0,.15);
-    z-index:99;
-    opacity:0;
-    transition:.2s;
-    pointer-events:none;
-}
-
-
-.bublina-text::after {
-
-    content:"";
-    position:absolute;
-    top:100%;
-    left:50%;
-    margin-left:-5px;
-    border-width:5px;
-    border-style:solid;
-    border-color:#1e1b4b transparent transparent transparent;
-}
-
-
-.ikona-otaznik:hover + .bublina-text {
-
-    visibility:visible;
-    opacity:1;
-}
 /* ================= DOPLŇKY PRO MZDU ================= */
 
 .vysledek-mzda {
@@ -513,14 +502,6 @@ button:hover {
 
     text-align:right;
     font-weight:600;
-}
-
-
-.sleva-radek {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 5px 0;
 }
 
 
@@ -642,12 +623,17 @@ canvas {
 }
 /* Oprava rozložení checkbox řádků na mzdové kalkulačce */
 .sleva-radek {
-    display: flex !important;
-    justify-content: flex-start !important;
-    align-items: center !important;
-    gap: 10px !important;
-    margin-bottom: 12px;
-    flex-wrap: nowrap;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    white-space: nowrap;
+}
+
+.sleva-radek label {
+    display: inline-block;
+    margin: 0 8px;
+    white-space: nowrap;
+    width: auto;
 }
 
 .sleva-radek input[type="checkbox"] {
@@ -655,16 +641,6 @@ canvas {
     height: 18px !important;
     flex-shrink: 0;
     margin: 0;
-}
-
-.sleva-radek label {
-    flex: 1;
-    text-align: left;
-    margin: 0;
-    font-size: 14px;
-    font-weight: 500;
-    color: #334155;
-    cursor: pointer;
 }
 
 .sleva-radek .ikona-otaznik {
@@ -685,3 +661,4 @@ select {
     background: white;
     color: #1a1a2e;
 }
+
