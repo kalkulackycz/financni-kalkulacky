@@ -9,19 +9,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <h2 class="menu-nadpis">Finanční kalkulačky</h2>
+    <h2 class="menu-nadpis">Finanční Mapa</h2>
     <nav class="menu">
-        <a href="index.html" class="aktivni">Hypotéka</a>
-        <a href="sporeni.html">Spoření</a>
-        <a href="pujcka.html">Půjčka</a>
-        <a href="refinancovani.html">Refinancování</a>
-        <a href="mimoradna-splatka.html">Mimořádná splátka</a>
-        <a href="mzda.html">Čistá mzda</a>
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html" class="aktivni">Kalkulačky</a>
+        <a href="pruvodci.html">Průvodci</a>
     </nav>
     <div class="kalkulacka">
         <h1>Hypoteční kalkulačka</h1>
-
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="castka">Výše úvěru (Kč):</label>
@@ -32,7 +27,6 @@
             <input type="range" id="castka-slider" min="100000" max="15000000" step="50000" value="3000000">
             <div id="castka-chyba" class="chyba-text"></div>
         </div>
-
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="urok">Úroková sazba (% ročně):</label>
@@ -43,7 +37,6 @@
             <input type="range" id="urok-slider" min="1" max="15" step="0.1" value="5.5">
             <div id="urok-chyba" class="chyba-text"></div>
         </div>
-
         <div class="pole-s-napovedou">
             <div class="label-radek">
                 <label for="doba">Doba splácení (roky):</label>
@@ -54,7 +47,6 @@
             <input type="range" id="doba-slider" min="5" max="40" step="1" value="30">
             <div id="doba-chyba" class="chyba-text"></div>
         </div>
-
         <button id="vypocitat">Vypočítat</button>
         <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
         <h2 id="vysledek"></h2>

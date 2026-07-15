@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finanční kalkulačky</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .uvodni-sekce {
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .karty-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 30px;
+        }
+        .karta {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,.08);
+            text-decoration: none;
+            color: #1a1a2e;
+            transition: transform 0.2s;
+            display: block;
+        }
+        .karta:hover {
+            transform: translateY(-5px);
+        }
+        .karta h3 {
+            margin-bottom: 10px;
+            color: #4f46e5;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html" class="aktivni">Kalkulačky</a>
+        <a href="pruvodci.html">Průvodci</a>
+    </nav>
+
+    <div class="uvodni-sekce">
+        <h1>Finanční kalkulačky</h1>
+        <p class="uvod">"Jednoduché online kalkulačky pro hypotéky, půjčky, spoření a osobní finance."</p>
+
+        <div class="karty-grid">
+            <a href="index.html" class="karta"><h3>🏠 Hypoteční kalkulačka</h3></a>
+            <a href="sporeni.html" class="karta"><h3>💰 Kalkulačka spoření</h3></a>
+            <a href="pujcka.html" class="karta"><h3>💳 Kalkulačka půjčky</h3></a>
+            <a href="refinancovani.html" class="karta"><h3>🔄 Refinancování</h3></a>
+            <a href="mimoradna-splatka.html" class="karta"><h3>📉 Mimořádná splátka</h3></a>
+            <a href="mzda.html" class="karta"><h3>💼 Čistá mzda</h3></a>
+        </div>
+    </div>
+
+    <footer class="paticka" style="margin: 0 auto 40px auto;">
+        <p>Finanční Mapa © 2026. Kalkulačky slouží pouze pro orientační výpočet.</p>
+    </footer>
+
+</body>
+</html>

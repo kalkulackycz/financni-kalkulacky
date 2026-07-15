@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finanční Mapa</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .uvodni-sekce {
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .karty-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 30px;
+        }
+        .karta {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,.08);
+            text-decoration: none;
+            color: #1a1a2e;
+            transition: transform 0.2s;
+            display: block;
+        }
+        .karta:hover {
+            transform: translateY(-5px);
+        }
+        .karta h3 {
+            margin-bottom: 10px;
+            color: #4f46e5;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="uvod.html" class="aktivni">Domů</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="pruvodci.html">Průvodci</a>
+    </nav>
+
+    <div class="uvodni-sekce">
+        <h1>Finanční Mapa</h1>
+        <p class="uvod">"Pomáháme vám lépe se orientovat ve světě financí. Kalkulačky, vysvětlení a praktické průvodce na jednom místě."</p>
+
+        <div class="karty-grid">
+            <div class="karta"><h3>Bydlení</h3><p>Hypotéky a rozhodování o vlastním bydlení</p></div>
+            <div class="karta"><h3>Osobní finance</h3><p>Mzda, spoření a lepší plánování peněz</p></div>
+            <div class="karta"><h3>Úvěry</h3><p>Půjčky, refinancování a chytré splácení</p></div>
+        </div>
+
+        <h2 style="margin-top: 40px;">Finanční průvodci</h2>
+        <p>Vysvětlujeme finance jednoduše a srozumitelně.</p>
+        <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 30px;">
+            <a href="kolik-pujcit-hypoteka.html" class="karta"><h3>Jak funguje hypotéka</h3></a>
+            <a href="mzda-vysvetlene.html" class="karta"><h3>Čistá mzda vysvětlení</h3></a>
+            <a href="inflace-vysvetlene.html" class="karta"><h3>Inflace</h3></a>
+            <a href="rpsn-vysvetlene.html" class="karta"><h3>RPSN</h3></a>
+        </div>
+
+    </div>
+
+    <footer class="paticka" style="margin: 0 auto 40px auto;">
+        <p>Finanční Mapa © 2026. Kalkulačky slouží pouze pro orientační výpočet.</p>
+    </footer>
+
+</body>
+</html>
