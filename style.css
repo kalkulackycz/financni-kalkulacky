@@ -73,6 +73,26 @@ body {
     max-width: 480px;
 }
 
+/* Sjednocení mezer pro všechny kalkulačky */
+.kalkulacka label {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-top: 8px !important;  /* Změněno z 16px */
+    margin-bottom: 4px !important; /* Změněno ze 6px */
+}
+
+.kalkulacka input,
+.kalkulacka select {
+    margin-bottom: 8px !important; /* Sníženo pro všechny kalkulačky */
+}
+
+/* Snížení mezery nad tlačítkem */
+#vypocitatMzdu {
+    margin-top: 10px;
+}
+
 
 h1 {
     font-size: 24px;
@@ -88,16 +108,6 @@ h2 {
 
 /* ================= VSTUPY ================= */
 
-label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: #2d2d2d;
-    margin-top: 16px;
-    margin-bottom: 6px;
-}
-
-
 input {
     width: 100%;
     padding: 10px 12px;
@@ -105,6 +115,7 @@ input {
     border-radius: 8px;
     font-size: 15px;
     color: #1a1a2e;
+    margin-bottom: 4px !important; /* Přidáno */
 }
 
 
@@ -116,7 +127,8 @@ input:focus {
 
 
 input[type="range"] {
-    margin-top: 10px;
+    margin-top: 0px !important; /* Přitáhne slider k inputu */
+    margin-bottom: 12px !important; /* Mírná mezera pod sliderem */
     cursor: pointer;
 }
 
@@ -434,13 +446,11 @@ button:hover {
 
 
 .label-radek {
-
-    display:flex;
-    align-items:center;
-    gap:6px;
-    margin-top:16px;
-    margin-bottom:6px;
-    position:relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px !important;
+    margin-bottom: 4px !important;
 }
 
 
@@ -621,35 +631,29 @@ canvas {
     }
 
 }
-/* Oprava rozložení checkbox řádků na mzdové kalkulačce */
+/* Sjednocení zarovnání checkboxů a labelů */
 .sleva-radek {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
-    white-space: nowrap;
+    margin-bottom: 4px !important; /* Zmenšeno ze 8px na 4px */
+    gap: 8px;
 }
 
-.sleva-radek label {
-    display: inline-block;
-    margin: 0 8px;
-    white-space: nowrap;
-    width: auto;
-}
-
+/* Checkbox bude mít vždy stejnou šířku, aby byly pod sebou */
 .sleva-radek input[type="checkbox"] {
-    width: 18px !important;
-    height: 18px !important;
-    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
     margin: 0;
-}
-
-.sleva-radek .ikona-otaznik {
     flex-shrink: 0;
-    margin-left: 0;
 }
 
-#kontejner-ztp-deti .sleva-radek {
-    margin-left: 4px;
+/* Odsazení držitele ZTP/P od selectu */
+#ztpP {
+    margin-top: 15px;
+}
+
+.sleva-radek:has(#ztpP) {
+    margin-top: 15px;
 }
 
 select {
@@ -661,4 +665,19 @@ select {
     background: white;
     color: #1a1a2e;
 }
+
+/* Agresivní zmenšení mezer pro všechny kalkulačky - přebije vše předchozí */
+.kalkulacka label,
+.kalkulacka input,
+.kalkulacka select,
+.kalkulacka button,
+.kalkulacka .label-radek,
+.kalkulacka .sleva-radek {
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+}
+
+/* Speciální zmenšení pro nadpisy a tlačítka */
+h1 { margin-bottom: 12px !important; }
+button { margin-top: 12px !important; }
 
