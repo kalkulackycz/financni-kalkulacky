@@ -16,6 +16,16 @@ body {
 
 /* ================= MENU ================= */
 
+/* ================= MENU NADPIS ================= */
+.menu-nadpis {
+    font-size: 19px;
+    color: #1a1a2e;
+    margin-bottom: 16px;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 700;
+}
+
 .menu {
     display: flex;
     gap: 8px;
@@ -63,7 +73,6 @@ body {
 
 
 /* ================= HLAVNÍ KONTEJNER ================= */
-
 .kalkulacka {
     background: white;
     border-radius: 12px;
@@ -82,7 +91,6 @@ body {
     margin-top: 8px !important;  /* Změněno z 16px */
     margin-bottom: 4px !important; /* Změněno ze 6px */
 }
-
 .kalkulacka input,
 .kalkulacka select {
     margin-bottom: 8px !important; /* Sníženo pro všechny kalkulačky */
