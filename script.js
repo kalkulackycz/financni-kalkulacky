@@ -9,6 +9,11 @@
     document.head.appendChild(s2);
 })();
 
+// Dynamické načtení html2pdf
+const pdfLib = document.createElement("script");
+pdfLib.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+document.head.appendChild(pdfLib);
+
 window.addEventListener("DOMContentLoaded", function() {
     // Globální logika pro otazníky (PC hover / Mobil klik)
     document.addEventListener('click', function(e) {
@@ -153,6 +158,33 @@ window.addEventListener("DOMContentLoaded", function() {
                 }
             });
         }
+    });
+
+    document.getElementById("export-pdf").addEventListener("click", function() {
+        // 1. Naplnění skrytého kontejneru aktuálními daty
+        document.getElementById("pdf-date").innerText = new Date().toLocaleDateString('cs-CZ');
+        document.getElementById("pdf-castka").innerText = document.getElementById("castka").value;
+        document.getElementById("pdf-urok").innerText = document.getElementById("urok").value;
+        document.getElementById("pdf-doba").innerText = document.getElementById("doba").value;
+        document.getElementById("pdf-splatka").innerText = document.getElementById("vysledek").textContent;
+        const pTagy = document.getElementById("detaily").querySelectorAll("strong");
+        document.getElementById("pdf-celkem").innerText = pTagy[0] ? pTagy[0].innerText : "";
+        document.getElementById("pdf-uroky").innerText = pTagy[1] ? pTagy[1].innerText : "";
+
+        // Zkopírování grafu do PDF kontejneru
+        const grafImg = document.getElementById("graf").toDataURL("image/png");
+        document.getElementById("pdf-graf").innerHTML = `<img src="${grafImg}" style="width: 300px;">`;
+
+        // 2. Export
+        const element = document.getElementById('pdf-export-container');
+        const opt = {
+            margin: 15,
+            filename: `Hypotecni-kalkulacka-${new Date().toISOString().slice(0,10)}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
     });
 
     if (document.getElementById("tlacitko-tabulka")) {
