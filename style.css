@@ -718,20 +718,19 @@ button { margin-top: 12px !important; }
     border: 1px solid #e2e8f0;
 }
 
-/* Výrazná splátka */
+/* Moderní vzhled výsledku hypotéky */
 #vysledek {
     margin: 24px auto !important;
-    padding: 20px;
-    background: #f8fafc;
+    padding: 24px;
+    background: #4f46e5;
+    color: #ffffff;
     border-radius: 12px;
-    border: 2px solid #4f46e5;
     text-align: center;
-    font-size: 26px !important;
-    font-weight: 800;
-    color: #4f46e5;
+    font-size: 28px !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
 }
 
-/* Karty pro detaily */
 #detaily {
     display: flex;
     justify-content: center;
@@ -739,23 +738,36 @@ button { margin-top: 12px !important; }
     margin-bottom: 24px !important;
 }
 
+/* Stylování karet detailů, které jsou vnořeny v #detaily */
 #detaily p {
     margin: 0 !important;
     padding: 12px 16px;
-    background: #ffffff;
+    background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     text-align: center;
-    font-size: 13px;
-    color: #64748b;
+    font-size: 14px;
+    color: #475569;
     flex: 1;
-    max-width: 180px;
+    max-width: 200px;
 }
 
 #detaily p strong {
     display: block;
     color: #1a1a2e;
-    font-size: 15px;
+    font-size: 16px;
     margin-top: 4px;
+}
+
+/* Mobilní zobrazení */
+@media (max-width: 480px) {
+    #detaily {
+        flex-direction: column;
+        align-items: center;
+    }
+    #detaily p {
+        width: 100%;
+        max-width: 100%;
+    }
 }
 
