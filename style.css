@@ -80,6 +80,13 @@ body {
     padding: 32px;
     width: 100%;
     max-width: 480px;
+    text-align: center; /* Vycentruje většinu prvků */
+}
+
+/* Centrování nadpisů */
+.kalkulacka h1, .kalkulacka h2 {
+    text-align: center;
+    width: 100%;
 }
 
 /* Sjednocení mezer pro všechny kalkulačky */
@@ -209,6 +216,9 @@ button:hover {
     color: #334155;
     text-align: center;
     line-height: 1.6;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: 100%;
 }
 
 
@@ -218,6 +228,9 @@ button:hover {
     padding: 15px;
     background: #f8fafc;
     border-radius: 8px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: 100%;
 }
 
 
@@ -370,6 +383,9 @@ button:hover {
     overflow-x:auto;
     border:1px solid #e2e8f0;
     border-radius:8px;
+    margin: 20px auto;
+    max-width: 100%;
+    width: auto;
 }
 
 
@@ -506,6 +522,9 @@ button:hover {
     margin-top:20px;
     border-collapse:collapse;
     font-size:14px;
+    margin: 20px auto;
+    max-width: 100%;
+    width: auto;
 }
 
 
@@ -626,6 +645,8 @@ button:hover {
 canvas {
 
     max-width:100%;
+    margin: 24px auto !important;
+    display: block;
 }
 
 
