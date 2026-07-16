@@ -165,10 +165,6 @@ window.addEventListener("DOMContentLoaded", function() {
 
     function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
         const el = document.getElementById(inputId);
-        el.addEventListener('blur', function(e) {
-            naformatujPole(inputId);
-            validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
-        });
         el.addEventListener('focus', function(e) {
             e.target.value = e.target.value.replace(/\s/g, '');
         });
@@ -178,18 +174,61 @@ window.addEventListener("DOMContentLoaded", function() {
     zapnoutFormatovani('urok', 'urok-chyba', 'Např.: 5,5', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
     zapnoutFormatovani('doba', 'doba-chyba', 'Např.: 30', v => !isNaN(v) && parseFloat(v) > 0);
 
+    // Debounce funkce pro odložený výpočet
+    let debounceTimer;
+    function spustiVypocetSProdlevou() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function() {
+            document.getElementById("vypocitat").click();
+        }, 500);
+    }
+
+    // Napojení na ruční psaní
+    ["castka", "urok", "doba"].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            // Debounced výpočet při psaní (neovlivňuje slidery, ty mají vlastní logiku)
+            el.addEventListener("input", function() {
+                spustiVypocetSProdlevou();
+            });
+
+            // Blur a Enter zůstávají pro okamžité formátování a výpočet
+            el.addEventListener("blur", function() {
+                clearTimeout(debounceTimer);
+                    naformatujPole(id);
+                document.getElementById("vypocitat").click();
+});
+
+            // Enter: navigace mezi poli a výpočet v posledním poli
+            el.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    clearTimeout(debounceTimer);
+                    naformatujPole(id);
+
+                    if (id === "castka") {
+                        document.getElementById("urok").focus();
+                    } else if (id === "urok") {
+                        document.getElementById("doba").focus();
+                    } else if (id === "doba") {
+        document.getElementById("vypocitat").click();
+                    }
+                }
+});
+        }
+    });
+
     function propojSlider(inputId, sliderId) {
         const input = document.getElementById(inputId);
         const slider = document.getElementById(sliderId);
-
         slider.addEventListener('input', function() {
             if (inputId === 'urok') {
                 input.value = slider.value.replace('.', ',');
             } else {
                 input.value = parseInt(slider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
-            }
-            document.getElementById("vypocitat").click();
-        });
+    }
+        document.getElementById("vypocitat").click();
+});
 
         input.addEventListener('input', function() {
             let val = input.value.replace(/\s/g, '').replace(',', '.');
@@ -203,37 +242,8 @@ window.addEventListener("DOMContentLoaded", function() {
     propojSlider('urok', 'urok-slider');
     propojSlider('doba', 'doba-slider');
 
-    const inputCastka = document.getElementById("castka");
-    const inputUrok = document.getElementById("urok");
-    const inputDoba = document.getElementById("doba");
-    const tlacitkoVypocitat = document.getElementById("vypocitat");
-
-    // Klávesa Enter: naformátuj aktuální pole a přesuň se na další
-    if (inputCastka && inputUrok && inputDoba && tlacitkoVypocitat) {
-        inputCastka.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                naformatujPole("castka");
-                inputUrok.focus();
-            }
-        });
-        inputUrok.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                naformatujPole("urok");
-                inputDoba.focus();
-            }
-        });
-        inputDoba.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                naformatujPole("doba");
-                tlacitkoVypocitat.click();
-            }
-        });
-    }
-
     if (window.ChartJsPripraven) {
         document.getElementById("vypocitat").click();
     }
 });
+

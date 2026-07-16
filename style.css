@@ -689,3 +689,52 @@ select {
 h1 { margin-bottom: 12px !important; }
 button { margin-top: 12px !important; }
 
+.vysledek-box-hlavni {
+    margin: 20px 0;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Výrazná splátka */
+#vysledek {
+    margin: 24px auto !important;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 2px solid #4f46e5;
+    text-align: center;
+    font-size: 26px !important;
+    font-weight: 800;
+    color: #4f46e5;
+}
+
+/* Karty pro detaily */
+#detaily {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 24px !important;
+}
+
+#detaily p {
+    margin: 0 !important;
+    padding: 12px 16px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 13px;
+    color: #64748b;
+    flex: 1;
+    max-width: 180px;
+}
+
+#detaily p strong {
+    display: block;
+    color: #1a1a2e;
+    font-size: 15px;
+    margin-top: 4px;
+}
+
