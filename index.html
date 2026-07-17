@@ -7,6 +7,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
     <title>Hypoteční kalkulačka</title>
     <link rel="stylesheet" href="style.css">
+    <script src="pdf-export.js"></script>
 </head>
 <body>
     <nav class="menu">
@@ -51,36 +52,11 @@
 
         <h2 style="text-align: center; margin-top: 20px;">🧮 Výsledek</h2>
         <div id="vysledek"></div>
-            <div id="detaily" class="detaily"></div>
+        <div id="detaily" class="detaily"></div>
 
-        <!-- Nové tlačítko pro PDF -->
         <button id="export-pdf">📄 Stáhnout PDF</button>
         <h2 style="text-align: center; margin-top: 20px;">📊 Rozložení nákladů hypotéky</h2>
         <canvas id="graf" width="400" height="300"></canvas>
-
-        <!-- Skrytý kontejner pro PDF export -->
-        <div id="pdf-export-container" style="display: none; padding: 40px; font-family: sans-serif;">
-            <h1 style="color: #4f46e5;">🏠 Hypoteční kalkulačka</h1>
-            <p>Finanční Mapa | Datum: <span id="pdf-date"></span></p>
-            <hr>
-            <h3>PARAMETRY ÚVĚRU</h3>
-            <p>Výše úvěru: <span id="pdf-castka"></span> Kč</p>
-            <p>Úroková sazba: <span id="pdf-urok"></span> %</p>
-            <p>Doba splácení: <span id="pdf-doba"></span> let</p>
-            <hr>
-            <div style="text-align: center; background: #f8fafc; padding: 20px; border-radius: 12px;">
-                <h3>💰 MĚSÍČNÍ SPLÁTKA</h3>
-                <h1 style="color: #4f46e5; font-size: 32px;" id="pdf-splatka"></h1>
-            </div>
-            <div style="display: flex; justify-content: space-around; margin-top: 20px;">
-                <div><p>💳 Celkem zaplatíte</p><strong id="pdf-celkem"></strong></div>
-                <div><p>📈 Zaplacené úroky</p><strong id="pdf-uroky"></strong></div>
-            </div>
-            <div id="pdf-graf" style="margin-top: 30px; text-align: center;"></div>
-            <p style="margin-top: 50px; font-size: 10px; color: #666; text-align: center;">
-                Tento výpočet je orientační a nepředstavuje závaznou nabídku banky.
-            </p>
-        </div>
 
         <a href="kolik-pujcit-hypoteka.html" class="info-box">
             💡 Kolik si vůbec můžu půjčit? <span>Zjisti to →</span>

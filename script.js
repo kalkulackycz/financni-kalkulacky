@@ -7,12 +7,11 @@
     var s2 = document.createElement("script"); s2.src = chartUrl;
     s2.onload = function() { window.ChartJsPripraven = true; var tlacitko = document.getElementById("vypocitat"); if (tlacitko) tlacitko.click(); };
     document.head.appendChild(s2);
-})();
 
-// Dynamické načtení html2pdf
-const pdfLib = document.createElement("script");
-pdfLib.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
-document.head.appendChild(pdfLib);
+    var jspdfUrl = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/4.0.0/jspdf.umd.min.js";
+    var s3 = document.createElement("script"); s3.src = jspdfUrl;
+    document.head.appendChild(s3);
+})();
 
 window.addEventListener("DOMContentLoaded", function() {
     // Globální logika pro otazníky (PC hover / Mobil klik)
@@ -50,7 +49,7 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Naformátuje hodnotu pole na "3 000 000" nebo "5,5" a uloží zpět do inputu
+    // Naformátuje hodnotu pole na "3 0 00 000" nebo "5,5" a uloží zpět do inputu
     function naformatujPole(inputId) {
         const el = document.getElementById(inputId);
         let val = el.value.replace(/\s/g, '');
@@ -63,7 +62,6 @@ window.addEventListener("DOMContentLoaded", function() {
     }
 
     document.getElementById("vypocitat").addEventListener("click", function() {
-        // Nejdřív naformátuj všechna pole, ať se čísla zobrazí správně i po ručním psaní
         naformatujPole("castka");
         naformatujPole("urok");
         naformatujPole("doba");
@@ -84,7 +82,7 @@ window.addEventListener("DOMContentLoaded", function() {
         const jeUrokOk = !isNaN(rocniSazba) && rocniSazba >= 0;
         const jeDobaOk = !isNaN(roky) && roky > 0;
 
-        validujInput(castkaInput, "castka-chyba", "Např.: 3 000 000", jeCastkaOk);
+        validujInput(castkaInput, "castka-chyba", "Např.: 3 0 00 000", jeCastkaOk);
         validujInput(urokInput, "urok-chyba", "Např.: 5,5", jeUrokOk);
         validujInput(dobaInput, "doba-chyba", "Např.: 30", jeDobaOk);
 
@@ -141,7 +139,7 @@ window.addEventListener("DOMContentLoaded", function() {
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: { position: "bottom" },
+                        legend: { display: false, position: "bottom" },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
@@ -161,30 +159,114 @@ window.addEventListener("DOMContentLoaded", function() {
     });
 
     document.getElementById("export-pdf").addEventListener("click", function() {
-        // 1. Naplnění skrytého kontejneru aktuálními daty
-        document.getElementById("pdf-date").innerText = new Date().toLocaleDateString('cs-CZ');
-        document.getElementById("pdf-castka").innerText = document.getElementById("castka").value;
-        document.getElementById("pdf-urok").innerText = document.getElementById("urok").value;
-        document.getElementById("pdf-doba").innerText = document.getElementById("doba").value;
-        document.getElementById("pdf-splatka").innerText = document.getElementById("vysledek").textContent;
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const datum = new Date().toLocaleDateString('cs-CZ');
+
+        // Registrace fontu (pokud není, použije se fallback)
+        doc.addFont('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf', 'Roboto', 'normal');
+        doc.addFont('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf', 'Roboto', 'bold');
+        doc.setFont("Roboto");
+
+        // Načtení dat z DOM
+        const castka = document.getElementById("castka").value;
+        const urok = document.getElementById("urok").value;
+        const doba = document.getElementById("doba").value;
+        const splatkaText = document.getElementById("vysledek").textContent;
+        const splatka = splatkaText ? splatkaText.replace("Měsíční splátka: ", "") : "";
+
         const pTagy = document.getElementById("detaily").querySelectorAll("strong");
-        document.getElementById("pdf-celkem").innerText = pTagy[0] ? pTagy[0].innerText : "";
-        document.getElementById("pdf-uroky").innerText = pTagy[1] ? pTagy[1].innerText : "";
+        const celkem = pTagy[0] ? pTagy[0].innerText : "";
+        const celkoveUroky = pTagy[1] ? pTagy[1].innerText : "";
 
-        // Zkopírování grafu do PDF kontejneru
-        const grafImg = document.getElementById("graf").toDataURL("image/png");
-        document.getElementById("pdf-graf").innerHTML = `<img src="${grafImg}" style="width: 300px;">`;
+        // 1. Modrý pruh a zarovnaná hlavička
+        doc.setFillColor(79, 70, 229);
+        doc.rect(0, 0, 210, 40, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont("Roboto", "bold");
+        doc.setFontSize(20);
+        doc.text("🏠 Hypoteční kalkulačka", 105, 18, { align: "center" });
+        doc.setFontSize(12);
+        doc.setFont("Roboto", "normal");
+        doc.text("Finanční Mapa", 105, 26, { align: "center" });
+        doc.setFontSize(10);
+        doc.text("Datum vytvoření: " + datum, 105, 35, { align: "center" });
 
-        // 2. Export
-        const element = document.getElementById('pdf-export-container');
-        const opt = {
-            margin: 15,
-            filename: `Hypotecni-kalkulacka-${new Date().toISOString().slice(0,10)}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-        html2pdf().set(opt).from(element).save();
+        // 2. Parametry
+        doc.setTextColor(30, 41, 59);
+        doc.setFontSize(14);
+        doc.text("PARAMETRY ÚVĚRU", 20, 55);
+        doc.setFont("Roboto", "normal");
+        doc.setFontSize(12);
+        doc.text("Výše úvěru:", 20, 65); doc.text(castka + " Kč", 190, 65, { align: "right" });
+        doc.text("Úroková sazba:", 20, 75); doc.text(urok + " %", 190, 75, { align: "right" });
+        doc.text("Doba splácení:", 20, 85); doc.text(doba + " let", 190, 85, { align: "right" });
+
+        // 3. Hlavní karta splátky
+        doc.setFillColor(248, 250, 252);
+        doc.roundedRect(20, 100, 170, 35, 3, 3, 'F');
+        doc.setTextColor(79, 70, 229);
+        doc.setFont("Roboto", "bold");
+        doc.setFontSize(12);
+        doc.text("MĚSÍČNÍ SPLÁTKA", 105, 112, { align: "center" });
+        doc.setFontSize(24);
+        doc.text(splatka, 105, 128, { align: "center" });
+
+        // 4. Detaily
+        doc.setTextColor(30, 41, 59);
+        doc.setFontSize(10);
+        doc.text("Celkem zaplatíte:", 60, 150, { align: "center" });
+        doc.text("Zaplacené úroky:", 150, 150, { align: "center" });
+        doc.setFont("Roboto", "bold");
+        doc.setFontSize(12);
+        doc.text(celkem, 60, 160, { align: "center" });
+        doc.text(celkoveUroky, 150, 160, { align: "center" });
+        // 5. Graf s vynuceným bílým pozadím
+        const sourceCanvas = document.getElementById("graf");
+        if (sourceCanvas) {
+            const ctx = sourceCanvas.getContext('2d');
+
+            // Vynucení bílého pozadí pod graf
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, sourceCanvas.width, sourceCanvas.height);
+
+            // Návrat do normálního režimu (aby graf zůstal na webu stejný)
+            ctx.globalCompositeOperation = 'source-over';
+
+            // Export
+            const imgData = sourceCanvas.toDataURL("image/jpeg", 1.0);
+
+            // Vložení do PDF (čtverec 80x80mm, vycentrovaný)
+            const sirkaStranky = doc.internal.pageSize.getWidth();
+            const rozmer = 80;
+            doc.addImage(imgData, 'JPEG', (sirkaStranky - rozmer) / 2, 165, rozmer, rozmer);
+        }
+
+        // Legenda (vedle sebe vycentrovaná)
+        doc.setFont("Roboto", "normal");
+        doc.setFontSize(10);
+        doc.setTextColor(30, 41, 59);
+
+        // Jistina
+        doc.setFillColor(79, 70, 229); // Odpovídá barvě v Chart.js
+        doc.rect(50, 250, 5, 5, 'F');
+        doc.text("Jistina: " + castka + " Kč", 58, 254);
+
+        // Úroky
+        doc.setFillColor(249, 115, 22); // Odpovídá barvě v Chart.js
+        doc.rect(120, 250, 5, 5, 'F');
+        doc.text("Úroky: " + celkoveUroky, 128, 254);
+
+        // 6. Patička
+        doc.setDrawColor(200, 200, 200);
+        doc.line(20, 270, 190, 270);
+        doc.setFont("Roboto", "normal");
+        doc.setFontSize(8);
+        doc.setTextColor(150, 150, 150);
+        doc.text("Tento výpočet je pouze orientační a nepředstavuje závaznou nabídku banky.", 105, 280, { align: "center" });
+        doc.text("www.financnimapa.cz", 105, 285, { align: "center" });
+        doc.save("hypotecni-vypocet.pdf");
     });
 
     if (document.getElementById("tlacitko-tabulka")) {
@@ -202,7 +284,7 @@ window.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    zapnoutFormatovani('castka', 'castka-chyba', 'Např.: 3 000 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
+    zapnoutFormatovani('castka', 'castka-chyba', 'Např.: 3 0 00 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
     zapnoutFormatovani('urok', 'urok-chyba', 'Např.: 5,5', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
     zapnoutFormatovani('doba', 'doba-chyba', 'Např.: 30', v => !isNaN(v) && parseFloat(v) > 0);
 
@@ -211,7 +293,7 @@ window.addEventListener("DOMContentLoaded", function() {
     function spustiVypocetSProdlevou() {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(function() {
-            document.getElementById("vypocitat").click();
+        document.getElementById("vypocitat").click();
         }, 500);
     }
 
@@ -219,19 +301,16 @@ window.addEventListener("DOMContentLoaded", function() {
     ["castka", "urok", "doba"].forEach(function(id) {
         const el = document.getElementById(id);
         if (el) {
-            // Debounced výpočet při psaní (neovlivňuje slidery, ty mají vlastní logiku)
             el.addEventListener("input", function() {
                 spustiVypocetSProdlevou();
-            });
-
-            // Blur a Enter zůstávají pro okamžité formátování a výpočet
-            el.addEventListener("blur", function() {
-                clearTimeout(debounceTimer);
-                    naformatujPole(id);
-                document.getElementById("vypocitat").click();
 });
 
-            // Enter: navigace mezi poli a výpočet v posledním poli
+            el.addEventListener("blur", function() {
+                clearTimeout(debounceTimer);
+                naformatujPole(id);
+                document.getElementById("vypocitat").click();
+            });
+
             el.addEventListener("keydown", function(event) {
                 if (event.key === "Enter") {
                     event.preventDefault();
@@ -243,10 +322,10 @@ window.addEventListener("DOMContentLoaded", function() {
                     } else if (id === "urok") {
                         document.getElementById("doba").focus();
                     } else if (id === "doba") {
-        document.getElementById("vypocitat").click();
+                        document.getElementById("vypocitat").click();
                     }
                 }
-});
+            });
         }
     });
 
@@ -258,9 +337,9 @@ window.addEventListener("DOMContentLoaded", function() {
                 input.value = slider.value.replace('.', ',');
             } else {
                 input.value = parseInt(slider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
-    }
-        document.getElementById("vypocitat").click();
-});
+            }
+            document.getElementById("vypocitat").click();
+        });
 
         input.addEventListener('input', function() {
             let val = input.value.replace(/\s/g, '').replace(',', '.');
