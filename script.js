@@ -135,27 +135,27 @@ window.addEventListener("DOMContentLoaded", function() {
         }
 
         if (window.ChartJsPripraven && typeof Chart !== "undefined") {
-            if (mujGraf !== null) mujGraf.destroy();
+            // 1. Zničení staré instance, pokud existuje
+            if (mujGraf !== null) {
+                mujGraf.destroy();
+                mujGraf = null;
+            }
+
             const ctx = document.getElementById("graf").getContext("2d");
             mujGraf = new Chart(ctx, {
                 type: "doughnut",
-                data: { labels: ["Jistina (půjčené peníze)", "Úroky"], datasets: [{ data: [P, Math.max(0, celkoveUroky)], backgroundColor: ["#4f46e5", "#f97316"] }] },
+                data: {
+                    labels: ["Jistina", "Úroky"],
+                    datasets: [{
+                        data: [P, Math.max(0, celkoveUroky)],
+                        backgroundColor: ["#4f46e5", "#f97316"]
+                    }]
+                },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: true, // Zajišťuje správný poměr stran
                     plugins: {
-                        legend: { display: false, position: "bottom" },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) label += ': ';
-                                    if (context.parsed !== null) {
-                                        label += context.parsed.toLocaleString('cs-CZ') + ' Kč';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
+                        legend: { display: false } // Skrytí malé legendy pro čistý vzhled v PDF
                     }
                 }
             });
@@ -239,23 +239,27 @@ window.addEventListener("DOMContentLoaded", function() {
         doc.setFontSize(12);
         doc.text(celkem, 60, 160, { align: "center" });
         doc.text(celkoveUroky, 150, 160, { align: "center" });
+
         // 5. Graf s vynuceným bílým pozadím
-        const sourceCanvas = document.getElementById("graf");
-        if (sourceCanvas) {
-            const ctx = sourceCanvas.getContext('2d');
-
-            // Vynucení bílého pozadí pod graf
-            ctx.globalCompositeOperation = 'destination-over';
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, sourceCanvas.width, sourceCanvas.height);
-
-            // Návrat do normálního režimu (aby graf zůstal na webu stejný)
-            ctx.globalCompositeOperation = 'source-over';
-
-            // Export
-            const imgData = sourceCanvas.toDataURL("image/jpeg", 1.0);
-
-            // Vložení do PDF (čtverec 80x80mm, vycentrovaný)
+            const canvas = document.getElementById("graf");
+        let imgData = "";
+            if (canvas) {
+            // Vytvoření dočasného canvasu pro zajištění bílého pozadí
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            const ctx = tempCanvas.getContext('2d');
+            ctx.fillStyle = "#ffffff"; // Bílé pozadí
+            ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+            ctx.drawImage(canvas, 0, 0);
+            imgData = tempCanvas.toDataURL("image/png", 1.0);
+            }
+        // Vložení do skrytého kontejneru pro export
+        if (imgData) {
+            const pdfGrafDiv = document.getElementById("pdf-graf");
+            if (pdfGrafDiv) {
+                pdfGrafDiv.innerHTML = `<img src="${imgData}" style="width: 300px; height: auto;">`;
+            }
             const sirkaStranky = doc.internal.pageSize.getWidth();
             const rozmer = 80;
             doc.addImage(imgData, 'JPEG', (sirkaStranky - rozmer) / 2, 165, rozmer, rozmer);
@@ -355,30 +359,32 @@ window.addEventListener("DOMContentLoaded", function() {
     zapnoutFormatovani('urok', 'urok-chyba', 'Např.: 5,5', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
     zapnoutFormatovani('doba', 'doba-chyba', 'Např.: 30', v => !isNaN(v) && parseFloat(v) > 0);
 
-    // Napojení na ruční psaní
     ["castka", "urok", "doba"].forEach(function(id) {
         const el = document.getElementById(id);
         if (el) {
-            // Okamžitý přepočet (slider) - ponecháváme původní logiku
+            // NOVĚ PŘIDÁNO: Automatický výpočet při psaní (input) s debounce
             el.addEventListener("input", function() {
-                // Logika pro slidery zůstává (pokud je zde definována)
+                setTimeout(() => document.getElementById("vypocitat").click(), 500);
             });
 
             // Blur: naformátuj a vypočítej
-            el.addEventListener("blur", function() {
-                naformatujPole(id);
-                document.getElementById("vypocitat").click();
-            });
-            
+        el.addEventListener("blur", function() {
+                    naformatujPole(id);
+        document.getElementById("vypocitat").click();
+});
+
             // Enter: navigace a výpočet
             el.addEventListener("keydown", function(event) {
                 if (event.key === "Enter") {
                     event.preventDefault();
                     naformatujPole(id);
-                    document.getElementById("vypocitat").click();
-                }
-            });
-        }
+                    // Navigace zůstává dle předchozí domluvy
+                    if (id === "castka") document.getElementById("urok").focus();
+                    else if (id === "urok") document.getElementById("doba").focus();
+                    else document.getElementById("vypocitat").click();
+    }
+    });
+    }
     });
 
     function propojSlider(inputId, sliderId) {
@@ -390,8 +396,8 @@ window.addEventListener("DOMContentLoaded", function() {
             } else {
                 input.value = parseInt(slider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
             }
-            document.getElementById("vypocitat").click();
-        });
+        document.getElementById("vypocitat").click();
+});
 
         input.addEventListener('input', function() {
             let val = input.value.replace(/\s/g, '').replace(',', '.');
