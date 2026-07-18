@@ -17,6 +17,9 @@
     document.head.appendChild(s4);
 })();
 
+// Globální proměnná pro sdílení dat
+let amortizacniPlan = [];
+
 window.addEventListener("DOMContentLoaded", function() {
     // Globální logika pro otazníky (PC hover / Mobil klik)
     document.addEventListener('click', function(e) {
@@ -65,6 +68,165 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    // 1. Ovládání UI (skrytí/zobrazení)
+    const aktivator = document.getElementById('aktivator-checkbox');
+    const blokMimoradna = document.getElementById('blok-mimoradna-splatka');
+    aktivator.addEventListener('change', function() {
+        if (this.checked) {
+            blokMimoradna.style.opacity = '1';
+            blokMimoradna.style.pointerEvents = 'auto';
+        } else {
+            blokMimoradna.style.opacity = '0.7';
+            blokMimoradna.style.pointerEvents = 'none';
+            // Reset hodnot při vypnutí
+            document.getElementById("mimoradna-splatka").value = "0";
+            document.getElementById("mimoradna-rok").value = "0";
+        }
+        vypocitat();
+    });
+
+    function getHypoData(pujcka, urok, roky, mimoSplatka, rokMimo) {
+        let zustatek = pujcka;
+        let celkemZaplaceno = 0;
+        let celkemUroky = 0;
+        let mesicniSplatka = pujcka * ((urok/100/12) * Math.pow(1 + (urok/100/12), roky * 12)) / (Math.pow(1 + (urok/100/12), roky * 12) - 1);
+
+        for (let m = 1; zustatek > 0.1; m++) {
+            let urokMesic = zustatek * (urok / 100 / 12);
+            if (mimoSplatka > 0 && rokMimo > 0 && m === rokMimo * 12) {
+                let mimoradna = Math.min(mimoSplatka, zustatek);
+                zustatek -= mimoradna;
+                celkemZaplaceno += mimoradna;
+            }
+            let jistinaMesic = Math.min(mesicniSplatka - urokMesic, zustatek);
+            zustatek -= jistinaMesic;
+            celkemZaplaceno += (jistinaMesic + urokMesic);
+            celkemUroky += urokMesic;
+            if (m > 600) break; // Bezpečnostní pojistka
+        }
+        return { celkemZaplaceno, celkemUroky };
+    }
+
+    // 2. Výpočetní logika
+    function vypocitat() {
+        const P = parseFloat(document.getElementById("castka").value.replace(/\s/g, '')) || 0;
+        const rocniUrok = parseFloat(document.getElementById("urok").value.replace(",", ".")) || 0;
+        const roky = parseFloat(document.getElementById("doba").value) || 0;
+
+        let M = 0;
+        let R = 0;
+        if (document.getElementById('aktivator-checkbox').checked) {
+            M = parseFloat(document.getElementById("mimoradna-splatka").value.replace(/\s/g, '')) || 0;
+            R = parseInt(document.getElementById("mimoradna-rok").value) || 0;
+        }
+
+        // 1. Bezpečná kontrola checkboxu
+        let checkbox = document.getElementById('aktivator-checkbox');
+        let jeAktivni = checkbox ? checkbox.checked : false;
+
+        // 2. Formátovací funkce
+            const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
+
+        const N = roky * 12;
+        const r_mesicni = rocniUrok / 100 / 12;
+
+        // 1. STANDARDNÍ VÝPOČET (Zůstává nedotčen pro původní UI)
+        let zustatekStandard = P;
+        let celkemZaplaceno = 0; // Původní proměnná
+        let celkemUroky = 0;    // Původní proměnná
+        let mesicniSplatka = P * (r_mesicni * Math.pow(1 + r_mesicni, N)) / (Math.pow(1 + r_mesicni, N) - 1);
+
+        for (let m = 1; m <= N; m++) {
+            let urokMesicne = zustatekStandard * r_mesicni;
+            let jistinaMesicne = Math.min(mesicniSplatka - urokMesicne, zustatekStandard);
+            celkemUroky += urokMesicne;
+            celkemZaplaceno += (jistinaMesicne + urokMesicne);
+            zustatekStandard -= jistinaMesicne;
+        }
+
+        // 1. Zajištění proměnných pro mimořádnou splátku
+            let celkemZaplacenoMimo = 0;
+            let celkemUrokyMimo = 0;
+
+        // 2. Pokud je aktivní, vypočítej tyto hodnoty pomocí pomocné funkce
+        if (document.getElementById('aktivator-checkbox') && document.getElementById('aktivator-checkbox').checked) {
+            const standard = getHypoData(P, rocniUrok, roky, 0, 0);
+            const mimo = getHypoData(P, rocniUrok, roky, M, R);
+            celkemZaplacenoMimo = mimo.celkemZaplaceno;
+            celkemUrokyMimo = mimo.celkemUroky;
+
+            // 3. Zobrazení výsledků v bloku srovnání
+            const vysledekStandard = document.getElementById("vysledekStandard");
+            const vysledekUspora = document.getElementById("vysledekUspora");
+
+            if (vysledekStandard) {
+                vysledekStandard.textContent = "Původní úroky: " + fmt(standard.celkemUroky);
+            }
+            if (vysledekUspora) {
+                vysledekUspora.textContent = "Úspora na úrocích: " + fmt(standard.celkemUroky - celkemUrokyMimo);
+            }
+        }
+        // Agregace pro tabulku
+        let zustatekTab = P;
+        let rocniPlan = [];
+        let aktualniRok = 1;
+        let ročníJistina = 0;
+        let ročníUroky = 0;
+        for (let m = 1; m <= N; m++) {
+            let urokyMesicne = zustatekTab * r_mesicni;
+            let jistinaMesicne = Math.min(mesicniSplatka - urokyMesicne, zustatekTab);
+
+            // Přičtení mimořádné splátky v měsíci R*12
+            if (M > 0 && R > 0 && m === R * 12) {
+                let mimoradna = Math.min(M, zustatekTab - jistinaMesicne);
+                jistinaMesicne += mimoradna;
+            }
+            zustatekTab -= jistinaMesicne;
+            ročníJistina += jistinaMesicne;
+            ročníUroky += urokyMesicne;
+
+            // Pokud je konec roku nebo splaceno, uložíme řádek do plánu
+            if (m % 12 === 0 || zustatekTab <= 0.1) {
+                rocniPlan.push({
+                    rok: aktualniRok,
+                    splatkaJistiny: Math.round(ročníJistina).toLocaleString("cs-CZ", {useGrouping: true}).replace(/\u00A0/g, ' ') + " Kč",
+                    zaplaceneUroky: Math.round(ročníUroky).toLocaleString("cs-CZ", {useGrouping: true}).replace(/\u00A0/g, ' ') + " Kč",
+                    zustatek: Math.round(Math.max(0, zustatekTab)).toLocaleString("cs-CZ", {useGrouping: true}).replace(/\u00A0/g, ' ') + " Kč"
+                });
+                ročníJistina = 0;
+                ročníUroky = 0;
+                aktualniRok++;
+            }
+            if (zustatekTab <= 0.1) break;
+        }
+
+        // Propojení s PDF
+        amortizacniPlan = rocniPlan;
+        window.temp_standard = { celkemZaplaceno, celkemUroky };
+        window.temp_mimo = (jeAktivni) ? { celkemZaplaceno: celkemZaplacenoMimo, celkemUroky: celkemUrokyMimo } : { celkemZaplaceno, celkemUroky };
+
+        // 3. Výpis výsledků do UI
+        const vysledekEl = document.getElementById("vysledek");
+        if (vysledekEl) vysledekEl.textContent = "Měsíční splátka: " + fmt(mesicniSplatka);
+        const detailyEl = document.getElementById("detaily");
+        if (detailyEl) {
+            detailyEl.innerHTML =
+                "<p>Celkem zaplaceno: <strong>" + fmt(celkemZaplaceno) + "</strong></p>" +
+                "<p>Z toho úroky: <strong>" + fmt(celkemUroky) + "</strong></p>";
+        }
+
+        // 4. Překreslení grafu (volání tvé existující funkce)
+        if (typeof vykresliGraf === 'function') {
+            vykresliGraf(amortizacniPlan);
+        }
+
+        // 5. Zobrazení bloku srovnání
+        let blokSrovnani = document.getElementById('blokSrovnani');
+        if (blokSrovnani) {
+            blokSrovnani.style.display = jeAktivni ? 'block' : 'none';
+        }
+    } // Konec funkce vypocitat
+
     document.getElementById("vypocitat").addEventListener("click", function() {
         naformatujPole("castka");
         naformatujPole("urok");
@@ -91,77 +253,10 @@ window.addEventListener("DOMContentLoaded", function() {
         validujInput(dobaInput, "doba-chyba", "Např.: 30", jeDobaOk);
 
         if (!jeCastkaOk || !jeUrokOk || !jeDobaOk) return;
-        const n = roky * 12;
-        const r = rocniSazba / 100 / 12;
-
-        const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-        const vysledek = Math.round(mesicniSplatka);
-        const celkemZaplaceno = Math.round(mesicniSplatka * n);
-        const celkoveUroky = celkemZaplaceno - P;
-
-        document.getElementById("vysledek").textContent = "Měsíční splátka: " + vysledek.toLocaleString("cs-CZ") + " Kč";
-        document.getElementById("detaily").innerHTML =
-            "<p>Celkem zaplatíte: <strong>" + celkemZaplaceno.toLocaleString("cs-CZ") + " Kč</strong></p>" +
-            "<p>Z toho na úrocích: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>";
-
-        const tabulkaTelo = document.querySelector("#amortizacni-tabulka tbody");
-        if (tabulkaTelo) {
-            tabulkaTelo.innerHTML = "";
-            document.getElementById("sekce-tabulka").style.display = "block";
-            document.getElementById("obal-tabulky").style.display = "none";
-            document.getElementById("tlacitko-tabulka").classList.remove("aktivni");
-
-            let zbyvajiciJistina = P;
-            let kumulovanyUrokRok = 0;
-            let kumulovanaJistinaRok = 0;
-
-            for (let m = 1; m <= n; m++) {
-                const urokVtomtoMesici = zbyvajiciJistina * r;
-                const jistinaVtomtoMesici = mesicniSplatka - urokVtomtoMesici;
-
-                kumulovanyUrokRok += urokVtomtoMesici;
-                kumulovanaJistinaRok += jistinaVtomtoMesici;
-                zbyvajiciJistina -= jistinaVtomtoMesici;
-
-                if (m % 12 === 0 || m === n) {
-                    const rok = Math.ceil(m / 12);
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = `<td>${rok}</td><td>${Math.round(kumulovanaJistinaRok).toLocaleString("cs-CZ")} Kč</td><td>${Math.round(kumulovanyUrokRok).toLocaleString("cs-CZ")} Kč</td><td>${Math.max(0, Math.round(zbyvajiciJistina)).toLocaleString("cs-CZ")} Kč</td>`;
-                    tabulkaTelo.appendChild(tr);
-                    kumulovanyUrokRok = 0;
-                    kumulovanaJistinaRok = 0;
-                }
-            }
-        }
-
-        if (window.ChartJsPripraven && typeof Chart !== "undefined") {
-            // 1. Zničení staré instance, pokud existuje
-            if (mujGraf !== null) {
-                mujGraf.destroy();
-                mujGraf = null;
-            }
-
-            const ctx = document.getElementById("graf").getContext("2d");
-            mujGraf = new Chart(ctx, {
-                type: "doughnut",
-                data: {
-                    labels: ["Jistina", "Úroky"],
-                    datasets: [{
-                        data: [P, Math.max(0, celkoveUroky)],
-                        backgroundColor: ["#4f46e5", "#f97316"]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true, // Zajišťuje správný poměr stran
-                    plugins: {
-                        legend: { display: false } // Skrytí malé legendy pro čistý vzhled v PDF
-                    }
-                }
-            });
-        }
+        vypocitat();
     });
 
+    // PDF Export
     document.getElementById("export-pdf").addEventListener("click", function() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
@@ -172,54 +267,39 @@ window.addEventListener("DOMContentLoaded", function() {
         doc.setFont("Roboto");
 
         // 2. Data
-        const datum = new Date().toLocaleDateString('cs-CZ');
         const castka = document.getElementById("castka").value;
         const urok = document.getElementById("urok").value;
         const doba = document.getElementById("doba").value;
-        const splatka = document.getElementById("vysledek").textContent.replace("Měsíční splátka: ", "");
-        const pTagy = document.getElementById("detaily").querySelectorAll("strong");
-        const celkem = pTagy[0] ? pTagy[0].innerText : "";
-        const uroky = pTagy[1] ? pTagy[1].innerText : "";
+        const standard = window.temp_standard;
+        const mimo = window.temp_mimo;
 
-        // Příprava dat pro tabulku
-        const body = [];
-        const P = parseFloat(castka.replace(/\s/g, ''));
-        const n = parseInt(doba) * 12;
-        const r = parseFloat(urok.replace(",", ".")) / 100 / 12;
-        const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-        let zbyvajiciJistina = P;
-        let kumulovanyUrokRok = 0;
-        let kumulovanaJistinaRok = 0;
+        // Oprava: Bezpečná kontrola existence elementu a hodnoty před voláním split
+        const el = document.getElementById("vysledek");
+        const hodnota = el ? el.textContent : "";
+        let splatka = hodnota.replace("Měsíční splátka: ", "");
 
-        for (let m = 1; m <= n; m++) {
-            const urokVtomtoMesici = zbyvajiciJistina * r;
-            const jistinaVtomtoMesici = mesicniSplatka - urokVtomtoMesici;
-            kumulovanyUrokRok += urokVtomtoMesici;
-            kumulovanaJistinaRok += jistinaVtomtoMesici;
-            zbyvajiciJistina -= jistinaVtomtoMesici;
-            if (m % 12 === 0 || m === n) {
-                body.push([Math.ceil(m / 12), Math.round(kumulovanaJistinaRok).toLocaleString("cs-CZ") + " Kč", Math.round(kumulovanyUrokRok).toLocaleString("cs-CZ") + " Kč", Math.max(0, Math.round(zbyvajiciJistina)).toLocaleString("cs-CZ") + " Kč"]);
-                kumulovanyUrokRok = 0;
-                kumulovanaJistinaRok = 0;
-            }
-        }
+        // 1. Oprava načítání dat z detailů pomocí Regexu
+        const detailyEl = document.getElementById("detaily");
+        const textDetaily = detailyEl ? detailyEl.innerText : "";
+        const celkemMatch = textDetaily.match(/Celkem zaplaceno:\s*([\d\s]+)\s*Kč/);
+        const urokyMatch = textDetaily.match(/Z toho úroky:\s*([\d\s]+)\s*Kč/);
+        const celkem = celkemMatch ? celkemMatch[1].trim() + " Kč" : "0 Kč";
+        const uroky = urokyMatch ? urokyMatch[1].trim() + " Kč" : "0 Kč";
 
         // 3. Hlavička
         doc.setFillColor(79, 70, 229);
         doc.rect(0, 0, 210, 40, 'F');
         doc.setTextColor(255, 255, 255);
-        doc.setFont("Roboto", "bold");
+            doc.setFont("Roboto", "bold");
         doc.setFontSize(20);
         doc.text("🏠 Hypoteční kalkulačka", 20, 20);
         doc.setFontSize(12);
         doc.setFont("Roboto", "normal");
         doc.text("Finanční Mapa", 20, 28);
-        doc.text("Datum: " + datum, 190, 28, { align: "right" });
-
-        // 4. Parametry
+        // 4. Parametry úvěru
         doc.setTextColor(30, 41, 59);
         doc.setFontSize(14);
-        doc.setFont("Roboto", "bold");
+            doc.setFont("Roboto", "bold");
         doc.text("PARAMETRY ÚVĚRU", 20, 55);
         doc.setFont("Roboto", "normal");
         doc.setFontSize(12);
@@ -227,7 +307,7 @@ window.addEventListener("DOMContentLoaded", function() {
         doc.text("Úroková sazba: " + urok + " %", 20, 75);
         doc.text("Doba splácení: " + doba + " let", 20, 85);
 
-        // 5. Výsledek
+        // 4. MĚSÍČNÍ SPLÁTKA
         doc.setFillColor(248, 250, 252);
         doc.roundedRect(20, 100, 170, 30, 2, 2, 'F');
         doc.setTextColor(79, 70, 229);
@@ -237,30 +317,50 @@ window.addEventListener("DOMContentLoaded", function() {
         doc.setFontSize(22);
         doc.text(splatka, 105, 125, { align: "center" });
 
-        // 6. Detaily
+        // 2. Vykreslení výsledků do PDF
         doc.setTextColor(30, 41, 59);
+        doc.setFont("Roboto", "normal");
         doc.setFontSize(12);
-        doc.setFont("Roboto", "bold");
-        doc.text("Celkem zaplatíte: " + celkem, 60, 145, { align: "center" });
-        doc.text("Zaplacené úroky: " + uroky, 150, 145, { align: "center" });
+        doc.text("Celkem zaplaceno: " + celkem, 20, 145);
+        doc.text("Z toho úroky: " + uroky, 20, 155);
 
-        // 7. Amortizační tabulka (přes autoTable)
+        // 3. Podmínka pro mimořádnou splátku
+        if (document.getElementById('aktivator-checkbox').checked) {
+            doc.setFont("Roboto", "bold");
+            doc.text("Mimořádná splátka: " + document.getElementById("mimoradna-splatka").value + " Kč v roce " + document.getElementById("mimoradna-rok").value, 20, 165);
+            doc.setFont("Roboto", "bold");
+            doc.setFontSize(14);
+            doc.text("SROVNÁNÍ ÚVĚRU", 20, 250);
+            doc.setFont("Roboto", "normal");
+            doc.setFontSize(10);
+
+            const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
+
+            doc.text("Původní celkové úroky: " + fmt(standard.celkemUroky), 20, 260);
+            doc.text("Úroky s mimořádnou splátkou: " + fmt(mimo.celkemUroky), 20, 267);
+            doc.setTextColor(79, 70, 229);
+            doc.text("Úspora: " + fmt(standard.celkemUroky - mimo.celkemUroky), 20, 274);
+        }
+
+        // 7. Amortizační tabulka (Obnoveno)
         if (typeof doc.autoTable === 'function') {
             doc.addPage();
             doc.setFont("Roboto", "bold");
+            doc.setFontSize(16);
             doc.text("Amortizační tabulka", 105, 15, { align: 'center' });
-        doc.autoTable({
+
+            doc.autoTable({
                 startY: 25,
-                head: [['Rok', 'Splátka jistiny', 'Zaplacené úroky', 'Zůstatek']],
-                body: body,
-            theme: 'striped',
+            head: [['Rok', 'Splátka jistiny', 'Zaplacené úroky', 'Zůstatek']],
+                body: amortizacniPlan.map(row => [row.rok, row.splatkaJistiny, row.zaplaceneUroky, row.zustatek]),
+                theme: 'striped',
                 styles: { font: 'Roboto' },
                 headStyles: { fillColor: [79, 70, 229] }
-        });
+            });
         }
 
-        doc.save("hypotecni-vypocet.pdf");
-    });
+        doc.save("vypocet_hypoteky.pdf");
+});
 
     if (document.getElementById("tlacitko-tabulka")) {
         document.getElementById("tlacitko-tabulka").onclick = function() {
@@ -284,23 +384,17 @@ window.addEventListener("DOMContentLoaded", function() {
     ["castka", "urok", "doba"].forEach(function(id) {
         const el = document.getElementById(id);
         if (el) {
-            // NOVĚ PŘIDÁNO: Automatický výpočet při psaní (input) s debounce
             el.addEventListener("input", function() {
                 setTimeout(() => document.getElementById("vypocitat").click(), 500);
             });
-
-            // Blur: naformátuj a vypočítej
         el.addEventListener("blur", function() {
                     naformatujPole(id);
         document.getElementById("vypocitat").click();
 });
-
-            // Enter: navigace a výpočet
             el.addEventListener("keydown", function(event) {
                 if (event.key === "Enter") {
                     event.preventDefault();
                     naformatujPole(id);
-                    // Navigace zůstává dle předchozí domluvy
                     if (id === "castka") document.getElementById("urok").focus();
                     else if (id === "urok") document.getElementById("doba").focus();
                     else document.getElementById("vypocitat").click();
@@ -320,7 +414,6 @@ window.addEventListener("DOMContentLoaded", function() {
             }
         document.getElementById("vypocitat").click();
 });
-
         input.addEventListener('input', function() {
             let val = input.value.replace(/\s/g, '').replace(',', '.');
             if (!isNaN(val) && val !== '') {

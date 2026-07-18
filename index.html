@@ -7,6 +7,8 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
     <title>Hypoteční kalkulačka</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <script src="pdf-export.js"></script>
 </head>
 <body>
@@ -47,8 +49,27 @@
             <input type="range" id="doba-slider" min="5" max="40" step="1" value="30">
             <div id="doba-chyba" class="chyba-text"></div>
         </div>
+        <div class="pole-s-napovedou" style="border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px; background: #f8fafc;">
+            <div style="margin-top: 15px;">
+                <input type="checkbox" id="aktivator-checkbox">
+                <label for="aktivator-checkbox">Aktivovat mimořádnou splátku</label>
+            </div>
+
+            <div id="blok-mimoradna-splatka" style="background-color: #f3f4f6; opacity: 0.7; pointer-events: none; padding: 15px; border-radius: 8px; margin-top: 10px;">
+                <label for="mimoradna-splatka">Částka (Kč):</label>
+            <input type="text" id="mimoradna-splatka" value="0">
+                <label for="mimoradna-rok">Rok splátky:</label>
+            <input type="text" id="mimoradna-rok" value="0">
+        </div>
+            </div>
         <button id="vypocitat">Vypočítat</button>
         <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
+
+        <div id="blokSrovnani" style="display: none; margin-top: 20px; padding: 15px; background: #f8fafc; border-radius: 8px;">
+            <h3>Srovnání úvěru</h3>
+            <p id="vysledekStandard"></p>
+            <p id="vysledekUspora"></p>
+        </div>
 
         <h2 style="text-align: center; margin-top: 20px;">🧮 Výsledek</h2>
         <div id="vysledek"></div>
@@ -76,8 +97,8 @@
             <div class="faq-polozka">
                 <h3>Jaké další náklady mě čekají kromě splátek hypotéky?</h3>
                 <p>Při vyřizování hypotéky musíte počítat s poplatkem za odhad nemovitosti, poplatkem za vklad do katastru nemovitostí a povinným pojištěním nemovitosti, které banky vyžadují jako zástavu.</p>
-            </div>
         </div>
+    </div>
     </div>
     <footer class="paticka">
         <p>Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
