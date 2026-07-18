@@ -146,11 +146,10 @@ window.addEventListener("DOMContentLoaded", function() {
         const standard = getHypoData(P, urok, roky, 0, 0);
 
         // 3. Výpis standardního výsledku
-            const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
-        document.getElementById("text-vysledek").innerText = fmt(standard.mesicniSplatka);
+        document.getElementById("vysledek").innerText = Math.round(standard.mesicniSplatka).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
         document.getElementById("detaily").innerHTML =
-            `<p>Celkem zaplaceno<br><strong>${fmt(standard.celkemZaplaceno)}</strong></p>` +
-            `<p>Z toho úroky<br><strong>${fmt(standard.celkemUroky)}</strong></p>`;
+            "<p>Celkem zaplaceno: <strong>" + Math.round(standard.celkemZaplaceno).toLocaleString("cs-CZ") + " Kč</strong></p>" +
+            "<p>Z toho úroky: <strong>" + Math.round(standard.celkemUroky).toLocaleString("cs-CZ") + " Kč</strong></p>";
 
         // 4. Mimořádná splátka
         const aktivni = document.getElementById('aktivator-checkbox').checked;
@@ -161,10 +160,18 @@ window.addEventListener("DOMContentLoaded", function() {
         if (aktivni && M > 0 && R > 0) {
             blokSrovnani.style.display = 'block';
             const mimo = getHypoData(P, urok, roky, M, R);
-            document.getElementById("mimo-parametry").innerText = `Mimořádná splátka: ${fmt(M)} v ${R}. roce`;
-            document.getElementById("vysledekStandard").innerText = `Úroky: ${fmt(standard.celkemUroky)}`;
-            document.getElementById("vysledekMimo").innerText = `Úroky: ${fmt(mimo.celkemUroky)}`;
-            document.getElementById("vysledekUspora").innerText = `💰 Úspora na úrocích: ${fmt(standard.celkemUroky - mimo.celkemUroky)}`;
+            const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
+            document.getElementById("mimo-parametry").innerText =
+            `Mimořádná splátka: ${fmt(M)} v ${R}. roce`;
+
+            document.getElementById("vysledekStandard").innerText =
+            `Původní úroky bez mimořádné splátky: ${fmt(standard.celkemUroky)}`;
+
+            document.getElementById("vysledekMimo").innerText =
+            `Úroky po mimořádné splátce: ${fmt(mimo.celkemUroky)}`;
+
+            document.getElementById("vysledekUspora").innerText =
+            `💰 Úspora na úrocích: ${fmt(standard.celkemUroky - mimo.celkemUroky)}`;
 
             // Naplnění amortizační tabulky pro PDF
         window.temp_standard = standard;
@@ -217,7 +224,6 @@ window.addEventListener("DOMContentLoaded", function() {
     }
 
     } // Konec funkce vypocitat
-
     document.getElementById("vypocitat").addEventListener("click", function() {
         naformatujPole("castka");
         naformatujPole("urok");
@@ -372,26 +378,35 @@ window.addEventListener("DOMContentLoaded", function() {
     zapnoutFormatovani('urok', 'urok-chyba', 'Např.: 5,5', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
     zapnoutFormatovani('doba', 'doba-chyba', 'Např.: 30', v => !isNaN(v) && parseFloat(v) > 0);
 
-    ["castka", "urok", "doba"].forEach(function(id) {
+    const poleIds = ["castka", "urok", "doba", "mimoradna-splatka", "mimoradna-rok"];
+    const tlacitko = document.getElementById("vypocitat");
+
+    poleIds.forEach((id) => {
         const el = document.getElementById(id);
         if (el) {
+            // Input: automatický přepočet s debounce
             el.addEventListener("input", function() {
-                setTimeout(() => document.getElementById("vypocitat").click(), 500);
+                clearTimeout(window.calcTimer);
+                window.calcTimer = setTimeout(() => {
+                    if (tlacitko) tlacitko.click();
+                }, 500);
             });
-        el.addEventListener("blur", function() {
+
+            // Blur: formátování a výpočet
+            el.addEventListener("blur", function() {
                     naformatujPole(id);
-        document.getElementById("vypocitat").click();
-});
+                if (tlacitko) tlacitko.click();
+    });
+
+            // Enter: navigace
             el.addEventListener("keydown", function(event) {
                 if (event.key === "Enter") {
                     event.preventDefault();
                     naformatujPole(id);
-                    if (id === "castka") document.getElementById("urok").focus();
-                    else if (id === "urok") document.getElementById("doba").focus();
-                    else document.getElementById("vypocitat").click();
+                    if (tlacitko) tlacitko.click();
     }
     });
-    }
+        }
     });
 
     function propojSlider(inputId, sliderId) {

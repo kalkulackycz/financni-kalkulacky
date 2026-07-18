@@ -67,30 +67,21 @@
         <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
 
         <!-- Hlavní výsledek (Standard) -->
-        <div id="vysledek-container" class="vysledkova-karta">
-            <div class="splatka-hlavni">
-                <span style="display: block; font-size: 0.9em; opacity: 0.9;">Měsíční splátka</span>
-                <span id="text-vysledek" style="display: block; font-size: 24px; font-weight: bold;">0 Kč</span>
-            </div>
-            <div id="detaily" class="detaily-grid"></div>
-        </div>
-
+        <h2 id="vysledek"></h2>
+        <div id="detaily" class="detaily"></div>
         <!-- Vloženo v index.html pod fialový blok s ID "vysledek" -->
         <div style="text-align: center; margin-top: 20px;">
             <button id="export-pdf" style="padding: 10px 20px; background-color: #64748b; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Stáhnout PDF</button>
         </div>
 
         <!-- Blok mimořádné splátky (Srovnání) -->
-        <div id="blokSrovnani" class="vysledkova-karta" style="display: none; background-color: #f8fafc; border-left: 5px solid #f97316;">
-            <h3 style="color: #f97316;">⚡ DOPAD MIMOŘÁDNÉ SPLÁTKY</h3>
+        <div id="blokSrovnani" style="display: none;">
+            <h3>Srovnání úvěru</h3>
             <p id="mimo-parametry"></p>
-            <div class="detaily-grid">
-                <p>Bez mimořádné splátky<br><strong id="vysledekStandard"></strong></p>
-                <p>S mimořádnou splátkou<br><strong id="vysledekMimo"></strong></p>
-            </div>
-            <p style="margin-top: 15px; font-weight: bold; color: #059669;" id="vysledekUspora"></p>
+            <p id="vysledekStandard"></p>
+            <p id="vysledekMimo"></p>
+            <p id="vysledekUspora"></p>
         </div>
-
         <h2 style="text-align: center; margin-top: 20px;">📊 Rozložení nákladů hypotéky</h2>
         <canvas id="graf" width="400" height="300"></canvas>
         <div id="pdf-graf" style="display:none;"></div>
@@ -111,7 +102,7 @@
             </div>
             <div class="faq-polozka">
                 <h3>Jaké další náklady mě čekají kromě splátek hypotéky?</h3>
-                <p>Při vyřizování hypotéky musíte počítat s poplatkem za odhad nemovitosti, poplatkem za vklad do katastru nemovitostí a povinným pojištěním nemovitosti, které banky vyžadují jako zástavu.</p>
+                <p>Při vyřizování hypotéky musíte počítat s poplatkem za odhad nemovitosti, poplatkem za vklad do katastru nemovitostí a povinným pojiślěním nemovitosti, které banky vyžadují jako zástavu.</p>
         </div>
     </div>
     </div>
