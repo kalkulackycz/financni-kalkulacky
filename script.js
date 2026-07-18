@@ -267,6 +267,8 @@ window.addEventListener("DOMContentLoaded", function() {
 
     // PDF Export
     document.getElementById("export-pdf").addEventListener("click", function() {
+    // Zajistí výpočet a vytvoření amortizačního plánu před exportem PDF
+        vypocitat();
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
         doc.addFont('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf', 'Roboto', 'normal');
@@ -415,13 +417,3 @@ window.addEventListener("DOMContentLoaded", function() {
         document.getElementById("vypocitat").click();
     }
 });
-
-document.addEventListener("DOMContentLoaded", function() {
-    const btnExport = document.getElementById("export-pdf");
-    if (btnExport) {
-        btnExport.addEventListener("click", function() {});
-    } else {
-        console.warn("Tlačítko #export-pdf nebylo v DOMu nalezeno, export nebude aktivní.");
-    }
-});
-
