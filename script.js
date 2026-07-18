@@ -210,8 +210,8 @@ window.addEventListener("DOMContentLoaded", function() {
 
         document.getElementById("vysledek").innerText = Math.round(mesicniSplatka).toLocaleString("cs-CZ") + " Kč";
         document.getElementById("detaily").innerHTML =
-            "<p>Celkem zaplaceno: <strong>" + fmt(celkemZaplacenoS) + "</strong></p>" +
-            "<p>Z toho úroky: <strong>" + fmt(celkemUrokyS) + "</strong></p>";
+            "<p>Celkem zaplaceno: <strong id='celkem-zaplaceno-hodnota'>" + fmt(celkemZaplacenoS) + "</strong></p>" +
+            "<p>Z toho úroky: <strong id='z-toho-uroky-hodnota'>" + fmt(celkemUrokyS) + "</strong></p>";
 
         const blokSrovnani = document.getElementById('blokSrovnani');
         if (aktivni && mimoradnaSplatka > 0) {
@@ -278,11 +278,10 @@ window.addEventListener("DOMContentLoaded", function() {
         const el = document.getElementById("vysledek");
         const splatka = el ? el.textContent : "";
         const detailyEl = document.getElementById("detaily");
-        const textDetaily = detailyEl ? detailyEl.innerText : "";
-        const celkemMatch = textDetaily.match(/Celkem zaplaceno\s*([\d\s]+)\s*Kč/);
-        const urokyMatch = textDetaily.match(/Z toho úroky\s*([\d\s]+)\s*Kč/);
-        const celkem = celkemMatch ? celkemMatch[1].trim() + " Kč" : "0 Kč";
-        const uroky = urokyMatch ? urokyMatch[1].trim() + " Kč" : "0 Kč";
+        const celkemEl = document.getElementById("celkem-zaplaceno-hodnota");
+        const urokyEl = document.getElementById("z-toho-uroky-hodnota");
+        const celkem = celkemEl ? celkemEl.textContent.trim() : "0 Kč";
+        const uroky = urokyEl ? urokyEl.textContent.trim() : "0 Kč";
         doc.setFillColor(79, 70, 229);
         doc.rect(0, 0, 210, 40, 'F');
         doc.setTextColor(255, 255, 255);
