@@ -771,3 +771,26 @@ button { margin-top: 12px !important; }
     }
 }
 
+#blokSrovnani {
+    margin-top: 25px;
+    padding: 20px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+#blokSrovnani h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #4f46e5;
+    font-size: 16px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+#blokSrovnani p {
+    text-align: center;
+    font-size: 16px;
+    margin: 8px 0;
+}
+
