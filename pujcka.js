@@ -117,18 +117,23 @@ window.addEventListener("DOMContentLoaded", function() {
         const r = rocniSazba / 100 / 12;
 
         const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-        const vysledek = Math.round(mesicniSplatka);
-        const celkemZaplacenoSplatkami = Math.round(mesicniSplatka * n);
-        const celkoveUroky = celkemZaplacenoSplatkami - P;
-        const celkovaCena = celkemZaplacenoSplatkami + poplatek;
+        const celkemZaplaceno = mesicniSplatka * n;
+        const celkoveUroky = celkemZaplaceno - P;
 
-        document.getElementById("vysledekPujcka").textContent =
-            "Měsíční splátka: " + vysledek.toLocaleString("cs-CZ") + " Kč";
-        document.getElementById("detailyPujcka").innerHTML =
-            "<p>Celkem na splátkách: <strong>" + celkemZaplacenoSplatkami.toLocaleString("cs-CZ") + " Kč</strong></p>" +
-            "<p>Z toho úroky: <strong>" + Math.round(celkoveUroky).toLocaleString("cs-CZ") + " Kč</strong></p>" +
-            "<p>Celková cena půjčky (vč. poplatku): <strong>" + Math.round(celkovaCena).toLocaleString("cs-CZ") + " Kč</strong></p>";
+        // Formátovací funkce
+        const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
 
+        // Zápis do fialové karty
+        const el = document.getElementById("text-vysledek");
+        if (el) el.innerText = fmt(mesicniSplatka);
+
+        // Zápis do detailů (GRID)
+        const detailyEl = document.getElementById("detaily");
+        if (detailyEl) {
+            detailyEl.innerHTML =
+                `<p>Celkem zaplaceno <strong>${fmt(celkemZaplaceno)}</strong></p>` +
+                `<p>Z toho úroky <strong>${fmt(celkoveUroky)}</strong></p>`;
+        }
         if (mujGrafPujcka !== null) mujGrafPujcka.destroy();
 
         if (typeof Chart !== "undefined") { vykresliGraf(P, celkoveUroky, poplatek); }
@@ -183,4 +188,60 @@ window.addEventListener("DOMContentLoaded", function() {
 
     setTimeout(function() { document.getElementById("vypocitatPujcka").click(); }, 300);
 });
+
+/* ================= HYPÓTEČNÍ KALKULAČKA – VÝSLEDKY ================= */
+.vysledkova-karta {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+.splatka-hlavni {
+    text-align: center;
+    margin-bottom: 24px;
+}
+.splatka-hlavni span:first-child {
+    display: block;
+    font-size: 14px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.splatka-hlavni #text-vysledek {
+    font-size: 32px;
+    font-weight: 800;
+    color: #4f46e5;
+    margin-top: 5px;
+}
+.detaily-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 20px;
+}
+.detaily-grid p {
+    flex: 1;
+    text-align: center;
+    margin: 0 !important;
+    font-size: 14px;
+    color: #64748b;
+}
+.detaily-grid strong {
+    display: block;
+    font-size: 16px;
+    color: #1a1a2e;
+    margin-top: 4px;
+}
+#blokSrovnani {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
+#vysledekUspora { color: #059669; font-weight: bold; font-size: 18px; }
 

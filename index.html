@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
-    <script src="pdf-export.js"></script>
+    <!-- Původně jste zde měl načítání souboru, který způsoboval konflikty: -->
+    <!-- <script src="pdf-export.js"></script> -->
 </head>
 <body>
     <nav class="menu">
@@ -65,17 +66,31 @@
         <button id="vypocitat">Vypočítat</button>
         <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
 
-        <div id="blokSrovnani" style="display: none; margin-top: 20px; padding: 15px; background: #f8fafc; border-radius: 8px;">
-            <h3>Srovnání úvěru</h3>
-            <p id="vysledekStandard"></p>
-            <p id="vysledekUspora"></p>
+        <!-- Hlavní výsledek (Standard) -->
+        <div id="vysledek-container" class="vysledkova-karta">
+            <div class="splatka-hlavni">
+                <span style="display: block; font-size: 0.9em; opacity: 0.9;">Měsíční splátka</span>
+                <span id="text-vysledek" style="display: block; font-size: 24px; font-weight: bold;">0 Kč</span>
+            </div>
+            <div id="detaily" class="detaily-grid"></div>
         </div>
 
-        <h2 style="text-align: center; margin-top: 20px;">🧮 Výsledek</h2>
-        <div id="vysledek"></div>
-        <div id="detaily" class="detaily"></div>
+        <!-- Vloženo v index.html pod fialový blok s ID "vysledek" -->
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="export-pdf" style="padding: 10px 20px; background-color: #64748b; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Stáhnout PDF</button>
+        </div>
 
-        <button id="export-pdf">📄 Stáhnout PDF</button>
+        <!-- Blok mimořádné splátky (Srovnání) -->
+        <div id="blokSrovnani" class="vysledkova-karta" style="display: none; background-color: #f8fafc; border-left: 5px solid #f97316;">
+            <h3 style="color: #f97316;">⚡ DOPAD MIMOŘÁDNÉ SPLÁTKY</h3>
+            <p id="mimo-parametry"></p>
+            <div class="detaily-grid">
+                <p>Bez mimořádné splátky<br><strong id="vysledekStandard"></strong></p>
+                <p>S mimořádnou splátkou<br><strong id="vysledekMimo"></strong></p>
+            </div>
+            <p style="margin-top: 15px; font-weight: bold; color: #059669;" id="vysledekUspora"></p>
+        </div>
+
         <h2 style="text-align: center; margin-top: 20px;">📊 Rozložení nákladů hypotéky</h2>
         <canvas id="graf" width="400" height="300"></canvas>
         <div id="pdf-graf" style="display:none;"></div>

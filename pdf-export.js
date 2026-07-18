@@ -53,9 +53,12 @@ async function pripravCeskyFont(doc) {
  * @param {string} [data.castka] - Hodnota jistiny pro legendu
  * @param {string} [data.celkoveUroky] - Hodnota úroků pro legendu
  */
-async function exportKalkulackaPDF(data) {
+async function exportKalkulackaPDF(kalkulackaData) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: "mm", format: "a4" });
+
+    // FIX: Ošetření undefined objektu pro zabránění TypeError
+    const data = kalkulackaData || { nazevKalkulacky: "Hypoteční kalkulačka" };
 
     await pripravCeskyFont(doc);
 
@@ -189,5 +192,6 @@ async function exportKalkulackaPDF(data) {
     doc.text("www.financnimapa.cz", sirkaStranky / 2, yPaticky + 6, { align: "center" });
 
     // ---------- ULOŽENÍ ----------
+    body: data.amortizacniPlan.map(row => [row.rok, row.splatkaJistiny, row.zaplaceneUroky, row.zustatek]),
     doc.save(data.souborNazev + ".pdf");
 }
