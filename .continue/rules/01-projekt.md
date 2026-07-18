@@ -1,25 +1,35 @@
 ---
+
 name: Pravidla projektu financni-kalkulacky
 alwaysApply: true
----
+-----------------
 
-# Závazná pravidla pro práci na tomto projektu
+# Pravidla projektu
 
-- Upravuj POUZE to, o co tě výslovně požádám. Nic jiného. Neopravuj, nerefaktoruj, nezjednodušuj kód, který jsem nezmínil.
+* Upravuj pouze to, co výslovně požaduji. Neměň ostatní funkční logiku, nerefactoruj a nezjednodušuj nesouvisející kód.
 
-- Nikdy neměň, nezkracuj ani jinak needituj URL adresy v `<script src>`, `<link href>` nebo v proměnných typu `var xUrl = "..."`. Platí to zejména pro:
-  - https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH
-  - https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js
-  Tyto řetězce musí zůstat znakově identické.
+* Před úpravou nejdříve načti a zkontroluj skutečný obsah relevantních souborů v projektu. Nikdy si nevymýšlej názvy funkcí, proměnných ani ID elementů.
 
-- Nikdy neodstraňuj a nepřepisuj existující funkční mechanismy – zejména dynamické načítání Google Analytics a Chart.js pomocí `document.createElement("script")`, validaci vstupů (`validujInput`, `zapnoutFormatovani`), propojení slideru s textovým polem (`propojSlider`), ovládání klávesou Enter mezi poli.
+* Pokud je požadovaná změna v existujícím kódu, uprav přímo skutečný soubor v projektu. Nepředkládej pouze ukázkový fragment s komentářem `// ... existing code ...`.
 
-- Vždy vrať KOMPLETNÍ obsah celého souboru, ne fragment nebo diff.
+* Zachovej všechny existující funkční mechanismy, zejména:
 
-- Zachovej přesnou strukturu HTML tříd, na kterých závisí CSS a JS (pole-s-napovedou, sleva-radek, label-radek, ikona-otaznik, bublina-text, chyba-text, input-chyba). Nepřejmenovávej je.
+  * Google Analytics a Chart.js
+  * validaci vstupů
+  * formátování vstupů
+  * propojení sliderů s textovými poli
+  * ovládání klávesou Enter
+  * PDF export
+  * grafy a amortizační tabulky
 
-- Než cokoliv upravíš, řekni mi nejdřív krátce, co přesně změníš.
+* Neměň URL adresy ve `<script src>`, `<link href>` ani URL uložené v proměnných, pokud to výslovně nepožaduji.
 
-- Pokud si nejsi jistý, jestli něco smíš změnit, ZEPTEJ SE, než to uděláš.
+* Zachovej existující názvy HTML tříd, ID elementů a vazby mezi HTML, CSS a JavaScriptem.
 
-- Necituj a nepřepisuj CSS proměnné barev, mezer, velikostí písma, pokud o to výslovně nežádám.
+* Před provedením změny stručně popiš, které konkrétní části upravíš.
+
+* Pokud změna není jednoznačná nebo hrozí poškození jiné funkce, nejdříve se zeptej.
+
+* Po úpravě ověř, že projekt neobsahuje nové chyby a že požadovaná funkce funguje.
+
+* Při práci v editoru proveď změnu přímo v souboru. Nepoužívej pouze ukázkový kód ani obecný návrh změny.
