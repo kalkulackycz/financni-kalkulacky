@@ -337,7 +337,7 @@ window.addEventListener("DOMContentLoaded", function() {
                 head: [['Rok', 'Splátka jistiny', 'Zaplacené úroky', 'Zůstatek']],
                 body: amortizacniPlan.map(row => [row.rok, row.splatkaJistiny, row.zaplaceneUroky, row.zustatek]),
                 theme: 'striped',
-                styles: { font: 'Roboto' },
+                styles: { font: 'helvetica' },
                 headStyles: { fillColor: [79, 70, 229] }
             });
         }
