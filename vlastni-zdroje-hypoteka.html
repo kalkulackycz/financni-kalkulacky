@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kolik vlastních peněz potřebujete na hypotéku? Vysvětlíme LTV, vlastní zdroje, kupní cenu vs. hodnotu zástavy a aktuální pravidla v ČR 2026.">
+    <title>💰 Kolik vlastních peněz potřebujete na hypotéku? – Finanční průvodce</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ===== LAYOUT ČLÁNKU ===== */
+        .clanek-kontejner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .clanek-kontejner h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .clanek-podnadpis {
+            font-size: 16px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .clanek-kontejner h2 {
+            font-size: 20px;
+            color: #1a1a2e;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+        .clanek-kontejner h3 {
+            font-size: 16px;
+            color: #4f46e5;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .clanek-kontejner p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 16px;
+        }
+
+        .clanek-kontejner ul, .clanek-kontejner ol {
+            margin: 12px 0 20px 20px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        .clanek-kontejner li {
+            margin-bottom: 8px;
+        }
+
+        /* ===== INFO BLOK ===== */
+        .info-blok {
+            background: #f8fafc;
+            border-left: 4px solid #4f46e5;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .info-blok-aktualnost {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        .info-blok-aktualnost p {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        /* ===== KARTY ===== */
+        .karty-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karta-blok {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .karta-blok.modra {
+            border-top: 3px solid #4f46e5;
+        }
+
+        .karta-blok.oranzova {
+            border-top: 3px solid #f97316;
+        }
+
+        .karta-blok.zluta {
+            border-top: 3px solid #eab308;
+        }
+
+        .karta-blok.zelená {
+            border-top: 3px solid #10b981;
+        }
+
+        .karta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+        }
+
+        .karta-blok p {
+            margin: 0;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ===== PŘÍKLAD ===== */
+        .priklad-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .priklad-blok h3 {
+            text-align: center;
+            color: #4f46e5;
+            margin: 0 0 20px 0;
+            font-size: 17px;
+        }
+
+        .priklad-parametry {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .priklad-parametr {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-parametr .label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .priklad-parametr .hodnota {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .priklad-vysledky {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-radek {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .priklad-radek + .priklad-radek {
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .priklad-radek .hodnota {
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .priklad-radek .hodnota.vyrazna {
+            color: #4f46e5;
+            font-size: 16px;
+        }
+
+        .priklad-poznamka {
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        /* ===== TABULKA ===== */
+        .tabulka-prehled {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+        }
+
+        .tabulka-prehled thead {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .tabulka-prehled th {
+            padding: 12px 14px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .tabulka-prehled td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+        }
+
+        .tabulka-prehled tbody tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .tabulka-prehled tbody tr:hover {
+            background: #eef2ff;
+        }
+
+        .tabulka-prehled .cislo {
+            text-align: right;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* ===== VZOREC ===== */
+        .vzorec-blok {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .vzorec-blok .vzorec {
+            font-size: 22px;
+            font-weight: 700;
+            color: #4f46e5;
+            font-family: 'Courier New', monospace;
+            margin: 8px 0;
+        }
+
+        .vzorec-blok p {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* ===== VÝSTRAHA ===== */
+        .varovani-blok {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .varovani-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+            color: #991b1b;
+        }
+
+        /* ===== CTA ===== */
+        .cta-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 28px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .cta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: #1a1a2e;
+        }
+
+        .cta-blok p {
+            margin: 0 0 20px 0;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .cta-tlacitko {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #4f46e5;
+            color: #ffffff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .cta-tlacitko:hover {
+            background: #4338ca;
+        }
+
+        /* ===== ZPĚT ===== */
+        .zpet-odkaz {
+            display: inline-block;
+            margin-top: 24px;
+            color: #4f46e5;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .zpet-odkaz:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONZIVITA ===== */
+        @media (max-width: 600px) {
+            .clanek-kontejner h1 {
+                font-size: 22px;
+            }
+
+            .karty-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .priklad-parametry {
+                grid-template-columns: 1fr;
+            }
+
+            .tabulka-prehled {
+                font-size: 12px;
+            }
+
+            .tabulka-prehled th,
+            .tabulka-prehled td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="pruvodci.html">Průvodci</a>
+    </nav>
+
+    <div class="clanek-kontejner">
+
+        <!-- HLAVIČKA -->
+        <h1>💰 Kolik vlastních peněz potřebujete na hypotéku?</h1>
+        <p class="clanek-podnadpis">Jak fungují vlastní zdroje, co je LTV a kolik peněz si musíte připravit při financování nemovitosti v roce 2026.</p>
+
+        <!-- AKTUÁLNOST -->
+        <div class="info-blok-aktualnost">
+            <p><strong>Aktuálnost informací:</strong> Tento průvodce vychází z právního a regulatorního rámce platného v České republice v roce 2026. Konkrétní možnosti financování a požadovaná výše vlastních zdrojů se mohou lišit podle hodnoty nemovitosti, účelu úvěru, věku žadatele, poskytovatele a konkrétních podmínek úvěru. Před konkrétním rozhodnutím si vždy ověřte aktuální podmínky u poskytovatele.</p>
+        </div>
+
+        <!-- 2. CO JSOU VLASTNÍ ZDROJE? -->
+        <h2>Co jsou vlastní zdroje?</h2>
+        <p>Vlastní zdroje jsou peníze, které při financování nemovitosti použijete ze svých prostředků a nemusíte je získávat prostřednictvím hypotéky. Banka obvykle nefinancuje celou kupní cenu nemovitosti – část musíte zaplatit sami. Právě tuto část nazýváme vlastními zdroji.</p>
+
+        <p>Vlastní zdroje mohou pocházet z různých míst, například:</p>
+
+        <ul>
+            <li><strong>💰 Úspory</strong> – peníze, které jste si naspořili na bankovním účtu nebo v hotovosti.</li>
+            <li><strong>🏠 Prodej jiné nemovitosti</strong> – výtěžek z prodeje stávajícího bytu či domu.</li>
+            <li><strong>👨‍👩‍👧 Rodinná pomoc</strong> – dar nebo půjčka od rodičů či jiných příbuzných.</li>
+            <li><strong>📈 Jiný majetek</strong> – například prodej cenných papírů, podílových fondů nebo jiného investičního majetku.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Ne všechny uvedené možnosti jsou automaticky vhodné nebo dostupné pro každého. Každý poskytovatel může mít vlastní pravidla pro posuzování původu vlastních zdrojů, například u darů od rodiny může vyžadovat darovací smlouvu. Vždy si ověřte konkrétní podmínky u svého poskytovatele.</p>
+        </div>
+
+        <!-- 3. CO JE LTV? -->
+        <h2>Co je LTV?</h2>
+        <p>LTV je zkratka z anglického <strong>Loan to Value</strong>, česky poměr výše úvěru k hodnotě zástavy. Jednoduše řečeno vyjadřuje, kolik procent z hodnoty nemovitosti si půjčujete od banky.</p>
+
+        <p>Vzorec pro výpočet LTV vypadá takto:</p>
+
+        <div class="vzorec-blok">
+            <p>LTV =</p>
+            <div class="vzorec">výše úvěru ÷ hodnota zástavy × 100</div>
+            <p>Výsledek udává procentuální podíl úvěru na hodnotě nemovitosti.</p>
+        </div>
+
+        <p><strong>Příklad:</strong> Pokud kupujete nemovitost v hodnotě 5 000 000 Kč a od banky si půjčíte 4 000 000 Kč, LTV činí 80 %. Zbývajících 20 % (1 000 000 Kč) tvoří vaše vlastní zdroje.</p>
+
+        <div class="priklad-blok">
+            <h3>📊 Výpočet LTV – modelový příklad</h3>
+
+            <div class="priklad-parametry">
+                <div class="priklad-parametr">
+                    <div class="label">Hodnota nemovitosti</div>
+                    <div class="hodnota">5 000 000 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Výše hypotéky</div>
+                    <div class="hodnota">4 000 000 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">LTV</div>
+                    <div class="hodnota" style="color:#4f46e5;">80 %</div>
+                </div>
+            </div>
+
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>Vlastní zdroje</span>
+                    <span class="hodnota vyrazna">1 000 000 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Poměr vlastních zdrojů</span>
+                    <span class="hodnota">20 %</span>
+                </div>
+            </div>
+
+            <p class="priklad-poznamka">Modelový příklad pro ilustraci principu LTV. Skutečná výše LTV se odvíjí od hodnoty zástavy stanovené poskytovatelem, nikoliv nutně od kupní ceny.</p>
+        </div>
+
+        <p>Obecně platí, že <strong>čím nižší LTV</strong> (tedy čím více vlastních zdrojů máte), tím nižší riziko pro banku a tím výhodnější podmínky můžete získat. Naopak vyšší LTV znamená vyšší podíl cizích peněz, což pro banku představuje větší riziko.</p>
+
+        <!-- 4. KUPNÍ CENA VS. HODNOTA ZÁSTAVY -->
+        <h2>Kupní cena vs. hodnota zástavy</h2>
+        <p>Toto je jeden z nejčastějších bodů, kde vzniká nedorozumění. Je důležité rozlišovat mezi dvěma pojmy:</p>
+
+        <div class="karty-2">
+            <div class="karta-blok modra">
+                <h3>🏷️ Kupní cena</h3>
+                <p>Částka, za kterou nemovitost kupujete od prodávajícího. Je to cena sjednaná v kupní smlouvě.</p>
+            </div>
+            <div class="karta-blok oranzova">
+                <h3>🏦 Hodnota zástavy</h3>
+                <p>Hodnota nemovitosti stanovená poskytovatelem na základě odhadu nebo znaleckého posudku. Tato hodnota slouží pro výpočet LTV.</p>
+            </div>
+        </div>
+
+        <p>Tyto dvě hodnoty <strong>nemusí být vždy stejné</strong>. Banka si nechá nemovitost ocenit a pro výpočet LTV používá nižší z hodnot (kupní ceny a hodnoty zástavy), případně výhradně hodnotu zástavy podle svého ocenění.</p>
+
+        <p><strong>Modelový příklad:</strong></p>
+
+        <div class="priklad-blok">
+            <h3>📊 Kdy se kupní cena liší od hodnoty zástavy</h3>
+
+            <div class="priklad-parametry">
+                <div class="priklad-parametr">
+                    <div class="label">Kupní cena</div>
+                    <div class="hodnota">5 000 000 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Hodnota zástavy (odhad)</div>
+                    <div class="hodnota">4 700 000 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Banka použije nižší hodnotu</div>
+                    <div class="hodnota" style="color:#f97316;">4 700 000 Kč</div>
+                </div>
+            </div>
+
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>Max. hypotéka při LTV 80 % (z hodnoty zástavy)</span>
+                    <span class="hodnota">3 760 000 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Potřebné vlastní zdroje</span>
+                    <span class="hodnota vyrazna">1 240 000 Kč</span>
+                </div>
+            </div>
+
+            <p class="priklad-poznamka">Modelový příklad. Skutečný výsledek závisí na konkrétním posouzení a podmínkách poskytovatele. Banka může mít vlastní pravidla pro stanovení hodnoty zástavy.</p>
+        </div>
+
+        <p>V tomto příkladu je vidět, že ačkoli se kupní cena a hodnota zástavy liší o 300 000 Kč, potřebné vlastní zdroje jsou o 240 000 Kč vyšší, než kdyby banka vycházela z kupní ceny. <strong>Vždy proto počítejte s tím, že hodnota zástavy může být nižší než kupní cena.</strong></p>
+
+        <!-- 5. AKTUÁLNÍ PRAVIDLA A LTV V ROCE 2026 -->
+        <h2>Aktuální pravidla a LTV v roce 2026</h2>
+        <p>V roce 2026 se poskytování hypoték v České republice řídí především zákonem č. 257/2016 Sb., o spotřebitelském úvěru, a obchodními podmínkami jednotlivých poskytovatelů. Je důležité rozlišovat mezi jednotlivými úrovněmi pravidel:</p>
+
+        <ul>
+            <li><strong>Zákonná úprava</strong> – zákon č. 257/2016 Sb., o spotřebitelském úvěru, stanovuje základní rámec poskytování úvěrů, povinnosti poskytovatelů a práva spotřebitelů. Zákon přímo nestanovuje konkrétní limity LTV, DTI nebo DSTI.</li>
+            <li><strong>Regulatorní rámec ČNB</strong> – Česká národní banka v minulosti vydávala doporučení k limitům LTV, DTI a DSTI. K roku 2026 Česká národní banka <strong>neaplikuje závazná kvantitativní omezení</strong> těchto ukazatelů formou opatření obecné povahy. Banky a další poskytovatelé si nastavují vlastní interní limity v rámci svého risk managementu.</li>
+            <li><strong>Obchodní podmínky bank</strong> – každý poskytovatel má vlastní interní pravidla pro maximální LTV, která se může lišit. V praxi se maximální LTV u většiny bank pohybuje v rozmezí 80–90 % hodnoty zástavy, přičemž konkrétní výše závisí na účelu úvěru, typu nemovitosti a bonitě žadatele.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Výše uvedené informace vycházejí z regulatorního rámce platného v roce 2026. Konkrétní podmínky a limity se mohou lišit podle poskytovatele, typu úvěru a individuální situace žadatele. Vždy si ověřte aktuální nabídku a podmínky u konkrétního poskytovatele.</p>
+        </div>
+
+        <!-- 6. KOLIK VLASTNÍCH PENĚZ MŮŽETE POTŘEBOVAT? -->
+        <h2>Kolik vlastních peněz můžete potřebovat?</h2>
+        <p>Konkrétní výše vlastních zdrojů závisí na ceně nemovitosti, hodnotě zástavy a maximálním LTV, které vám poskytovatel nabídne. Níže uvádíme modelové příklady pro nemovitost v hodnotě 5 000 000 Kč při různých úrovních LTV.</p>
+
+        <table class="tabulka-prehled">
+            <thead>
+                <tr>
+                    <th>Scénář</th>
+                    <th>LTV</th>
+                    <th>Výše hypotéky</th>
+                    <th>Vlastní zdroje</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Nižší LTV (konzervativní)</td>
+                    <td>70 %</td>
+                    <td class="cislo">3 500 000 Kč</td>
+                    <td class="cislo">1 500 000 Kč</td>
+                </tr>
+                <tr>
+                    <td>Střední LTV (běžná varianta)</td>
+                    <td>80 %</td>
+                    <td class="cislo">4 000 000 Kč</td>
+                    <td class="cislo">1 000 000 Kč</td>
+                </tr>
+                <tr>
+                    <td>Vyšší LTV (dostupnější varianta)</td>
+                    <td>90 %</td>
+                    <td class="cislo">4 500 000 Kč</td>
+                    <td class="cislo">500 000 Kč</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Z tabulky je patrné, že čím vyšší LTV poskytovatel nabídne, tím méně vlastních peněz potřebujete. Zároveň ale platí, že vyšší LTV obvykle znamená vyšší úrokovou sazbu, protože pro poskytovatele představuje větší riziko.</p>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Uvedené scénáře jsou modelové příklady. Skutečná nabídka se může lišit v závislosti na poskytovateli, účelu úvěru, typu nemovitosti, věku žadatele a dalších faktorech. Nejedná se o závazné limity, ale o orientační přehled možných scénářů.</p>
+        </div>
+
+        <!-- 7. VĚK ŽADATELE A DOSTUPNÉ FINANCOVÁNÍ -->
+        <h2>Věk žadatele a dostupné financování</h2>
+        <p>Věk žadatele může hrát roli při posuzování hypotéky, a to hned v několika ohledech:</p>
+
+        <ul>
+            <li><strong>Doba splácení</strong> – banky obvykle vyžadují, aby byl úvěr splacen do určitého věku žadatele (často do 70–75 let). Čím je žadatel starší, tím kratší může být maximální doba splácení, což zvyšuje měsíční splátku.</li>
+            <li><strong>Maximální LTV</strong> – někteří poskytovatelé mohou nabídnout vyšší LTV mladším žadatelům (například do 36 let), protože mají delší horizont pro splácení. Jedná se však o obchodní politiku konkrétního poskytovatele, nikoliv o zákonné pravidlo.</li>
+            <li><strong>Posouzení bonity</strong> – věk může být jedním z faktorů, které poskytovatel zohledňuje při celkovém posouzení schopnosti splácet. Každý poskytovatel má vlastní interní pravidla.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Žádná věková hranice není univerzálním pravidlem. Konkrétní podmínky se liší podle poskytovatele a individuální situace žadatele. Vždy si ověřte aktuální podmínky u konkrétního poskytovatele.</p>
+        </div>
+
+        <!-- 8. NEZAPOMEŇTE NA FINANČNÍ REZERVU -->
+        <h2>Nezapomeňte na finanční rezervu</h2>
+        <p>Při plánování financování nemovitosti je lákavé použít všechny dostupné úspory na snížení výše hypotéky. Není to však vždy nejrozumnější řešení. Po koupi nemovitosti totiž přicházejí další výdaje, se kterými je třeba počítat:</p>
+
+        <ul>
+            <li><strong>🏠 Vybavení</strong> – nový nábytek, spotřebiče, zařízení domácnosti.</li>
+            <li><strong>🔧 Opravy a úpravy</strong> – drobné i větší opravy, malování, rekonstrukce.</li>
+            <li><strong>📄 Poplatky</strong> – daň z nabytí nemovitosti (pokle vzniká povinnost), poplatky za odhad, notářské poplatky, poplatky za vedení úvěrového účtu.</li>
+            <li><strong>🚗 Stěhování</strong> – náklady na přepravu, případně skladování věcí.</li>
+            <li><strong>⚠️ Nečekané výdaje</strong> – havárie, výpadek příjmu, neočekávané opravy.</li>
+        </ul>
+
+        <p>Doporučuje se proto ponechat si po koupi nemovitosti dostatečnou finanční rezervu, která pokryje neočekávané výdaje a zajistí, že nebudete v případě problémů nuceni sahat po dalších úvěrech. Konkrétní výše rezervy závisí na vaší individuální situaci, výdajích a míře rizika, kterou jste ochotni akceptovat.</p>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Tento text je obecným edukativním doporučením. Konkrétní výše finanční rezervy závisí na vaší individuální situaci. Nejedná se o individuální finanční poradenství.</p>
+        </div>
+
+        <!-- 9. MODELOVÝ PRAKTICKÝ PŘÍKLAD -->
+        <h2>Modelový praktický příklad</h2>
+        <p>Pojďme si celý princip ukázat na jednom souvislém příkladu od začátku do konce.</p>
+
+        <div class="priklad-blok">
+            <h3>📊 Financování nemovitosti za 5 000 000 Kč</h3>
+
+            <div class="priklad-parametry">
+                <div class="priklad-parametr">
+                    <div class="label">Cena nemovitosti</div>
+                    <div class="hodnota">5 000 000 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Vlastní zdroje</div>
+                    <div class="hodnota">1 000 000 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Výše hypotéky</div>
+                    <div class="hodnota">4 000 000 Kč</div>
+                </div>
+            </div>
+
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>LTV (při hodnotě zástavy 5 000 000 Kč)</span>
+                    <span class="hodnota vyrazna">80 %</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Poměr vlastních zdrojů</span>
+                    <span class="hodnota">20 %</span>
+                </div>
+            </div>
+
+            <p class="priklad-poznamka">Modelový příklad. Skutečný výsledek závisí na hodnotě zástavy stanovené poskytovatelem a na dalších podmínkách úvěru. Banka posuzuje také příjmy, výdaje a celkovou bonitu žadatele.</p>
+        </div>
+
+        <p>V tomto příkladu máte vlastní zdroje ve výši 1 000 000 Kč, což odpovídá 20 % ceny nemovitosti. Zbývajících 4 000 000 Kč (80 %) financujete hypotékou. Pokud by hodnota zástavy byla nižší než kupní cena, potřebovali byste vlastních zdrojů více (viz část o kupní ceně vs. hodnotě zástavy).</p>
+
+        <!-- 10. NA CO SI DÁT POZOR? -->
+        <h2>Na co si dát pozor?</h2>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Nezaměňujte kupní cenu s hodnotou zástavy.</strong> Banka pro výpočet LTV používá hodnotu zástavy, která může být nižší než kupní cena. Vždy počítejte s možností, že budete potřebovat více vlastních zdrojů.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Nezapomeňte na další náklady spojené s koupí nemovitosti.</strong> Kromě vlastních zdrojů na financování samotné nemovitosti budete potřebovat peníze také na poplatky, daň z nabytí nemovitosti (pokud vzniká povinnost), odhad, notáře a další související výdaje.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Nevyužívejte všechny úspory bez ponechání rezervy.</strong> Po koupi nemovitosti přicházejí neočekávané výdaje. Finanční rezerva vám pomůže zvládnout nečekané situace bez nutnosti dalšího zadlužení.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Ověřte aktuální pravidla pro konkrétní situaci.</strong> Podmínky poskytovatelů se mohou lišit a měnit v čase. Vždy si ověřte aktuální nabídku a podmínky u konkrétního poskytovatele.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Neberte maximální možnou výši úvěru automaticky jako nejlepší řešení.</strong> Vyšší úvěr znamená vyšší měsíční splátku a vyšší celkové náklady. Půjčujte si jen tolik, kolik skutečně potřebujete a jste schopni splácet.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Porovnávejte celkové podmínky financování.</strong> Nenechte se zlákat pouze nízkou úrokovou sazbou. Sledujte také RPSN (roční procentní sazba nákladů), poplatky za sjednání a vedení úvěru, podmínky mimořádných splátek a další související náklady.</p>
+        </div>
+
+        <!-- 11. CTA -->
+        <div class="cta-blok">
+            <h3>🧮 Spočítejte si svou hypotéku</h3>
+            <p>Zjistěte, jak výše hypotéky, úroková sazba a doba splácení ovlivní vaši měsíční splátku a celkové náklady.</p>
+            <a href="index.html" class="cta-tlacitko">Spočítat hypotéku →</a>
+        </div>
+
+        <!-- 12. ZPĚT -->
+        <a href="hypoteky.html" class="zpet-odkaz">← Zpět na hypoteční průvodce</a>
+
+    </div>
+
+    <footer class="paticka" style="margin: 0 auto 40px auto;">
+        <p>Finanční Mapa © 2026. Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
+    </footer>
+
+</body>
+</html>

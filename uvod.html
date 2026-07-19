@@ -42,6 +42,51 @@
             gap: 10px;
             margin-top: 20px;
         }
+
+        /* ===== BANNER VÝVOJE ===== */
+        .banner-vyvoj {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            padding: 18px 24px;
+            margin: 24px auto;
+            max-width: 700px;
+            text-align: center;
+        }
+
+        .banner-vyvoj .banner-ikonka {
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+
+        .banner-vyvoj .banner-nadpis {
+            font-weight: 700;
+            font-size: 15px;
+            color: #991b1b;
+            margin-bottom: 4px;
+        }
+
+        .banner-vyvoj .banner-text {
+            font-size: 13px;
+            color: #7f1d1d;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .banner-vyvoj {
+                padding: 14px 16px;
+                margin: 20px 12px;
+            }
+
+            .banner-vyvoj .banner-nadpis {
+                font-size: 14px;
+            }
+
+            .banner-vyvoj .banner-text {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -55,6 +100,13 @@
     <div class="uvodni-sekce">
         <h1>Finanční Mapa</h1>
         <p class="uvod">"Pomáháme vám lépe se orientovat ve světě financí. Kalkulačky, vysvětlení a praktické průvodce na jednom místě."</p>
+
+        <!-- BANNER VÝVOJE -->
+        <div class="banner-vyvoj">
+            <div class="banner-ikonka">🚧</div>
+            <div class="banner-nadpis">Finanční Mapa se stále rozšiřuje</div>
+            <p class="banner-text">Web je aktivně ve vývoji. Postupně přidáváme nové finanční kalkulačky, praktické průvodce a užitečné nástroje pro každodenní život. Některé části webu proto ještě průběžně vylepšujeme.</p>
+        </div>
 
         <h2 style="margin-top: 40px;">Oblasti financí</h2>
         <div class="karty-grid">
