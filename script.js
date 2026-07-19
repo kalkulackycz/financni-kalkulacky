@@ -334,13 +334,28 @@ window.addEventListener("DOMContentLoaded", function() {
             doc.setFontSize(16);
             doc.text("Amortizační tabulka", 105, 15, { align: 'center' });
             doc.autoTable({
-                startY: 25,
-                head: [['Rok', 'Splátka jistiny', 'Zaplacené úroky', 'Zůstatek']],
-                body: amortizacniPlan.map(row => [row.rok, row.splatkaJistiny, row.zaplaceneUroky, row.zustatek]),
-                theme: 'striped',
-                styles: { font: 'Roboto' },
-                headStyles: { fillColor: [79, 70, 229] }
-            });
+               startY: 25,
+               head: [['Rok', 'Splátka jistiny', 'Zaplacené úroky', 'Zůstatek']],
+               body: amortizacniPlan.map(row => [
+                  row.rok,
+                  row.splatkaJistiny,
+                  row.zaplaceneUroky,
+                  row.zustatek
+       ]),
+               theme: 'striped',
+               styles: {
+                  font: 'Roboto',
+                  fontStyle: 'normal'
+        },
+               bodyStyles: {
+               font: 'Roboto'
+        },
+               headStyles: {
+               fillColor: [79, 70, 229],
+               font: 'Roboto',
+               fontStyle: 'bold'
+        }
+});
         }
         doc.save("vypocet_hypoteky.pdf");
     });
