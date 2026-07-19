@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mimořádná splátka hypotéky – Finanční průvodce</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ===== LAYOUT ČLÁNKU ===== */
+        .clanek-kontejner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .clanek-kontejner h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .clanek-podnadpis {
+            font-size: 16px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .clanek-kontejner h2 {
+            font-size: 20px;
+            color: #1a1a2e;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+        .clanek-kontejner h3 {
+            font-size: 16px;
+            color: #4f46e5;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .clanek-kontejner p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 16px;
+        }
+
+        .clanek-kontejner ul, .clanek-kontejner ol {
+            margin: 12px 0 20px 20px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        .clanek-kontejner li {
+            margin-bottom: 8px;
+        }
+
+        /* ===== INFO BLOK ===== */
+        .info-blok {
+            background: #f8fafc;
+            border-left: 4px solid #4f46e5;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .info-blok-aktualnost {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        .info-blok-aktualnost p {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        /* ===== KARTY ===== */
+        .karty-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karta-blok {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .karta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+        }
+
+        .karta-blok p {
+            margin: 0;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ===== VIZUÁLNÍ BLOK ===== */
+        .srovnani-blok {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .srovnani-karta {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .srovnani-karta .titulek {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .srovnani-karta .titulek.bez { color: #64748b; }
+        .srovnani-karta .titulek.s { color: #4f46e5; }
+
+        .srovnani-karta .polozka {
+            font-size: 13px;
+            color: #475569;
+            padding: 4px 0;
+        }
+
+        .srovnani-karta .polozka strong {
+            color: #1a1a2e;
+        }
+
+        /* ===== PRINCIP ===== */
+        .princip-blok {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .princip-radek {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .princip-radek .sipka {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .princip-radek .popis {
+            flex: 1;
+        }
+
+        .princip-radek .popis strong {
+            color: #1a1a2e;
+        }
+
+        /* ===== PŘÍKLAD ===== */
+        .priklad-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .priklad-blok h3 {
+            text-align: center;
+            color: #4f46e5;
+            margin: 0 0 20px 0;
+            font-size: 17px;
+        }
+
+        .priklad-parametry {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .priklad-parametr {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-parametr .label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .priklad-parametr .hodnota {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .priklad-vysledky {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-radek {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .priklad-radek + .priklad-radek {
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .priklad-radek .hodnota {
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .priklad-radek .hodnota.vyrazna {
+            color: #4f46e5;
+            font-size: 16px;
+        }
+
+        .priklad-poznamka {
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        /* ===== VÝSTRAHA ===== */
+        .varovani-blok {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .varovani-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+            color: #991b1b;
+        }
+
+        /* ===== CTA ===== */
+        .cta-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 28px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .cta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: #1a1a2e;
+        }
+
+        .cta-blok p {
+            margin: 0 0 20px 0;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .cta-tlacitko {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #4f46e5;
+            color: #ffffff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .cta-tlacitko:hover {
+            background: #4338ca;
+        }
+
+        /* ===== ZPĚT ===== */
+        .zpet-odkaz {
+            display: inline-block;
+            margin-top: 24px;
+            color: #4f46e5;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .zpet-odkaz:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONZIVITA ===== */
+        @media (max-width: 600px) {
+            .clanek-kontejner h1 {
+                font-size: 22px;
+            }
+
+            .karty-2, .srovnani-blok {
+                grid-template-columns: 1fr;
+            }
+
+            .priklad-parametry {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="pruvodci.html">Průvodci</a>
+    </nav>
+
+    <div class="clanek-kontejner">
+
+        <!-- HLAVIČKA -->
+        <h1>💸 Mimořádná splátka hypotéky</h1>
+        <p class="clanek-podnadpis">Kdy se vyplatí, jak může snížit úroky a jak si spočítat skutečnou úsporu.</p>
+
+        <!-- AKTUÁLNOST -->
+        <div class="info-blok-aktualnost">
+            <p><strong>Aktuálnost informací:</strong> Tento průvodce vychází z právního a regulatorního rámce platného v České republice v roce 2026. Konkrétní možnosti a podmínky mimořádné nebo předčasné splátky se mohou lišit podle konkrétní smlouvy, poskytovatele, data uzavření úvěru a aktuálně platné právní úpravy.</p>
+        </div>
+
+        <!-- 2. CO JE MIMOŘÁDNÁ SPLÁTKA -->
+        <h2>Co je mimořádná splátka?</h2>
+        <p>Mimořádná splátka je částka, kterou jako klient uhradíte nad rámec běžných pravidelných měsíčních splátek. Zatímco pravidelné splátky postupně splácejí úvěr podle předem daného harmonogramu, mimořádná splátka vám umožní jednorázově snížit dlužnou částku rychleji.</p>
+
+        <p>Mimořádná splátka může mít různé dopady v závislosti na konkrétní situaci a podmínkách:</p>
+
+        <ul>
+            <li><strong>snižuje zbývající jistinu</strong> – dlužíte méně,</li>
+            <li><strong>snižuje budoucí úrokové náklady</strong> – úrok se počítá z nižší částky,</li>
+            <li><strong>může ovlivnit dobu splácení</strong> – v závislosti na tom, jak se po splátce nastaví další splácení,</li>
+            <li><strong>může změnit výši budoucích splátek</strong> – podle podmínek sjednaných ve smlouvě.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Konkrétní možnosti a podmínky mimořádných splátek se řídí aktuální právní úpravou, smlouvou o úvěru a interními pravidly poskytovatele. Než se rozhodnete, vždy si ověřte, jaké možnosti platí pro váš konkrétní úvěr.</p>
+        </div>
+
+        <!-- 3. JAK MIMOŘÁDNÁ SPLÁTKA FUNGUJE -->
+        <h2>Jak mimořádná splátka funguje?</h2>
+        <p>Princip je jednoduchý. Každá koruna, kterou navíc zaplatíte, snižuje dlužnou částku (jistinu). A protože se úrok počítá z aktuální dlužné částky, nižší jistina znamená nižší budoucí úroky.</p>
+
+        <div class="srovnani-blok">
+            <div class="srovnani-karta">
+                <div class="titulek bez">BEZ MIMOŘÁDNÉ SPLÁTKY</div>
+                <div class="polozka">➡️ úvěr se splácí podle původního plánu</div>
+                <div class="polozka">➡️ jistina klesá postupně</div>
+                <div class="polozka">➡️ úroky se počítají z aktuálního zůstatku</div>
+            </div>
+            <div class="srovnani-karta">
+                <div class="titulek s">S MIMOŘÁDNOU SPLÁTKOU</div>
+                <div class="polozka">➡️ část jistiny se splatí dříve</div>
+                <div class="polozka">➡️ zůstatek úvěru se sníží</div>
+                <div class="polozka">➡️ budoucí úrok se počítá z nižší částky</div>
+            </div>
+        </div>
+
+        <p>Konkrétní výsledek mimořádné splátky závisí na několika faktorech:</p>
+
+        <ul>
+            <li><strong>výši mimořádné splátky</strong> – čím vyšší, tím větší dopad,</li>
+            <li><strong>okamžiku provedení</strong> – čím dříve, tím více ušetříte na budoucích úrocích,</li>
+            <li><strong>aktuálním zůstatku</strong> – stejná částka má větší efekt na začátku hypotéky,</li>
+            <li><strong>úrokové sazbě</strong> – čím vyšší sazba, tím více ušetříte,</li>
+            <li><strong>způsobu dalšího splácení</strong> – jak se po splátce upraví podmínky.</li>
+        </ul>
+
+        <!-- 4. CO SE MŮŽE PO MIMOŘÁDNÉ SPLÁTCE STÁT -->
+        <h2>Co se může po mimořádné splátce stát?</h2>
+        <p>Způsob, jakým se po mimořádné splátce upraví další splácení, závisí na podmínkách konkrétní smlouvy a poskytovatele. Obecně mohou nastat různé scénáře:</p>
+
+        <div class="karty-2">
+            <div class="karta-blok" style="border-top: 3px solid #4f46e5;">
+                <h3>🔹 Zkrácení doby splácení</h3>
+                <p>Pravidelná splátka zůstává stejná a úvěr je splacen dříve. Celkové úroky se sníží, protože je platíte po kratší dobu.</p>
+            </div>
+            <div class="karta-blok" style="border-top: 3px solid #f97316;">
+                <h3>🔹 Snížení budoucí splátky</h3>
+                <p>Doba splácení zůstává stejná, ale měsíční splátka se sníží, protože se splácí nižší jistina.</p>
+            </div>
+        </div>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Žádný z těchto scénářů není automatický. Konkrétní řešení po mimořádné splátce vždy závisí na smlouvě, poskytovateli a aktuálně platné právní úpravě. Před provedením mimořádné splátky si ověřte, jaké možnosti váš poskytovatel nabízí.</p>
+        </div>
+
+        <!-- 5. PROČ MŮŽE MIMOŘÁDNÁ SPLÁTKA UŠETŘIT NA ÚROCÍCH -->
+        <h2>Proč může mimořádná splátka ušetřit na úrocích?</h2>
+        <p>Úrok se obvykle počítá z aktuální dlužné částky. Pokud mimořádnou splátkou snížíte jistinu, dlužíte méně a úrok se počítá z nižšího zůstatku. Výsledkem jsou nižší budoucí úrokové náklady.</p>
+
+        <div class="princip-blok">
+            <div class="princip-radek">
+                <span class="sipka">💰</span>
+                <span class="popis"><strong>Větší jistina</strong> → vyšší základ pro výpočet úroku</span>
+            </div>
+            <div class="princip-radek" style="background: #eef2ff; border-color: #c7d2fe;">
+                <span class="sipka">💸</span>
+                <span class="popis"><strong>Mimořádná splátka</strong> → snížení jistiny</span>
+            </div>
+            <div class="princip-radek">
+                <span class="sipka">📉</span>
+                <span class="popis"><strong>Nižší jistina</strong> → potenciálně nižší budoucí úrokové náklady</span>
+            </div>
+        </div>
+
+        <p>Čím dříve mimořádnou splátku provedete, tím většího efektu dosáhnete – na začátku hypotéky je dlužná částka nejvyšší a úroky tvoří významnou část splátky.</p>
+
+        <!-- 6. KONKRÉTNÍ MODELOVÝ PŘÍKLAD -->
+        <h2>Konkrétní modelový příklad</h2>
+        <p>Podívejme se na modelový příklad, který ilustruje, jak může mimořádná splátka ovlivnit celkové náklady hypotéky.</p>
+
+        <div class="priklad-blok">
+            <h3>📊 Modelový příklad</h3>
+
+            <div class="priklad-parametry">
+                <div class="priklad-parametr">
+                    <div class="label">Výše úvěru</div>
+                    <div class="hodnota">3 000 000 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Úroková sazba</div>
+                    <div class="hodnota">5,5 % ročně</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Doba splácení</div>
+                    <div class="hodnota">30 let</div>
+                </div>
+            </div>
+
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>Měsíční splátka</span>
+                    <span class="hodnota">17 034 Kč</span>
+                </div>
+                <div class="priklad-radek" style="background: #f8fafc; border-top: 2px solid #c7d2fe; margin-top: 8px;">
+                    <span><strong>➕ Mimořádná splátka v 5. roce</strong></span>
+                    <span class="hodnota vyrazna">500 000 Kč</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div style="background: white; border-radius: 8px; padding: 12px; border: 1px solid #e2e8f0; text-align: center;">
+                    <div style="font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase;">Bez mimoř. splátky</div>
+                    <div style="font-size: 13px; color: #475569; margin-top: 4px;">Úroky: <strong>3 132 121 Kč</strong></div>
+                </div>
+                <div style="background: #eef2ff; border-radius: 8px; padding: 12px; border: 1px solid #c7d2fe; text-align: center;">
+                    <div style="font-size: 11px; color: #4f46e5; font-weight: 600; text-transform: uppercase;">S mimoř. splátkou</div>
+                    <div style="font-size: 13px; color: #475569; margin-top: 4px;">Úroky: <strong>2 710 914 Kč</strong></div>
+                </div>
+            </div>
+
+            <div style="background: #eef2ff; border-radius: 8px; padding: 16px; margin-top: 16px; text-align: center; border: 1px solid #c7d2fe;">
+                <div style="font-size: 12px; color: #4f46e5; font-weight: 600;">ÚSPORA NA ÚROCÍCH</div>
+                <div style="font-size: 22px; font-weight: 700; color: #4f46e5; margin-top: 4px;">421 207 Kč</div>
+            </div>
+
+            <p class="priklad-poznamka">Jedná se o modelový výpočet anuitního úvěru, kde po mimořádné splátce zůstává měsíční splátka stejná a zkracuje se doba splácení. Skutečný výsledek závisí na konkrétních podmínkách smlouvy, okamžiku provedení splátky a způsobu dalšího splácení. Výpočet nezahrnuje případné poplatky, pojištění ani další náklady.</p>
+        </div>
+
+        <!-- 7. KDY MIMOŘÁDNÁ SPLÁTKA DÁVÁ SMYSL -->
+        <h2>Kdy mimořádná splátka dává smysl?</h2>
+        <p>O mimořádné splátce lidé obvykle uvažují v těchto situacích:</p>
+
+        <div class="karty-2">
+            <div class="karta-blok" style="border-top: 3px solid #10b981;">
+                <h3>💰 Volné finanční prostředky</h3>
+                <p>Máte naspořeno více, než potřebujete jako rezervu, a chcete peníze zhodnotit snížením úrokových nákladů.</p>
+            </div>
+            <div class="karta-blok" style="border-top: 3px solid #4f46e5;">
+                <h3>📉 Snížení úrokových nákladů</h3>
+                <p>Chcete snížit celkovou částku, kterou na úvěru zaplatíte. Mimořádná splátka snižuje jistinu, a tím i budoucí úroky.</p>
+            </div>
+            <div class="karta-blok" style="border-top: 3px solid #f97316;">
+                <h3>🏠 Rychlejší snížení zadlužení</h3>
+                <p>Chcete mít nižší zůstatek úvěru, například kvůli budoucímu prodeji nemovitosti nebo refinancování.</p>
+            </div>
+            <div class="karta-blok" style="border-top: 3px solid #059669;">
+                <h3>🛡️ Nižší zůstatek = větší klid</h3>
+                <p>Nižší dlužná částka může přinést psychický klid a větší finanční svobodu.</p>
+            </div>
+        </div>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Mimořádná splátka není vždy nejlepším finančním rozhodnutím. Před jejím provedením zvažte svou celkovou finanční situaci – dostatečnou rezervu, jiné závazky, podmínky úvěru a aktuální úrokovou sazbu. Rozhodnutí by mělo odpovídat vašim individuálním okolnostem.</p>
+        </div>
+
+        <!-- 8. KDY MŮŽE BÝT LEPŠÍ PENÍZE NECHAT JAKO REZERVU -->
+        <h2>Kdy může být lepší peníze nechat jako rezervu?</h2>
+        <p>Ne vždy je rozumné použít všechny volné peníze na mimořádnou splátku. Někdy může být výhodnější ponechat si je jako finanční rezervu. Zde je několik faktorů k zamyšlení:</p>
+
+        <div class="varovani-blok">
+            <p><strong>🛡️ Finanční rezerva.</strong> Než začnete řešit mimořádnou splátku, ujistěte se, že máte dostatečnou rezervu pro nečekané životní situace – ztrátu zaměstnání, nemoc, havárii nebo jiné neočekávané výdaje.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>🏠 Nečekané výdaje na bydlení.</strong> Vlastnictví nemovitosti přináší náklady na údržbu, opravy a vybavení. Peníze vložené do hypotéky už nemůžete použít na novou střechu nebo opravu topení.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>💼 Stabilita příjmu.</strong> Pokud je váš příjem nejistý nebo očekáváte změny, může být rozumnější ponechat si peníze jako rezervu a mimořádnou splátku odložit.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>📊 Jiné dluhy.</strong> Pokud máte jiné závazky s vyššími náklady (například kreditní kartu nebo spotřebitelský úvěr), může být výhodnější nejprve splatit ty.</p>
+        </div>
+
+        <p>Cílem není dát univerzální radu – každá finanční situace je jiná. Důležité je zvážit všechny okolnosti a nerozhodovat se unáhleně.</p>
+
+        <!-- 9. AKTUÁLNÍ PRÁVNÍ PODMÍNKY -->
+        <h2>Mimořádná splátka a aktuální pravidla</h2>
+        <p>Právní úprava mimořádných splátek a předčasného splacení se řídí zákonem č. 257/2016 Sb., o spotřebitelském úvěru, ve znění pozdějších předpisů. Je důležité rozlišovat mezi různými situacemi:</p>
+
+        <ul>
+            <li><strong>Běžná mimořádná splátka</strong> – jednorázová úhrada nad rámec pravidelných splátek, která snižuje jistinu.</li>
+            <li><strong>Předčasné splacení části úvěru</strong> – právní režim, který se může lišit od běžné mimořádné splátky.</li>
+            <li><strong>Úplné předčasné splacení</strong> – doplacení celého zbývajícího úvěru před koncem sjednané doby.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Konkrétní práva, možnosti a případné náklady spojené s mimořádnou splátkou nebo předčasným splacením se řídí aktuální právní úpravou a konkrétní smlouvou o úvěru. Podmínky se mohou lišit v závislosti na datu uzavření smlouvy, typu úvěru a poskytovateli. Před provedením mimořádné splátky si vždy ověřte aktuální podmínky u svého poskytovatele.</p>
+        </div>
+
+        <!-- 10. CTA -->
+        <div class="cta-blok">
+            <h3>🧮 Spočítejte si, kolik vám může mimořádná splátka ušetřit</h3>
+            <p>Zadejte vlastní parametry hypotéky a porovnejte původní splácení s variantou po mimořádné splátce. Zjistíte, jak se může změnit doba splácení, celkové úroky a celková zaplacená částka.</p>
+            <a href="index.html" class="cta-tlacitko">Spočítat mimořádnou splátku →</a>
+        </div>
+
+        <!-- 11. NA CO SI DÁT POZOR -->
+        <h2>Na co si dát pozor</h2>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Nevyužívejte všechny úspory bez ponechání finanční rezervy.</strong> Mimořádná splátka by neměla ohrozit vaši schopnost čelit nečekaným výdajům.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Ověřte si podmínky konkrétní smlouvy.</strong> Každá smlouva může upravovat mimořádné splátky jinak. Co platí u jednoho poskytovatele, nemusí platit u jiného.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Zkontrolujte aktuální právní podmínky.</strong> Právní úprava se může měnit. Ujistěte se, že máte aktuální informace platné pro váš typ úvěru.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Nezaměňujte mimořádnou splátku s úplným předčasným splacením.</strong> Jde o rozdílné situace s odlišným právním režimem a případnými náklady.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Zvažte, co se stane s dalšími splátkami po mimořádné úhradě.</strong> Zda se zkrátí doba splácení, sníží splátka nebo dojde k jiné úpravě, závisí na podmínkách smlouvy.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Nehodnoťte rozhodnutí pouze podle výše okamžité úspory na úrocích.</strong> Zohledněte celkovou finanční situaci, rezervy a další priority.</p>
+        </div>
+
+        <!-- 12. ZPĚT -->
+        <a href="hypoteky.html" class="zpet-odkaz">← Zpět na hypoteční průvodce</a>
+
+    </div>
+
+    <footer class="paticka" style="margin: 0 auto 40px auto;">
+        <p>Finanční Mapa © 2026. Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
+    </footer>
+
+</body>
+</html>
