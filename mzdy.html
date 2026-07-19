@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💼 Mzdy a příjmy – Finanční průvodci</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .uvodni-sekce {
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .podnadpis {
+            font-size: 16px;
+            color: #64748b;
+            margin-top: -10px;
+            margin-bottom: 30px;
+        }
+        .karty-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 30px;
+        }
+        .karta-clanku {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,.08);
+            text-decoration: none;
+            color: #1a1a2e;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        .karta-clanku:hover {
+            transform: translateY(-5px);
+        }
+        .karta-clanku h3 {
+            margin-bottom: 10px;
+            color: #4f46e5;
+            font-size: 16px;
+        }
+        .karta-clanku p {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #475569;
+            flex-grow: 1;
+        }
+        .karta-clanku .cta {
+            margin-top: 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4f46e5;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        @media (max-width: 700px) {
+            .karty-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="pruvodci.html" class="aktivni">Průvodci</a>
+    </nav>
+
+    <div class="uvodni-sekce">
+        <h1>💼 Mzdy a příjmy</h1>
+        <p class="podnadpis">Praktické průvodce světem mezd a příjmů</p>
+
+        <div class="karty-grid">
+            <a href="jak-se-pocita-cista-mzda-2026.html" class="karta-clanku">
+                <h3>💰 Jak se počítá čistá mzda v roce 2026?</h3>
+                <p>Zjistěte, jak se z hrubé mzdy vypočítá čistá mzda a co všechno ovlivňuje částku, která vám přijde na účet.</p>
+                <span class="cta">Číst průvodce →</span>
+            </a>
+        </div>
+    </div>
+
+    <footer class="paticka" style="margin: 0 auto 40px auto;">
+        <p>Finanční Mapa © 2026. Kalkulačky slouží pouze pro orientační výpočet.</p>
+    </footer>
+
+</body>
+</html>
