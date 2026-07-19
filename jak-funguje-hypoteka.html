@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jak funguje hypotéka? – Finanční průvodce</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ===== LAYOUT ČLÁNKU ===== */
+        .clanek-kontejner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .clanek-kontejner h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .clanek-podnadpis {
+            font-size: 16px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .clanek-kontejner h2 {
+            font-size: 20px;
+            color: #1a1a2e;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+        .clanek-kontejner h3 {
+            font-size: 16px;
+            color: #4f46e5;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .clanek-kontejner p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 16px;
+        }
+
+        .clanek-kontejner ul, .clanek-kontejner ol {
+            margin: 12px 0 20px 20px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        .clanek-kontejner li {
+            margin-bottom: 8px;
+        }
+
+        /* ===== INFO BLOK ===== */
+        .info-blok {
+            background: #f8fafc;
+            border-left: 4px solid #4f46e5;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .info-blok-aktualnost {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        .info-blok-aktualnost p {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        /* ===== KROKY ===== */
+        .kroky-sekce {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .krok {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px 18px;
+            transition: box-shadow 0.2s;
+        }
+
+        .krok:hover {
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .krok-cislo {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            background: #eef2ff;
+            color: #4f46e5;
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .krok-obsah {
+            flex: 1;
+        }
+
+        .krok-obsah h3 {
+            margin: 0 0 4px 0;
+            font-size: 15px;
+            color: #1a1a2e;
+        }
+
+        .krok-obsah p {
+            margin: 0;
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ===== KARTY ===== */
+        .karty-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karta-blok {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .karta-blok.jistina {
+            border-top: 3px solid #4f46e5;
+        }
+
+        .karta-blok.urok {
+            border-top: 3px solid #f97316;
+        }
+
+        .karta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+        }
+
+        .karta-blok p {
+            margin: 0;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ===== PŘÍKLAD ===== */
+        .priklad-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .priklad-blok h3 {
+            text-align: center;
+            color: #4f46e5;
+            margin: 0 0 20px 0;
+            font-size: 17px;
+        }
+
+        .priklad-parametry {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .priklad-parametr {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-parametr .label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .priklad-parametr .hodnota {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .priklad-vysledky {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-radek {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .priklad-radek + .priklad-radek {
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .priklad-radek .hodnota {
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .priklad-radek .hodnota.vyrazna {
+            color: #4f46e5;
+            font-size: 16px;
+        }
+
+        .priklad-poznamka {
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        /* ===== ROZDĚLENÍ NÁKLADŮ ===== */
+        .rozdeleni-blok {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .rozdeleni-radek {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+
+        .rozdeleni-radek .ikonka {
+            font-size: 20px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .rozdeleni-radek .popis {
+            flex: 1;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .rozdeleni-radek .popis strong {
+            color: #1a1a2e;
+        }
+
+        .rozdeleni-cara {
+            border-top: 2px solid #4f46e5;
+            margin: 8px 0;
+        }
+
+        .rozdeleni-soucet {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0 0 0;
+            font-weight: 700;
+            font-size: 15px;
+            color: #1a1a2e;
+        }
+
+        /* ===== VÝSTRAHA ===== */
+        .varovani-blok {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .varovani-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+            color: #991b1b;
+        }
+
+        /* ===== CTA ===== */
+        .cta-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 28px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .cta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: #1a1a2e;
+        }
+
+        .cta-blok p {
+            margin: 0 0 20px 0;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .cta-tlacitko {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #4f46e5;
+            color: #ffffff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .cta-tlacitko:hover {
+            background: #4338ca;
+        }
+
+        /* ===== ZPĚT ===== */
+        .zpet-odkaz {
+            display: inline-block;
+            margin-top: 24px;
+            color: #4f46e5;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .zpet-odkaz:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONZIVITA ===== */
+        @media (max-width: 600px) {
+            .clanek-kontejner h1 {
+                font-size: 22px;
+            }
+
+            .karty-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .priklad-parametry {
+                grid-template-columns: 1fr;
+            }
+
+            .krok {
+                padding: 12px 14px;
+            }
+
+            .krok-cislo {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="pruvodci.html">Průvodci</a>
+    </nav>
+
+    <div class="clanek-kontejner">
+
+        <!-- HLAVIČKA -->
+        <h1>🏠 Jak funguje hypotéka?</h1>
+        <p class="clanek-podnadpis">Jednoduchý průvodce hypotékou pro každého, kdo chce rozumět svému financování bydlení.</p>
+
+        <!-- AKTUÁLNOST -->
+        <div class="info-blok-aktualnost">
+            <p><strong>Aktuálnost informací:</strong> Tento průvodce vychází z právního a regulatorního rámce platného v České republice v roce 2026. Konkrétní podmínky hypotéky se mohou lišit podle poskytovatele, smlouvy a aktuálně platné právní úpravy. Před konkrétním rozhodnutím si vždy ověřte aktuální podmínky u poskytovatele.</p>
+        </div>
+
+        <!-- 2. CO JE HYPOTÉKA? -->
+        <h2>Co je hypotéka?</h2>
+        <p>Hypotéka je dlouhodobý úvěr, který vám poskytne banka nebo jiný poskytovatel na financování bydlení. Můžete ji použít například na koupi bytu, domu, výstavbu nebo rekonstrukci. Typicky je zajištěna zástavním právem k nemovitosti – to znamená, že pokud byste úvěr nespláceli, poskytovatel by se mohl uspokojit z prodeje zastavené nemovitosti.</p>
+        <p>Prakticky to funguje tak, že od poskytovatele získáte určitou částku peněz, kterou následně splácíte v pravidelných měsíčních splátkách po dobu sjednanou ve smlouvě. Každá splátka se skládá ze dvou částí: <strong>jistiny</strong> (tedy samotné půjčené částky) a <strong>úroku</strong> (ceny, kterou poskytovateli za půjčení peněz platíte).</p>
+
+        <!-- 3. JAK HYPOTÉKA FUNGUJE KROK ZA KROKEM -->
+        <h2>Jak hypotéka funguje krok za krokem</h2>
+        <p>Celý proces od prvního nápadu až po pravidelné splácení lze rozdělit do několika fází:</p>
+
+        <div class="kroky-sekce">
+            <div class="krok">
+                <div class="krok-cislo">1</div>
+                <div class="krok-obsah">
+                    <h3>Vyberete nemovitost</h3>
+                    <p>Nejprve si najdete byt, dům nebo pozemek, který chcete financovat. Účel úvěru musí odpovídat podmínkám konkrétního poskytovatele – většina hypoték je určena na bydlení, nikoliv na investice nebo podnikání.</p>
+                </div>
+            </div>
+
+            <div class="krok">
+                <div class="krok-cislo">2</div>
+                <div class="krok-obsah">
+                    <h3>Zjistíte, kolik potřebujete půjčit</h3>
+                    <p>Rozdíl mezi cenou nemovitosti a vašimi vlastními úsporami tvoří částku, kterou budete potřebovat od poskytovatele. Čím více vlastních prostředků máte, tím méně si půjčujete a tím nižší jsou vaše celkové náklady.</p>
+                </div>
+            </div>
+
+            <div class="krok">
+                <div class="krok-cislo">3</div>
+                <div class="krok-obsah">
+                    <h3>Poskytovatel posoudí vaši schopnost splácet</h3>
+                    <p>Banka nebo jiný poskytovatel prověří vaši finanční situaci – příjmy, výdaje, závazky a úvěrovou historii. Na základě aktuálních právních požadavků a vlastních interních pravidel vyhodnotí, zda jste schopni úvěr splácet a v jaké maximální výši.</p>
+                </div>
+            </div>
+
+            <div class="krok">
+                <div class="krok-cislo">4</div>
+                <div class="krok-obsah">
+                    <h3>Nemovitost slouží jako zajištění</h3>
+                    <p>Hypotéka je obvykle zajištěna zástavním právem k nemovitosti. To znamená, že pokud byste přestali splácet, poskytovatel by se mohl domáhat uspokojení z prodeje zastavené nemovitosti. Zástava je jedním z důvodů, proč jsou hypotéky obvykle výhodnější než nezajištěné spotřebitelské úvěry.</p>
+                </div>
+            </div>
+
+            <div class="krok">
+                <div class="krok-cislo">5</div>
+                <div class="krok-obsah">
+                    <h3>Úvěr je schválen a čerpán</h3>
+                    <p>Po splnění všech podmínek uvedených ve smlouvě dojde k čerpání úvěru – peníze jsou uvolněny ve prospěch prodávajícího, stavebníka nebo na váš účet, v závislosti na účelu a podmínkách smlouvy.</p>
+                </div>
+            </div>
+
+            <div class="krok">
+                <div class="krok-cislo">6</div>
+                <div class="krok-obsah">
+                    <h3>Úvěr splácíte</h3>
+                    <p>Po dobu sjednanou ve smlouvě platíte pravidelné měsíční splátky. Každá splátka postupně snižuje dlužnou částku (jistinu) a zároveň pokrývá úrok. Složení splátky se v čase mění – na začátku tvoří větší podíl úrok, ke konci naopak jistina.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. CO OVLIVŇUJE MĚSÍČNÍ SPLÁTKU -->
+        <h2>Co ovlivňuje měsíční splátku?</h2>
+        <p>Výše měsíční splátky závisí na třech hlavních faktorech. Jejich kombinace určuje, kolik budete každý měsíc platit a kolik celkem na úvěru zaplatíte.</p>
+
+        <div class="karty-2">
+            <div class="karta-blok jistina">
+                <h3>💰 Výše úvěru</h3>
+                <p>Čím vyšší částku si půjčíte, tím vyšší bude vaše měsíční splátka. Zároveň rostou i celkové náklady, protože úroky počítáte z větší dlužné částky.</p>
+            </div>
+            <div class="karta-blok urok">
+                <h3>📈 Úroková sazba</h3>
+                <p>Úroková sazba určuje, kolik za půjčené peníze zaplatíte navíc. Vyšší sazba znamená vyšší měsíční splátku a výrazně vyšší celkové náklady úvěru.</p>
+            </div>
+            <div class="karta-blok" style="border-top: 3px solid #10b981; grid-column: 1 / -1;">
+                <h3>⏳ Délka splácení</h3>
+                <p>Čím delší dobu splácíte, tím nižší je měsíční splátka – ale zároveň platíte úroky po delší dobu, což může celkové náklady výrazně zvýšit. Kratší doba splácení znamená vyšší měsíční splátku, ale nižší celkové náklady.</p>
+            </div>
+        </div>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Skutečná výše splátky závisí na konkrétní nabídce poskytovatele, sjednané úrokové sazbě, způsobu splácení a dalších podmínkách uvedených ve smlouvě. Uvedené faktory jsou hlavními proměnnými, které výslednou splátku ovlivňují.</p>
+        </div>
+
+        <!-- 5. Z ČEHO SE SKLÁDÁ MĚSÍČNÍ SPLÁTKA -->
+        <h2>Z čeho se skládá měsíční splátka?</h2>
+        <p>U běžné hypotéky se měsíční splátka skládá ze dvou složek. Jejich vzájemný poměr se v průběhu splácení postupně mění.</p>
+
+        <div class="karty-2">
+            <div class="karta-blok jistina">
+                <h3>💰 Jistina</h3>
+                <p>Část splátky, která snižuje dlužnou částku. Čím více jistiny zaplatíte, tím méně dlužíte. Ke konci splácení tvoří jistina většinu měsíční splátky.</p>
+            </div>
+            <div class="karta-blok urok">
+                <h3>📈 Úrok</h3>
+                <p>Cena, kterou poskytovateli platíte za půjčení peněz. Úrok se počítá z aktuální dlužné částky, proto je na začátku vysoký a postupně klesá.</p>
+            </div>
+        </div>
+
+        <p>Většina hypoték v České republice využívá tzv. <strong>anuitní splácení</strong>. To znamená, že po celou dobu fixace platíte stejně vysokou měsíční splátku, ale mění se její vnitřní složení:</p>
+
+        <ul>
+            <li><strong>Na začátku</strong> tvoří úroky větší část splátky, jistina menší. Dlužná částka klesá pomalu.</li>
+            <li><strong>Postupně</strong> se poměr otáčí – úroků ubývá a stále větší část splátky jde na jistinu.</li>
+            <li><strong>Ke konci</strong> tvoří jistina drtivou většinu splátky a dlužná částka rychle klesá k nule.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Úroková sazba není automaticky stejná po celou dobu splácení. Sjednává se na tzv. <strong>fixační období</strong> (například 1, 3, 5 nebo 10 let). Po jeho skončení může poskytovatel nabídnout novou sazbu, která se může lišit od původní. Výše splátky se pak může změnit. Podmínky po skončení fixace jsou vždy uvedeny ve smlouvě.</p>
+        </div>
+
+        <!-- 6. KONKRÉTNÍ PŘÍKLAD -->
+        <h2>Konkrétní příklad</h2>
+        <p>Podívejme se na modelový příklad, který ilustruje, jak jednotlivé parametry ovlivňují výsledné náklady hypotéky.</p>
+
+        <div class="priklad-blok">
+            <h3>📊 Modelový příklad hypotéky</h3>
+
+            <div class="priklad-parametry">
+                <div class="priklad-parametr">
+                    <div class="label">Výše úvěru</div>
+                    <div class="hodnota">3 000 000 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Úroková sazba</div>
+                    <div class="hodnota">5,5 % ročně</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Doba splácení</div>
+                    <div class="hodnota">30 let</div>
+                </div>
+            </div>
+
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>Měsíční splátka</span>
+                    <span class="hodnota vyrazna">17 034 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Celkem zaplaceno</span>
+                    <span class="hodnota">6 132 121 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Zaplacené úroky</span>
+                    <span class="hodnota">3 132 121 Kč</span>
+                </div>
+            </div>
+
+            <p class="priklad-poznamka">Jedná se o modelový výpočet anuitního úvěru bez započtení případných dalších poplatků, pojištění a dalších nákladů. Skutečná nabídka se může lišit v závislosti na konkrétní úrokové sazbě, způsobu splácení, podmínkách smlouvy a dalších nákladech.</p>
+        </div>
+
+        <!-- 7. CO ZNAMENÁ PŘEPLACENÍ HYPOTÉKY -->
+        <h2>Co znamená přeplacení hypotéky?</h2>
+        <p>Když si vezmete hypotéku, nesplatíte jen půjčenou částku, ale také úroky a případné další náklady. Rozdíl mezi tím, co jste si půjčili, a tím, co celkem zaplatíte, tvoří především úroky. Čím delší dobu splácíte a čím vyšší je úroková sazba, tím větší tato částka je.</p>
+
+        <div class="rozdeleni-blok">
+            <div class="rozdeleni-radek">
+                <span class="ikonka">💰</span>
+                <span class="popis"><strong>Půjčená částka (jistina)</strong><br>3 000 000 Kč</span>
+            </div>
+            <div class="rozdeleni-radek">
+                <span class="ikonka">📈</span>
+                <span class="popis"><strong>Úroky</strong><br>3 132 121 Kč</span>
+            </div>
+            <div class="rozdeleni-radek">
+                <span class="ikonka">📄</span>
+                <span class="popis"><strong>Případné další náklady</strong><br>poplatky, pojištění, odhad nemovitosti apod.</span>
+            </div>
+            <div class="rozdeleni-cara"></div>
+            <div class="rozdeleni-soucet">
+                <span><strong>Celkové náklady</strong></span>
+                <span><strong>6 132 121 Kč + další náklady</strong></span>
+            </div>
+        </div>
+
+        <p>Z výše uvedeného příkladu je vidět, že úroky mohou tvořit zhruba polovinu celkové částky, kterou zaplatíte. To neznamená, že je hypotéka špatná – je to standardní vlastnost dlouhodobého financování. Důležité je s tím při plánování počítat.</p>
+
+        <p>Nižší měsíční splátka díky delší době splácení nemusí být vždy výhodnější – celkově totiž zaplatíte výrazně více na úrocích. Naopak kratší doba splácení znamená vyšší měsíční splátku, ale nižší celkové náklady.</p>
+
+        <!-- 8. NA CO SI DÁT POZOR -->
+        <h2>Na co si dát při hypotéce pozor</h2>
+        <p>Rozhodnutí o hypotéce patří k nejdůležitějším finančním krokům v životě. Zde je několik bodů, které byste měli mít na paměti:</p>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Neřešte pouze výši měsíční splátky.</strong> Nízká měsíční splátka může znamenat vysoké celkové náklady. Vždy sledujte také celkovou částku, kterou zaplatíte.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Sledujte úrokovou sazbu i RPSN.</strong> RPSN (roční procentní sazba nákladů) zahrnuje kromě úroků i další náklady spojené s úvěrem. Pokud je pro daný produkt relevantní, umožní vám lépe porovnat jednotlivé nabídky.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Zvažte délku splácení.</strong> Delší doba splácení snižuje měsíční splátku, ale zvyšuje celkové náklady. Kratší doba je naopak dražší měsíčně, ale celkově levnější.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Neberte si úvěr na hranici svých možností.</strong> Život přináší nečekané události – ztráta zaměstnání, nemoc, růst výdajů. Vždy počítejte s finanční rezervou.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Věnujte pozornost fixaci.</strong> Úroková sazba je zaručena pouze po dobu fixačního období. Po jeho skončení se může změnit, což ovlivní výši vaší měsíční splátky. Podmínky jsou vždy uvedeny ve smlouvě.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Ověřte si podmínky mimořádných splátek a předčasného splacení.</strong> Možnost jednorázově splatit část úvěru nebo ho celý předčasně doplatit se řídí aktuální právní úpravou a konkrétní smlouvou. Podmínky se mohou u jednotlivých poskytovatelů lišit.</p>
+        </div>
+
+        <!-- 9. CTA -->
+        <div class="cta-blok">
+            <h3>🧮 Spočítejte si svou hypotéku</h3>
+            <p>Zjistěte, jaká by mohla být vaše měsíční splátka, kolik celkem zaplatíte a kolik z toho mohou tvořit úroky.</p>
+            <a href="index.html" class="cta-tlacitko">Spočítat hypotéku →</a>
+        </div>
+
+        <!-- 10. ZPĚT -->
+        <a href="hypoteky.html" class="zpet-odkaz">← Zpět na hypoteční průvodce</a>
+
+    </div>
+
+    <footer class="paticka" style="margin: 0 auto 40px auto;">
+        <p>Finanční Mapa © 2026. Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
+    </footer>
+
+</body>
+</html>
