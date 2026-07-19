@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jak funguje roční zúčtování daně ze mzdy v roce 2026? Zjistěte, kdo může podat žádost, kdy se provádí a jaký může být výsledek.">
+    <title>🧾 Jak funguje roční zúčtování daně ze mzdy v roce 2026? – Finanční průvodce</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ===== LAYOUT ČLÁNKU ===== */
+        .clanek-kontejner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .clanek-kontejner h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .clanek-podnadpis {
+            font-size: 16px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .clanek-kontejner h2 {
+            font-size: 20px;
+            color: #1a1a2e;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+        .clanek-kontejner h3 {
+            font-size: 16px;
+            color: #4f46e5;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .clanek-kontejner p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 16px;
+        }
+
+        .clanek-kontejner ul, .clanek-kontejner ol {
+            margin: 12px 0 20px 20px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        .clanek-kontejner li {
+            margin-bottom: 8px;
+        }
+
+        /* ===== INFO BLOK ===== */
+        .info-blok {
+            background: #f8fafc;
+            border-left: 4px solid #4f46e5;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .info-blok-aktualnost {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        .info-blok-aktualnost p {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        /* ===== KARTY ===== */
+        .karty-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karta-blok {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .karta-blok.modra {
+            border-top: 3px solid #4f46e5;
+        }
+
+        .karta-blok.oranzova {
+            border-top: 3px solid #f97316;
+        }
+
+        .karta-blok.zelená {
+            border-top: 3px solid #10b981;
+        }
+
+        .karta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+        }
+
+        .karta-blok p {
+            margin: 0;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ===== PŘÍKLAD ===== */
+        .priklad-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .priklad-blok h3 {
+            text-align: center;
+            color: #4f46e5;
+            margin: 0 0 20px 0;
+            font-size: 17px;
+        }
+
+        .priklad-parametry {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .priklad-radek {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .priklad-radek .label {
+            flex: 1;
+        }
+
+        .priklad-radek .hodnota {
+            font-weight: 700;
+            color: #1a1a2e;
+            text-align: right;
+        }
+
+        .priklad-radek .hodnota.vyrazna {
+            color: #4f46e5;
+            font-size: 16px;
+        }
+
+        .priklad-radek.celkova {
+            background: #eef2ff;
+            border-color: #c7d2fe;
+            margin-top: 8px;
+            padding-top: 12px;
+            border-top: 2px solid #4f46e5;
+        }
+
+        .priklad-poznamka {
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        /* ===== CTA ===== */
+        .cta-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 28px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .cta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: #1a1a2e;
+        }
+
+        .cta-blok p {
+            margin: 0 0 20px 0;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .cta-tlacitko {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #4f46e5;
+            color: #ffffff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .cta-tlacitko:hover {
+            background: #4338ca;
+        }
+
+        /* ===== ZPĚT ===== */
+        .zpet-odkaz {
+            display: inline-block;
+            margin-top: 24px;
+            color: #4f46e5;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .zpet-odkaz:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONZIVITA ===== */
+        @media (max-width: 600px) {
+            .clanek-kontejner h1 {
+                font-size: 22px;
+            }
+
+            .karty-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="pruvodci.html">Průvodci</a>
+    </nav>
+
+    <div class="clanek-kontejner">
+
+        <!-- HLAVIČKA -->
+        <h1>🧾 Jak funguje roční zúčtování daně ze mzdy v roce 2026?</h1>
+        <p class="clanek-podnadpis">Zjistěte, kdo může podat žádost o roční zúčtování, kdy se provádí a jaký může být výsledek pro vaši daňovou povinnost.</p>
+
+        <!-- AKTUÁLNOST -->
+        <div class="info-blok-aktualnost">
+            <p><strong>Aktuálnost informací:</strong> Tento článek vychází z pravidel platných v České republice pro rok 2026. Daňové předpisy se mohou měnit, proto doporučujeme ověřit aktuální termíny a podmínky u Finanční správy ČR.</p>
+        </div>
+
+        <!-- 1. CO JE ROČNÍ ZÚČTOVÁNÍ DANĚ? -->
+        <h2>Co je roční zúčtování daně?</h2>
+        <p>Roční zúčtování daně ze mzdy je proces, při kterém se na základě skutečných příjmů a nákladů za celý rok upraví daňové zálohy, které vám zaměstnavatel strhával během roku.</p>
+
+        <p>Během roku zaměstnavatel odvádí daňové zálohy jménem zaměstnance. Po skončení kalendářního roku se může ukázat, že jste zaplatili více nebo méně daně, než jste měli. Roční zúčtování toto rozdělení vyrovnává.</p>
+
+        <div class="karty-2">
+            <div class="karta-blok modra">
+                <h3>📊 Přebytek daně</h3>
+                <p>Pokud jste během roku zaplatili více daně, než jste měli, dostanete rozdíl zpět. Tzv. přeplatek.</p>
+            </div>
+            <div class="karta-blok oranzova">
+                <h3>💸 Nedoplatek daně</h3>
+                <p>Pokud jste zaplatili méně daně, než jste měli, musíte doplatit rozdíl. Tzv. nedoplatek.</p>
+            </div>
+        </div>
+
+        <!-- 2. KDO MŮŽE O ROČNÍ ZÚČTOVÁNÍ POŽÁDAT? -->
+        <h2>Kdo může o roční zúčtování požádat?</h2>
+        <p>Roční zúčtování mohou požadovat zaměstnanci, kteří mají daňovou povinnost z příjmů ze závislé činnosti (mzdy). Základní podmínky pro rok 2026:</p>
+
+        <ul>
+            <li><strong>Zaměstnanci s jedním zaměstnavatelem</strong> – pokud jste měli pouze jednoho zaměstnavatele během celého roku, roční zúčtování provede zaměstnavatel automaticky.</li>
+            <li><strong>Zaměstnanci s více zaměstnavateli</strong> – pokud jste měli během roku více zaměstnavatelů, musíte podat daňové přiznání.</li>
+            <li><strong>Zaměstnanci s dalšími příjmy</strong> – pokud jste měli kromě mzdy i další příjmy (například pronájmy, živnostenskou činnost), musíte podat daňové přiznání.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Konkrétní podmínky pro roční zúčtování mohou záviset na vaší konkrétní situaci. Vždy si ověřte aktuální pravidla u Finanční správy ČR nebo u svého zaměstnavatele.</p>
+        </div>
+
+        <!-- 3. KDY SE ROČNÍ ZÚČTOVÁNÍ PROVÁDÍ? -->
+        <h2>Kdy se roční zúčtování provádí?</h2>
+        <p>Roční zúčtování daně se provádí po skončení kalendářního roku. Základní termíny pro rok 2026:</p>
+
+        <h3>Termíny pro podání</h3>
+        <ul>
+            <li><strong>Roční zúčtování zaměstnavatelem</strong> – zaměstnavatel má povinnost provést roční zúčtování do konce února následujícího roku.</li>
+            <li><strong>Daňové přiznání</strong> – pokud musíte podat daňové přiznání, termín je do konce března následujícího roku.</li>
+        </ul>
+
+        <h3>Rozdíl mezi ročním zúčtováním a daňovým přiznáním</h3>
+        <p>Tyto dva pojmy se často zaměňují, ale mají odlišný význam:</p>
+
+        <div class="karty-2">
+            <div class="karta-blok modra">
+                <h3>📄 Roční zúčtování</h3>
+                <p>Automatické vyrovnání daně provedené zaměstnavatelem. Vztahuje se pouze k příjmům ze závislé činnosti u jednoho zaměstnavatele.</p>
+            </div>
+            <div class="karta-blok zelená">
+                <h3>🧾 Daňové přiznání</h3>
+                <p>Formální prohlášení poplatníka Finanční správě. Podáváte ho, pokud máte složitější daňovou situaci (více zaměstnavatelů, další příjmy).</p>
+            </div>
+        </div>
+
+        <!-- 4. CO MŮŽE VÝSLEDEK OVLIVNIT? -->
+        <h2>Co může výsledek ovlivnit?</h2>
+        <p>Výsledek ročního zúčtování může ovlivnit mnoho faktorů:</p>
+
+        <ul>
+            <li><strong>Daňové slevy</strong> – základní sleva na poplatníka, daňové zvýhodnění na děti a další slevy.</li>
+            <li><strong>Odpočty od základu daně</strong> – například úroky z hypotéky, příspěvky na penzijní připojištění.</li>
+            <li><strong>Výše příjmů</strong> – pokud se vaše mzda během roku měnila, může to ovlivnit výši záloh.</li>
+            <li><strong>Změny zaměstnavatele</strong> – pokud jste během roku přestoupili k jinému zaměstnavateli.</li>
+            <li><strong>Další příjmy</strong> – pokud jste měli kromě mzdy i další zdanitelné příjmy.</li>
+        </ul>
+
+        <p>Všechny tyto faktory mohou způsobit, že výsledek zúčtování bude jiný, než jste očekávali.</p>
+
+        <!-- 5. PRAKTICKÝ MODELOVÝ PŘÍKLAD -->
+        <h2>Praktický příklad</h2>
+        <p>Podívejme se na modelový příklad, který ukazuje, jak může roční zúčtování ovlivnit vaši daňovou povinnost. Příklad vychází z pravidel platných v roce 2026.</p>
+
+        <div class="priklad-blok">
+            <h3>📊 Modelový příklad – zaměstnanec bez dětí</h3>
+
+            <div class="priklad-parametry">
+                <div class="priklad-radek">
+                    <span class="label">💼 Průměrná hrubá mzda za rok</span>
+                    <span class="hodnota">40 000 Kč/měsíc</span>
+                </div>
+                <div class="priklad-radek">
+                    <span class="label">🧾 Základní sleva na poplatníka</span>
+                    <span class="hodnota">2 570 Kč/měsíc</span>
+                </div>
+                <div class="priklad-radek">
+                    <span class="label">📊 Celkem zaplacená daň během roku</span>
+                    <span class="hodnota">41 160 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span class="label">✅ Správná daňová povinnost</span>
+                    <span class="hodnota">38 590 Kč</span>
+                </div>
+                <div class="priklad-radek celkova">
+                    <span class="label"><strong>💰 VÝSLEDEK ZÚČTOVÁNÍ</strong></span>
+                    <span class="hodnota vyrazna"><strong>Přeplatek 2 570 Kč</strong></span>
+                </div>
+            </div>
+
+            <p class="priklad-poznamka">Modelový příklad pro ilustraci principu. Skutečný výsledek zúčtování závisí na vaší konkrétní daňové situaci. Pro přesné informace kontaktujte Finanční správu ČR.</p>
+        </div>
+
+        <!-- 6. ROČNÍ ZÚČTOVÁNÍ VS. DAŇOVÉ PŘIZNÁNÍ -->
+        <h2>Roční zúčtování vs. daňové přiznání</h2>
+        <p>Je důležité rozlišovat mezi ročním zúčtováním a daňovým přiznáním:</p>
+
+        <div class="karty-2">
+            <div class="karta-blok modra">
+                <h3>📄 Roční zúčtování</h3>
+                <p><strong>Kdy:</strong> Automaticky do konce února<br>
+                <strong>Kdo:</strong> Zaměstnavatel<br>
+                <strong>Pro koho:</strong> Zaměstnanci s jedním zaměstnavatelem<br>
+                <strong>Výsledek:</strong> Přebytek/nedoplatek se vrátí/zapíše</p>
+            </div>
+            <div class="karta-blok oranzova">
+                <h3>🧾 Daňové přiznání</h3>
+                <p><strong>Kdy:</strong> Do konce března<br>
+                <strong>Kdo:</strong> Vy (poplatník)<br>
+                <strong>Pro koho:</strong> Složitější daňové situace<br>
+                <strong>Výsledek:</strong> Konečná daňová povinnost</p>
+            </div>
+        </div>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Pokud si nejste jisti, zda musíte podat daňové přiznání, kontaktujte Finanční správu ČR. Neplnění povinnosti podat daňové přiznání může mít finanční důsledky.</p>
+        </div>
+
+        <!-- 7. CTA NA KALKULAČKU MZDY -->
+        <div class="cta-blok">
+            <h3>💰 Zkontrolujte si svou čistou mzdu</h3>
+            <p>Roční zúčtování může ovlivnit výslednou částku, kterou za celý rok skutečně zaplatíte na dani.</p>
+            <a href="mzda.html" class="cta-tlacitko">Spočítat čistou mzdu →</a>
+        </div>
+
+        <!-- 8. ZPĚTNÝ ODKAZ -->
+        <a href="pruvodci.html" class="zpet-odkaz">← Zpět na průvodce</a>
+
+    </div>
+
+    <footer class="paticka" style="margin: 0 auto 40px auto;">
+        <p>Finanční Mapa © 2026. Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
+    </footer>
+
+</body>
+</html>
