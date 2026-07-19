@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Na co si dát pozor při výběru hypotéky? Nejnižší úrok nemusí znamenat nejvýhodnější nabídku. Porovnejte RPSN, poplatky, fixaci a další podmínky.">
+    <title>⚠️ Na co si dát pozor při výběru hypotéky? – Finanční průvodce</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ===== LAYOUT ČLÁNKU ===== */
+        .clanek-kontejner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .clanek-kontejner h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .clanek-podnadpis {
+            font-size: 16px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .clanek-kontejner h2 {
+            font-size: 20px;
+            color: #1a1a2e;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+        .clanek-kontejner h3 {
+            font-size: 16px;
+            color: #4f46e5;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .clanek-kontejner p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 16px;
+        }
+
+        .clanek-kontejner ul, .clanek-kontejner ol {
+            margin: 12px 0 20px 20px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        .clanek-kontejner li {
+            margin-bottom: 8px;
+        }
+
+        /* ===== INFO BLOK ===== */
+        .info-blok {
+            background: #f8fafc;
+            border-left: 4px solid #4f46e5;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .info-blok-aktualnost {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        .info-blok-aktualnost p {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        /* ===== KARTY ===== */
+        .karty-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karta-blok {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .karta-blok.modra {
+            border-top: 3px solid #4f46e5;
+        }
+
+        .karta-blok.oranzova {
+            border-top: 3px solid #f97316;
+        }
+
+        .karta-blok.zelená {
+            border-top: 3px solid #10b981;
+        }
+
+        .karta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+        }
+
+        .karta-blok p {
+            margin: 0;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ===== PŘÍKLAD ===== */
+        .priklad-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .priklad-blok h3 {
+            text-align: center;
+            color: #4f46e5;
+            margin: 0 0 20px 0;
+            font-size: 17px;
+        }
+
+        .priklad-parametry {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .priklad-parametr {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-parametr .label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .priklad-parametr .hodnota {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .priklad-vysledky {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-radek {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .priklad-radek + .priklad-radek {
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .priklad-radek .hodnota {
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .priklad-radek .hodnota.vyrazna {
+            color: #4f46e5;
+            font-size: 16px;
+        }
+
+        .priklad-poznamka {
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        /* ===== CHECKLIST ===== */
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 14px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .checklist li::before {
+            content: "☑️";
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        /* ===== VÝSTRAHA ===== */
+        .varovani-blok {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .varovani-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+            color: #991b1b;
+        }
+
+        /* ===== CTA ===== */
+        .cta-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 28px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .cta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: #1a1a2e;
+        }
+
+        .cta-blok p {
+            margin: 0 0 20px 0;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .cta-tlacitko {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #4f46e5;
+            color: #ffffff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .cta-tlacitko:hover {
+            background: #4338ca;
+        }
+
+        /* ===== ODKAZY NA PRŮVODCE ===== */
+        .odkazy-pruvodci {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .odkaz-pruvodce {
+            display: block;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px;
+            text-decoration: none;
+            color: #1a1a2e;
+            transition: box-shadow 0.2s, transform 0.2s;
+            text-align: center;
+        }
+
+        .odkaz-pruvodce:hover {
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .odkaz-pruvodce .ikonka {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+
+        .odkaz-pruvodce .nazev {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4f46e5;
+        }
+
+        .odkaz-pruvodce .popis {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* ===== ZPĚT ===== */
+        .zpet-odkaz {
+            display: inline-block;
+            margin-top: 24px;
+            color: #4f46e5;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .zpet-odkaz:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONZIVITA ===== */
+        @media (max-width: 600px) {
+            .clanek-kontejner h1 {
+                font-size: 22px;
+            }
+
+            .karty-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .priklad-parametry {
+                grid-template-columns: 1fr;
+            }
+
+            .odkazy-pruvodci {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="pruvodci.html">Průvodci</a>
+    </nav>
+
+    <div class="clanek-kontejner">
+
+        <!-- HLAVIČKA -->
+        <h1>⚠️ Na co si dát pozor při výběru hypotéky?</h1>
+        <p class="clanek-podnadpis">Nejnižší úrok nemusí automaticky znamenat nejvýhodnější hypotéku. Zjistěte, co všechno porovnat před podpisem smlouvy.</p>
+
+        <!-- AKTUÁLNOST -->
+        <div class="info-blok-aktualnost">
+            <p><strong>Aktuálnost informací:</strong> Tento průvodce vychází z právního a regulatorního rámce platného v České republice v roce 2026. Konkrétní podmínky hypotečního úvěru se mohou lišit podle poskytovatele, typu úvěru a konkrétní smlouvy. Před podpisem smlouvy si vždy pečlivě prostudujte konkrétní nabídku a smluvní dokumentaci.</p>
+        </div>
+
+        <!-- 2. NEJNIŽŠÍ ÚROK NEMUSÍ ZNAMENAT NEJLEPŠÍ NABÍDKU -->
+        <h2>Nejnižší úrok nemusí znamenat nejlepší nabídku</h2>
+        <p>Při výběru hypotéky je přirozené soustředit se na úrokovou sazbu. Je to první údaj, který banky uvádějí v reklamě, a zdá se být tím nejdůležitějším. Úroková sazba je skutečně důležitá – výrazně ovlivňuje výši měsíční splátky a celkové náklady úvěru. Není to však jediný parametr, který byste měli sledovat.</p>
+
+        <p>Dvě hypotéky mohou mít podobnou úrokovou sazbu, ale odlišné celkové náklady a podmínky. Rozdíly mohou být v poplatcích, požadavcích na doplňkové produkty, délce fixace nebo podmínkách mimořádného splácení. Výsledná nabídka je vždy kombinací všech těchto faktorů.</p>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Při porovnávání hypoték se nesoustřeďte pouze na jeden údaj. Každou nabídku posuzujte komplexně – sledujte nejen úrokovou sazbu, ale také celkové náklady, podmínky a smluvní ujednání.</p>
+        </div>
+
+        <!-- 3. RPSN – CO VÁM MŮŽE NAPOVĚDĚT -->
+        <h2>RPSN – co vám může napovědět</h2>
+        <p>RPSN (roční procentní sazba nákladů) je číslo, které vedle úrokové sazby zohledňuje i některé další náklady spojené s úvěrem. Může vám pomoci získat lepší představu o celkových nákladech a usnadnit porovnání různých nabídek.</p>
+
+        <p>RPSN zahrnuje například:</p>
+
+        <ul>
+            <li>úrokovou sazbu,</li>
+            <li>poplatky spojené s úvěrem,</li>
+            <li>náklady na některé doprovodné služby, pokud jsou podmínkou poskytnutí úvěru.</li>
+        </ul>
+
+        <p>Přesto ani RPSN nezachycuje všechny aspekty, které mohou být pro vaše rozhodování důležité – například podmínky fixace, možnosti mimořádného splácení nebo požadavky na doplňkové produkty. Skutečné náklady vždy závisí na konkrétní nabídce, délce trvání úvěru a podmínkách smlouvy.</p>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> RPSN je užitečný orientační údaj, ale není dokonalým nástrojem pro všechny situace. Vždy ho berte jako jeden z faktorů při porovnávání, nikoliv jako jediné rozhodující kritérium.</p>
+        </div>
+
+        <!-- 4. POPLATKY A DALŠÍ NÁKLADY -->
+        <h2>Poplatky a další náklady</h2>
+        <p>Kromě úrokové sazby mohou být s hypotékou spojeny i další náklady. Jejich výše a struktura se může lišit podle poskytovatele a konkrétní nabídky. Mezi náklady, které se mohou objevit, patří například:</p>
+
+        <ul>
+            <li><strong>💰 Poplatky spojené s úvěrem</strong> – například poplatek za zpracování žádosti, za vedení úvěrového účtu nebo za správu úvěru.</li>
+            <li><strong>📄 Administrativní náklady</strong> – poplatky za odhad nemovitosti, výpis z katastru nemovitostí, notářské poplatky.</li>
+            <li><strong>🏦 Náklady na doprovodné služby</strong> – například pojištění schopnosti splácet nebo pojištění nemovitosti, pokud je podmínkou poskytnutí úvěru.</li>
+            <li><strong>📑 Další náklady uvedené v podmínkách</strong> – například poplatky za změnu podmínek smlouvy, za předčasné splacení nebo za mimořádnou splátku.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Konkrétní poplatky a náklady se liší podle poskytovatele a nabídky. Žádný poplatek není automaticky povinný pro všechny banky. Vždy si ověřte, jaké náklady jsou s nabídkou spojeny, a porovnejte je napříč jednotlivými nabídkami.</p>
+        </div>
+
+        <!-- 5. POVINNÉ PRODUKTY A PODMÍNKY BANKY -->
+        <h2>Povinné produkty a podmínky banky</h2>
+        <p>Některé nabídky mohou být podmíněny využíváním dalších produktů nebo splněním konkrétních podmínek. Pokud je nižší úroková sazba podmíněna dalšími produkty, je důležité započítat jejich náklady do celkového posouzení nabídky.</p>
+
+        <p>Mezi produkty a podmínky, které mohou být součástí nabídky, patří například:</p>
+
+        <ul>
+            <li><strong>🏦 Běžný účet</strong> – některé banky mohou požadovat vedení běžného účtu u nich.</li>
+            <li><strong>🛡️ Pojištění</strong> – pojištění nemovitosti nebo pojištění schopnosti splácet.</li>
+            <li><strong>📄 Další smluvní podmínky</strong> – například minimální obrat na účtu, aktivní využívání produktů.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Pokud je nižší úroková sazba podmíněna dalšími produkty, zahrňte jejich náklady do celkového porovnání. Nízká úroková sazba může být méně výhodná, pokud jsou náklady na doplňkové produkty vysoké. Konkrétní podmínky se liší podle poskytovatele.</p>
+        </div>
+
+        <!-- 6. FIXACE ÚROKOVÉ SAZBY -->
+        <h2>Fixace úrokové sazby</h2>
+        <p>Délka fixace určuje období, po které máte zaručenou úrokovou sazbu. Po skončení fixace se sazba může změnit, což ovlivní výši vaší měsíční splátky. Při výběru délky fixace zvažte následující:</p>
+
+        <ul>
+            <li><strong>Kratší fixace</strong> (například 1–3 roky) – umožňuje častější změnu podmínek, což může být výhodné při očekávání poklesu sazeb, ale přináší nejistotu ohledně budoucí výše splátky.</li>
+            <li><strong>Delší fixace</strong> (například 5–10 let) – poskytuje delší období jistoty a stabilní měsíční splátky, ale obvykle za mírně vyšší úrokovou sazbu.</li>
+        </ul>
+
+        <p>Budoucí vývoj úrokových sazeb nelze spolehlivě předvídat. Volba délky fixace by měla odpovídat vaší finanční situaci a preferencím – někomu vyhovuje jistota delší fixace, jiný preferuje flexibilitu kratšího období.</p>
+
+        <p>Více o tomto tématu se dočtete v samostatném průvodci:</p>
+
+        <div class="odkazy-pruvodci">
+            <a href="fixace-hypoteky.html" class="odkaz-pruvodce">
+                <div class="ikonka">🏦</div>
+                <div class="nazev">Co je fixace hypotéky a jak funguje?</div>
+                <div class="popis">Jak dlouho může být úroková sazba stejná</div>
+            </a>
+        </div>
+
+        <!-- 7. MIMOŘÁDNÉ A PŘEDČASNÉ SPLÁCENÍ -->
+        <h2>Mimořádné a předčasné splácení</h2>
+        <p>Možnost jednorázově splatit část úvěru nebo ho celý předčasně doplatit se řídí platnou právní úpravou a konkrétní smlouvou. Podmínky se mohou lišit podle situace a poskytovatele. Před podpisem smlouvy je důležité vědět, jaká pravidla pro mimořádné a předčasné splácení platí.</p>
+
+        <p>V roce 2026 se tato oblast řídí především zákonem č. 257/2016 Sb., o spotřebitelském úvěru, a konkrétními podmínkami sjednanými ve smlouvě. Konkrétní pravidla a případné náklady spojené s mimořádným nebo předčasným splacením jsou vždy uvedeny ve smluvní dokumentaci.</p>
+
+        <p>Více o tomto tématu se dočtete v samostatném průvodci:</p>
+
+        <div class="odkazy-pruvodci">
+            <a href="mimoradna-splatka-hypoteky.html" class="odkaz-pruvodce">
+                <div class="ikonka">💸</div>
+                <div class="nazev">Mimořádná splátka hypotéky</div>
+                <div class="popis">Kdy se vyplatí a kolik můžete ušetřit</div>
+            </a>
+        </div>
+
+        <!-- 8. POJIŠTĚNÍ A DALŠÍ DOPLŇKOVÉ PRODUKTY -->
+        <h2>Pojištění a další doplňkové produkty</h2>
+        <p>K hypotéce mohou být nabízeny doplňkové produkty, jako je pojištění schopnosti splácet, pojištění nemovitosti nebo jiné finanční služby. Tyto produkty mohou být součástí nabídky nebo podmínkou pro získání konkrétní úrokové sazby.</p>
+
+        <p>Doplňkové produkty mají vlastní cenu, kterou je třeba zahrnout do celkového posouzení nabídky. Jejich přínos je nutné posuzovat individuálně – pro někoho může být pojištění vhodným doplňkem, pro jiného zbytečným nákladem.</p>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Žádný konkrétní doplňkový produkt není automaticky nutný pro všechny žadatele. Vždy si ověřte, zda je produkt povinný nebo dobrovolný, a zohledněte jeho cenu při porovnávání nabídek.</p>
+        </div>
+
+        <!-- 9. DÉLKA SPLATNOSTI -->
+        <h2>Délka splatnosti</h2>
+        <p>Doba splácení hypotéky výrazně ovlivňuje výši měsíční splátky i celkové náklady úvěru. Obecně platí:</p>
+
+        <ul>
+            <li><strong>Delší doba splácení</strong> – nižší měsíční splátka, ale úvěr je splácen delší dobu a celkové zaplacené úroky mohou být vyšší.</li>
+            <li><strong>Kratší doba splácení</strong> – vyšší měsíční splátka, ale úvěr je splacen rychleji a celkové náklady na úroky jsou obvykle nižší.</li>
+        </ul>
+
+        <p>Optimální délka splatnosti závisí na vaší finanční situaci, výši úvěru a úrokové sazbě. Pomocí hypoteční kalkulačky si můžete snadno porovnat, jak délka splácení ovlivňuje měsíční splátku a celkové náklady.</p>
+
+        <!-- 10. SMLUVNÍ DOKUMENTACE -->
+        <h2>Smluvní dokumentace</h2>
+        <p>Před podpisem smlouvy si pečlivě prostudujte veškerou smluvní dokumentaci. Konkrétní práva a povinnosti vyplývají především z platné smluvní dokumentace a právních předpisů. Věnujte pozornost zejména:</p>
+
+        <ul>
+            <li><strong>📄 Úvěrové smlouvě</strong> – výše úvěru, úroková sazba, doba splácení, výše měsíční splátky.</li>
+            <li><strong>📄 Obchodním podmínkám</strong> – podrobná pravidla a ujednání, na která smlouva odkazuje.</li>
+            <li><strong>📄 Informacím o úrokové sazbě</strong> – jak je sazba stanovena, kdy a jak se může měnit.</li>
+            <li><strong>📄 Podmínkám fixace</strong> – délka fixačního období a co se děje po jeho skončení.</li>
+            <li><strong>📄 Podmínkám mimořádného a předčasného splacení</strong> – za jakých podmínek můžete úvěr splatit dříve.</li>
+            <li><strong>📄 Podmínkám doplňkových produktů</strong> – pokud jsou součástí nabídky.</li>
+            <li><strong>📄 Všem poplatkům a nákladům</strong> – přehled všech nákladů spojených s úvěrem.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Smluvní dokumentace je závazným právním dokumentem. Pokud některým ustanovením nerozumíte, neváhejte se obrátit na poskytovatele s žádostí o vysvětlení. V případě potřeby můžete konzultovat smlouvu s odborníkem.</p>
+        </div>
+
+        <!-- 11. PRAKTICKÝ CHECKLIST PŘED PODPISEM -->
+        <h2>Praktický checklist před podpisem</h2>
+        <p>Než podepíšete smlouvu o hypotéce, projděte si následující body:</p>
+
+        <ul class="checklist">
+            <li><strong>Znám úrokovou sazbu</strong> – vím, jaká je úroková sazba a zda je pevná nebo variabilní.</li>
+            <li><strong>Rozumím délce fixace</strong> – vím, na jak dlouho je sazba zaručena a co se stane po skončení fixace.</li>
+            <li><strong>Vím, jaká bude měsíční splátka</strong> – znám přesnou výši měsíční splátky po celou dobu fixace.</li>
+            <li><strong>Zkontroloval/a jsem RPSN a celkové náklady</strong> – mám představu o celkových nákladech úvěru.</li>
+            <li><strong>Vím, zda je sazba podmíněna dalšími produkty</strong> – vím, zda musím sjednat další produkty a jaké jsou jejich náklady.</li>
+            <li><strong>Znám podmínky mimořádného a předčasného splacení</strong> – vím, za jakých podmínek mohu úvěr splatit dříve.</li>
+            <li><strong>Prošel/prošla jsem smluvní dokumentaci</strong> – přečetl/a jsem si smlouvu a obchodní podmínky.</li>
+            <li><strong>Vím, jaké další náklady mohou vzniknout</strong> – mám přehled o všech poplatcích a nákladech.</li>
+        </ul>
+
+        <!-- 12. PRAKTICKÉ POROVNÁNÍ DVOU NABÍDEK -->
+        <h2>Praktické porovnání dvou nabídek</h2>
+        <p>Následující modelový příklad ilustruje, proč není vhodné posuzovat nabídku pouze podle úrokové sazby.</p>
+
+        <div class="priklad-blok">
+            <h3>📊 Porovnání dvou modelových nabídek</h3>
+
+            <div class="priklad-parametry">
+                <div class="priklad-parametr" style="border-top: 3px solid #4f46e5;">
+                    <div class="label">Nabídka A</div>
+                    <div class="hodnota" style="font-size:14px;">Úroková sazba: 5,3 %</div>
+                    <div style="font-size:12px; color:#475569; margin-top:6px;">Další náklady: vyšší<br>Podmíněno dalšími produkty: ano</div>
+                </div>
+                <div class="priklad-parametr" style="border-top: 3px solid #10b981;">
+                    <div class="label">Nabídka B</div>
+                    <div class="hodnota" style="font-size:14px;">Úroková sazba: 5,5 %</div>
+                    <div style="font-size:12px; color:#475569; margin-top:6px;">Další náklady: nižší<br>Podmíněno dalšími produkty: ne</div>
+                </div>
+            </div>
+
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>Nižší úroková sazba</span>
+                    <span class="hodnota" style="color:#4f46e5;">Nabídka A</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Nižší celkové náklady (po zahrnutí všech poplatků a produktů)</span>
+                    <span class="hodnota vyrazna">Může být Nabídka B</span>
+                </div>
+            </div>
+
+            <p class="priklad-poznamka">Modelový příklad pro ilustraci principu. Nejedná se o konkrétní tržní nabídky. Skutečné srovnání vždy závisí na konkrétních parametrech nabídek, výši úvěru, délce splácení a individuální situaci.</p>
+        </div>
+
+        <p>Z příkladu je patrné, že nižší úroková sazba automaticky neznamená nižší celkové náklady. Pokud je Nabídka A podmíněna dalšími produkty nebo má vyšší poplatky, mohou být celkové náklady vyšší než u Nabídky B s o něco vyšší úrokovou sazbou, ale nižšími vedlejšími náklady.</p>
+
+        <!-- 13. AKTUÁLNÍ PRÁVNÍ A REGULATORNÍ RÁMEC -->
+        <h2>Aktuální právní a regulatorní rámec</h2>
+        <p>Poskytování hypotečních úvěrů se v České republice řídí platnou právní úpravou a regulatorním rámcem. Pro spotřebitele jsou relevantní zejména:</p>
+
+        <ul>
+            <li><strong>Zákon č. 257/2016 Sb., o spotřebitelském úvěru</strong> – upravuje poskytování spotřebitelských úvěrů včetně hypoték, stanovuje povinnosti poskytovatelů a práva spotřebitelů.</li>
+            <li><strong>Občanský zákoník</strong> – upravuje obecná smluvní ujednání, včetně úvěrové smlouvy a zástavního práva.</li>
+            <li><strong>Regulatorní informace ČNB</strong> – Česká národní banka poskytuje informace a metodiky pro poskytovatele, které mohou ovlivňovat jejich interní postupy.</li>
+        </ul>
+
+        <p>Konkrétní práva a povinnosti vyplývají především z platné smluvní dokumentace a právních předpisů. Podmínky hypotéky se vždy řídí konkrétní nabídkou a smlouvou.</p>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Výše uvedené informace vycházejí z právního a regulatorního rámce platného v České republice v roce 2026. Konkrétní podmínky a požadavky se mohou lišit podle poskytovatele a individuální situace. Vždy si ověřte aktuální podmínky u konkrétního poskytovatele a pečlivě prostudujte smluvní dokumentaci.</p>
+        </div>
+
+        <!-- 14. PROPOJENÍ S DALŠÍMI PRŮVODCI -->
+        <h2>Další užitečné průvodce</h2>
+        <p>Pokud vás toto téma zajímá, doporučujeme přečíst si také následující průvodce:</p>
+
+        <div class="odkazy-pruvodci">
+            <a href="fixace-hypoteky.html" class="odkaz-pruvodce">
+                <div class="ikonka">🏦</div>
+                <div class="nazev">Co je fixace hypotéky a jak funguje?</div>
+                <div class="popis">Jak dlouho může být úroková sazba stejná</div>
+            </a>
+            <a href="refinancovani-hypoteky.html" class="odkaz-pruvodce">
+                <div class="ikonka">🔄</div>
+                <div class="nazev">Refinancování hypotéky – kdy dává smysl?</div>
+                <div class="popis">Jak funguje refinancování a na co si dát pozor</div>
+            </a>
+            <a href="mimoradna-splatka-hypoteky.html" class="odkaz-pruvodce">
+                <div class="ikonka">💸</div>
+                <div class="nazev">Mimořádná splátka hypotéky</div>
+                <div class="popis">Kdy se vyplatí a kolik můžete ušetřit</div>
+            </a>
+            <a href="jak-banka-posuzuje-hypoteku.html" class="odkaz-pruvodce">
+                <div class="ikonka">🏦</div>
+                <div class="nazev">Jak banka posuzuje žádost o hypotéku?</div>
+                <div class="popis">Bonita, příjem a další faktory</div>
+            </a>
+        </div>
+
+        <!-- 15. CTA -->
+        <div class="cta-blok">
+            <h3>🧮 Spočítejte si svou hypotéku</h3>
+            <p>Porovnejte, jak výše úvěru, úroková sazba a délka splácení ovlivní měsíční splátku a celkové náklady.</p>
+            <a href="index.html" class="cta-tlacitko">Spočítat hypotéku →</a>
+        </div>
+
+        <!-- 16. ZPĚT -->
+        <a href="hypoteky.html" class="zpet-odkaz">← Zpět na hypoteční průvodce</a>
+
+    </div>
+
+    <footer class="paticka" style="margin: 0 auto 40px auto;">
+        <p>Finanční Mapa © 2026. Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
+    </footer>
+
+</body>
+</html>
