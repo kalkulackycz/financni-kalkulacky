@@ -294,54 +294,122 @@ window.addEventListener("DOMContentLoaded", function() {
         doc.setTextColor(255, 255, 255);
         doc.setFont("Roboto", "normal");
         doc.setFontSize(9);
-        doc.text("FINANČNÍ MAPA", 20, 13);
+        doc.text("FINANČNÍ MAPA", 105, 13, { align: "center" });
         doc.setFont("Roboto", "bold");
         doc.setFontSize(20);
-        doc.text("Hypoteční kalkulačka", 20, 30);
-        doc.setTextColor(30, 41, 59);
-        doc.setFont("Roboto", "bold");
-        doc.setFontSize(15);
-        doc.text("VÁŠ HYPOTEČNÍ PŘEHLED", 20, 52);
-        doc.setDrawColor(79, 70, 229);
-        doc.setLineWidth(0.5);
-        doc.line(20, 56, 190, 56);
-        doc.setFontSize(10);
-        doc.setFont("Roboto", "normal");
-        doc.setTextColor(100, 116, 139);
-        doc.text("Parametry úvěru", 20, 68);
-        doc.setTextColor(30, 41, 59);
-        doc.setFontSize(10);
-        doc.text("Výše úvěru: " + castka + " Kč", 20, 78);
-        doc.text("Úroková sazba: " + urok + " %", 20, 85);
-        doc.text("Doba splácení: " + doba + " let", 20, 92);
+        doc.text("Hypoteční kalkulačka", 105, 30, { align: "center" });
+        // --- 2. Dominantní karta MĚSÍČNÍ SPLÁTKA ---
         doc.setFillColor(238, 242, 255);
-        doc.roundedRect(20, 102, 170, 34, 5, 5, 'F');
+        doc.roundedRect(35, 56, 140, 40, 6, 6, 'F');
         doc.setDrawColor(79, 70, 229);
         doc.setLineWidth(0.8);
-        doc.roundedRect(20, 102, 170, 34, 5, 5, 'S');
+        doc.roundedRect(35, 56, 140, 40, 6, 6, 'S');
         doc.setTextColor(79, 70, 229);
         doc.setFont("Roboto", "bold");
-        doc.setFontSize(9);
-        doc.text("MĚSÍČNÍ SPLÁTKA", 105, 113, { align: "center" });
-        doc.setFontSize(20);
-        doc.text(splatka, 105, 130, { align: "center" });
+        doc.setFontSize(10);
+        doc.text("MĚSÍČNÍ SPLÁTKA", 105, 70, { align: "center" });
+        doc.setFontSize(22);
+        doc.text(splatka, 105, 90, { align: "center" });
+
+        // --- 3. PARAMETRY ÚVĚRU (3 sloupce) ---
+        doc.setTextColor(71, 85, 105);
+        doc.setFont("Roboto", "bold");
+        doc.setFontSize(10);
+        doc.text("PARAMETRY ÚVĚRU", 20, 112);
+        doc.setDrawColor(79, 70, 229);
+        doc.setLineWidth(0.3);
+        doc.line(20, 115, 190, 115);
+
+        const paramBoxes = [
+            { x: 20, label: "Výše úvěru", value: castka + " Kč" },
+            { x: 85, label: "Úroková sazba", value: urok + " %" },
+            { x: 145, label: "Doba splácení", value: doba + " let" }
+        ];
+        paramBoxes.forEach((p) => {
+            doc.setFillColor(248, 250, 252);
+            doc.roundedRect(p.x, 120, 55, 24, 4, 4, 'F');
+            doc.setTextColor(100, 116, 139);
+            doc.setFont("Roboto", "normal");
+            doc.setFontSize(7);
+            doc.text(p.label, p.x + 27.5, 130, { align: "center" });
+            doc.setTextColor(30, 41, 59);
+            doc.setFont("Roboto", "bold");
+            doc.setFontSize(9);
+            doc.text(p.value, p.x + 27.5, 140, { align: "center" });
+        });
+
+        // --- 4. CELKOVÉ NÁKLADY ÚVĚRU (2 karty) ---
+        doc.setTextColor(71, 85, 105);
+        doc.setFont("Roboto", "bold");
+        doc.setFontSize(10);
+        doc.text("CELKOVÉ NÁKLADY ÚVĚRU", 20, 160);
+        doc.setDrawColor(79, 70, 229);
+        doc.setLineWidth(0.3);
+        doc.line(20, 163, 190, 163);
+
+        doc.setFillColor(255, 255, 255);
+        doc.setDrawColor(203, 213, 225);
+        doc.setLineWidth(0.6);
+        doc.roundedRect(20, 168, 80, 32, 4, 4, 'FD');
+        doc.setTextColor(71, 85, 105);
+        doc.setFont("Roboto", "bold");
+        doc.setFontSize(8);
+        doc.text("CELKEM ZAPLACENO", 60, 178, { align: "center" });
         doc.setTextColor(30, 41, 59);
         doc.setFont("Roboto", "normal");
-        doc.setFontSize(10);
-        doc.text("Celkem zaplaceno: " + celkem, 20, 150);
-        doc.text("Z toho úroky: " + uroky, 20, 157);
+        doc.setFontSize(11);
+        doc.text(celkem, 60, 192, { align: "center" });
+
+        doc.setFillColor(255, 255, 255);
+        doc.setDrawColor(203, 213, 225);
+        doc.setLineWidth(0.6);
+        doc.roundedRect(110, 168, 80, 32, 4, 4, 'FD');
+        doc.setTextColor(71, 85, 105);
+        doc.setFont("Roboto", "bold");
+        doc.setFontSize(8);
+        doc.text("Z TOHO ÚROKY", 150, 178, { align: "center" });
+        doc.setTextColor(249, 115, 22);
+        doc.setFont("Roboto", "normal");
+        doc.setFontSize(11);
+        doc.text(uroky, 150, 192, { align: "center" });
+
+        // --- 5. MIMOŘÁDNÁ SPLÁTKA + ÚSPORA ---
         if (document.getElementById('aktivator-checkbox').checked && window.temp_mimo) {
+            const mimoCastka = document.getElementById("mimoradna-splatka").value;
+            const mimoRok = document.getElementById("mimoradna-rok").value;
+            const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
+            const uspora = window.temp_standard.celkemUroky - window.temp_mimo.celkemUroky;
+
+            doc.setFillColor(255, 247, 237);
+            doc.setDrawColor(251, 146, 60);
+            doc.setLineWidth(0.6);
+            doc.roundedRect(20, 210, 170, 22, 4, 4, 'FD');
+            doc.setTextColor(194, 65, 12);
             doc.setFont("Roboto", "bold");
-            doc.text("Mimořádná splátka: " + document.getElementById("mimoradna-splatka").value + " Kč v roce " + document.getElementById("mimoradna-rok").value, 20, 170);
-            doc.setFontSize(13);
-            doc.text("SROVNÁNÍ ÚVĚRU", 20, 210);
+            doc.setFontSize(8);
+            doc.text("MIMOŘÁDNÁ SPLÁTKA", 105, 220, { align: "center" });
+            doc.setTextColor(30, 41, 59);
             doc.setFont("Roboto", "normal");
             doc.setFontSize(10);
-            const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
-            doc.text("Původní celkové úroky: " + fmt(window.temp_standard.celkemUroky), 20, 222);
-            doc.text("Úroky s mimořádnou splátkou: " + fmt(window.temp_mimo.celkemUroky), 20, 230);
+            doc.text(mimoCastka + " Kč  •  Rok " + mimoRok, 105, 228, { align: "center" });
+
+            doc.setTextColor(71, 85, 105);
+            doc.setFont("Roboto", "bold");
+            doc.setFontSize(10);
+            doc.text("ÚSPORA NA ÚROCÍCH", 20, 248);
+            doc.setDrawColor(79, 70, 229);
+            doc.setLineWidth(0.3);
+            doc.line(20, 251, 190, 251);
+
             doc.setTextColor(79, 70, 229);
-            doc.text("Úspora: " + fmt(window.temp_standard.celkemUroky - window.temp_mimo.celkemUroky), 20, 240);
+            doc.setFont("Roboto", "bold");
+            doc.setFontSize(16);
+            doc.text(fmt(uspora), 105, 268, { align: "center" });
+
+            doc.setTextColor(100, 116, 139);
+            doc.setFont("Roboto", "normal");
+            doc.setFontSize(8);
+            doc.text("Původní úroky: " + fmt(window.temp_standard.celkemUroky) + "   |   Úroky po mimoř. splátce: " + fmt(window.temp_mimo.celkemUroky), 105, 280, { align: "center" });
         }
         if (typeof doc.autoTable === 'function') {
             doc.addPage();
