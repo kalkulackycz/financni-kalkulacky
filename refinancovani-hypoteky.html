@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refinancování hypotéky – kdy dává smysl? – Finanční průvodce</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ===== LAYOUT ČLÁNKU ===== */
+        .clanek-kontejner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .clanek-kontejner h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .clanek-podnadpis {
+            font-size: 16px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .clanek-kontejner h2 {
+            font-size: 20px;
+            color: #1a1a2e;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+        .clanek-kontejner h3 {
+            font-size: 16px;
+            color: #4f46e5;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .clanek-kontejner p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 16px;
+        }
+
+        .clanek-kontejner ul, .clanek-kontejner ol {
+            margin: 12px 0 20px 20px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        .clanek-kontejner li {
+            margin-bottom: 8px;
+        }
+
+        /* ===== INFO BLOK ===== */
+        .info-blok {
+            background: #f8fafc;
+            border-left: 4px solid #4f46e5;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .info-blok-aktualnost {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        .info-blok-aktualnost p {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        /* ===== KARTY ===== */
+        .karty-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karta-blok {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .karta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+        }
+
+        .karta-blok p {
+            margin: 0;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ===== POSTUP ===== */
+        .postup-blok {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .postup-krok {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 18px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .postup-krok .cislo {
+            flex-shrink: 0;
+            width: 30px;
+            height: 30px;
+            background: #eef2ff;
+            color: #4f46e5;
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .postup-krok .popis {
+            flex: 1;
+        }
+
+        .postup-krok .popis strong {
+            display: block;
+            font-size: 14px;
+            color: #1a1a2e;
+            margin-bottom: 2px;
+        }
+
+        .postup-krok .popis span {
+            font-size: 13px;
+            color: #475569;
+        }
+
+        /* ===== PŘÍKLAD ===== */
+        .priklad-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .priklad-blok h3 {
+            text-align: center;
+            color: #4f46e5;
+            margin: 0 0 20px 0;
+            font-size: 17px;
+        }
+
+        .priklad-parametry {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .priklad-parametr {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-parametr .label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .priklad-parametr .hodnota {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .priklad-srovnani {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .priklad-sloupec {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .priklad-sloupec .titulek {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .priklad-sloupec .titulek.puvodni { color: #64748b; }
+        .priklad-sloupec .titulek.nova { color: #4f46e5; }
+
+        .priklad-sloupec .polozka {
+            font-size: 13px;
+            color: #475569;
+            padding: 3px 0;
+        }
+
+        .priklad-sloupec .polozka strong {
+            color: #1a1a2e;
+        }
+
+        .priklad-poznamka {
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        /* ===== CHECKLIST ===== */
+        .checklist-blok {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .checklist-polozka {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .checklist-polozka .check {
+            color: #10b981;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* ===== VÝSTRAHA ===== */
+        .varovani-blok {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .varovani-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+            color: #991b1b;
+        }
+
+        /* ===== CTA ===== */
+        .cta-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 28px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .cta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: #1a1a2e;
+        }
+
+        .cta-blok p {
+            margin: 0 0 20px 0;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .cta-tlacitko {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #4f46e5;
+            color: #ffffff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .cta-tlacitko:hover {
+            background: #4338ca;
+        }
+
+        /* ===== ZPĚT ===== */
+        .zpet-odkaz {
+            display: inline-block;
+            margin-top: 24px;
+            color: #4f46e5;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .zpet-odkaz:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONZIVITA ===== */
+        @media (max-width: 600px) {
+            .clanek-kontejner h1 {
+                font-size: 22px;
+            }
+
+            .karty-2, .priklad-srovnani {
+                grid-template-columns: 1fr;
+            }
+
+            .priklad-parametry {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="pruvodci.html">Průvodci</a>
+    </nav>
+
+    <div class="clanek-kontejner">
+
+        <!-- HLAVIČKA -->
+        <h1>🔄 Refinancování hypotéky – kdy dává smysl?</h1>
+        <p class="clanek-podnadpis">Jak funguje refinancování, kdy může pomoci snížit náklady a na co si dát pozor při změně podmínek hypotéky.</p>
+
+        <!-- AKTUÁLNOST -->
+        <div class="info-blok-aktualnost">
+            <p><strong>Aktuálnost informací:</strong> Tento průvodce vychází z právního a regulatorního rámce platného v České republice v roce 2026. Konkrétní podmínky refinancování se mohou lišit podle poskytovatele, úvěrové smlouvy, data uzavření úvěru a aktuálně platné právní úpravy.</p>
+        </div>
+
+        <!-- 2. CO JE REFINANCOVÁNÍ HYPOTÉKY -->
+        <h2>Co je refinancování hypotéky?</h2>
+        <p>Refinancování znamená, že svůj stávající úvěr nahradíte novým úvěrem, kterým původní úvěr splatíte. Nový úvěr může být u stejného nebo jiného poskytovatele a může mít jiné podmínky – jinou úrokovou sazbu, jinou výši splátky, jinou délku splácení nebo jiné smluvní podmínky.</p>
+
+        <p>Cílem refinancování obvykle je:</p>
+
+        <ul>
+            <li><strong>získat výhodnější úrokovou sazbu</strong> – a tím snížit měsíční splátku nebo celkové náklady,</li>
+            <li><strong>změnit délku splácení</strong> – například zkrátit dobu a ušetřit na úrocích, nebo naopak prodloužit a snížit měsíční splátku,</li>
+            <li><strong>upravit další podmínky</strong> – například změnit poskytovatele nebo sjednat jiný typ fixace.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Refinancování není automaticky výhodné. Vždy je nutné porovnat celkové náklady a podmínky nové nabídky se stávajícím úvěrem. Nižší úroková sazba nemusí automaticky znamenat lepší nabídku.</p>
+        </div>
+
+        <!-- 3. JAK REFINANCOVÁNÍ FUNGUJE -->
+        <h2>Jak refinancování funguje?</h2>
+        <p>Celý proces refinancování lze rozdělit do několika kroků:</p>
+
+        <div class="postup-blok">
+            <div class="postup-krok">
+                <div class="cislo">1</div>
+                <div class="popis">
+                    <strong>Zjistíte aktuální stav hypotéky</strong>
+                    <span>Zbývající jistinu, aktuální úrokovou sazbu, měsíční splátku, zbývající dobu splácení a datum konce fixace.</span>
+                </div>
+            </div>
+            <div class="postup-krok">
+                <div class="cislo">2</div>
+                <div class="popis">
+                    <strong>Porovnáte dostupné nabídky</strong>
+                    <span>Sledujte úrokovou sazbu, RPSN (pokud je relevantní), poplatky, délku fixace, podmínky a celkové náklady.</span>
+                </div>
+            </div>
+            <div class="postup-krok">
+                <div class="cislo">3</div>
+                <div class="popis">
+                    <strong>Zvolíte další postup</strong>
+                    <span>Můžete pokračovat se stávajícím poskytovatelem za nových podmínek, refinancovat k jinému poskytovateli nebo zvolit jiné řešení podle své situace.</span>
+                </div>
+            </div>
+            <div class="postup-krok" style="background: #eef2ff; border-color: #c7d2fe;">
+                <div class="cislo" style="background: #4f46e5; color: white;">4</div>
+                <div class="popis">
+                    <strong>Nový úvěr splatí původní úvěr</strong>
+                    <span>Pokud refinancujete k jinému poskytovateli, nový úvěr se použije na splacení původního. Vy pak splácíte už jen nový úvěr za sjednaných podmínek.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. REFINANCOVÁNÍ A KONEC FIXACE -->
+        <h2>Refinancování a konec fixace</h2>
+        <p>Refinancování se nejčastěji řeší v souvislosti s koncem fixačního období. Během fixace jsou podmínky úrokové sazby sjednány na konkrétní období. Před jejím koncem máte možnost porovnat nabídku stávajícího poskytovatele s dalšími možnostmi na trhu.</p>
+
+        <p>Refinancování může být jednou z možností, jak dále postupovat – není to ale povinný krok. Někomu může vyhovovat nabídka stávajícího poskytovatele, jiný může zjistit, že výhodnější podmínky nabízí konkurence.</p>
+
+        <div class="info-blok">
+            <p><strong>Praktická rada:</strong> Sledujte konec fixace s dostatečným předstihem. Včasné porovnání nabídek vám dává prostor pro kvalifikované rozhodnutí, aniž byste byli pod tlakem.</p>
+        </div>
+
+        <!-- 5. KDY MŮŽE REFINANCOVÁNÍ DÁVAT SMYSL -->
+        <h2>Kdy může refinancování dávat smysl?</h2>
+        <p>O refinancování lidé obvykle uvažují v těchto situacích:</p>
+
+        <div class="karty-2">
+            <div class="karta-blok" style="border-top: 3px solid #10b981;">
+                <h3>📉 Výhodnější podmínky</h3>
+                <p>Nová nabídka má výrazně výhodnější podmínky než stávající úvěr – například nižší úrokovou sazbu nebo nižší celkové náklady.</p>
+            </div>
+            <div class="karta-blok" style="border-top: 3px solid #4f46e5;">
+                <h3>💰 Snížení nákladů</h3>
+                <p>Refinancováním může dojít ke snížení měsíční splátky nebo celkových úrokových nákladů.</p>
+            </div>
+            <div class="karta-blok" style="border-top: 3px solid #f97316;">
+                <h3>🔄 Změna poskytovatele</h3>
+                <p>Klient chce přejít k jinému poskytovateli z důvodu lepších podmínek, služeb nebo osobních preferencí.</p>
+            </div>
+            <div class="karta-blok" style="border-top: 3px solid #059669;">
+                <h3>📅 Konec fixace</h3>
+                <p>Končí fixační období a klient porovnává nabídku stávajícího poskytovatele s dalšími možnostmi na trhu.</p>
+            </div>
+        </div>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Výhodnost refinancování je nutné posuzovat podle celkového výsledku, nikoli pouze podle úrokové sazby. Zohledněte všechny náklady, poplatky a podmínky nové nabídky.</p>
+        </div>
+
+        <!-- 6. NIŽŠÍ ÚROK NEZNAMENÁ AUTOMATICKY LEPŠÍ NABÍDKU -->
+        <h2>Nižší úrok neznamená automaticky lepší nabídku</h2>
+
+        <div class="varovani-blok" style="background: #fffbeb; border-left-color: #f59e0b;">
+            <p><strong>⚠️ Důležité pravidlo:</strong> Nízká úroková sazba sama o sobě nezaručuje, že je nabídka výhodná. Při porovnávání nabídek sledujte také:</p>
+        </div>
+
+        <div class="karty-2">
+            <div class="karta-blok" style="border-top: 3px solid #64748b;">
+                <h3>📊 Úroková sazba</h3>
+                <p>Základní parametr, který ovlivňuje výši splátky – ale není jediný.</p>
+            </div>
+            <div class="karta-blok" style="border-top: 3px solid #64748b;">
+                <h3>📋 RPSN</h3>
+                <p>Roční procentní sazba nákladů zahrnuje kromě úroků i další náklady. Pokud je pro daný produkt relevantní, umožní lépe porovnat nabídky.</p>
+            </div>
+            <div class="karta-blok" style="border-top: 3px solid #64748b;">
+                <h3>💰 Poplatky</h3>
+                <p>Poplatky za zpracování, správu úvěru, odhad nemovitosti a další mohou celkovou výhodnost ovlivnit.</p>
+            </div>
+            <div class="karta-blok" style="border-top: 3px solid #64748b;">
+                <h3>📌 Délka fixace</h3>
+                <p>Krátká fixace s nízkým úrokem nemusí být výhodnější než delší fixace s o něco vyšším úrokem, pokud po jejím skončení sazby vzrostou.</p>
+            </div>
+        </div>
+
+        <div class="info-blok">
+            <p><strong>Základní princip:</strong> Nízký úrok ≠ automaticky nejlepší hypotéka. Vždy porovnávejte celkové náklady, podmínky a všechny související faktory.</p>
+        </div>
+
+        <!-- 7. MODELOVÝ PŘÍKLAD -->
+        <h2>Modelový příklad</h2>
+        <p>Podívejme se na modelový příklad, který ilustruje, jak může refinancování ovlivnit náklady hypotéky.</p>
+
+        <div class="priklad-blok">
+            <h3>📊 Modelový příklad refinancování</h3>
+
+            <div class="priklad-parametry">
+                <div class="priklad-parametr">
+                    <div class="label">Zbývající jistina</div>
+                    <div class="hodnota">2 500 000 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Zbývající doba</div>
+                    <div class="hodnota">20 let</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Původní sazba</div>
+                    <div class="hodnota">6,0 %</div>
+                </div>
+            </div>
+
+            <div class="priklad-srovnani">
+                <div class="priklad-sloupec">
+                    <div class="titulek puvodni">PŮVODNÍ HYPOTÉKA (6,0 %)</div>
+                    <div class="polozka">Měsíční splátka: <strong>17 911 Kč</strong></div>
+                    <div class="polozka">Zbývající úroky: <strong>1 798 586 Kč</strong></div>
+                </div>
+                <div class="priklad-sloupec">
+                    <div class="titulek nova">NOVÁ NABÍDKA (5,0 %)</div>
+                    <div class="polozka">Měsíční splátka: <strong>16 499 Kč</strong></div>
+                    <div class="polozka">Zbývající úroky: <strong>1 459 734 Kč</strong></div>
+                </div>
+            </div>
+
+            <div style="background: #eef2ff; border-radius: 8px; padding: 16px; margin-top: 16px; text-align: center; border: 1px solid #c7d2fe;">
+                <div style="font-size: 12px; color: #4f46e5; font-weight: 600;">POTENCIÁLNÍ ÚSPORA NA ÚROCÍCH</div>
+                <div style="font-size: 22px; font-weight: 700; color: #4f46e5; margin-top: 4px;">338 852 Kč</div>
+            </div>
+
+            <p class="priklad-poznamka">Jedná se o modelový výpočet anuitního úvěru se stejnou zbývající dobou splácení. Skutečný výsledek refinancování závisí na délce nové splatnosti, případných poplatcích, dalších podmínkách, délce fixace a konkrétní smlouvě. Výpočet nezahrnuje případné poplatky, pojištění ani další náklady.</p>
+        </div>
+
+        <!-- 8. KDY SE REFINANCOVÁNÍ NEMUSÍ VYPLATIT -->
+        <h2>Kdy se refinancování nemusí vyplatit?</h2>
+        <p>Refinancování není vždy výhodné. Zde jsou situace, kdy je třeba být obezřetný:</p>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Rozdíl v sazbě je malý.</strong> Pokud je nová sazba jen nepatrně nižší, úspora nemusí pokrýt náklady spojené s refinancováním.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Vzniknou další náklady.</strong> Poplatky za nový úvěr, odhad nemovitosti nebo jiné výdaje mohou výhodnost refinancování snížit nebo zcela eliminovat.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Nová nabídka má nevýhodné podmínky.</strong> Například kratší fixace, povinné doplňkové produkty nebo jiná omezení mohou celkovou výhodnost ovlivnit.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Prodlouží se doba splácení.</strong> Nižší měsíční splátka může být způsobena delší dobou splácení, nikoli výhodnější sazbou. Celkové náklady pak mohou být vyšší.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Nižší splátka vznikne hlavně díky delší splatnosti.</strong> Vždy sledujte, zda nižší splátka není způsobena prodloužením doby splácení, nikoli výhodnější úrokovou sazbou.</p>
+        </div>
+
+        <!-- 9. CO POROVNAT PŘED ROZHODNUTÍM -->
+        <h2>Co porovnat před rozhodnutím?</h2>
+        <p>Před tím, než se rozhodnete pro refinancování, doporučujeme zkontrolovat následující body:</p>
+
+        <div class="checklist-blok">
+            <div class="checklist-polozka"><span class="check">☑️</span> Aktuální zůstatek hypotéky</div>
+            <div class="checklist-polozka"><span class="check">☑️</span> Nová úroková sazba</div>
+            <div class="checklist-polozka"><span class="check">☑️</span> RPSN, pokud je pro daný produkt relevantní</div>
+            <div class="checklist-polozka"><span class="check">☑️</span> Celková částka k zaplacení</div>
+            <div class="checklist-polozka"><span class="check">☑️</span> Délka nové splatnosti</div>
+            <div class="checklist-polozka"><span class="check">☑️</span> Délka nové fixace</div>
+            <div class="checklist-polozka"><span class="check">☑️</span> Poplatky spojené s novým úvěrem</div>
+            <div class="checklist-polozka"><span class="check">☑️</span> Podmínky předčasného splacení</div>
+            <div class="checklist-polozka"><span class="check">☑️</span> Povinné doplňkové produkty (pojištění apod.)</div>
+            <div class="checklist-polozka"><span class="check">☑️</span> Celkové podmínky nové smlouvy</div>
+        </div>
+
+        <!-- 10. AKTUÁLNÍ PRÁVNÍ PODMÍNKY -->
+        <h2>Aktuální právní podmínky</h2>
+        <p>Právní úprava refinancování a předčasného splacení se řídí zákonem č. 257/2016 Sb., o spotřebitelském úvěru, ve znění pozdějších předpisů. Je důležité rozlišovat mezi různými situacemi:</p>
+
+        <ul>
+            <li><strong>Konec sjednaného období fixace</strong> – po skončení fixace můžete řešit další podmínky bez ohledu na případné sankce za předčasné splacení.</li>
+            <li><strong>Předčasné splacení úvěru</strong> – pokud chcete úvěr splatit před koncem fixace, mohou se uplatnit podmínky podle aktuální právní úpravy a smlouvy.</li>
+            <li><strong>Refinancování prostřednictvím nového úvěru</strong> – nový úvěr může splatit původní úvěr. Konkrétní možnosti a případné náklady závisí na aktuální právní úpravě a smlouvě.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Konkrétní možnosti a případné náklady spojené s refinancováním se řídí aktuální právní úpravou a konkrétní smlouvou o úvěru. Podmínky se mohou lišit v závislosti na datu uzavření smlouvy, typu úvěru a poskytovateli. Před rozhodnutím si vždy ověřte aktuální podmínky u svého poskytovatele.</p>
+        </div>
+
+        <!-- 11. CTA -->
+        <div class="cta-blok">
+            <h3>🧮 Spočítejte si svou hypotéku</h3>
+            <p>Porovnejte, jak výše úvěru, úroková sazba a délka splácení ovlivňují měsíční splátku a celkové náklady.</p>
+            <a href="index.html" class="cta-tlacitko">Spočítat hypotéku →</a>
+        </div>
+
+        <!-- 12. ZPĚT -->
+        <a href="hypoteky.html" class="zpet-odkaz">← Zpět na hypoteční průvodce</a>
+
+    </div>
+
+    <footer class="paticka" style="margin: 0 auto 40px auto;">
+        <p>Finanční Mapa © 2026. Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
+    </footer>
+
+</body>
+</html>
