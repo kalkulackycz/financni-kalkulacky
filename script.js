@@ -35,13 +35,15 @@ function vypocitejZbyvajiciUroky(castka, urokovaSazba, roky, mesicMimoradneSplat
     let zAktualniSplatkaS = mesicniSplatka;
         for (let i = 1; i <= celkemMesicu; i++) {
         let urokBez = zZustatekBez * (urokovaSazba / 100 / 12);
-        zZustatekBez -= (mesicniSplatka - urokBez);
+        let jistinaBez = Math.min(mesicniSplatka - urokBez, zZustatekBez);
+        zZustatekBez -= jistinaBez;
         let urokS = zZustatekS * (urokovaSazba / 100 / 12);
         if (i === mesicMimoradneSplatky) {
             zZustatekS -= mimoradnaSplatka;
             zAktualniSplatkaS = (zZustatekS * (urokovaSazba / 100 / 12)) / (1 - Math.pow(1 + (urokovaSazba / 100 / 12), -(celkemMesicu - i)));
                 }
-        zZustatekS -= (zAktualniSplatkaS - urokS);
+        let jistinaS = Math.min(zAktualniSplatkaS - urokS, zZustatekS);
+        zZustatekS -= jistinaS;
 
         if (i > mesicMimoradneSplatky) {
             zUrokyBez += urokBez;
@@ -177,6 +179,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
             if (aktivni && i === mesicMimoradneSplatky) {
                 zustatekS -= mimoradnaSplatka;
+                celkemZaplacenoS += mimoradnaSplatka;
                 if (zustatekS > 0) {
                     aktualniMesicniSplatka = (zustatekS * (urokovaSazba / 100 / 12)) / (1 - Math.pow(1 + (urokovaSazba / 100 / 12), -(celkemMesicu - i)));
                 } else {
@@ -208,7 +211,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
         const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
 
-        document.getElementById("vysledek").innerText = Math.round(mesicniSplatka).toLocaleString("cs-CZ") + " Kč";
+        document.getElementById("vysledek").innerText = "Měsíční splátka: " + Math.round(mesicniSplatka).toLocaleString("cs-CZ") + " Kč";
         document.getElementById("detaily").innerHTML =
             "<p>Celkem zaplaceno: <strong id='celkem-zaplaceno-hodnota'>" + fmt(celkemZaplacenoS) + "</strong></p>" +
             "<p>Z toho úroky: <strong id='z-toho-uroky-hodnota'>" + fmt(celkemUrokyS) + "</strong></p>";
@@ -285,48 +288,60 @@ window.addEventListener("DOMContentLoaded", function() {
         const celkem = celkemEl ? celkemEl.textContent.trim() : "0 Kč";
         const uroky = urokyEl ? urokyEl.textContent.trim() : "0 Kč";
         doc.setFillColor(79, 70, 229);
-        doc.rect(0, 0, 210, 40, 'F');
+        doc.rect(0, 0, 210, 42, 'F');
+        doc.setFillColor(99, 102, 241);
+        doc.rect(0, 42, 210, 2, 'F');
         doc.setTextColor(255, 255, 255);
+        doc.setFont("Roboto", "normal");
+        doc.setFontSize(9);
+        doc.text("FINANČNÍ MAPA", 20, 13);
         doc.setFont("Roboto", "bold");
         doc.setFontSize(20);
-        doc.text("🏠 Hypoteční kalkulačka", 20, 20);
-        doc.setFontSize(12);
-        doc.setFont("Roboto", "normal");
-        doc.text("Finanční Mapa", 20, 28);
+        doc.text("Hypoteční kalkulačka", 20, 30);
         doc.setTextColor(30, 41, 59);
-        doc.setFontSize(14);
         doc.setFont("Roboto", "bold");
-        doc.text("PARAMETRY ÚVĚRU", 20, 55);
+        doc.setFontSize(15);
+        doc.text("VÁŠ HYPOTEČNÍ PŘEHLED", 20, 52);
+        doc.setDrawColor(79, 70, 229);
+        doc.setLineWidth(0.5);
+        doc.line(20, 56, 190, 56);
+        doc.setFontSize(10);
         doc.setFont("Roboto", "normal");
-        doc.setFontSize(12);
-        doc.text("Výše úvěru: " + castka + " Kč", 20, 65);
-        doc.text("Úroková sazba: " + urok + " %", 20, 75);
-        doc.text("Doba splácení: " + doba + " let", 20, 85);
-        doc.setFillColor(248, 250, 252);
-        doc.roundedRect(20, 100, 170, 30, 2, 2, 'F');
+        doc.setTextColor(100, 116, 139);
+        doc.text("Parametry úvěru", 20, 68);
+        doc.setTextColor(30, 41, 59);
+        doc.setFontSize(10);
+        doc.text("Výše úvěru: " + castka + " Kč", 20, 78);
+        doc.text("Úroková sazba: " + urok + " %", 20, 85);
+        doc.text("Doba splácení: " + doba + " let", 20, 92);
+        doc.setFillColor(238, 242, 255);
+        doc.roundedRect(20, 102, 170, 34, 5, 5, 'F');
+        doc.setDrawColor(79, 70, 229);
+        doc.setLineWidth(0.8);
+        doc.roundedRect(20, 102, 170, 34, 5, 5, 'S');
         doc.setTextColor(79, 70, 229);
         doc.setFont("Roboto", "bold");
-        doc.setFontSize(12);
-        doc.text("MĚSÍČNÍ SPLÁTKA", 105, 112, { align: "center" });
-        doc.setFontSize(22);
-        doc.text(splatka, 105, 125, { align: "center" });
+        doc.setFontSize(9);
+        doc.text("MĚSÍČNÍ SPLÁTKA", 105, 113, { align: "center" });
+        doc.setFontSize(20);
+        doc.text(splatka, 105, 130, { align: "center" });
         doc.setTextColor(30, 41, 59);
         doc.setFont("Roboto", "normal");
-        doc.setFontSize(12);
-        doc.text("Celkem zaplaceno: " + celkem, 20, 145);
-        doc.text("Z toho úroky: " + uroky, 20, 155);
+        doc.setFontSize(10);
+        doc.text("Celkem zaplaceno: " + celkem, 20, 150);
+        doc.text("Z toho úroky: " + uroky, 20, 157);
         if (document.getElementById('aktivator-checkbox').checked && window.temp_mimo) {
             doc.setFont("Roboto", "bold");
-            doc.text("Mimořádná splátka: " + document.getElementById("mimoradna-splatka").value + " Kč v roce " + document.getElementById("mimoradna-rok").value, 20, 165);
-            doc.setFontSize(14);
-            doc.text("SROVNÁNÍ ÚVĚRU", 20, 250);
+            doc.text("Mimořádná splátka: " + document.getElementById("mimoradna-splatka").value + " Kč v roce " + document.getElementById("mimoradna-rok").value, 20, 170);
+            doc.setFontSize(13);
+            doc.text("SROVNÁNÍ ÚVĚRU", 20, 210);
             doc.setFont("Roboto", "normal");
             doc.setFontSize(10);
             const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
-            doc.text("Původní celkové úroky: " + fmt(window.temp_standard.celkemUroky), 20, 260);
-            doc.text("Úroky s mimořádnou splátkou: " + fmt(window.temp_mimo.celkemUroky), 20, 267);
+            doc.text("Původní celkové úroky: " + fmt(window.temp_standard.celkemUroky), 20, 222);
+            doc.text("Úroky s mimořádnou splátkou: " + fmt(window.temp_mimo.celkemUroky), 20, 230);
             doc.setTextColor(79, 70, 229);
-            doc.text("Úspora: " + fmt(window.temp_standard.celkemUroky - window.temp_mimo.celkemUroky), 20, 274);
+            doc.text("Úspora: " + fmt(window.temp_standard.celkemUroky - window.temp_mimo.celkemUroky), 20, 240);
         }
         if (typeof doc.autoTable === 'function') {
             doc.addPage();
