@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jak banka posuzuje žádost o hypotéku? Vysvětlíme bonitu, příjem, závazky, typ příjmu, věk a další faktory, které ovlivňují schválení hypotéky.">
+    <title>🏦 Jak banka posuzuje žádost o hypotéku? – Finanční průvodce</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ===== LAYOUT ČLÁNKU ===== */
+        .clanek-kontejner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .clanek-kontejner h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .clanek-podnadpis {
+            font-size: 16px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .clanek-kontejner h2 {
+            font-size: 20px;
+            color: #1a1a2e;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+        .clanek-kontejner h3 {
+            font-size: 16px;
+            color: #4f46e5;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .clanek-kontejner p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 16px;
+        }
+
+        .clanek-kontejner ul, .clanek-kontejner ol {
+            margin: 12px 0 20px 20px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        .clanek-kontejner li {
+            margin-bottom: 8px;
+        }
+
+        /* ===== INFO BLOK ===== */
+        .info-blok {
+            background: #f8fafc;
+            border-left: 4px solid #4f46e5;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .info-blok-aktualnost {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        .info-blok-aktualnost p {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        /* ===== KARTY ===== */
+        .karty-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karta-blok {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .karta-blok.modra {
+            border-top: 3px solid #4f46e5;
+        }
+
+        .karta-blok.oranzova {
+            border-top: 3px solid #f97316;
+        }
+
+        .karta-blok.zelená {
+            border-top: 3px solid #10b981;
+        }
+
+        .karta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+        }
+
+        .karta-blok p {
+            margin: 0;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ===== PŘÍKLAD ===== */
+        .priklad-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .priklad-blok h3 {
+            text-align: center;
+            color: #4f46e5;
+            margin: 0 0 20px 0;
+            font-size: 17px;
+        }
+
+        .priklad-parametry {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .priklad-parametr {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-parametr .label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .priklad-parametr .hodnota {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .priklad-vysledky {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-radek {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .priklad-radek + .priklad-radek {
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .priklad-radek .hodnota {
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .priklad-radek .hodnota.vyrazna {
+            color: #4f46e5;
+            font-size: 16px;
+        }
+
+        .priklad-poznamka {
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        /* ===== CHECKLIST ===== */
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 14px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .checklist li::before {
+            content: "☑️";
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        /* ===== VÝSTRAHA ===== */
+        .varovani-blok {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .varovani-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+            color: #991b1b;
+        }
+
+        /* ===== CTA ===== */
+        .cta-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 28px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .cta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: #1a1a2e;
+        }
+
+        .cta-blok p {
+            margin: 0 0 20px 0;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .cta-tlacitko {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #4f46e5;
+            color: #ffffff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .cta-tlacitko:hover {
+            background: #4338ca;
+        }
+
+        /* ===== ODKAZY NA PRŮVODCE ===== */
+        .odkazy-pruvodci {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .odkaz-pruvodce {
+            display: block;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px;
+            text-decoration: none;
+            color: #1a1a2e;
+            transition: box-shadow 0.2s, transform 0.2s;
+            text-align: center;
+        }
+
+        .odkaz-pruvodce:hover {
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .odkaz-pruvodce .ikonka {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+
+        .odkaz-pruvodce .nazev {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4f46e5;
+        }
+
+        .odkaz-pruvodce .popis {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* ===== ZPĚT ===== */
+        .zpet-odkaz {
+            display: inline-block;
+            margin-top: 24px;
+            color: #4f46e5;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .zpet-odkaz:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONZIVITA ===== */
+        @media (max-width: 600px) {
+            .clanek-kontejner h1 {
+                font-size: 22px;
+            }
+
+            .karty-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .priklad-parametry {
+                grid-template-columns: 1fr;
+            }
+
+            .odkazy-pruvodci {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="pruvodci.html">Průvodci</a>
+    </nav>
+
+    <div class="clanek-kontejner">
+
+        <!-- HLAVIČKA -->
+        <h1>🏦 Jak banka posuzuje žádost o hypotéku?</h1>
+        <p class="clanek-podnadpis">Co banka sleduje při posuzování žadatele, jak funguje bonita a proč stejný příjem nemusí znamenat stejnou dostupnou hypotéku.</p>
+
+        <!-- AKTUÁLNOST -->
+        <div class="info-blok-aktualnost">
+            <p><strong>Aktuálnost informací:</strong> Tento průvodce vychází z právního a regulatorního rámce platného v České republice v roce 2026. Konkrétní posouzení žádosti o hypotéku se může lišit podle poskytovatele, typu příjmu, finanční situace žadatele, účelu úvěru a konkrétních podmínek. Před podáním žádosti si vždy ověřte aktuální podmínky u konkrétního poskytovatele.</p>
+        </div>
+
+        <!-- 2. CO JE BONITA? -->
+        <h2>Co je bonita?</h2>
+        <p>Bonita je odborný výraz pro schopnost žadatele splácet úvěr. Banka při posuzování bonity zkoumá, zda budete schopni hypotéku dlouhodobě splácet, aniž byste se dostali do finančních potíží. Nejde přitom jen o výši vašeho příjmu – banka se dívá na celkový obraz vaší finanční situace.</p>
+
+        <p>Při posuzování bonity může být důležitá například:</p>
+
+        <ul>
+            <li><strong>💰 Výše a stabilita příjmu</strong> – nejen kolik vyděláváte, ale také jak pravidelně a jak dlouho.</li>
+            <li><strong>💳 Pravidelné výdaje</strong> – náklady na bydlení, energie, pojištění a další pravidelné platby.</li>
+            <li><strong>📄 Existující úvěry a závazky</strong> – další půjčky, leasing, kreditní karty, kontokorenty.</li>
+            <li><strong>👤 Osobní a finanční situace</strong> – rodinný stav, počet vyživovaných osob, věk.</li>
+            <li><strong>🏠 Parametry požadovaného úvěru</strong> – výše úvěru, doba splácení, účel, hodnota zástavy.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Neexistuje jeden univerzální veřejný vzorec, podle kterého by všechny banky bonitu počítaly. Každý poskytovatel má vlastní interní metodiku, která se může lišit. Výše uvedené faktory jsou obecné oblasti, které banky obvykle zohledňují.</p>
+        </div>
+
+        <!-- 3. PŘÍJEM – ZÁKLAD POSOUZENÍ -->
+        <h2>Příjem – základ posouzení</h2>
+        <p>Příjem je jedním z klíčových faktorů, který banka při posuzování žádosti sleduje. Důležitá je nejen jeho výše, ale také jeho charakter a stabilita. Banka se dívá na to, zda je váš příjem pravidelný, dlouhodobě udržitelný a dostatečně doložitelný.</p>
+
+        <p>Mezi typy příjmů, které mohou být relevantní, patří například:</p>
+
+        <ul>
+            <li><strong>👔 Příjem ze zaměstnání</strong> – pravidelná mzda nebo plat na základě pracovní smlouvy.</li>
+            <li><strong>💼 Příjem z podnikání</strong> – příjem OSVč, společníků nebo jednatelů společností.</li>
+            <li><strong>🏠 Příjem z pronájmu</strong> – pravidelné příjmy z pronájmu nemovitostí.</li>
+            <li><strong>📈 Další pravidelné příjmy</strong> – například výživné, důchod, příjmy z kapitálového majetku.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Způsob, jakým banka jednotlivé typy příjmů uznává a započítává, se může lišit podle poskytovatele a konkrétní situace. Žádný typ příjmu není automaticky uznávaný nebo automaticky odmítaný – vždy záleží na individuálním posouzení a interní metodice konkrétní banky.</p>
+        </div>
+
+        <!-- 4. EXISTUJÍCÍ ZÁVAZKY A VÝDAJE -->
+        <h2>Existující závazky a výdaje</h2>
+        <p>Při posuzování žádosti banka zohledňuje také vaše stávající finanční závazky a pravidelné výdaje. Čím více peněz měsíčně odchází na splátky jiných úvěrů nebo pravidelné platby, tím méně vám zbývá na splácení hypotéky.</p>
+
+        <p>Mezi závazky, které banka může zohlednit, patří například:</p>
+
+        <ul>
+            <li><strong>💳 Spotřebitelské úvěry</strong> – půjčky na cokoli od elektroniky po dovolenou.</li>
+            <li><strong>🚗 Leasing</strong> – splátky za automobil nebo jiný majetek na leasing.</li>
+            <li><strong>💰 Kreditní karty</strong> – banka může započítat nejen skutečné čerpání, ale také disponibilní limit kreditní karty.</li>
+            <li><strong>🏦 Kontokorenty</strong> – povolené přečerpání běžného účtu.</li>
+            <li><strong>📄 Další pravidelné závazky</strong> – výživné, splátky jiných úvěrů, pravidelné platby.</li>
+        </ul>
+
+        <p>Hlavní princip je jednoduchý: <strong>dva lidé mohou mít stejný příjem, ale rozdílnou dostupnou hypotéku, pokud má jeden z nich výrazně vyšší pravidelné závazky.</strong></p>
+
+        <!-- 5. PROČ STEJNÝ PŘÍJEM NEZNAMENÁ STEJNOU HYPOTÉKU? -->
+        <h2>Proč stejný příjem neznamená stejnou hypotéku?</h2>
+
+        <div class="priklad-blok">
+            <h3>📊 Modelový příklad – dva žadatelé, stejný příjem</h3>
+
+            <div class="priklad-parametry">
+                <div class="priklad-parametr" style="border-top: 3px solid #10b981;">
+                    <div class="label">Žadatel A</div>
+                    <div class="hodnota" style="font-size:14px;">Čistý měsíční příjem: 45 000 Kč</div>
+                    <div style="font-size:12px; color:#475569; margin-top:6px;">Další závazky: minimální<br>Měsíční splátky: 0 Kč</div>
+                </div>
+                <div class="priklad-parametr" style="border-top: 3px solid #f97316;">
+                    <div class="label">Žadatel B</div>
+                    <div class="hodnota" style="font-size:14px;">Čistý měsíční příjem: 45 000 Kč</div>
+                    <div style="font-size:12px; color:#475569; margin-top:6px;">Další závazky: úvěr + leasing<br>Měsíční splátky: 8 000 Kč</div>
+                </div>
+            </div>
+
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>Žadatel A – volné prostředky na hypotéku</span>
+                    <span class="hodnota vyrazna">vyšší</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Žadatel B – volné prostředky na hypotéku</span>
+                    <span class="hodnota">nižší (o 8 000 Kč/měsíc)</span>
+                </div>
+            </div>
+
+            <p class="priklad-poznamka">Modelový příklad pro ilustraci principu. Skutečná dostupná výše hypotéky závisí na konkrétní metodice poskytovatele, úrokové sazbě, době splácení a dalších faktorech.</p>
+        </div>
+
+        <p>Z příkladu je patrné, že ačkoli oba žadatelé mají stejný čistý měsíční příjem, jejich dostupná hypotéka se může výrazně lišit. Žadatel B má každý měsíc o 8 000 Kč nižší volné prostředky, protože část příjmu odchází na splátky stávajících závazků. Banka to při posuzování zohlední.</p>
+
+        <!-- 6. TYP PŘÍJMU A JEHO POSOUZENÍ -->
+        <h2>Typ příjmu a jeho posouzení</h2>
+        <p>Způsob, jakým banka posuzuje příjem, se může lišit v závislosti na jeho typu. Každý poskytovatel má vlastní interní pravidla, ale obecně platí, že banka sleduje především stabilitu a doložitelnost příjmu.</p>
+
+        <div class="karty-2">
+            <div class="karta-blok modra">
+                <h3>👔 Zaměstnanec</h3>
+                <p>Banka může zohlednit délku pracovního poměru, pravidelnost příjmu a typ smlouvy. Doložení bývá obvykle jednodušší díky výplatním páskám a potvrzení od zaměstnavatele.</p>
+            </div>
+            <div class="karta-blok oranzova">
+                <h3>💼 OSVČ</h3>
+                <p>Banka může posuzovat délku podnikání, doložené příjmy z daňových přiznání a celkovou stabilitu podnikání. Doložení příjmu může vyžadovat více podkladů než u zaměstnance.</p>
+            </div>
+        </div>
+
+        <p>U zaměstnance může být relevantní například stabilita zaměstnání, pravidelnost příjmu a typ pracovního poměru. U OSVČ může být důležitá délka podnikání, doložené příjmy z daňových přiznání a celková stabilita podnikání. U příjmu z pronájmu záleží na doložitelnosti a konkrétních podmínkách poskytovatele.</p>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Konkrétní metodiky posuzování jednotlivých typů příjmů se mohou u jednotlivých poskytovatelů lišit. Neexistuje univerzální pravidlo, které by platilo pro všechny banky. Vždy si ověřte aktuální podmínky u konkrétního poskytovatele.</p>
+        </div>
+
+        <!-- 7. VĚK A DÉLKA SPLÁCENÍ -->
+        <h2>Věk a délka splácení</h2>
+        <p>Věk žadatele může být jedním z faktorů, které banka při posuzování zohledňuje. Souvisí především s délkou splácení – banka obvykle posuzuje, zda bude úvěr splacen v průběhu produktivního věku žadatele.</p>
+
+        <ul>
+            <li><strong>Doba splácení</strong> – banky obvykle nastavují maximální věk, do kterého musí být úvěr splacen. Tato hranice se může lišit podle poskytovatele.</li>
+            <li><strong>Výše úvěru</strong> – u starších žadatelů může být kratší doba splácení, což zvyšuje měsíční splátku a může ovlivnit maximální dostupnou výši úvěru.</li>
+            <li><strong>Individuální posouzení</strong> – každý poskytovatel posuzuje věk v kontextu celkové finanční situace žadatele, nikoliv jako izolovaný faktor.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Žádná věková hranice není univerzálním pravidlem platným pro všechny poskytovatele. Konkrétní podmínky se liší podle banky a individuální situace žadatele. Vždy si ověřte aktuální podmínky u konkrétního poskytovatele.</p>
+        </div>
+
+        <!-- 8. NEMOVITOST A ZÁSTAVA -->
+        <h2>Nemovitost a zástava</h2>
+        <p>Kromě samotného žadatele banka posuzuje také nemovitost, která má sloužit jako zajištění úvěru. Hodnota zástavy hraje důležitou roli při stanovení maximální výše úvěru a podmínek financování.</p>
+
+        <p>Banka si nechá nemovitost ocenit a pro výpočet maximální výše úvěru používá hodnotu zástavy. Čím vyšší je hodnota nemovitosti v poměru k výši úvěru (tedy čím nižší LTV), tím nižší riziko pro banku a tím výhodnější podmínky můžete získat.</p>
+
+        <p>Více o tomto tématu se dočtete v samostatném průvodci:</p>
+
+        <div class="odkazy-pruvodci">
+            <a href="vlastni-zdroje-hypoteka.html" class="odkaz-pruvodce">
+                <div class="ikonka">💰</div>
+                <div class="nazev">Kolik vlastních peněz potřebujete na hypotéku?</div>
+                <div class="popis">LTV, vlastní zdroje a financování nemovitosti</div>
+            </a>
+        </div>
+
+        <!-- 9. CO MŮŽE ŽÁDOST ZKOMPLIKOVAT? -->
+        <h2>Co může žádost zkomplikovat?</h2>
+        <p>Některé okolnosti mohou posouzení žádosti ztížit nebo ovlivnit výsledné podmínky. Níže uvádíme přehled faktorů, které banka může zohlednit:</p>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Vysoké existující zadlužení</strong> – další úvěry, leasingy a kreditní karty mohou snižovat volné prostředky na splácení hypotéky.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Nestabilní nebo obtížně doložitelný příjem</strong> – krátká doba v zaměstnání, nepravidelný příjem nebo příjem, který nelze snadno doložit.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Krátká historie podnikání</strong> – u OSVČ může banka požadovat delší historii podnikání pro posouzení stability příjmu.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Vysoké pravidelné výdaje</strong> – náklady na bydlení, výživné, pojištění a další pravidelné platby.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Problémy s úvěrovou historií</strong> – záznamy o prodlení se splácením v registrech dlužníků mohou ovlivnit posouzení.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Nevhodné parametry požadovaného úvěru</strong> – například příliš vysoká částka v poměru k hodnotě zástavy nebo příliš krátká doba splácení.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>⚠️ Komplikace spojené s nemovitostí</strong> – právní vady, nedostatečná hodnota zástavy, specifický účel úvěru.</p>
+        </div>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Výše uvedené faktory nemusí automaticky znamenat zamítnutí žádosti. Každá žádost je posuzována individuálně a banka zohledňuje celkový obraz finanční situace žadatele. Konkrétní okolnost může posouzení ovlivnit, zkomplikovat nebo prodloužit, ale nemusí být automatickou překážkou.</p>
+        </div>
+
+        <!-- 10. PRAKTICKÝ MODEL -->
+        <h2>Praktický model – dva žadatelé, rozdílná situace</h2>
+        <p>Podívejme se na konkrétnější modelový příklad, který ilustruje, jak mohou stejný příjem, ale rozdílné závazky ovlivnit dostupnou hypotéku.</p>
+
+        <div class="priklad-blok">
+            <h3>📊 Porovnání dvou žadatelů</h3>
+
+            <div class="priklad-parametry">
+                <div class="priklad-parametr" style="border-top: 3px solid #10b981;">
+                    <div class="label">Žadatel A</div>
+                    <div class="hodnota" style="font-size:14px;">Čistý příjem: 45 000 Kč</div>
+                    <div style="font-size:12px; color:#475569; margin-top:6px;">Splátky: 0 Kč<br>Volné prostředky: 45 000 Kč</div>
+                </div>
+                <div class="priklad-parametr" style="border-top: 3px solid #f97316;">
+                    <div class="label">Žadatel B</div>
+                    <div class="hodnota" style="font-size:14px;">Čistý příjem: 45 000 Kč</div>
+                    <div style="font-size:12px; color:#475569; margin-top:6px;">Splátky: 8 000 Kč<br>Volné prostředky: 37 000 Kč</div>
+                </div>
+            </div>
+
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>Žadatel A – měsíčně k dispozici na hypotéku</span>
+                    <span class="hodnota vyrazna">45 000 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Žadatel B – měsíčně k dispozici na hypotéku</span>
+                    <span class="hodnota">37 000 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Rozdíl v disponibilní částce</span>
+                    <span class="hodnota" style="color:#f97316;">8 000 Kč měsíčně</span>
+                </div>
+            </div>
+
+            <p class="priklad-poznamka">Modelový příklad pro ilustraci principu. Nejedná se o konkrétní výpočet maximální výše hypotéky. Skutečná dostupná výše úvěru závisí na metodice poskytovatele, úrokové sazbě, době splácení a dalších faktorech.</p>
+        </div>
+
+        <p>Cílem příkladu je ukázat, že stejný příjem neznamená stejnou dostupnou hypotéku. Rozhodující je celkový obraz finanční situace, včetně všech existujících závazků a pravidelných výdajů.</p>
+
+        <!-- 11. JAK SE NA ŽÁDOST PŘIPRAVIT? -->
+        <h2>Jak se na žádost připravit?</h2>
+        <p>Příprava na žádost o hypotéku může výrazně usnadnit celý proces. Níže uvádíme praktický checklist, který vám pomůže se zorientovat:</p>
+
+        <ul class="checklist">
+            <li><strong>Znát své pravidelné příjmy</strong> – mít přehled o všech příjmech a jejich doložitelnosti.</li>
+            <li><strong>Sep sat všechny existující závazky</strong> – úvěry, leasingy, kreditní karty, kontokorenty.</li>
+            <li><strong>Znát pravidelné měsíční výdaje</strong> – náklady na bydlení, energie, pojištění, výživné.</li>
+            <li><strong>Připravit potřebné doklady</strong> – výplatní pásky, daňová přiznání, výpisy z účtu.</li>
+            <li><strong>Znát své vlastní zdroje</strong> – kolik peněz máte k dispozici na financování nemovitosti.</li>
+            <li><strong>Mít představu o ceně nemovitosti</strong> – orientační cena a hodnota zástavy.</li>
+            <li><strong>Počítat s finanční rezervou</strong> – ponechat si dostatek prostředků na neočekávané výdaje.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Výše uvedený checklist je obecným doporučením. Konkrétní požadavky na doklady a podmínky se mohou lišit podle poskytovatele. Vždy si ověřte aktuální požadavky u konkrétní banky.</p>
+        </div>
+
+        <!-- 12. AKTUÁLNÍ PRÁVNÍ A REGULATORNÍ RÁMEC -->
+        <h2>Aktuální právní a regulatorní rámec</h2>
+        <p>Posuzování úvěruschopnosti spotřebitele vychází z platné právní úpravy a regulatorního rámce. Je důležité rozlišovat mezi jednotlivými úrovněmi pravidel:</p>
+
+        <ul>
+            <li><strong>Zákonná úprava</strong> – zákon č. 257/2016 Sb., o spotřebitelském úvěru, ukládá poskytovatelům povinnost posoudit úvěruschopnost spotřebitele před sjednáním úvěru. Zákon stanovuje, že poskytovatel musí posoudit schopnost spotřebitele splácet úvěr, ale nestanovuje konkrétní výpočetní vzorec nebo univerzální limity.</li>
+            <li><strong>Regulatorní rámec ČNB</strong> – Česká národní banka v minulosti vydávala doporučení k limitům ukazatelů LTV, DTI a DSTI. K roku 2026 Česká národní banka neaplikuje závazná kvantitativní omezení těchto ukazatelů formou opatření obecné povahy. Banky si nastavují vlastní interní limity v rámci svého risk managementu.</li>
+            <li><strong>Interní metodika bank</strong> – každý poskytovatel má vlastní interní pravidla a postupy pro posuzování úvěruschopnosti. Tyto metodiky se mohou lišit a nejsou veřejně dostupné v celém rozsahu.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Výše uvedené informace vycházejí z právního a regulatorního rámce platného v České republice v roce 2026. Konkrétní podmínky a požadavky se mohou lišit podle poskytovatele a individuální situace žadatele. Vždy si ověřte aktuální podmínky u konkrétního poskytovatele.</p>
+        </div>
+
+        <!-- 13. PROPOJENÍ S DALŠÍMI PRŮVODCI -->
+        <h2>Další užitečné průvodce</h2>
+        <p>Pokud vás toto téma zajímá, doporučujeme přečíst si také následující průvodce:</p>
+
+        <div class="odkazy-pruvodci">
+            <a href="vlastni-zdroje-hypoteka.html" class="odkaz-pruvodce">
+                <div class="ikonka">💰</div>
+                <div class="nazev">Kolik vlastních peněz potřebujete na hypotéku?</div>
+                <div class="popis">LTV, vlastní zdroje a financování nemovitosti</div>
+            </a>
+            <a href="refinancovani-hypoteky.html" class="odkaz-pruvodce">
+                <div class="ikonka">🔄</div>
+                <div class="nazev">Refinancování hypotéky – kdy dává smysl?</div>
+                <div class="popis">Jak funguje refinancování a na co si dát pozor</div>
+            </a>
+        </div>
+
+        <!-- 14. CTA -->
+        <div class="cta-blok">
+            <h3>🧮 Spočítejte si svou hypotéku</h3>
+            <p>Zjistěte, jak výše hypotéky, úroková sazba a doba splácení ovlivní vaši měsíční splátku a celkové náklady.</p>
+            <a href="index.html" class="cta-tlacitko">Spočítat hypotéku →</a>
+        </div>
+
+        <!-- 15. ZPĚT -->
+        <a href="hypoteky.html" class="zpet-odkaz">← Zpět na hypoteční průvodce</a>
+
+    </div>
+
+    <footer class="paticka" style="margin: 0 auto 40px auto;">
+        <p>Finanční Mapa © 2026. Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
+    </footer>
+
+</body>
+</html>
