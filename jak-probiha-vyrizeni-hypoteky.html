@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jak probíhá vyřízení hypotéky krok za krokem? Průvodce od prvního rozhodnutí přes výběr nemovitosti, schválení úvěru až po čerpání a splácení.">
+    <title>📋 Jak probíhá vyřízení hypotéky krok za krokem? – Finanční průvodce</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ===== LAYOUT ČLÁNKU ===== */
+        .clanek-kontejner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .clanek-kontejner h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .clanek-podnadpis {
+            font-size: 16px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .clanek-kontejner h2 {
+            font-size: 20px;
+            color: #1a1a2e;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+        .clanek-kontejner h3 {
+            font-size: 16px;
+            color: #4f46e5;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .clanek-kontejner p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 16px;
+        }
+
+        .clanek-kontejner ul, .clanek-kontejner ol {
+            margin: 12px 0 20px 20px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        .clanek-kontejner li {
+            margin-bottom: 8px;
+        }
+
+        /* ===== INFO BLOK ===== */
+        .info-blok {
+            background: #f8fafc;
+            border-left: 4px solid #4f46e5;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .info-blok-aktualnost {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        .info-blok-aktualnost p {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        /* ===== KROKY ===== */
+        .kroky-sekce {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .krok {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px 18px;
+            transition: box-shadow 0.2s;
+        }
+
+        .krok:hover {
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .krok-cislo {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            background: #eef2ff;
+            color: #4f46e5;
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .krok-obsah {
+            flex: 1;
+        }
+
+        .krok-obsah h3 {
+            margin: 0 0 4px 0;
+            font-size: 15px;
+            color: #1a1a2e;
+        }
+
+        .krok-obsah p {
+            margin: 0;
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ===== KARTY ===== */
+        .karty-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karta-blok {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .karta-blok.modra {
+            border-top: 3px solid #4f46e5;
+        }
+
+        .karta-blok.oranzova {
+            border-top: 3px solid #f97316;
+        }
+
+        .karta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+        }
+
+        .karta-blok p {
+            margin: 0;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ===== CHECKLIST ===== */
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 14px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .checklist li::before {
+            content: "☑️";
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        /* ===== VÝSTRAHA ===== */
+        .varovani-blok {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .varovani-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+            color: #991b1b;
+        }
+
+        /* ===== CTA ===== */
+        .cta-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 28px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .cta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: #1a1a2e;
+        }
+
+        .cta-blok p {
+            margin: 0 0 20px 0;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .cta-tlacitko {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #4f46e5;
+            color: #ffffff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .cta-tlacitko:hover {
+            background: #4338ca;
+        }
+
+        /* ===== ODKAZY NA PRŮVODCE ===== */
+        .odkazy-pruvodci {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .odkaz-pruvodce {
+            display: block;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px;
+            text-decoration: none;
+            color: #1a1a2e;
+            transition: box-shadow 0.2s, transform 0.2s;
+            text-align: center;
+        }
+
+        .odkaz-pruvodce:hover {
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .odkaz-pruvodce .ikonka {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+
+        .odkaz-pruvodce .nazev {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4f46e5;
+        }
+
+        .odkaz-pruvodce .popis {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* ===== ZPĚT ===== */
+        .zpet-odkaz {
+            display: inline-block;
+            margin-top: 24px;
+            color: #4f46e5;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .zpet-odkaz:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONZIVITA ===== */
+        @media (max-width: 600px) {
+            .clanek-kontejner h1 {
+                font-size: 22px;
+            }
+
+            .karty-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .odkazy-pruvodci {
+                grid-template-columns: 1fr;
+            }
+
+            .krok {
+                padding: 12px 14px;
+            }
+
+            .krok-cislo {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="pruvodci.html">Průvodci</a>
+    </nav>
+
+    <div class="clanek-kontejner">
+
+        <!-- HLAVIČKA -->
+        <h1>📋 Jak probíhá vyřízení hypotéky krok za krokem?</h1>
+        <p class="clanek-podnadpis">Od prvního rozhodnutí přes výběr nemovitosti a schválení úvěru až po čerpání hypotéky. Praktický průvodce celým procesem.</p>
+
+        <!-- AKTUÁLNOST -->
+        <div class="info-blok-aktualnost">
+            <p><strong>Aktuálnost informací:</strong> Tento průvodce vychází z právního a regulatorního rámce platného v České republice v roce 2026. Konkrétní postup vyřízení hypotéky se může lišit podle poskytovatele, typu úvěru, účelu financování a konkrétní situace žadatele. Před podáním žádosti si vždy ověřte aktuální podmínky u konkrétního poskytovatele.</p>
+        </div>
+
+        <!-- 2. PŘEHLED CELÉHO PROCESU -->
+        <h2>Přehled celého procesu</h2>
+        <p>Vyřízení hypotéky je proces, který se skládá z několika na sebe navazujících kroků. Jejich konkrétní pořadí a délka se mohou lišit podle typu financování, poskytovatele a individuální situace. Níže uvádíme obecný přehled, který vám pomůže se zorientovat.</p>
+
+        <div class="kroky-sekce">
+            <div class="krok">
+                <div class="krok-cislo">1</div>
+                <div class="krok-obsah">
+                    <h3>Zhodnotím svou finanční situaci</h3>
+                    <p>Zjistím své příjmy, výdaje, existující závazky a vlastní úspory.</p>
+                </div>
+            </div>
+            <div class="krok">
+                <div class="krok-cislo">2</div>
+                <div class="krok-obsah">
+                    <h3>Stanovím si rozpočet</h3>
+                    <p>Určím, kolik si mohu bezpečně půjčit a jakou měsíční splátku zvládnu.</p>
+                </div>
+            </div>
+            <div class="krok">
+                <div class="krok-cislo">3</div>
+                <div class="krok-obsah">
+                    <h3>Připravím vlastní zdroje</h3>
+                    <p>Zjistím, kolik vlastních peněz budu potřebovat a zda je mám k dispozici.</p>
+                </div>
+            </div>
+            <div class="krok">
+                <div class="krok-cislo">4</div>
+                <div class="krok-obsah">
+                    <h3>Vyberu nemovitost</h3>
+                    <p>Najdu vhodnou nemovitost, která odpovídá mým možnostem a potřebám.</p>
+                </div>
+            </div>
+            <div class="krok">
+                <div class="krok-cislo">5</div>
+                <div class="krok-obsah">
+                    <h3>Porovnám nabídky hypoték</h3>
+                    <p>Oslovím více poskytovatelů a porovnám jejich nabídky.</p>
+                </div>
+            </div>
+            <div class="krok">
+                <div class="krok-cislo">6</div>
+                <div class="krok-obsah">
+                    <h3>Podám žádost</h3>
+                    <p>Předložím bance potřebné informace a dokumenty k posouzení.</p>
+                </div>
+            </div>
+            <div class="krok">
+                <div class="krok-cislo">7</div>
+                <div class="krok-obsah">
+                    <h3>Banka posoudí moji bonitu</h3>
+                    <p>Banka vyhodnotí mou schopnost úvěr splácet.</p>
+                </div>
+            </div>
+            <div class="krok">
+                <div class="krok-cislo">8</div>
+                <div class="krok-obsah">
+                    <h3>Proběhne ocenění nemovitosti</h3>
+                    <p>Banka si nechá ocenit nemovitost pro účely zajištění úvěru.</p>
+                </div>
+            </div>
+            <div class="krok">
+                <div class="krok-cislo">9</div>
+                <div class="krok-obsah">
+                    <h3>Banka úvěr schválí</h3>
+                    <p>Po posouzení všech informací banka rozhodne o žádosti.</p>
+                </div>
+            </div>
+            <div class="krok">
+                <div class="krok-cislo">10</div>
+                <div class="krok-obsah">
+                    <h3>Podepíšu smlouvy</h3>
+                    <p>Po schválení podepíšu úvěrovou smlouvu a související dokumenty.</p>
+                </div>
+            </div>
+            <div class="krok">
+                <div class="krok-cislo">11</div>
+                <div class="krok-obsah">
+                    <h3>Splním podmínky čerpání</h3>
+                    <p>Doložím potřebné dokumenty a splním podmínky uvedené ve smlouvě.</p>
+                </div>
+            </div>
+            <div class="krok">
+                <div class="krok-cislo">12</div>
+                <div class="krok-obsah">
+                    <h3>Hypotéka se začne čerpat</h3>
+                    <p>Peníze jsou uvolněny podle podmínek sjednaných ve smlouvě.</p>
+                </div>
+            </div>
+            <div class="krok">
+                <div class="krok-cislo">13</div>
+                <div class="krok-obsah">
+                    <h3>Začnu splácet</h3>
+                    <p>Po čerpání začíná pravidelný splátkový režim.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Konkrétní pořadí a průběh jednotlivých kroků se může lišit podle situace, typu financování a poskytovatele. Některé kroky mohou probíhat souběžně nebo v jiném pořadí. Následující části se věnují každému kroku podrobněji.</p>
+        </div>
+
+        <!-- 3. KROK 1 -->
+        <h2>1. Zhodnoťte svou finanční situaci</h2>
+        <p>Než začnete hledat nemovitost nebo porovnávat nabídky hypoték, je vhodné udělat si přehled o své finanční situaci. Banka bude při posuzování žádosti zkoumat podobné informace, takže jejich znalost vám pomůže lépe se připravit.</p>
+
+        <p>Zaměřte se zejména na:</p>
+
+        <ul>
+            <li><strong>💰 Příjmy</strong> – výše, pravidelnost a stabilita vašich příjmů.</li>
+            <li><strong>💳 Pravidelné výdaje</strong> – náklady na bydlení, energie, pojištění, dopravu.</li>
+            <li><strong>📄 Existující úvěry a závazky</strong> – další půjčky, leasing, kreditní karty, kontokorenty.</li>
+            <li><strong>💵 Vlastní úspory</strong> – kolik peněz máte k dispozici na financování nemovitosti.</li>
+            <li><strong>🛟 Finanční rezervu</strong> – kolik peněz si můžete ponechat pro neočekávané výdaje.</li>
+        </ul>
+
+        <p>Více o tom, co banka při posuzování sleduje, se dočtete v samostatném průvodci:</p>
+
+        <div class="odkazy-pruvodci">
+            <a href="jak-banka-posuzuje-hypoteku.html" class="odkaz-pruvodce">
+                <div class="ikonka">🏦</div>
+                <div class="nazev">Jak banka posuzuje žádost o hypotéku?</div>
+                <div class="popis">Bonita, příjem a další faktory</div>
+            </a>
+        </div>
+
+        <!-- 4. KROK 2 -->
+        <h2>2. Stanovte si realistický rozpočet</h2>
+        <p>Na základě znalosti své finanční situace si můžete stanovit realistický rozpočet. Při jeho sestavování zohledněte nejen cenu nemovitosti, ale také výši vlastních zdrojů, měsíční splátku hypotéky a další náklady spojené s bydlením.</p>
+
+        <p>Důležité je uvědomit si, že <strong>nejvyšší možná hypotéka nemusí být zároveň nejbezpečnější hypotékou</strong>. Banka vám může nabídnout maximální částku, kterou jste schopni splácet podle jejích kritérií, ale vy sami byste měli zvážit, zda je pro vás taková splátka dlouhodobě pohodlná a bezpečná.</p>
+
+        <p>Při stanovení rozpočtu myslete také na finanční rezervu pro neočekávané výdaje, které mohou nastat po koupi nemovitosti.</p>
+
+        <!-- 5. KROK 3 -->
+        <h2>3. Připravte vlastní zdroje</h2>
+        <p>Banka obvykle nefinancuje celou kupní cenu nemovitosti – část musíte zaplatit ze svých prostředků. Potřebná výše vlastních zdrojů závisí na ceně nemovitosti, hodnotě zástavy a podmínkách poskytovatele.</p>
+
+        <p>Kromě samotné kupní ceny počítejte také s dalšími náklady spojenými s koupí, jako jsou poplatky za odhad, notářské poplatky, daň z nabytí nemovitosti (pokud vzniká povinnost) a další související výdaje.</p>
+
+        <p>Více o tomto tématu se dočtete v samostatném průvodci:</p>
+
+        <div class="odkazy-pruvodci">
+            <a href="vlastni-zdroje-hypoteka.html" class="odkaz-pruvodce">
+                <div class="ikonka">💰</div>
+                <div class="nazev">Kolik vlastních peněz potřebujete na hypotéku?</div>
+                <div class="popis">LTV, vlastní zdroje a financování nemovitosti</div>
+            </a>
+        </div>
+
+        <!-- 6. KROK 4 -->
+        <h2>4. Vyberte nemovitost</h2>
+        <p>Při výběru nemovitosti je vhodné zohlednit nejen své osobní preference, ale také faktory, které mohou ovlivnit financování:</p>
+
+        <ul>
+            <li><strong>🏠 Kupní cena</strong> – musí odpovídat vašemu rozpočtu a možnostem financování.</li>
+            <li><strong>📍 Lokalita</strong> – ovlivňuje cenu i budoucí prodejnost nemovitosti.</li>
+            <li><strong>🏗️ Technický stav</strong> – případné náklady na opravy a rekonstrukci.</li>
+            <li><strong>📄 Právní stav</strong> – vlastnické vztahy, věcná břemena, jiná právní omezení.</li>
+            <li><strong>📊 Odhadovaná hodnota</strong> – banka si nechá nemovitost ocenit pro účely zajištění úvěru.</li>
+        </ul>
+
+        <p>Mějte na paměti, že banka posuzuje také nemovitost jako zajištění úvěru. Kupní cena a hodnota zástavy stanovená bankou nemusí být vždy totožné, což může ovlivnit potřebnou výši vlastních zdrojů.</p>
+
+        <!-- 7. KROK 5 -->
+        <h2>5. Porovnejte nabídky hypoték</h2>
+        <p>Jakmile máte vybranou nemovitost a znáte svůj rozpočet, je čas porovnat nabídky od různých poskytovatelů. Při porovnání sledujte nejen úrokovou sazbu, ale také další parametry:</p>
+
+        <ul>
+            <li><strong>Úrokovou sazbu</strong> – výše sazby a zda je pevná nebo variabilní.</li>
+            <li><strong>Délku fixace</strong> – na jak dlouho je sazba zaručena.</li>
+            <li><strong>RPSN</strong> – orientační údaj o celkových nákladech úvěru.</li>
+            <li><strong>Celkové náklady</strong> – všechny poplatky a náklady spojené s úvěrem.</li>
+            <li><strong>Podmínky banky</strong> – požadavky na doplňkové produkty a služby.</li>
+            <li><strong>Možnosti mimořádného a předčasného splácení</strong> – za jakých podmínek můžete úvěr splatit dříve.</li>
+        </ul>
+
+        <p>Více o tom, na co si dát pozor při výběru hypotéky, se dočtete v samostatném průvodci:</p>
+
+        <div class="odkazy-pruvodci">
+            <a href="na-co-si-dat-pozor-pri-vyberu-hypoteky.html" class="odkaz-pruvodce">
+                <div class="ikonka">⚠️</div>
+                <div class="nazev">Na co si dát pozor při výběru hypotéky?</div>
+                <div class="popis">Co všechno porovnat před podpisem smlouvy</div>
+            </a>
+        </div>
+
+        <!-- 8. KROK 6 -->
+        <h2>6. Podejte žádost o hypotéku</h2>
+        <p>Po výběru vhodné nabídky podáte bance žádost o hypotéku. Součástí žádosti jsou obvykle informace a dokumenty, které bance umožní posoudit vaši situaci. Konkrétní požadavky se liší podle poskytovatele, ale obvykle zahrnují:</p>
+
+        <ul>
+            <li><strong>📄 Identifikační údaje</strong> – osobní údaje žadatele.</li>
+            <li><strong>💰 Informace o příjmech</strong> – výplatní pásky, daňová přiznání, potvrzení od zaměstnavatele.</li>
+            <li><strong>📊 Informace o závazcích</strong> – přehled stávajících úvěrů a závazků.</li>
+            <li><strong>🏠 Informace o nemovitosti</strong> – kupní smlouva, odhad, výpis z katastru.</li>
+            <li><strong>📑 Další dokumenty</strong> – podle konkrétní situace a požadavků poskytovatele.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Konkrétní seznam požadovaných dokumentů se liší podle poskytovatele a situace žadatele. Vždy si ověřte aktuální požadavky u konkrétní banky.</p>
+        </div>
+
+        <!-- 9. KROK 7 -->
+        <h2>7. Banka posoudí bonitu</h2>
+        <p>Po podání žádosti banka posoudí vaši schopnost úvěr splácet. Při posuzování bonity banka zohledňuje různé faktory, jako jsou příjmy, výdaje, existující závazky, stabilita příjmů, věk a parametry požadovaného úvěru.</p>
+
+        <p>Jak již bylo zmíněno v předchozích průvodcích, <strong>stejný příjem neznamená automaticky stejnou dostupnou hypotéku</strong>. Rozhodující je celkový obraz finanční situace žadatele.</p>
+
+        <p>Více o tomto tématu se dočtete v samostatném průvodci:</p>
+
+        <div class="odkazy-pruvodci">
+            <a href="jak-banka-posuzuje-hypoteku.html" class="odkaz-pruvodce">
+                <div class="ikonka">🏦</div>
+                <div class="nazev">Jak banka posuzuje žádost o hypotéku?</div>
+                <div class="popis">Bonita, příjem a další faktory</div>
+            </a>
+        </div>
+
+        <!-- 10. KROK 8 -->
+        <h2>8. Ocenění nemovitosti</h2>
+        <p>Banka potřebuje posoudit hodnotu nemovitosti, která má sloužit jako zajištění úvěru. Způsob ocenění se může lišit podle poskytovatele a konkrétní situace – banka může vycházet z odhadu znalce, z vlastního oceňovacího modelu nebo z kombinace obou přístupů.</p>
+
+        <p>Je důležité mít na paměti, že <strong>kupní cena a hodnota zástavy nemusí být vždy totožné</strong>. Pokud je hodnota zástavy nižší než kupní cena, může to ovlivnit potřebnou výši vlastních zdrojů (více v průvodci o vlastních zdrojích).</p>
+
+        <!-- 11. KROK 9 -->
+        <h2>9. Schválení úvěru</h2>
+        <p>Po vyhodnocení všech dostupných informací banka rozhodne o vaší žádosti podle svých interních procesů a platných pravidel. Schválení může být spojeno s konkrétními podmínkami, které je třeba splnit před čerpáním úvěru.</p>
+
+        <p>Výsledek schválení závisí na celé řadě faktorů – na vaší finanční situaci, parametrech úvěru, hodnotě zástavy a interních kritériích poskytovatele. Nejedná se o automatický výsledek splnění jednoho jediného kritéria.</p>
+
+        <!-- 12. KROK 10 -->
+        <h2>10. Podpis smluv</h2>
+        <p>Po schválení úvěru následuje podpis úvěrové smlouvy a souvisejících dokumentů. Před podpisem si pečlivě prostudujte veškerou smluvní dokumentaci a ujistěte se, že rozumíte všem podmínkám:</p>
+
+        <ul>
+            <li><strong>📄 Úvěrové smlouvě</strong> – výše úvěru, úroková sazba, doba splácení, výše měsíční splátky.</li>
+            <li><strong>📄 Podmínkám čerpání</strong> – jak a kdy budou peníze uvolněny.</li>
+            <li><strong>📄 Úrokové sazbě</strong> – jak je sazba stanovena a na jak dlouho je fixována.</li>
+            <li><strong>📄 Délce fixace</strong> – co se stane po skončení fixačního období.</li>
+            <li><strong>📄 Splátkovému režimu</strong> – jak budou probíhat pravidelné splátky.</li>
+            <li><strong>📄 Podmínkám mimořádného a předčasného splacení</strong> – za jakých podmínek můžete úvěr splatit dříve.</li>
+            <li><strong>📄 Případným doplňkovým produktům</strong> – pokud jsou součástí nabídky.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Smluvní dokumentace je závazným právním dokumentem. Pokud některým ustanovením nerozumíte, neváhejte se obrátit na poskytovatele s žádostí o vysvětlení. V případě potřeby můžete konzultovat smlouvu s odborníkem.</p>
+        </div>
+
+        <!-- 13. KROK 11 -->
+        <h2>11. Splnění podmínek čerpání</h2>
+        <p>Před samotným čerpáním hypotéky může být nutné splnit konkrétní podmínky uvedené ve smlouvě a podmínkách poskytovatele. Konkrétní podmínky se liší podle banky a typu financování. Může jít například o doložení určitých dokumentů, zajištění nemovitosti zástavním právem nebo splnění dalších smluvních podmínek.</p>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Konkrétní podmínky čerpání jsou vždy uvedeny ve smluvní dokumentaci. Neexistuje jeden univerzální seznam podmínek platný pro všechny banky a typy financování.</p>
+        </div>
+
+        <!-- 14. KROK 12 -->
+        <h2>12. Čerpání hypotéky</h2>
+        <p>Po splnění všech podmínek dochází k čerpání hypotéky. Způsob čerpání se liší podle účelu úvěru a podmínek smlouvy:</p>
+
+        <ul>
+            <li><strong>Jednorázové čerpání</strong> – celá částka je uvolněna najednou, například při koupi hotové nemovitosti.</li>
+            <li><strong>Postupné čerpání</strong> – peníze jsou uvolňovány v několika fázích, například při výstavbě nebo rekonstrukci.</li>
+        </ul>
+
+        <p>Konkrétní podmínky čerpání jsou vždy sjednány ve smlouvě a liší se podle poskytovatele a účelu financování.</p>
+
+        <!-- 15. KROK 13 -->
+        <h2>13. Začátek splácení</h2>
+        <p>Po zahájení čerpání nebo po jeho dokončení začíná pravidelný splátkový režim. Výše měsíční splátky závisí na výši úvěru, úrokové sazbě a délce splácení. Úroková sazba je obvykle fixována na určité období (fixační období), po jehož skončení se může změnit.</p>
+
+        <p>Více o výpočtu měsíční splátky a fixaci se dočtete v samostatných průvodcích:</p>
+
+        <div class="odkazy-pruvodci">
+            <a href="jak-se-pocita-splatka.html" class="odkaz-pruvodce">
+                <div class="ikonka">💰</div>
+                <div class="nazev">Jak se počítá měsíční splátka hypotéky?</div>
+                <div class="popis">Anuitní splátka a složení splátky</div>
+            </a>
+            <a href="fixace-hypoteky.html" class="odkaz-pruvodce">
+                <div class="ikonka">🏦</div>
+                <div class="nazev">Co je fixace hypotéky a jak funguje?</div>
+                <div class="popis">Jak dlouho může být úroková sazba stejná</div>
+            </a>
+        </div>
+
+        <!-- 16. PRAKTICKÝ CHECKLIST -->
+        <h2>Praktický checklist</h2>
+        <p>Následující checklist vám pomůže zkontrolovat, zda jste na jednotlivé kroky procesu mysleli:</p>
+
+        <ul class="checklist">
+            <li><strong>Znám své příjmy a výdaje</strong> – mám přehled o své finanční situaci.</li>
+            <li><strong>Vím, kolik mám vlastních zdrojů</strong> – znám výši svých úspor a dalších prostředků.</li>
+            <li><strong>Mám představu o maximální bezpečné splátce</strong> – vím, jakou měsíční splátku zvládnu.</li>
+            <li><strong>Vybral/a jsem vhodnou nemovitost</strong> – mám vybranou nemovitost odpovídající mým možnostem.</li>
+            <li><strong>Porovnal/a jsem nabídky hypoték</strong> – oslovil/a jsem více poskytovatelů a porovnal/a jejich nabídky.</li>
+            <li><strong>Rozumím podmínkám nabídky</strong> – vím, jaké jsou podmínky úvěru, včetně poplatků a doplňkových produktů.</li>
+            <li><strong>Připravil/a jsem potřebné dokumenty</strong> – mám připraveny doklady potřebné k žádosti.</li>
+            <li><strong>Rozumím podmínkám čerpání</strong> – vím, jak a kdy budou peníze uvolněny.</li>
+            <li><strong>Před podpisem jsem si prošel/prošla smluvní dokumentaci</strong> – přečetl/a jsem si smlouvu a obchodní podmínky.</li>
+        </ul>
+
+        <!-- 17. CO SE MŮŽE LIŠIT PODLE SITUACE -->
+        <h2>Co se může lišit podle situace</h2>
+        <p>Každá hypotéka nemusí probíhat úplně stejně. Průběh vyřízení může ovlivnit celá řada faktorů:</p>
+
+        <ul>
+            <li><strong>Koupě hotové nemovitosti</strong> – obvykle jednodušší a rychlejší proces, čerpání probíhá jednorázově.</li>
+            <li><strong>Výstavba</strong> – složitější proces s postupným čerpáním podle fází výstavby.</li>
+            <li><strong>Rekonstrukce</strong> – může vyžadovat doložení projektu a rozpočtu, čerpání může být postupné.</li>
+            <li><strong>Refinancování</strong> – specifický proces převodu stávající hypotéky k jinému poskytovateli.</li>
+            <li><strong>Kombinace více účelů</strong> – například koupě a rekonstrukce, což může proces zkomplikovat.</li>
+            <li><strong>Typ příjmu</strong> – zaměstnanec vs. OSVČ – může ovlivnit požadované dokumenty a posouzení.</li>
+            <li><strong>Konkrétní poskytovatel</strong> – každá banka má vlastní interní procesy a požadavky.</li>
+        </ul>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Výše uvedené faktory jsou obecným přehledem možných odlišností. Konkrétní průběh vyřízení závisí na individuální situaci, poskytovateli a typu financování. Vždy si ověřte aktuální postup u konkrétní banky.</p>
+        </div>
+
+        <!-- 18. AKTUÁLNÍ PRÁVNÍ A REGULATORNÍ RÁMEC -->
+        <h2>Aktuální právní a regulatorní rámec</h2>
+        <p>Poskytování hypotečních úvěrů se v České republice řídí platnou právní úpravou. Pro spotřebitele jsou relevantní zejména:</p>
+
+        <ul>
+            <li><strong>Zákon č. 257/2016 Sb., o spotřebitelském úvěru</strong> – upravuje poskytování spotřebitelských úvěrů včetně hypoték, stanovuje povinnosti poskytovatelů a práva spotřebitelů.</li>
+            <li><strong>Občanský zákoník</strong> – upravuje obecná smluvní ujednání, včetně úvěrové smlouvy a zástavního práva.</li>
+            <li><strong>Regulatorní informace ČNB</strong> – Česká národní banka poskytuje informace a metodiky pro poskytovatele, které mohou ovlivňovat jejich interní postupy.</li>
+        </ul>
+
+        <p>Konkrétní práva a povinnosti vyplývají především z platné smluvní dokumentace a právních předpisů. Postup vyřízení hypotéky se vždy řídí konkrétní nabídkou, smlouvou a interními procesy poskytovatele.</p>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Výše uvedené informace vycházejí z právního a regulatorního rámce platného v České republice v roce 2026. Konkrétní postup a požadavky se mohou lišit podle poskytovatele a individuální situace. Vždy si ověřte aktuální podmínky u konkrétního poskytovatele.</p>
+        </div>
+
+        <!-- 19. PROPOJENÍ S DALŠÍMI PRŮVODCI -->
+        <h2>Další užitečné průvodce</h2>
+        <p>Pokud vás toto téma zajímá, doporučujeme přečíst si také následující průvodce:</p>
+
+        <div class="odkazy-pruvodci">
+            <a href="jak-funguje-hypoteka.html" class="odkaz-pruvodce">
+                <div class="ikonka">📘</div>
+                <div class="nazev">Jak funguje hypotéka?</div>
+                <div class="popis">Kompletní průvodce pro začátečníky</div>
+            </a>
+            <a href="jak-se-pocita-splatka.html" class="odkaz-pruvodce">
+                <div class="ikonka">💰</div>
+                <div class="nazev">Jak se počítá měsíční splátka hypotéky?</div>
+                <div class="popis">Anuitní splátka a složení splátky</div>
+            </a>
+            <a href="vlastni-zdroje-hypoteka.html" class="odkaz-pruvodce">
+                <div class="ikonka">💰</div>
+                <div class="nazev">Kolik vlastních peněz potřebujete na hypotéku?</div>
+                <div class="popis">LTV, vlastní zdroje a financování nemovitosti</div>
+            </a>
+            <a href="jak-banka-posuzuje-hypoteku.html" class="odkaz-pruvodce">
+                <div class="ikonka">🏦</div>
+                <div class="nazev">Jak banka posuzuje žádost o hypotéku?</div>
+                <div class="popis">Bonita, příjem a další faktory</div>
+            </a>
+            <a href="na-co-si-dat-pozor-pri-vyberu-hypoteky.html" class="odkaz-pruvodce">
+                <div class="ikonka">⚠️</div>
+                <div class="nazev">Na co si dát pozor při výběru hypotéky?</div>
+                <div class="popis">Co všechno porovnat před podpisem smlouvy</div>
+            </a>
+            <a href="fixace-hypoteky.html" class="odkaz-pruvodce">
+                <div class="ikonka">🏦</div>
+                <div class="nazev">Co je fixace hypotéky a jak funguje?</div>
+                <div class="popis">Jak dlouho může být úroková sazba stejná</div>
+            </a>
+            <a href="refinancovani-hypoteky.html" class="odkaz-pruvodce">
+                <div class="ikonka">🔄</div>
+                <div class="nazev">Refinancování hypotéky – kdy dává smysl?</div>
+                <div class="popis">Jak funguje refinancování a na co si dát pozor</div>
+            </a>
+            <a href="mimoradna-splatka-hypoteky.html" class="odkaz-pruvodce">
+                <div class="ikonka">💸</div>
+                <div class="nazev">Mimořádná splátka hypotéky</div>
+                <div class="popis">Kdy se vyplatí a kolik můžete ušetřit</div>
+            </a>
+        </div>
+
+        <!-- 20. CTA -->
+        <div class="cta-blok">
+            <h3>🧮 Spočítejte si svou hypotéku</h3>
+            <p>Spočítejte si orientační měsíční splátku a zjistěte, jak výše úvěru, úroková sazba a délka splácení ovlivní celkové náklady.</p>
+            <a href="index.html" class="cta-tlacitko">Spočítat hypotéku →</a>
+        </div>
+
+        <!-- 21. ZPĚT -->
+        <a href="hypoteky.html" class="zpet-odkaz">← Zpět na hypoteční průvodce</a>
+
+    </div>
+
+    <footer class="paticka" style="margin: 0 auto 40px auto;">
+        <p>Finanční Mapa © 2026. Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
+    </footer>
+
+</body>
+</html>
