@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daňové zvýhodnění na děti v roce 2026 – Průvodce výpočtem</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ===== LAYOUT ČLÁNKU ===== */
+        .clanek-kontejner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .clanek-kontejner h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .clanek-podnadpis {
+            font-size: 16px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .clanek-kontejner h2 {
+            font-size: 20px;
+            color: #1a1a2e;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+        .clanek-kontejner h3 {
+            font-size: 16px;
+            color: #4f46e5;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .clanek-kontejner p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 16px;
+        }
+
+        .clanek-kontejner ul, .clanek-kontejner ol {
+            margin: 12px 0 20px 20px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        .clanek-kontejner li {
+            margin-bottom: 8px;
+        }
+
+        .clanek-kontejner table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .clanek-kontejner th {
+            background: #4f46e5;
+            color: #ffffff;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .clanek-kontejner td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+        }
+
+        .clanek-kontejner tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+
+        .clanek-kontejner tr:hover td {
+            background: #eef2ff;
+        }
+
+        /* ===== INFO BLOK ===== */
+        .info-blok {
+            background: #f8fafc;
+            border-left: 4px solid #4f46e5;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .info-blok-aktualnost {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        .info-blok-aktualnost p {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        /* ===== KARTY ===== */
+        .karty-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karty-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karty-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karta-blok {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .karta-blok.dan {
+            border-top: 3px solid #4f46e5;
+        }
+
+        .karta-blok.socialni {
+            border-top: 3px solid #f97316;
+        }
+
+        .karta-blok.zdravotni {
+            border-top: 3px solid #10b981;
+        }
+
+        .karta-blok.cista {
+            border-top: 3px solid #059669;
+        }
+
+        .karta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+        }
+
+        .karta-blok p {
+            margin: 0;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ===== PŘÍKLAD ===== */
+        .priklad-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .priklad-blok h3 {
+            text-align: center;
+            color: #4f46e5;
+            margin: 0 0 20px 0;
+            font-size: 17px;
+        }
+
+        .priklad-parametry {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .priklad-parametr {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-parametr .label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .priklad-parametr .hodnota {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .priklad-vysledky {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-radek {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .priklad-radek + .priklad-radek {
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .priklad-radek .hodnota {
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .priklad-radek .hodnota.vyrazna {
+            color: #4f46e5;
+            font-size: 16px;
+        }
+
+        .priklad-radek .hodnota.zaporna {
+            color: #dc2626;
+        }
+
+        .priklad-poznamka {
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        /* ===== SROVNÁNÍ ===== */
+        .srovnani-blok {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .srovnani-karta {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .srovnani-karta .titulek {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .srovnani-karta .titulek.minimalni { color: #dc2626; }
+        .srovnani-karta .titulek.prumerna { color: #4f46e5; }
+
+        .srovnani-karta .polozka {
+            font-size: 13px;
+            color: #475569;
+            padding: 4px 0;
+        }
+
+        .srovnani-karta .polozka strong {
+            color: #1a1a2e;
+        }
+
+        /* ===== VÝSTRAHA ===== */
+        .varovani-blok {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .varovani-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+            color: #991b1b;
+        }
+
+        /* ===== CHECKLIST ===== */
+        .checklist-blok {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .checklist-blok h3 {
+            color: #166534;
+            text-align: center;
+            margin: 0 0 16px 0;
+        }
+
+        .checklist-polozka {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #334155;
+            line-height: 1.5;
+        }
+
+        .checklist-polozka .check {
+            color: #16a34a;
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* ===== CTA ===== */
+        .cta-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 28px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .cta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: #1a1a2e;
+        }
+
+        .cta-blok p {
+            margin: 0 0 20px 0;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .cta-tlacitko {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #4f46e5;
+            color: #ffffff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .cta-tlacitko:hover {
+            background: #4338ca;
+        }
+
+        /* ===== ZPĚT ===== */
+        .zpet-odkaz {
+            display: inline-block;
+            margin-top: 24px;
+            color: #4f46e5;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .zpet-odkaz:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONZIVITA ===== */
+        @media (max-width: 600px) {
+            .clanek-kontejner h1 {
+                font-size: 22px;
+            }
+
+            .karty-2, .karty-3, .karty-4, .srovnani-blok {
+                grid-template-columns: 1fr;
+            }
+
+            .priklad-parametry {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="pruvodci.html">Průvodci</a>
+    </nav>
+
+    <div class="clanek-kontejner">
+
+        <!-- HLAVIČKA -->
+        <h1>👨‍👩‍👧 Jak fungují daňové slevy a zvýhodnění na děti v roce 2026?</h1>
+
+        <!-- AKTUÁLNOST -->
+        <div class="info-blok-aktualnost">
+            <p><strong>Aktuálnost informací:</strong> Tento průvodce vychází z právního a regulatorního rámce platného v České republice v roce 2026. Částky daňového zvýhodnění, podmínky pro jeho uplatnění a limity pro daňový bonus odpovídají pravidlům platným pro zdaňovací období roku 2026. Individuální nárok se může lišit podle konkrétní rodinné a příjmové situace.</p>
+        </div>
+
+        <!-- ÚVOD -->
+        <h2>Co je daňové zvýhodnění na dítě?</h2>
+        <p>Daňové zvýhodnění je částka, kterou si oprávněný poplatník může uplatnit na vyživované dítě žijící s ním ve společně hospodařící domácnosti.</p>
+        <p>Na rozdíl od běžné daňové slevy může mít daňové zvýhodnění na dítě tři podoby:</p>
+        <ul>
+            <li>slevu na dani,</li>
+            <li>daňový bonus,</li>
+            <li>nebo kombinaci slevy na dani a daňového bonusu.</li>
+        </ul>
+        <p>Nejprve se daňové zvýhodnění použije ke snížení vypočtené daně. Pokud je zvýhodnění vyšší než zbývající daňová povinnost, může rozdíl za splnění zákonných podmínek vzniknout jako daňový bonus.</p>
+
+        <!-- SEKCE: VÝŠE ZVÝHODNĚNÍ -->
+        <h2>Kolik činí daňové zvýhodnění na děti v roce 2026?</h2>
+        <p>Výše daňového zvýhodnění se odvíjí od pořadí dítěte v domácnosti.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Pořadí dítěte</th>
+                    <th>Měsíční částka</th>
+                    <th>Roční částka</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. dítě</strong></td>
+                    <td>1 267 Kč</td>
+                    <td>15 204 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>2. dítě</strong></td>
+                    <td>1 860 Kč</td>
+                    <td>22 320 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>3. a každé další dítě</strong></td>
+                    <td>2 320 Kč</td>
+                    <td>27 840 Kč</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Pokud byl dítěti podle tuzemských právních předpisů přiznán nárok na průkaz ZTP/P, částka daňového zvýhodnění se zdvojnásobuje.</p>
+        <p>U dítěte s průkazem ZTP/P tedy činí:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Pořadí dítěte</th>
+                    <th>Měsíční částka</th>
+                    <th>Roční částka</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. dítě</strong></td>
+                    <td>2 534 Kč</td>
+                    <td>30 408 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>2. dítě</strong></td>
+                    <td>3 720 Kč</td>
+                    <td>44 640 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>3. a každé další dítě</strong></td>
+                    <td>4 640 Kč</td>
+                    <td>55 680 Kč</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- SEKCE: KDO MŮŽE UPLATNIT -->
+        <h2>Kdo může daňové zvýhodnění uplatnit?</h2>
+        <p>Základní podmínkou je, že dítě:</p>
+        <ul>
+            <li>je vyživovaným dítětem podle zákona,</li>
+            <li>žije s poplatníkem ve společně hospodařící domácnosti,</li>
+            <li>a jsou splněny další zákonné podmínky podle věku a postavení dítěte.</li>
+        </ul>
+        <p>Daňové zvýhodnění může za stejný měsíc nebo stejné zdaňovací období uplatnit pouze jeden z oprávněných poplatníků.</p>
+        <p>Pokud tedy oba rodiče žijí se svými dětmi ve společné domácnosti, nemohou si oba současně uplatnit stejné dítě za stejný měsíc.</p>
+
+        <h3>Co znamená společně hospodařící domácnost?</h3>
+        <p>Společně hospodařící domácnost tvoří osoby, které spolu trvale žijí a společně uhrazují náklady na své potřeby.</p>
+        <p>Pro nárok na daňové zvýhodnění je důležité, aby dítě skutečně žilo s poplatníkem ve společně hospodařící domácnosti.</p>
+        <p>Samotné příbuzenství tedy nemusí být jedinou rozhodující podmínkou. Posuzuje se také společné soužití a splnění dalších podmínek stanovených zákonem.</p>
+
+        <!-- SEKCE: POŘADÍ DĚTÍ -->
+        <h2>Jak se určuje pořadí dětí?</h2>
+        <p>Výše daňového zvýhodnění závisí na tom, zda jde o první, druhé, třetí nebo další vyživované dítě.</p>
+        <p>Pokud ve společně hospodařící domácnosti žije více vyživovaných dětí, posuzují se pro účely daňového zvýhodnění společně. Při uplatňování zvýhodnění se proto určuje, které dítě je prvním, druhým, třetím nebo dalším dítětem.</p>
+        <p>Pokud daňové zvýhodnění uplatňuje více oprávněných poplatníků, například oba rodiče, může být důležité, jak si mezi sebou uplatnění jednotlivých dětí rozdělí. Stejné dítě však může za stejný kalendářní měsíc uplatnit pouze jeden z nich.</p>
+        <p>Například u rodiny se třemi dětmi může být při splnění všech zákonných podmínek uplatněno:</p>
+        <ul>
+            <li>1. dítě: 1 267 Kč měsíčně</li>
+            <li>2. dítě: 1 860 Kč měsíčně</li>
+            <li>3. a každé další dítě: 2 320 Kč měsíčně</li>
+        </ul>
+
+        <div class="priklad-blok">
+            <h3>📊 Celkové měsíční zvýhodnění při uplatnění tří dětí</h3>
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>1. + 2. + 3. dítě celkem měsíčně</span>
+                    <span class="hodnota vyrazna"><strong>5 447 Kč</strong></span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Celkem za rok</span>
+                    <span class="hodnota vyrazna"><strong>65 364 Kč</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <p>U rodičů, kteří nežijí ve společné domácnosti a pečují o dítě například ve střídavé péči, je nutné posuzovat konkrétní situaci podle skutečného uspořádání péče a podmínek stanovených zákonem. Stejné dítě však nelze za stejný kalendářní měsíc současně uplatnit u více poplatníků.</p>
+        <p>Rozhodující je, aby stejné dítě nebylo za stejný kalendářní měsíc současně uplatněno více poplatníky a aby byly splněny všechny ostatní zákonné podmínky.</p>
+
+        <!-- SEKCE: NEZLETILÉ A ZLETILÉ DÍTĚ -->
+        <h2>Daňové zvýhodnění na nezletilé dítě</h2>
+        <p>U nezletilého dítěte je základní podmínkou zejména to, že:</p>
+        <ul>
+            <li>je dítě vyživované,</li>
+            <li>žije s poplatníkem ve společně hospodařící domácnosti,</li>
+            <li>a poplatník splňuje ostatní zákonné podmínky pro uplatnění zvýhodnění.</li>
+        </ul>
+        <p>U nezletilého dítěte není pro samotný nárok rozhodující, zda studuje.</p>
+        <p>Například nezletilé dítě může být po ukončení školy evidováno na Úřadu práce. Tato skutečnost sama o sobě automaticky neznamená zánik nároku na daňové zvýhodnění, pokud jsou splněny ostatní zákonné podmínky.</p>
+
+        <h2>Daňové zvýhodnění na zletilé dítě</h2>
+        <p>U zletilého dítěte musí být splněny podmínky pro jeho další posuzování jako vyživovaného dítěte podle zákona. Jednou z typických situací je soustavná příprava na budoucí povolání studiem. Nárok může za splnění zákonných podmínek trvat nejdéle do dosažení věkové hranice stanovené zákonem, zpravidla do 26 let.</p>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> V roce 2026 již neexistuje samostatná daňová sleva na studenta. Studium však může být stále významné pro posouzení nároku na daňové zvýhodnění u zletilého vyživovaného dítěte.</p>
+        </div>
+
+        <!-- SEKCE: DÍTĚ PARTNERA -->
+        <h2>Daňové zvýhodnění na dítě partnera nebo partnerky</h2>
+        <p>Daňové zvýhodnění nelze automaticky uplatnit na dítě druha nebo družky pouze proto, že s poplatníkem žije ve společné domácnosti.</p>
+        <p>To znamená, že osoba žijící s partnerem nebo partnerkou v nesezdaném soužití zpravidla nemůže uplatnit daňové zvýhodnění na dítě svého druha nebo družky jen na základě společného bydlení.</p>
+        <p>Zákon stanovuje, které kategorie dětí se pro účely daňového zvýhodnění považují za vyživované dítě poplatníka.</p>
+
+        <!-- SEKCE: STŘÍDAVÁ PÉČE -->
+        <h2>Daňové zvýhodnění při střídavé péči</h2>
+        <p>U střídavé péče je nutné posuzovat konkrétní situaci.</p>
+        <p>Daňové zvýhodnění na stejné dítě nemohou za stejný kalendářní měsíc současně uplatnit oba rodiče.</p>
+        <p>Pokud se rodiče na uplatňování daňového zvýhodnění dohodnou, je důležité, aby nedošlo k duplicitnímu uplatnění za stejné období.</p>
+        <p>V případech, kdy mezi rodiči dohoda neexistuje a dítě fakticky žije v domácnostech obou rodičů, může být nutné posuzovat konkrétní období a skutečný rozsah péče.</p>
+        <p>U střídavé péče proto nelze vždy použít jednoduché pravidlo typu „jeden rodič liché měsíce a druhý rodič sudé měsíce“. Rozhodující mohou být konkrétní okolnosti případu.</p>
+
+        <!-- SEKCE: ZTP/P -->
+        <h2>Daňové zvýhodnění na dítě s průkazem ZTP/P</h2>
+        <p>Pokud je vyživované dítě držitelem průkazu ZTP/P, částka daňového zvýhodnění se zdvojnásobuje.</p>
+        <p>Výše zvýhodnění v roce 2026:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Pořadí dítěte</th>
+                    <th>Běžná částka</th>
+                    <th>Částka při ZTP/P</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. dítě</strong></td>
+                    <td>1 267 Kč měsíčně</td>
+                    <td>2 534 Kč měsíčně</td>
+                </tr>
+                <tr>
+                    <td><strong>2. dítě</strong></td>
+                    <td>1 860 Kč měsíčně</td>
+                    <td>3 720 Kč měsíčně</td>
+                </tr>
+                <tr>
+                    <td><strong>3. a každé další dítě</strong></td>
+                    <td>2 320 Kč měsíčně</td>
+                    <td>4 640 Kč měsíčně</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Nárok na zdvojnásobení je nutné prokázat příslušným dokladem.</p>
+
+        <!-- SEKCE: DAŇOVÁ SLEVA NA DÍTĚ -->
+        <h2>Jak funguje daňová sleva na dítě?</h2>
+        <p>Daňové zvýhodnění se nejprve použije proti vypočtené dani.</p>
+
+        <div class="priklad-blok">
+            <h3>📊 Příklad – daňová sleva na dítě</h3>
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>Daň před uplatněním zvýhodnění</span>
+                    <span class="hodnota">8 000 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Daňové zvýhodnění na 1 dítě</span>
+                    <span class="hodnota" style="color: #16a34a;">− 1 267 Kč</span>
+                </div>
+                <div class="priklad-radek" style="border-top: 2px solid #4f46e5; margin-top: 4px; padding-top: 12px;">
+                    <span><strong>Daň po uplatnění zvýhodnění</strong></span>
+                    <span class="hodnota vyrazna"><strong>6 733 Kč</strong></span>
+                </div>
+            </div>
+            <p class="priklad-poznamka">V tomto případě celé zvýhodnění využil jako slevu na dani.</p>
+        </div>
+
+        <!-- SEKCE: DAŇOVÝ BONUS -->
+        <h2>Co je daňový bonus?</h2>
+        <p>Daňový bonus vzniká v situaci, kdy je daňové zvýhodnění vyšší než daňová povinnost po uplatnění příslušných slev.</p>
+
+        <div class="priklad-blok">
+            <h3>📊 Příklad – daňový bonus</h3>
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>Daň po uplatnění ostatních slev</span>
+                    <span class="hodnota">1 000 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Daňové zvýhodnění na dvě děti (1 267 + 1 860)</span>
+                    <span class="hodnota">3 127 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Daň se snižuje na nulu</span>
+                    <span class="hodnota" style="color: #16a34a;">− 1 000 Kč</span>
+                </div>
+                <div class="priklad-radek" style="border-top: 2px solid #4f46e5; margin-top: 4px; padding-top: 12px;">
+                    <span><strong>Nárok na daňový bonus</strong></span>
+                    <span class="hodnota vyrazna"><strong>2 127 Kč</strong></span>
+                </div>
+            </div>
+            <p class="priklad-poznamka">Daňový bonus není další sleva. Jedná se o částku, která může být při splnění podmínek vyplacena poplatníkovi.</p>
+        </div>
+
+        <!-- SEKCE: PODMÍNKY PRO DAŇOVÝ BONUS -->
+        <h2>Podmínky pro daňový bonus v roce 2026</h2>
+        <p>Pro nárok na roční daňový bonus musí poplatník splnit zákonné příjmové podmínky.</p>
+        <p>Daňový bonus může poplatník za zdaňovací období uplatnit, pokud měl příjmy podle § 6, § 7, § 8 nebo § 9 zákona o daních z příjmů alespoň ve výši šestinásobku minimální mzdy. Pro rok 2026 tedy nejméně 134 400 Kč. U poplatníka, který má pouze příjmy podle § 9, nesmí výdaje převýšit tyto příjmy.</p>
+        <p>Při minimální mzdě 22 400 Kč v roce 2026 činí roční hranice:</p>
+
+        <div class="info-blok">
+            <p><strong>22 400 × 6 = 134 400 Kč</strong></p>
+        </div>
+
+        <p>Pro roční daňový bonus tedy musí být splněna příjmová hranice nejméně 134 400 Kč za zdaňovací období.</p>
+        <p>U zaměstnanců existuje také podmínka pro měsíční daňový bonus.</p>
+        <p>V roce 2026 musí příjem ze zaměstnání za daný kalendářní měsíc dosáhnout alespoň poloviny minimální mzdy:</p>
+
+        <div class="info-blok">
+            <p><strong>22 400 ÷ 2 = 11 200 Kč</strong></p>
+        </div>
+
+        <p>Pro vyplacení měsíčního daňového bonusu tedy musí měsíční příjem ze zaměstnání dosáhnout alespoň 11 200 Kč.</p>
+        <p>Minimální částka měsíčního daňového bonusu musí činit alespoň 50 Kč.</p>
+        <p>U ročního daňového bonusu musí jeho výše dosáhnout alespoň 100 Kč.</p>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Do příjmových limitů se nezapočítávají všechny příjmy automaticky. Zákon stanovuje, které příjmy se pro posouzení podmínek započítávají a které nikoliv.</p>
+        </div>
+
+        <!-- SEKCE: MODELOVÉ PŘÍKLADY -->
+        <h2>Modelový příklad: Jedno dítě</h2>
+        <p>Zaměstnanec má:</p>
+
+        <div class="priklad-blok">
+            <h3>📊 Výpočet – jedno dítě</h3>
+            <div class="priklad-parametry">
+                <div class="priklad-parametr">
+                    <div class="label">Hrubá mzda</div>
+                    <div class="hodnota">45 000 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Daň po slevě na poplatníka</div>
+                    <div class="hodnota">4 180 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Zvýhodnění na 1. dítě</div>
+                    <div class="hodnota">1 267 Kč</div>
+                </div>
+            </div>
+
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>Daň po slevě na poplatníka</span>
+                    <span class="hodnota">4 180 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Daňové zvýhodnění na 1. dítě</span>
+                    <span class="hodnota" style="color: #16a34a;">− 1 267 Kč</span>
+                </div>
+                <div class="priklad-radek" style="border-top: 2px solid #4f46e5; margin-top: 4px; padding-top: 12px;">
+                    <span><strong>Výsledná daň</strong></span>
+                    <span class="hodnota vyrazna"><strong>2 913 Kč</strong></span>
+                </div>
+            </div>
+            <p class="priklad-poznamka">V tomto případě je celé daňové zvýhodnění využito jako sleva na dani a nevzniká daňový bonus.</p>
+        </div>
+
+        <h2>Modelový příklad: Dvě děti</h2>
+
+        <div class="priklad-blok">
+            <h3>📊 Výpočet – dvě děti</h3>
+            <div class="priklad-parametry">
+                <div class="priklad-parametr">
+                    <div class="label">Daň po slevách</div>
+                    <div class="hodnota">2 000 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Zvýhodnění na 1. dítě</div>
+                    <div class="hodnota">1 267 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Zvýhodnění na 2. dítě</div>
+                    <div class="hodnota">1 860 Kč</div>
+                </div>
+            </div>
+
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>Daňová povinnost po slevách</span>
+                    <span class="hodnota">2 000 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Celkové zvýhodnění (1 267 + 1 860)</span>
+                    <span class="hodnota">3 127 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Daň se snižuje na nulu</span>
+                    <span class="hodnota" style="color: #16a34a;">− 2 000 Kč</span>
+                </div>
+                <div class="priklad-radek" style="border-top: 2px solid #4f46e5; margin-top: 4px; padding-top: 12px;">
+                    <span><strong>Daňový bonus</strong></span>
+                    <span class="hodnota vyrazna"><strong>1 127 Kč</strong></span>
+                </div>
+            </div>
+            <p class="priklad-poznamka">Daň se sníží na nulu a při splnění všech zákonných podmínek může vzniknout nárok na daňový bonus 1 127 Kč.</p>
+        </div>
+
+        <h2>Modelový příklad: Tři děti</h2>
+        <p>Rodina uplatňuje daňové zvýhodnění na tři děti:</p>
+
+        <div class="priklad-blok">
+            <h3>📊 Výpočet – tři děti</h3>
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>1. dítě</span>
+                    <span class="hodnota">1 267 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>2. dítě</span>
+                    <span class="hodnota">1 860 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>3. dítě</span>
+                    <span class="hodnota">2 320 Kč</span>
+                </div>
+                <div class="priklad-radek" style="border-top: 2px solid #4f46e5; margin-top: 4px; padding-top: 12px;">
+                    <span><strong>Celkem měsíčně</strong></span>
+                    <span class="hodnota vyrazna"><strong>5 447 Kč</strong></span>
+                </div>
+                <div class="priklad-radek">
+                    <span><strong>Ročně</strong></span>
+                    <span class="hodnota vyrazna"><strong>65 364 Kč</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <p>Pokud je například třetí dítě držitelem průkazu ZTP/P, jeho měsíční zvýhodnění činí 4 640 Kč.</p>
+
+        <div class="priklad-blok">
+            <h3>📊 Výpočet – tři děti, 3. dítě ZTP/P</h3>
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>1. dítě</span>
+                    <span class="hodnota">1 267 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>2. dítě</span>
+                    <span class="hodnota">1 860 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>3. dítě (ZTP/P)</span>
+                    <span class="hodnota">4 640 Kč</span>
+                </div>
+                <div class="priklad-radek" style="border-top: 2px solid #4f46e5; margin-top: 4px; padding-top: 12px;">
+                    <span><strong>Celkem měsíčně</strong></span>
+                    <span class="hodnota vyrazna"><strong>7 767 Kč</strong></span>
+                </div>
+                <div class="priklad-radek">
+                    <span><strong>Ročně</strong></span>
+                    <span class="hodnota vyrazna"><strong>93 204 Kč</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEKCE: KDY LZE UPLATNIT -->
+        <h2>Kdy lze zvýhodnění uplatnit během roku?</h2>
+        <p>Daňové zvýhodnění se při uplatnění za část zdaňovacího období poskytuje ve výši jedné dvanáctiny roční částky za každý kalendářní měsíc, na jehož počátku byly splněny podmínky pro jeho uplatnění.</p>
+        <p>Nárok může vzniknout například:</p>
+        <ul>
+            <li>v měsíci narození dítěte,</li>
+            <li>v měsíci, kdy dítě začalo splňovat podmínky pro uplatnění,</li>
+            <li>při osvojení dítěte,</li>
+            <li>při převzetí dítěte do péče nahrazující péči rodičů,</li>
+            <li>nebo v dalších situacích stanovených zákonem.</li>
+        </ul>
+        <p>Při měsíčním uplatnění se částka obvykle počítá jako jedna dvanáctina ročního zvýhodnění za každý měsíc, ve kterém byly podmínky splněny.</p>
+
+        <!-- SEKCE: VÍCE DĚTÍ -->
+        <h2>Kdo může zvýhodnění uplatnit při více dětech?</h2>
+        <p>Pokud je v domácnosti více dětí, může být mezi oprávněnými poplatníky důležité rozdělení, kdo které dítě uplatňuje.</p>
+        <p>Například:</p>
+        <ul>
+            <li>Rodič A uplatňuje první dítě.</li>
+            <li>Rodič B uplatňuje druhé dítě.</li>
+        </ul>
+        <p>Při takovém rozdělení je důležité správně určit pořadí dětí a zajistit, aby nedošlo k současnému uplatnění stejného dítěte dvěma osobami za stejný měsíc.</p>
+
+        <!-- SEKCE: U ZAMĚSTNAVATELE -->
+        <h2>Daňové zvýhodnění u zaměstnavatele</h2>
+        <p>Zaměstnanec může daňové zvýhodnění uplatňovat průběžně ve mzdě.</p>
+        <p>Pro uplatnění je nutné splnit příslušné podmínky a zaměstnavateli doložit skutečnosti rozhodné pro vznik nároku.</p>
+        <p>Zaměstnanec může být například povinen doložit:</p>
+        <ul>
+            <li>doklad prokazující údaje o dítěti,</li>
+            <li>doklad o studiu u zletilého dítěte, pokud je relevantní,</li>
+            <li>průkaz ZTP/P, pokud je dítě jeho držitelem,</li>
+            <li>nebo potvrzení druhého poplatníka, že stejné dítě současně neuplatňuje.</li>
+        </ul>
+        <p>Zaměstnanec také uplatňuje nárok prostřednictvím příslušného prohlášení k dani.</p>
+
+        <!-- SEKCE: DAŇOVÉ PŘIZNÁNÍ -->
+        <h2>Daňové zvýhodnění v daňovém přiznání</h2>
+        <p>Pokud poplatník nepoužívá průběžné uplatnění zvýhodnění u zaměstnavatele, může být nárok zohledněn v rámci ročního zúčtování nebo daňového přiznání podle konkrétní situace.</p>
+        <p>U zaměstnanců může zaměstnavatel za splnění podmínek provést roční zúčtování záloh a daňového zvýhodnění.</p>
+        <p>Osoby, které podávají daňové přiznání, uplatňují nárok v rámci tohoto přiznání.</p>
+
+        <!-- SEKCE: NEJČASTĚJŠÍ CHYBY -->
+        <h2>Nejčastější chyby při uplatnění zvýhodnění</h2>
+
+        <div class="varovani-blok">
+            <p><strong>❌ Daňové zvýhodnění uplatňují oba rodiče současně</strong> – Stejné dítě nelze za stejný měsíc současně uplatnit dvakrát.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>❌ Zaměnění daňové slevy a daňového bonusu</strong> – Sleva pouze snižuje daňovou povinnost. Daňový bonus může za splnění podmínek vzniknout tehdy, když je zvýhodnění vyšší než vypočtená daň.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>❌ Automatické uplatnění na dítě partnera</strong> – Dítě druha nebo družky nelze automaticky uplatnit jen proto, že žije ve společné domácnosti s poplatníkem.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>❌ Ignorování pořadí dětí</strong> – Výše zvýhodnění závisí na tom, zda jde o první, druhé, třetí nebo další dítě.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>❌ Zapomenutí na průkaz ZTP/P</strong> – U dítěte s průkazem ZTP/P se daňové zvýhodnění zdvojnásobuje.</p>
+        </div>
+
+        <div class="varovani-blok">
+            <p><strong>❌ Předpoklad, že každé studující dítě automaticky zakládá nárok</strong> – U zletilého dítěte musí být splněny všechny zákonné podmínky. Samotné studium není jedinou podmínkou.</p>
+        </div>
+
+        <!-- CHECKLIST -->
+        <h2>Praktický checklist</h2>
+        <p>Před uplatněním daňového zvýhodnění si zkontrolujte:</p>
+
+        <div class="checklist-blok">
+            <h3>✅ Checklist pro uplatnění daňového zvýhodnění</h3>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span>Žije dítě se mnou ve společně hospodařící domácnosti?</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span>Splňuje dítě podmínky vyživovaného dítěte?</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span>Je správně určeno pořadí dítěte?</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span>Neuplatňuje stejné dítě za stejný měsíc také jiný poplatník?</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span>Je u zletilého dítěte splněna podmínka pro pokračování nároku?</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span>Je doložen průkaz ZTP/P, pokud se na dítě vztahuje?</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span>Splňuji příjmové podmínky pro případný daňový bonus?</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span>Mám u zaměstnavatele podepsané příslušné prohlášení a doložené potřebné dokumenty?</span>
+            </div>
+        </div>
+
+        <!-- SHRNUTÍ -->
+        <h2>Shrnutí částek a limitů pro rok 2026</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Parametr</th>
+                    <th>Hodnota</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Daňové zvýhodnění na 1. dítě</strong></td>
+                    <td>1 267 Kč měsíčně / 15 204 Kč ročně</td>
+                </tr>
+                <tr>
+                    <td><strong>Daňové zvýhodnění na 2. dítě</strong></td>
+                    <td>1 860 Kč měsíčně / 22 320 Kč ročně</td>
+                </tr>
+                <tr>
+                    <td><strong>Daňové zvýhodnění na 3. a každé další dítě</strong></td>
+                    <td>2 320 Kč měsíčně / 27 840 Kč ročně</td>
+                </tr>
+                <tr>
+                    <td><strong>Zvýhodnění u dítěte s průkazem ZTP/P</strong></td>
+                    <td>dvojnásobná částka</td>
+                </tr>
+                <tr>
+                    <td><strong>Minimální měsíční příjem pro měsíční bonus</strong></td>
+                    <td>11 200 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>Minimální roční příjem pro roční bonus</strong></td>
+                    <td>134 400 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>Minimální výše měsíčního bonusu</strong></td>
+                    <td>50 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>Minimální výše ročního bonusu</strong></td>
+                    <td>100 Kč</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-blok">
+            <p><strong>Shrnutí:</strong> Daňové zvýhodnění na děti může výrazně ovlivnit výslednou daňovou povinnost rodiny. Základem je správně určit, kdo může zvýhodnění uplatnit, které dítě se započítává do pořadí a zda jsou splněny podmínky společně hospodařící domácnosti. V roce 2026 zůstávají částky daňového zvýhodnění stejné jako v předchozích letech. Nejčastějšími chybami jsou dvojí uplatnění stejného dítěte, nesprávné určení pořadí dětí a záměna daňové slevy s daňovým bonusem. Pokud si nejste jistí, zda na daňové zvýhodnění máte nárok, je vhodné ověřit konkrétní situaci podle aktuálních pravidel nebo se obrátit na mzdovou účetní či daňového poradce.</p>
+        </div>
+
+        <!-- SEKCE: DALŠÍ UŽITEČNÉ PRŮVODCE -->
+        <h2>Další užitečné průvodce</h2>
+
+        <div class="srovnani-blok">
+            <div class="srovnani-karta">
+                <div class="titulek" style="color: #4f46e5;">🧮 Jak se počítá čistá mzda v roce 2026?</div>
+                <div class="polozka">Kompletní vysvětlení výpočtu čisté mzdy, sociálního a zdravotního pojištění a daně z příjmů.</div>
+                <div style="margin-top: 12px;">
+                    <a href="jak-se-pocita-cista-mzda-2026.html" style="color: #4f46e5; font-weight: 600; font-size: 13px; text-decoration: none;">→ Přejít na průvodce</a>
+                </div>
+            </div>
+            <div class="srovnani-karta">
+                <div class="titulek" style="color: #4f46e5;">💼 Mzda – podrobný výklad</div>
+                <div class="polozka">Vše o složkách mzdy, příplatcích, náhradách a srážkách.</div>
+                <div style="margin-top: 12px;">
+                    <a href="mzda-vysvetlene.html" style="color: #4f46e5; font-weight: 600; font-size: 13px; text-decoration: none;">→ Přejít na průvodce</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-blok">
+            <h3>🧮 Spočítejte si svou čistou mzdu</h3>
+            <p>Použijte naši interaktivní kalkulačku pro výpočet čisté mzdy.</p>
+            <a href="mzda.html" class="cta-tlacitko">Přejít na kalkulačku čisté mzdy →</a>
+        </div>
+
+        <!-- ZPĚT -->
+        <a href="pruvodci.html" class="zpet-odkaz">← Zpět na přehled průvodců</a>
+
+    </div>
+
+    <footer class="paticka" style="margin: 0 auto 40px auto;">
+        <p>Finanční Mapa © 2026. Kalkulačky a průvodce slouží pouze pro orientační účely a nenahrazují odborné finanční či daňové poradenství. Pro přesné posouzení vaší situace doporučujeme konzultaci s daňovým poradcem nebo mzdovou účetní.</p>
+    </footer>
+
+</body>
+</html>
