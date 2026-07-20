@@ -1,0 +1,898 @@
+takhle nemužeme pracovat<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jak se počítá čistá mzda v roce 2026? – Průvodce výpočtem</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ===== LAYOUT ČLÁNKU ===== */
+        .clanek-kontejner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .clanek-kontejner h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .clanek-podnadpis {
+            font-size: 16px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .clanek-kontejner h2 {
+            font-size: 20px;
+            color: #1a1a2e;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+        .clanek-kontejner h3 {
+            font-size: 16px;
+            color: #4f46e5;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .clanek-kontejner p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 16px;
+        }
+
+        .clanek-kontejner ul, .clanek-kontejner ol {
+            margin: 12px 0 20px 20px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        .clanek-kontejner li {
+            margin-bottom: 8px;
+        }
+
+        .clanek-kontejner table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .clanek-kontejner th {
+            background: #4f46e5;
+            color: #ffffff;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .clanek-kontejner td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+        }
+
+        .clanek-kontejner tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+
+        .clanek-kontejner tr:hover td {
+            background: #eef2ff;
+        }
+
+        /* ===== INFO BLOK ===== */
+        .info-blok {
+            background: #f8fafc;
+            border-left: 4px solid #4f46e5;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .info-blok-aktualnost {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        .info-blok-aktualnost p {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        /* ===== KARTY ===== */
+        .karty-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karty-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karty-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karta-blok {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .karta-blok.dan {
+            border-top: 3px solid #4f46e5;
+        }
+
+        .karta-blok.socialni {
+            border-top: 3px solid #f97316;
+        }
+
+        .karta-blok.zdravotni {
+            border-top: 3px solid #10b981;
+        }
+
+        .karta-blok.cista {
+            border-top: 3px solid #059669;
+        }
+
+        .karta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+        }
+
+        .karta-blok p {
+            margin: 0;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ===== PŘÍKLAD ===== */
+        .priklad-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .priklad-blok h3 {
+            text-align: center;
+            color: #4f46e5;
+            margin: 0 0 20px 0;
+            font-size: 17px;
+        }
+
+        .priklad-parametry {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .priklad-parametr {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-parametr .label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .priklad-parametr .hodnota {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .priklad-vysledky {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-radek {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .priklad-radek + .priklad-radek {
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .priklad-radek .hodnota {
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .priklad-radek .hodnota.vyrazna {
+            color: #4f46e5;
+            font-size: 16px;
+        }
+
+        .priklad-radek .hodnota.zaporna {
+            color: #dc2626;
+        }
+
+        .priklad-poznamka {
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        /* ===== SROVNÁNÍ ===== */
+        .srovnani-blok {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .srovnani-karta {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .srovnani-karta .titulek {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .srovnani-karta .titulek.minimalni { color: #dc2626; }
+        .srovnani-karta .titulek.prumerna { color: #4f46e5; }
+
+        .srovnani-karta .polozka {
+            font-size: 13px;
+            color: #475569;
+            padding: 4px 0;
+        }
+
+        .srovnani-karta .polozka strong {
+            color: #1a1a2e;
+        }
+
+        /* ===== VÝSTRAHA ===== */
+        .varovani-blok {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .varovani-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+            color: #991b1b;
+        }
+
+        /* ===== CHECKLIST ===== */
+        .checklist-blok {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .checklist-blok h3 {
+            color: #166534;
+            text-align: center;
+            margin: 0 0 16px 0;
+        }
+
+        .checklist-polozka {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #334155;
+            line-height: 1.5;
+        }
+
+        .checklist-polozka .check {
+            color: #16a34a;
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* ===== CTA ===== */
+        .cta-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 28px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .cta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: #1a1a2e;
+        }
+
+        .cta-blok p {
+            margin: 0 0 20px 0;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .cta-tlacitko {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #4f46e5;
+            color: #ffffff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .cta-tlacitko:hover {
+            background: #4338ca;
+        }
+
+        /* ===== ZPĚT ===== */
+        .zpet-odkaz {
+            display: inline-block;
+            margin-top: 24px;
+            color: #4f46e5;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .zpet-odkaz:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONZIVITA ===== */
+        @media (max-width: 600px) {
+            .clanek-kontejner h1 {
+                font-size: 22px;
+            }
+
+            .karty-2, .karty-3, .karty-4, .srovnani-blok {
+                grid-template-columns: 1fr;
+            }
+
+            .priklad-parametry {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="pruvodci.html">Průvodci</a>
+    </nav>
+
+    <div class="clanek-kontejner">
+
+        <!-- HLAVIČKA -->
+        <h1>🧮 Jak se počítá čistá mzda v roce 2026?</h1>
+        <p class="clanek-podnadpis">Kompletní průvodce výpočtem čisté mzdy – od hrubé mzdy přes srážky na dani a pojištění až po částku, kterou dostanete na účet.</p>
+
+        <!-- AKTUÁLNOST -->
+        <div class="info-blok-aktualnost">
+            <p><strong>Aktuálnost informací:</strong> Tento průvodce vychází z právního a regulatorního rámce platného v České republice v roce 2026. Daňové a pojistné sazby, minimální mzda, rozhodné limity a další parametry odpovídají legislativě účinné k 1. lednu 2026. Individuální situace se může lišit na základě uplatňovaných slev a daňových zvýhodnění.</p>
+        </div>
+
+        <!-- ÚVOD -->
+        <h2>Co je čistá mzda?</h2>
+        <p><strong>Čistá mzda</strong> je částka, kterou zaměstnanec skutečně obdrží na svůj bankovní účet po odečtení všech zákonných srážek. Není to totéž co hrubá mzda – ta je pouze výchozí částkou, ze které se odvádějí:</p>
+        <ul>
+            <li><strong>Daň z příjmů fyzických osob</strong> (15 % nebo 23 % u vyšších příjmů)</li>
+            <li><strong>Sociální pojištění</strong> (7,1 % z hrubé mzdy – z toho 6,5 % důchodové a 0,6 % nemocenské pojištění)</li>
+            <li><strong>Zdravotní pojištění</strong> (4,5 % z hrubé mzdy)</li>
+        </ul>
+        <p>Zaměstnavatel kromě toho odvádí ještě další pojistné (sociální 24,8 % a zdravotní 9 %), které ale nemá vliv na výši vaší čisté mzdy – jde o dodatečné náklady zaměstnavatele.</p>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Výpočet čisté mzdy se může lišit v závislosti na tom, zda uplatňujete daňové slevy (např. na poplatníka, na dítě, na manžela/manželku) nebo daňové zvýhodnění. Níže uvádíme základní výpočet bez slev a poté s uplatněním nejčastějších slev.</p>
+        </div>
+
+        <!-- SEKCE: Z ČEHO SE SKLÁDÁ VÝPOČET -->
+        <h2>Z čeho se skládá výpočet čisté mzdy?</h2>
+        <p>Celý výpočet probíhá v několika krocích. Nejprve se z hrubé mzdy odečte sociální a zdravotní pojištění, čímž vznikne <strong>základ daně</strong>. Z toho se vypočte daň, od které se odečtou slevy. Výsledkem je čistá mzda.</p>
+
+        <div class="karty-4">
+            <div class="karta-blok socialni">
+                <h3>🏛️ Sociální pojištění</h3>
+                <p>7,1 % z hrubé mzdy (zaměstnanec – 6,5 % důchodové + 0,6 % nemocenské). Maximální vyměřovací základ: 2 350 416 Kč ročně.</p>
+            </div>
+            <div class="karta-blok zdravotni">
+                <h3>🏥 Zdravotní pojištění</h3>
+                <p>4,5 % z hrubé mzdy (zaměstnanec). Platí se z celé hrubé mzdy bez omezení.</p>
+            </div>
+            <div class="karta-blok dan">
+                <h3>📄 Daň z příjmů</h3>
+                <p>15 % do 146 901 Kč měsíčně, nad tuto hranici 23 % z částky přesahující limit.</p>
+            </div>
+            <div class="karta-blok cista">
+                <h3>✅ Čistá mzda</h3>
+                <p>Hrubá mzda − sociální − zdravotní − daň (po slevách) = vaše čistá mzda.</p>
+            </div>
+        </div>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Sociální pojištění se neplatí z příjmu přesahujícího maximální vyměřovací základ 2 350 416 Kč ročně (cca 195 868 Kč měsíčně). Od roku 2026 je součástí pojistného i nemocenské pojištění ve výši 0,6 %. Zdravotní pojištění se platí z celé hrubé mzdy bez omezení.</p>
+        </div>
+
+        <!-- SEKCE: MINIMÁLNÍ MZDA -->
+        <h2>Minimální mzda v roce 2026</h2>
+        <p>Od 1. ledna 2026 činí minimální mzda v České republice <strong>22 400 Kč měsíčně</strong> (134,40 Kč za hodinu). Jedná se o nejnižší možnou odměnu za práci, kterou musí zaměstnavatel poskytnout svému zaměstnanci.</p>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Pokud váš zaměstnavatel nabízí mzdu nižší než minimální, dopouští se přestupku. V takovém případě se můžete obrátit na Státní úřad inspekce práce. Výjimka platí pouze pro první stupeň zaručeného platu (viz níže), který je ve státní sféře shodný s minimální mzdou.</p>
+        </div>
+
+        <!-- SEKCE: ZARUČENÝ PLAT -->
+        <h2>Zaručený plat v roce 2026</h2>
+        <p>Od roku 2023 platí zaručený plat <strong>pouze pro zaměstnance ve státním a veřejném sektoru</strong>. Pro soukromý sektor zaručená mzda zrušena – platí zde pouze minimální mzda. Zaručený plat je rozdělen do <strong>4 stupňů</strong> podle složitosti a odpovědnosti vykonávané práce:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Stupeň</th>
+                    <th>Popis prací</th>
+                    <th>Minimální plat (měsíčně)</th>
+                    <th>Minimální plat (hodinově)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. stupeň</strong></td>
+                    <td>Jednoduché a pomocné práce (uklízeč, pomocný dělník)</td>
+                    <td>22 400 Kč</td>
+                    <td>134,40 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>2. stupeň</strong></td>
+                    <td>Středně složité práce (řidič, prodavač, administrativní pracovník)</td>
+                    <td>24 640 Kč</td>
+                    <td>147,80 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>3. stupeň</strong></td>
+                    <td>Složitější odborné práce (účetní, technik, zdravotní sestra)</td>
+                    <td>27 104 Kč</td>
+                    <td>162,60 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>4. stupeň</strong></td>
+                    <td>Nejodbornější a vysoce specializované práce (lékař, vědec, manažer)</td>
+                    <td>29 814 Kč</td>
+                    <td>178,90 Kč</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Zaručený plat se v roce 2026 týká pouze zaměstnanců odměňovaných platem (státní správa, školství, zdravotnictví, územní samosprávné celky). Zaměstnanci v soukromém sektoru odměňovaní mzdou mají zaručenu pouze minimální mzdu.</p>
+        </div>
+
+        <!-- SEKCE: DAŇ Z PŘÍJMŮ -->
+        <h2>Daň z příjmů v roce 2026</h2>
+        <p>Daň z příjmů fyzických osob se vypočítává ze <strong>superhrubé mzdy</strong> – ta se ale v ČR od roku 2021 již nepoužívá. Aktuálně se daň počítá z tzv. <strong>základu daně</strong>, což je hrubá mzda navýšená o pojistné hrazené zaměstnavatelem? Nikoliv – základ daně je dnes přímo <strong>hrubá mzda</strong> (od roku 2021 došlo ke zrušení superhrubé mzdy).</p>
+
+        <h3>Základní sazba daně: 15 %</h3>
+        <p>Až do měsíčního příjmu <strong>146 901 Kč</strong> (ročně 1 762 812 Kč) se uplatňuje základní sazba daně ve výši <strong>15 %</strong>.</p>
+
+        <h3>Vyšší sazba daně: 23 %</h3>
+        <p>Pokud váš měsíční příjem přesáhne <strong>146 901 Kč</strong>, je částka nad tento limit zdaněna sazbou <strong>23 %</strong>. Zbylá část příjmu (do limitu) zůstává zdaněna 15% sazbou.</p>
+
+        <div class="priklad-blok" style="margin-top: 12px;">
+            <h3>📊 Příklad výpočtu daně při nadlimitním příjmu</h3>
+            <p style="text-align: center; font-size: 14px; color: #475569;">Příjem 200 000 Kč měsíčně:</p>
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>Daň 15 % z části do limitu (146 901 Kč)</span>
+                    <span class="hodnota">22 035 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Daň 23 % z části nad limit (53 099 Kč)</span>
+                    <span class="hodnota">12 213 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span><strong>Daň celkem</strong></span>
+                    <span class="hodnota vyrazna"><strong>34 248 Kč</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEKCE: SLEVY NA DANI -->
+        <h2>Daňové slevy a zvýhodnění</h2>
+        <p>Vypočtenou daň si můžete snížit uplatněním daňových slev. Mezi nejčastější patří:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Sleva / zvýhodnění</th>
+                    <th>Měsíční částka</th>
+                    <th>Roční částka</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Sleva na poplatníka</strong> (základní, na každého zaměstnance)</td>
+                    <td>2 570 Kč</td>
+                    <td>30 840 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>Sleva na manžela/manželku</strong> (pouze při péči o dítě do 3 let, ZTP/P nebo příspěvku na péči II.+; bez vlastního příjmu nad 68 000 Kč ročně)</td>
+                    <td>2 070 Kč</td>
+                    <td>24 840 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>Daňové zvýhodnění na 1. dítě</strong></td>
+                    <td>1 267 Kč</td>
+                    <td>15 204 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>Daňové zvýhodnění na 2. dítě</strong></td>
+                    <td>1 867 Kč</td>
+                    <td>22 404 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>Daňové zvýhodnění na 3. a další dítě</strong></td>
+                    <td>3 267 Kč</td>
+                    <td>39 204 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>Sleva na invaliditu 1. a 2. stupně</strong></td>
+                    <td>210 Kč</td>
+                    <td>2 520 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>Sleva na invaliditu 3. stupně</strong></td>
+                    <td>420 Kč</td>
+                    <td>5 040 Kč</td>
+                </tr>
+                <tr>
+                    <td><strong>Sleva pro studenta</strong> (do 26 let / 28 let u doktorského studia)</td>
+                    <td>335 Kč</td>
+                    <td>4 020 Kč</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Daňové slevy lze uplatnit pouze do výše vypočtené daně. Výjimkou je daňové zvýhodnění na dítě, které lze uplatnit i jako daňový bonus (pokud je daň nižší než zvýhodnění, stát rozdíl vyplatí). Pro nárok na daňový bonus musíte mít roční příjem alespoň 134 400 Kč (6násobek minimální mzdy).</p>
+        </div>
+
+        <!-- SEKCE: DPP a DPČ -->
+        <h2>Dohody o provedení práce (DPP) a dohody o pracovní činnosti (DPČ)</h2>
+        <p>Pro rok 2026 platí následující rozhodné limity pro účast na sociálním a zdravotním pojištění u dohod:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Typ dohody</th>
+                    <th>Limit pro účast na pojištění</th>
+                    <th>Poznámka</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>DPP</strong> (Dohoda o provedení práce)</td>
+                    <td><strong>12 000 Kč měsíčně</strong></td>
+                    <td>Do 12 000 Kč se neplatí SP ani ZP. Nad 12 000 Kč se odvádí pojistné standardně.</td>
+                </tr>
+                <tr>
+                    <td><strong>DPČ</strong> (Dohoda o pracovní činnosti)</td>
+                    <td><strong>4 500 Kč měsíčně</strong></td>
+                    <td>Do 4 500 Kč se neplatí SP ani ZP. Nad 4 500 Kč se odvádí pojistné.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-blok">
+            <p><strong>Důležité:</strong> Pokud máte u jednoho zaměstnavatele více dohod (např. dvě DPP), příjmy ze všech dohod se pro posouzení limitu sčítají. Pokud součet přesáhne limit, platí se pojistné ze všech dohod dohromady – nikoliv jen z té, která limit překročila. Toto pravidlo se vztahuje i na případné souběhy DPP a DPČ u stejného zaměstnavatele.</p>
+        </div>
+
+        <!-- MODELOVÝ PŘÍKLAD -->
+        <h2>Modelový příklad: Výpočet čisté mzdy krok za krokem</h2>
+        <p>Podívejme se na konkrétní příklad zaměstnance s hrubou mzdou <strong>45 000 Kč měsíčně</strong>, který uplatňuje slevu na poplatníka a daňové zvýhodnění na 1 dítě.</p>
+
+        <div class="priklad-blok">
+            <h3>📊 Výpočet čisté mzdy – 45 000 Kč hrubého</h3>
+
+            <div class="priklad-parametry">
+                <div class="priklad-parametr">
+                    <div class="label">Hrubá mzda</div>
+                    <div class="hodnota">45 000 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Sleva na poplatníka</div>
+                    <div class="hodnota">2 570 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Daňové zvýhodnění na 1. dítě</div>
+                    <div class="hodnota">1 267 Kč</div>
+                </div>
+            </div>
+
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>Hrubá mzda</span>
+                    <span class="hodnota">45 000 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Sociální pojištění (7,1 %)</span>
+                    <span class="hodnota zaporna">− 3 195 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Zdravotní pojištění (4,5 %)</span>
+                    <span class="hodnota zaporna">− 2 025 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Základ daně (hrubá mzda)</span>
+                    <span class="hodnota">45 000 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Daň 15 % (45 000 × 0,15)</span>
+                    <span class="hodnota">6 750 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Sleva na poplatníka</span>
+                    <span class="hodnota" style="color: #16a34a;">+ 2 570 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Daň po slevě na poplatníka</span>
+                    <span class="hodnota">4 180 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Daňové zvýhodnění na 1. dítě</span>
+                    <span class="hodnota" style="color: #16a34a;">+ 1 267 Kč</span>
+                </div>
+                <div class="priklad-radek" style="border-top: 2px solid #4f46e5; margin-top: 4px; padding-top: 12px;">
+                    <span><strong>Daň celkem po slevách</strong></span>
+                    <span class="hodnota">2 913 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span style="font-weight: 700; color: #1a1a2e;">Čistá mzda</span>
+                    <span class="hodnota vyrazna" style="font-size: 18px;"><strong>36 867 Kč</strong></span>
+                </div>
+            </div>
+
+            <p class="priklad-poznamka">Výpočet je orientační. Skutečná čistá mzda se může lišit v závislosti na uplatňovaných slevách, případném penzijním či životním pojištění hrazeném zaměstnavatelem a dalších faktorech.</p>
+        </div>
+
+        <!-- SROVNÁNÍ -->
+        <h2>Srovnání: Minimální mzda vs. průměrná mzda</h2>
+        <p>Podívejme se na rozdíl v čisté mzdě při minimální a průměrné mzdě (pro ilustraci uvažujeme průměrnou mzdu cca 46 000 Kč). V obou případech uplatňujeme pouze základní slevu na poplatníka.</p>
+
+        <div class="srovnani-blok">
+            <div class="srovnani-karta">
+                <div class="titulek minimalni">MINIMÁLNÍ MZDA</div>
+                <div class="polozka">Hrubá: <strong>22 400 Kč</strong></div>
+                <div class="polozka">Sociální pojištění (7,1 %): <strong>− 1 590 Kč</strong></div>
+                <div class="polozka">Zdravotní pojištění: <strong>− 1 008 Kč</strong></div>
+                <div class="polozka">Daň 15 %: <strong>3 360 Kč</strong></div>
+                <div class="polozka">Sleva na poplatníka: <strong>− 2 570 Kč</strong></div>
+                <div class="polozka" style="border-top: 1px solid #e2e8f0; margin-top: 8px; padding-top: 8px;">
+                    <span style="font-size: 16px; font-weight: 700;">Čistá: 19 012 Kč</span>
+                </div>
+            </div>
+            <div class="srovnani-karta">
+                <div class="titulek prumerna">PRŮMĚRNÁ MZDA</div>
+                <div class="polozka">Hrubá: <strong>46 000 Kč</strong></div>
+                <div class="polozka">Sociální pojištění (7,1 %): <strong>− 3 266 Kč</strong></div>
+                <div class="polozka">Zdravotní pojištění: <strong>− 2 070 Kč</strong></div>
+                <div class="polozka">Daň 15 %: <strong>6 900 Kč</strong></div>
+                <div class="polozka">Sleva na poplatníka: <strong>− 2 570 Kč</strong></div>
+                <div class="polozka" style="border-top: 1px solid #e2e8f0; margin-top: 8px; padding-top: 8px;">
+                    <span style="font-size: 16px; font-weight: 700;">Čistá: 36 334 Kč</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-blok">
+            <p><strong>Závěr:</strong> Rozdíl v hrubé mzdě je 23 600 Kč, ale v čisté mzdě pouze 17 322 Kč. Je to způsobeno progresivním zdaněním a odvody – s rostoucí hrubou mzdou rostou i odvody, což zmírňuje rozdíly v čistém příjmu.</p>
+        </div>
+
+        <!-- PRAKTICKÝ CHECKLIST -->
+        <h2>Praktický checklist pro výpočet čisté mzdy</h2>
+        <p>Při kontrole své výplatní pásky nebo při plánování příjmů vám pomůže následující kontrolní seznam:</p>
+
+        <div class="checklist-blok">
+            <h3>✅ Checklist: Co zkontrolovat při výpočtu čisté mzdy</h3>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span><strong>Zjistěte svou hrubou mzdu</strong> – ta je základem všech výpočtů. Uveďte ji včetně případných odměn a příplatků.</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span><strong>Odečtěte sociální pojištění (7,1 %)</strong> – od roku 2026 je součástí i nemocenské pojištění 0,6 %. Pozor na maximální vyměřovací základ 2 350 416 Kč ročně.</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span><strong>Odečtěte zdravotní pojištění (4,5 %)</strong> – platí se z celé hrubé mzdy bez omezení.</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span><strong>Vypočítejte daň z příjmů</strong> – 15 % ze základu daně (do 146 901 Kč měsíčně), nad touto hranicí 23 % z přesahující části.</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span><strong>Uplatněte daňové slevy</strong> – zejména slevu na poplatníka (2 570 Kč měsíčně), případně další slevy, na které máte nárok.</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span><strong>Uplatněte daňové zvýhodnění na děti</strong> – pokud máte děti, nezapomeňte uplatnit slevu. Můžete získat až 3 267 Kč měsíčně na třetí a další dítě.</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span><strong>Výslednou daň odečtěte od hrubé mzdy</strong> (spolu s pojistným) – výsledek je vaše čistá mzda.</span>
+            </div>
+        </div>
+
+        <div class="info-blok">
+            <p><strong>Doporučení:</strong> Pokud si nejste jisti správností výpočtu, použijte výše uvedenou kalkulačku nebo se obraťte na mzdovou účetní. Slevy a zvýhodnění, na které máte nárok, je nutné doložit – zaměstnavatel je nemůže uplatnit automaticky bez vašeho podpisu (Prohlášení poplatníka daně z příjmů).</p>
+        </div>
+
+        <!-- SHRNUTÍ -->
+        <h2>Shrnutí právního rámce pro rok 2026</h2>
+        <p>Zde jsou nejdůležitější parametry a pravidla, která platí pro výpočet čisté mzdy v roce 2026:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Parametr</th>
+                    <th>Hodnota / limit pro rok 2026</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Minimální mzda</strong></td>
+                    <td>22 400 Kč měsíčně / 134,40 Kč za hodinu</td>
+                </tr>
+                <tr>
+                    <td><strong>Zaručený plat (veřejný sektor)</strong></td>
+                    <td>4 stupně: 22 400 / 24 640 / 27 104 / 29 814 Kč měsíčně</td>
+                </tr>
+                <tr>
+                    <td><strong>Sazba sociálního pojištění (zaměstnanec)</strong></td>
+                    <td>7,1 % (6,5 % důchodové + 0,6 % nemocenské)</td>
+                </tr>
+                <tr>
+                    <td><strong>Max. vyměřovací základ (soc. pojištění)</strong></td>
+                    <td>2 350 416 Kč ročně</td>
+                </tr>
+                <tr>
+                    <td><strong>Sazba zdravotního pojištění (zaměstnanec)</strong></td>
+                    <td>4,5 %</td>
+                </tr>
+                <tr>
+                    <td><strong>Základní sazba daně</strong></td>
+                    <td>15 %</td>
+                </tr>
+                <tr>
+                    <td><strong>Vyšší sazba daně</strong></td>
+                    <td>23 % pro příjem nad 146 901 Kč měsíčně (1 762 812 Kč ročně)</td>
+                </tr>
+                <tr>
+                    <td><strong>DPP – limit pro pojistné</strong></td>
+                    <td>12 000 Kč měsíčně</td>
+                </tr>
+                <tr>
+                    <td><strong>DPČ – limit pro pojistné</strong></td>
+                    <td>4 500 Kč měsíčně</td>
+                </tr>
+                <tr>
+                    <td><strong>Sleva na poplatníka</strong></td>
+                    <td>2 570 Kč měsíčně (30 840 Kč ročně)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-blok">
+            <p><strong>Shrnutí:</strong> Výpočet čisté mzdy v roce 2026 vychází z hrubé mzdy, od které se odečte sociální pojištění (7,1 % z hrubé mzdy, max. do 2 350 416 Kč ročně), zdravotní pojištění (4,5 % z hrubé mzdy bez omezení) a daň z příjmů (15 %, resp. 23 % nad limitem). Po uplatnění daňových slev získáte čistou mzdu. Nezapomeňte, že hlavní slevy (zejména na poplatníka) se uplatňují až na základě vámi podepsaného Prohlášení poplatníka daně z příjmů.</p>
+        </div>
+
+        <!-- SEKCE: DALŠÍ UŽITEČNÉ PRŮVODCE -->
+        <h2>Další užitečné průvodce</h2>
+        <p>Pokud vás téma mezd a odvodů zajímá podrobněji, doporučujeme tyto související průvodce:</p>
+
+        <div class="srovnani-blok">
+            <div class="srovnani-karta">
+                <div class="titulek" style="color: #4f46e5;">🧾 Mzda – podrobný výklad</div>
+                <div class="polozka">Vše o složkách mzdy, příplatcích, náhradách a srážkách.</div>
+                <div style="margin-top: 12px;">
+                    <a href="mzda-vysvetlene.html" style="color: #4f46e5; font-weight: 600; font-size: 13px; text-decoration: none;">→ Přejít na průvodce</a>
+                </div>
+            </div>
+            <div class="srovnani-karta">
+                <div class="titulek" style="color: #4f46e5;">💼 Daňový systém pro začátečníky</div>
+                <div class="polozka">Jak funguje daň z příjmů, slevy a daňové přiznání.</div>
+                <div style="margin-top: 12px;">
+                    <a href="pruvodci.html" style="color: #4f46e5; font-weight: 600; font-size: 13px; text-decoration: none;">→ Všechny průvodce</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-blok">
+            <h3>🧮 Spočítejte si svou čistou mzdu</h3>
+            <p>Použijte naši interaktivní kalkulačku pro výpočet čisté mzdy. Zadejte hrubou mzdu, vyberte slevy a zvýhodnění a ihned uvidíte výsledek.</p>
+            <a href="mzda.html" class="cta-tlacitko">Přejít na kalkulačku čisté mzdy →</a>
+        </div>
+
+        <!-- ZPĚT -->
+        <a href="pruvodci.html" class="zpet-odkaz">← Zpět na přehled průvodců</a>
+
+    </div>
+
+    <footer class="paticka" style="margin: 0 auto 40px auto;">
+        <p>Finanční Mapa © 2026. Kalkulačky a průvodce slouží pouze pro orientační účely a nenahrazují odborné finanční či daňové poradenství. Pro přesné posouzení vaší situace doporučujeme konzultaci s daňovým poradcem nebo mzdovou účetní.</p>
+    </footer>
+
+</body>
+</html>
