@@ -69,10 +69,6 @@
         <!-- Hlavní výsledek (Standard) -->
         <h2 id="vysledek"></h2>
         <div id="detaily" class="detaily"></div>
-        <!-- Vloženo v index.html pod fialový blok s ID "vysledek" -->
-        <div style="text-align: center; margin-top: 20px;">
-            <button id="export-pdf" style="padding: 10px 20px; background-color: #64748b; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Stáhnout PDF</button>
-        </div>
 
         <!-- Blok mimořádné splátky (Srovnání) -->
         <div id="blokSrovnani" style="display: none;">
@@ -82,7 +78,40 @@
             <p id="vysledekMimo"></p>
             <p id="vysledekUspora"></p>
         </div>
-        <h2 style="text-align: center; margin-top: 20px;">📊 Rozložení nákladů hypotéky</h2>
+
+        <!-- 📊 Podrobný přehled hypotéky -->
+        <div style="margin-top: 32px; border-top: 2px solid #e0e7ff; padding-top: 24px;">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #1a1a2e;">📊 Podrobný přehled hypotéky</h2>
+            
+            <!-- Tlačítka pro PDF a amortizační plán -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button id="export-pdf" style="padding: 12px 28px; background-color: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; margin-right: 10px;">
+                    📥 Stáhnout PDF
+                </button>
+                <button id="tlacitko-tabulka" style="padding: 12px 28px; background-color: white; color: #4f46e5; border: 2px solid #4f46e5; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px;">
+                    📊 Zobrazit amortizační plán
+                </button>
+            </div>
+
+            <!-- Amortizační tabulka (skrytá) -->
+            <div id="obal-tabulky" style="display: none; overflow-x: auto; margin-top: 20px;">
+                <table id="amortizacni-tabulka" style="width: 100%; border-collapse: collapse; font-size: 14px; box-shadow: 0 4px 20px rgba(0,0,0,.08); border-radius: 8px; overflow: hidden;">
+                    <thead>
+                        <tr style="background: #4f46e5; color: white;">
+                            <th style="padding: 12px; text-align: left; border-radius: 8px 0 0 0;">Rok</th>
+                            <th style="padding: 12px; text-align: right;">Splátka jistiny</th>
+                            <th style="padding: 12px; text-align: right;">Zaplacené úroky</th>
+                            <th style="padding: 12px; text-align: right; border-radius: 0 8px 0 0;">Zůstatek</th>
+                        </tr>
+                    </thead>
+                    <tbody id="amortizacni-telo">
+                        <!-- Data budou vložena dynamicky -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; margin-top: 32px;">📊 Rozložení nákladů hypotéky</h2>
         <canvas id="graf" width="400" height="300"></canvas>
         <div id="pdf-graf" style="display:none;"></div>
 

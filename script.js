@@ -7,14 +7,6 @@
     var s2 = document.createElement("script"); s2.src = chartUrl;
     s2.onload = function() { window.ChartJsPripraven = true; var tlacitko = document.getElementById("vypocitat"); if (tlacitko) tlacitko.click(); };
     document.head.appendChild(s2);
-
-    var jspdfUrl = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/4.0.0/jspdf.umd.min.js";
-    var s3 = document.createElement("script"); s3.src = jspdfUrl;
-    document.head.appendChild(s3);
-
-    var autoTableUrl = "https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js";
-    var s4 = document.createElement("script"); s4.src = autoTableUrl;
-    document.head.appendChild(s4);
 })();
 
 // Globální proměnná pro sdílení dat
@@ -233,10 +225,43 @@ window.addEventListener("DOMContentLoaded", function() {
             blokSrovnani.style.display = 'none';
             aktualujGraf(castka, celkemUrokyBez);
         }
+        
+        // Vykreslit amortizační plán po každém výpočtu
+        vykresliAmortizacniPlan();
     }
 
     function aktualujGraf(jistina, uroky) {
         if (typeof aktualizujGraf === 'function') aktualizujGraf(jistina, uroky);
+    }
+
+    // Funkce pro vykreslení amortizačního plánu do HTML tabulky
+    function vykresliAmortizacniPlan() {
+        const tbody = document.getElementById("amortizacni-telo");
+        if (!tbody) return;
+        
+        // Vyčistit tabulku
+        tbody.innerHTML = "";
+        
+        // Pokud je amortizacniPlan prázdný, nevykresluj nic
+        if (!amortizacniPlan || amortizacniPlan.length === 0) {
+            return;
+        }
+        
+        // Vyplnit tabulku daty
+        amortizacniPlan.forEach((radek, index) => {
+            const tr = document.createElement("tr");
+            tr.style.background = index % 2 === 0 ? "#ffffff" : "#f8fafc";
+            tr.style.borderBottom = "1px solid #e2e8f0";
+            
+            tr.innerHTML = `
+                <td style="padding: 10px 12px; text-align: left; color: #334155;">${radek.rok}</td>
+                <td style="padding: 10px 12px; text-align: right; color: #334155;">${radek.splatkaJistiny}</td>
+                <td style="padding: 10px 12px; text-align: right; color: #334155;">${radek.zaplaceneUroky}</td>
+                <td style="padding: 10px 12px; text-align: right; color: #334155; font-weight: 600;">${radek.zustatek}</td>
+            `;
+            
+            tbody.appendChild(tr);
+        });
     }
 
     document.getElementById("vypocitat").addEventListener("click", function() {
@@ -272,6 +297,13 @@ window.addEventListener("DOMContentLoaded", function() {
     document.getElementById("export-pdf").addEventListener("click", function() {
     // Zajistí výpočet a vytvoření amortizačního plánu před exportem PDF
         vypocitat();
+        
+        // Kontrola dostupnosti knihoven
+        if (!window.jspdf || !window.jspdf.jsPDF) {
+            alert('PDF knihovny nejsou načteny. Zkuste obnovit stránku.');
+            return;
+        }
+        
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
         doc.addFont('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf', 'Roboto', 'normal');
