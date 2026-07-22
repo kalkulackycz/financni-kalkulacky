@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jak se počítá náhrada mzdy za dovolenou v roce 2026? – Průvodce výpočtem</title>
+    <meta name="description" content="Jak se počítá náhrada mzdy za dovolenou v roce 2026? Kompletní průvodce výpočtem průměrného výdělku a náhrady za čerpání dovolené.">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ===== LAYOUT ČLÁNKU ===== */
+        .clanek-kontejner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .clanek-kontejner h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .clanek-podnadpis {
+            font-size: 16px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .clanek-kontejner h2 {
+            font-size: 20px;
+            color: #1a1a2e;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+        .clanek-kontejner h3 {
+            font-size: 16px;
+            color: #4f46e5;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .clanek-kontejner p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 16px;
+        }
+
+        .clanek-kontejner ul, .clanek-kontejner ol {
+            margin: 12px 0 20px 20px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        .clanek-kontejner li {
+            margin-bottom: 8px;
+        }
+
+        .clanek-kontejner table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .clanek-kontejner th {
+            background: #4f46e5;
+            color: #ffffff;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .clanek-kontejner td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+        }
+
+        .clanek-kontejner tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+
+        .clanek-kontejner tr:hover td {
+            background: #eef2ff;
+        }
+
+        /* ===== INFO BLOK ===== */
+        .info-blok {
+            background: #f8fafc;
+            border-left: 4px solid #4f46e5;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .info-blok-aktualnost {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        .info-blok-aktualnost p {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        /* ===== KARTY ===== */
+        .karty-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karty-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karty-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .karta-blok {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .karta-blok.dan {
+            border-top: 3px solid #4f46e5;
+        }
+
+        .karta-blok.socialni {
+            border-top: 3px solid #f97316;
+        }
+
+        .karta-blok.zdravotni {
+            border-top: 3px solid #10b981;
+        }
+
+        .karta-blok.cista {
+            border-top: 3px solid #059669;
+        }
+
+        .karta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+        }
+
+        .karta-blok p {
+            margin: 0;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ===== PŘÍKLAD ===== */
+        .priklad-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .priklad-blok h3 {
+            text-align: center;
+            color: #4f46e5;
+            margin: 0 0 20px 0;
+            font-size: 17px;
+        }
+
+        .priklad-parametry {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .priklad-parametr {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-parametr .label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .priklad-parametr .hodnota {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-top: 4px;
+        }
+
+        .priklad-vysledky {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .priklad-radek {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .priklad-radek + .priklad-radek {
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .priklad-radek .hodnota {
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .priklad-radek .hodnota.vyrazna {
+            color: #4f46e5;
+            font-size: 16px;
+        }
+
+        .priklad-radek .hodnota.zaporna {
+            color: #dc2626;
+        }
+
+        .priklad-poznamka {
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        /* ===== SROVNÁNÍ ===== */
+        .srovnani-blok {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .srovnani-karta {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .srovnani-karta .titulek {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .srovnani-karta .titulek.minimalni { color: #dc2626; }
+        .srovnani-karta .titulek.prumerna { color: #4f46e5; }
+
+        .srovnani-karta .polozka {
+            font-size: 13px;
+            color: #475569;
+            padding: 4px 0;
+        }
+
+        .srovnani-karta .polozka strong {
+            color: #1a1a2e;
+        }
+
+        /* ===== VÝSTRAHA ===== */
+        .varovani-blok {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .varovani-blok p {
+            margin-bottom: 0;
+            font-size: 14px;
+            color: #991b1b;
+        }
+
+        /* ===== CHECKLIST ===== */
+        .checklist-blok {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .checklist-blok h3 {
+            color: #166534;
+            text-align: center;
+            margin: 0 0 16px 0;
+        }
+
+        .checklist-polozka {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #334155;
+            line-height: 1.5;
+        }
+
+        .checklist-polozka .check {
+            color: #16a34a;
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* ===== CTA ===== */
+        .cta-blok {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 28px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .cta-blok h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: #1a1a2e;
+        }
+
+        .cta-blok p {
+            margin: 0 0 20px 0;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .cta-tlacitko {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #4f46e5;
+            color: #ffffff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .cta-tlacitko:hover {
+            background: #4338ca;
+        }
+
+        /* ===== ZPĚT ===== */
+        .zpet-odkaz {
+            display: inline-block;
+            margin-top: 24px;
+            color: #4f46e5;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .zpet-odkaz:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONZIVITA ===== */
+        @media (max-width: 600px) {
+            .clanek-kontejner h1 {
+                font-size: 22px;
+            }
+
+            .karty-2, .karty-3, .karty-4, .srovnani-blok {
+                grid-template-columns: 1fr;
+            }
+
+            .priklad-parametry {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="pruvodci.html">Průvodci</a>
+    </nav>
+
+    <div class="clanek-kontejner">
+
+        <!-- HLAVIČKA -->
+        <h1>🧮 Jak se počítá náhrada mzdy za dovolenou v roce 2026?</h1>
+        <p class="clanek-podnadpis">Kompletní průvodce výpočtem průměrného výdělku a náhrady mzdy za čerpání dovolené v roce 2026.</p>
+
+        <!-- AKTUÁLNOST -->
+        <div class="info-blok-aktualnost">
+            <p><strong>Aktuálnost informací:</strong> Tento průvodce vychází z právního a regulatorního rámce platného v České republice v roce 2026. Konkrétní podmínky se mohou lišit podle poskytovatele, konkrétní smlouvy a aktuálně platné legislativy. Před finančním rozhodnutím si vždy ověřte aktuální podmínky.</p>
+        </div>
+
+        <!-- ÚVOD -->
+        <h2>Úvod do výpočtu náhrady mzdy za dovolenou v roce 2026</h2>
+        <p>Když zaměstnanec v České republice čerpá řádnou dovolenou, nepřichází o své peníze. Zákoník práce (zákon č. 262/2006 Sb.) garantuje, že za dobu čerpání dovolené přísluší zaměstnanci náhrada mzdy ve výši průměrného výdělku. Správný výpočet této náhrady je klíčový pro mzdové účetní i samotné zaměstnance, kteří chtějí mít jistotu, že dostávají spravedlivou odměnu za svůj zákonný nárok na odpočinek.</p>
+        <p>Výpočet náhrady mzdy se opírá o údaje z předchozího kalendářního čtvrtletí a zohledňuje celkový hrubý výdělek i skutečně odpracovanou dobu.</p>
+
+        <!-- SEKCE: ZÁKLADNÍ PRINCIPY -->
+        <h2>Základní principy a legislativní rámec</h2>
+        <p>Náhrada mzdy za dovolenou se odvíjí od takzvaného <strong>průměrného výdělku pro pracovněprávní účely</strong>. Tento průměr se zjišťuje vždy k prvnímu dni kalendářního čtvrtletí (tedy k 1. lednu, 1. dubnu, 1. červenci a 1. říjnu) za předchozí kalendářní čtvrtletí.</p>
+        <ul>
+            <li><strong>Rozhodné období:</strong> Předchozí kalendářní čtvrtletí (např. pro dovolenou čerpanou v květnu 2026 je rozhodným obdobím 1. čtvrtletí roku 2026, tedy leden až březen).</li>
+            <li><strong>Hrubá mzda:</strong> Do výpočtu se zahrnují veškeré složky mzdy splatné v daném rozhodném období (základní mzda, prémie, odměny, příplatky za přesčasy či svátky).</li>
+            <li><strong>Odpracovaná doba:</strong> Počítají se odpracované hodiny v rozhodném období, a to včetně odpracovaných hodin přesčas. Do odpracované doby se naopak nezapočítává zameškaná doba (např. nemocenská, ošetřovné nebo dřívější čerpání dovolené).</li>
+        </ul>
+
+        <!-- SEKCE: POSTUP VÝPOČTU -->
+        <h2>Postup výpočtu krok za krokem</h2>
+        <p>Výpočet probíhá ve dvou hlavních krocích: nejprve se stanoví hodinový průměrný výdělek a následně se vynásobí počtem hodin dovolené, které zaměstnanec vyčerpal.</p>
+        <ol>
+            <li><strong>Součet hrubých mezd:</strong> Sečtou se všechny hrubé mzdy a platy zúčtované zaměstnanci k výplatě v rozhodném čtvrtletí.</li>
+            <li><strong>Součet odpracovaných hodin:</strong> Sečtou se všechny hodiny, které zaměstnanec v tomto čtvrtletí skutečně odpracoval.</li>
+            <li><strong>Výpočet hodinového průměru:</strong> Celková hrubá mzda se vydělí celkovým počtem odpracovaných hodin. Výsledek se zaokrouhluje na dvě desetinná místa nahoru.</li>
+            <li><strong>Výpočet náhrady za dovolenou:</strong> Zjištěný hodinový průměrný výdělek se vynásobí počtem hodin, po které zaměstnanec dovolenou čerpal.</li>
+        </ol>
+
+        <!-- MODELOVÝ PŘÍKLAD -->
+        <h2>Modelový příklad výpočtu</h2>
+
+        <div class="priklad-blok">
+            <h3>📊 Výpočet náhrady mzdy za dovolenou</h3>
+
+            <div class="priklad-parametry">
+                <div class="priklad-parametr">
+                    <div class="label">Rozhodné období</div>
+                    <div class="hodnota">1. čtvrtletí 2026</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Celková hrubá mzda</div>
+                    <div class="hodnota">120 000 Kč</div>
+                </div>
+                <div class="priklad-parametr">
+                    <div class="label">Odpracovaná doba</div>
+                    <div class="hodnota">500 hodin</div>
+                </div>
+            </div>
+
+            <div class="priklad-vysledky">
+                <div class="priklad-radek">
+                    <span>Rozhodné období (1. čtvrtletí 2026)</span>
+                    <span class="hodnota">Leden až březen 2026</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Celková hrubá mzda za rozhodné období</span>
+                    <span class="hodnota">120 000 Kč</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Celková odpracovaná doba v rozhodném období</span>
+                    <span class="hodnota">500 hodin</span>
+                </div>
+                <div class="priklad-radek">
+                    <span>Hodinový průměrný výdělek</span>
+                    <span class="hodnota">240,00 Kč (120 000 Kč / 500 hodin)</span>
+                </div>
+                <div class="priklad-radek" style="border-top: 2px solid #4f46e5; margin-top: 4px; padding-top: 12px;">
+                    <span style="font-weight: 700; color: #1a1a2e;">Náhrada za 40 hodin čerpané dovolené</span>
+                    <span class="hodnota vyrazna" style="font-size: 18px;"><strong>9 600 Kč</strong></span>
+                </div>
+            </div>
+
+            <p class="priklad-poznamka">Výpočet je orientační. Skutečná náhrada mzdy se může lišit podle konkrétní pracovní situace a přesných údajů z rozhodného období.</p>
+        </div>
+
+        <!-- SHRNUTÍ -->
+        <h2>Shrnutí: 5 bodů, co si zapamatovat</h2>
+
+        <div class="checklist-blok">
+            <h3>✅ Co si zapamatovat o náhradě mzdy za dovolenou</h3>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span>Za dobu čerpání dovolené přísluší zaměstnanci náhrada ve výši <strong>průměrného výdělku</strong>.</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span>Rozhodným obdobím pro výpočet je <strong>předchozí kalendářní čtvrtletí</strong>.</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span>Do výpočtu vstupuje <strong>celková hrubá mzda</strong> a <strong>skutečně odpracované hodiny</strong> (včetně přesčasů).</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span>Hodinový průměr se zaokrouhluje <strong>na dvě desetinná místa nahoru</strong>.</span>
+            </div>
+
+            <div class="checklist-polozka">
+                <span class="check">✓</span>
+                <span>Tento výpočet se uplatňuje u zaměstnanců v pracovním poměru i u zaměstnanců na dohodu o provedení práce (DPP) nebo dohodu o pracovní činnosti (DPČ), pokud splní zákonné podmínky pro vznik nároku na dovolenou – trvání dohody v kalendářním roce alespoň 4 týdny (souvisle) a odpracování minimálně 80 hodin. Pro výpočet se u dohod vychází z fiktivní týdenní pracovní doby (standardně 20 hodin týdně) a výpočet probíhá obdobně jako u klasického pracovního poměru pomocí průměrného výdělku.</span>
+            </div>
+        </div>
+
+        <div class="info-blok">
+            <p><strong>Doporučení:</strong> Pro orientační výpočet vaší mzdy a odvodů můžete využít kalkulačku <strong>čistá mzda</strong> na webu Finanční mapa.</p>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-blok">
+            <h3>🧮 Spočítejte si svou čistou mzdu</h3>
+            <p>Použijte naši interaktivní kalkulačku pro výpočet čisté mzdy. Zadejte hrubou mzdu, vyberte slevy a zvýhodnění a ihned uvidíte výsledek.</p>
+            <a href="mzda.html" class="cta-tlacitko">Přejít na kalkulačku čisté mzdy →</a>
+        </div>
+
+        <!-- PRÁVNÍ DOLOŽKA -->
+        <div class="info-blok">
+            <p><strong>Tento článek má pouze informativní charakter</strong> a nepředstavuje finanční, daňové ani právní poradenství. Autoři vynakládají maximální úsilí na aktuálnost a správnost uvedených údajů, přesto se legislativa i tržní podmínky mohou v čase měnit. Kalkulačky a texty na webu Finanční mapa slouží jako orientační pomůcka – pro konkrétní rozhodnutí vždy doporučujeme konzultaci s finančním poradcem, bankou nebo daňovým specialistou.</p>
+        </div>
+
+        <!-- ZPĚT -->
+        <a href="pruvodci.html" class="zpet-odkaz">← Zpět na přehled průvodců</a>
+
+    </div>
+
+    <footer class="paticka" style="margin: 0 auto 40px auto;">
+        <p>Finanční Mapa © 2026. Kalkulačky a průvodci slouží pouze pro orientační účely a nenahrazují odborné finanční či daňové poradenství. Pro přesné posouzení vaší situace doporučujeme konzultaci s daňovým poradcem nebo mzdovou účetní.</p>
+    </footer>
+
+</body>
+</html>
