@@ -293,8 +293,50 @@ window.addEventListener("DOMContentLoaded", function() {
         vypocitat();
     });
 
+    // Pomocná funkce: stáhne font (TTF) a převede jej na base64 pro jsPDF VFS
+    async function nactiFontJakoBase64(url) {
+        const odpoved = await fetch(url);
+        const buffer = await odpoved.arrayBuffer();
+        const bytes = new Uint8Array(buffer);
+        let binary = "";
+        const kus = 0x8000;
+        for (let i = 0; i < bytes.length; i += kus) {
+            binary += String.fromCharCode.apply(null, bytes.subarray(i, i + kus));
+        }
+        return btoa(binary);
+    }
+
+    let fontyRobotoNacteny = false;
+
+    // Zaregistruje font Roboto (s podporou české diakritiky) do jsPDF.
+    // Pokud stažení selže (např. výpadek CDN), tiše přejde na výchozí font,
+    // aby export PDF v žádném případě nespadl.
+    async function zajistiRobotoFont(doc) {
+        if (fontyRobotoNacteny) {
+            doc.setFont("Roboto");
+            return "Roboto";
+        }
+        try {
+            const [regular, bold] = await Promise.all([
+                nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf'),
+                nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf')
+            ]);
+            doc.addFileToVFS('Roboto-Regular.ttf', regular);
+            doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
+            doc.addFileToVFS('Roboto-Medium.ttf', bold);
+            doc.addFont('Roboto-Medium.ttf', 'Roboto', 'bold');
+            fontyRobotoNacteny = true;
+            doc.setFont("Roboto");
+            return "Roboto";
+        } catch (chyba) {
+            console.warn('Nepodařilo se načíst font Roboto pro PDF, použije se výchozí font.', chyba);
+            doc.setFont("helvetica");
+            return "helvetica";
+        }
+    }
+
     // PDF Export
-    document.getElementById("export-pdf").addEventListener("click", function() {
+    document.getElementById("export-pdf").addEventListener("click", async function() {
     // Zajistí výpočet a vytvoření amortizačního plánu před exportem PDF
         vypocitat();
         
@@ -303,176 +345,189 @@ window.addEventListener("DOMContentLoaded", function() {
             alert('PDF knihovny nejsou načteny. Zkuste obnovit stránku.');
             return;
         }
-        
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        doc.addFont('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf', 'Roboto', 'normal');
-        doc.addFont('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf', 'Roboto', 'bold');
-        doc.setFont("Roboto");
-        const castka = document.getElementById("castka").value;
-        const urok = document.getElementById("urok").value;
-        const doba = document.getElementById("doba").value;
-        const el = document.getElementById("vysledek");
-        const splatka = el ? el.textContent : "";
-        const detailyEl = document.getElementById("detaily");
-        const celkemEl = document.getElementById("celkem-zaplaceno-hodnota");
-        const urokyEl = document.getElementById("z-toho-uroky-hodnota");
-        const celkem = celkemEl ? celkemEl.textContent.trim() : "0 Kč";
-        const uroky = urokyEl ? urokyEl.textContent.trim() : "0 Kč";
-        doc.setFillColor(79, 70, 229);
-        doc.rect(0, 0, 210, 42, 'F');
-        doc.setFillColor(99, 102, 241);
-        doc.rect(0, 42, 210, 2, 'F');
-        doc.setTextColor(255, 255, 255);
-        doc.setFont("Roboto", "normal");
-        doc.setFontSize(9);
-        doc.text("FINANČNÍ MAPA", 105, 13, { align: "center" });
-        doc.setFont("Roboto", "bold");
-        doc.setFontSize(20);
-        doc.text("Hypoteční kalkulačka", 105, 30, { align: "center" });
-        // --- 2. Dominantní karta MĚSÍČNÍ SPLÁTKA ---
-        doc.setFillColor(238, 242, 255);
-        doc.roundedRect(35, 56, 140, 40, 6, 6, 'F');
-        doc.setDrawColor(79, 70, 229);
-        doc.setLineWidth(0.8);
-        doc.roundedRect(35, 56, 140, 40, 6, 6, 'S');
-        doc.setTextColor(79, 70, 229);
-        doc.setFont("Roboto", "bold");
-        doc.setFontSize(10);
-        doc.text("MĚSÍČNÍ SPLÁTKA", 105, 70, { align: "center" });
-        doc.setFontSize(22);
-        doc.text(splatka, 105, 90, { align: "center" });
 
-        // --- 3. PARAMETRY ÚVĚRU (3 sloupce) ---
-        doc.setTextColor(71, 85, 105);
-        doc.setFont("Roboto", "bold");
-        doc.setFontSize(10);
-        doc.text("PARAMETRY ÚVĚRU", 20, 112);
-        doc.setDrawColor(79, 70, 229);
-        doc.setLineWidth(0.3);
-        doc.line(20, 115, 190, 115);
+        const tlacitkoExport = this;
+        const puvodniTextTlacitka = tlacitkoExport.innerHTML;
+        tlacitkoExport.disabled = true;
+        tlacitkoExport.style.opacity = '0.7';
+        tlacitkoExport.innerHTML = '⏳ Generuji PDF…';
 
-        const paramBoxes = [
-            { x: 20, label: "Výše úvěru", value: castka + " Kč" },
-            { x: 85, label: "Úroková sazba", value: urok + " %" },
-            { x: 145, label: "Doba splácení", value: doba + " let" }
-        ];
-        paramBoxes.forEach((p) => {
-            doc.setFillColor(248, 250, 252);
-            doc.roundedRect(p.x, 120, 55, 24, 4, 4, 'F');
-            doc.setTextColor(100, 116, 139);
-            doc.setFont("Roboto", "normal");
-            doc.setFontSize(7);
-            doc.text(p.label, p.x + 27.5, 130, { align: "center" });
-            doc.setTextColor(30, 41, 59);
-            doc.setFont("Roboto", "bold");
+        try {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const fontName = await zajistiRobotoFont(doc);
+            const castka = document.getElementById("castka").value;
+            const urok = document.getElementById("urok").value;
+            const doba = document.getElementById("doba").value;
+            const el = document.getElementById("vysledek");
+            const splatka = el ? el.textContent : "";
+            const detailyEl = document.getElementById("detaily");
+            const celkemEl = document.getElementById("celkem-zaplaceno-hodnota");
+            const urokyEl = document.getElementById("z-toho-uroky-hodnota");
+            const celkem = celkemEl ? celkemEl.textContent.trim() : "0 Kč";
+            const uroky = urokyEl ? urokyEl.textContent.trim() : "0 Kč";
+            doc.setFillColor(79, 70, 229);
+            doc.rect(0, 0, 210, 42, 'F');
+            doc.setFillColor(99, 102, 241);
+            doc.rect(0, 42, 210, 2, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont(fontName, "normal");
             doc.setFontSize(9);
-            doc.text(p.value, p.x + 27.5, 140, { align: "center" });
-        });
-
-        // --- 4. CELKOVÉ NÁKLADY ÚVĚRU (2 karty) ---
-        doc.setTextColor(71, 85, 105);
-        doc.setFont("Roboto", "bold");
-        doc.setFontSize(10);
-        doc.text("CELKOVÉ NÁKLADY ÚVĚRU", 20, 160);
-        doc.setDrawColor(79, 70, 229);
-        doc.setLineWidth(0.3);
-        doc.line(20, 163, 190, 163);
-
-        doc.setFillColor(255, 255, 255);
-        doc.setDrawColor(203, 213, 225);
-        doc.setLineWidth(0.6);
-        doc.roundedRect(20, 168, 80, 32, 4, 4, 'FD');
-        doc.setTextColor(71, 85, 105);
-        doc.setFont("Roboto", "bold");
-        doc.setFontSize(8);
-        doc.text("CELKEM ZAPLACENO", 60, 178, { align: "center" });
-        doc.setTextColor(30, 41, 59);
-        doc.setFont("Roboto", "normal");
-        doc.setFontSize(11);
-        doc.text(celkem, 60, 192, { align: "center" });
-
-        doc.setFillColor(255, 255, 255);
-        doc.setDrawColor(203, 213, 225);
-        doc.setLineWidth(0.6);
-        doc.roundedRect(110, 168, 80, 32, 4, 4, 'FD');
-        doc.setTextColor(71, 85, 105);
-        doc.setFont("Roboto", "bold");
-        doc.setFontSize(8);
-        doc.text("Z TOHO ÚROKY", 150, 178, { align: "center" });
-        doc.setTextColor(249, 115, 22);
-        doc.setFont("Roboto", "normal");
-        doc.setFontSize(11);
-        doc.text(uroky, 150, 192, { align: "center" });
-
-        // --- 5. MIMOŘÁDNÁ SPLÁTKA + ÚSPORA ---
-        if (document.getElementById('aktivator-checkbox').checked && window.temp_mimo) {
-            const mimoCastka = document.getElementById("mimoradna-splatka").value;
-            const mimoRok = document.getElementById("mimoradna-rok").value;
-            const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
-            const uspora = window.temp_standard.celkemUroky - window.temp_mimo.celkemUroky;
-
-            doc.setFillColor(255, 247, 237);
-            doc.setDrawColor(251, 146, 60);
-            doc.setLineWidth(0.6);
-            doc.roundedRect(20, 210, 170, 22, 4, 4, 'FD');
-            doc.setTextColor(194, 65, 12);
-            doc.setFont("Roboto", "bold");
-            doc.setFontSize(8);
-            doc.text("MIMOŘÁDNÁ SPLÁTKA", 105, 220, { align: "center" });
-            doc.setTextColor(30, 41, 59);
-            doc.setFont("Roboto", "normal");
+            doc.text("FINANČNÍ MAPA", 105, 13, { align: "center" });
+            doc.setFont(fontName, "bold");
+            doc.setFontSize(20);
+            doc.text("Hypoteční kalkulačka", 105, 30, { align: "center" });
+            // --- 2. Dominantní karta MĚSÍČNÍ SPLÁTKA ---
+            doc.setFillColor(238, 242, 255);
+            doc.roundedRect(35, 56, 140, 40, 6, 6, 'F');
+            doc.setDrawColor(79, 70, 229);
+            doc.setLineWidth(0.8);
+            doc.roundedRect(35, 56, 140, 40, 6, 6, 'S');
+            doc.setTextColor(79, 70, 229);
+            doc.setFont(fontName, "bold");
             doc.setFontSize(10);
-            doc.text(mimoCastka + " Kč  •  Rok " + mimoRok, 105, 228, { align: "center" });
+            doc.text("MĚSÍČNÍ SPLÁTKA", 105, 70, { align: "center" });
+            doc.setFontSize(22);
+            doc.text(splatka, 105, 90, { align: "center" });
 
+            // --- 3. PARAMETRY ÚVĚRU (3 sloupce) ---
             doc.setTextColor(71, 85, 105);
-            doc.setFont("Roboto", "bold");
+            doc.setFont(fontName, "bold");
             doc.setFontSize(10);
-            doc.text("ÚSPORA NA ÚROCÍCH", 20, 248);
+            doc.text("PARAMETRY ÚVĚRU", 20, 112);
             doc.setDrawColor(79, 70, 229);
             doc.setLineWidth(0.3);
-            doc.line(20, 251, 190, 251);
+            doc.line(20, 115, 190, 115);
 
-            doc.setTextColor(79, 70, 229);
-            doc.setFont("Roboto", "bold");
-            doc.setFontSize(16);
-            doc.text(fmt(uspora), 105, 268, { align: "center" });
+            const paramBoxes = [
+                { x: 20, label: "Výše úvěru", value: castka + " Kč" },
+                { x: 85, label: "Úroková sazba", value: urok + " %" },
+                { x: 145, label: "Doba splácení", value: doba + " let" }
+            ];
+            paramBoxes.forEach((p) => {
+                doc.setFillColor(248, 250, 252);
+                doc.roundedRect(p.x, 120, 55, 24, 4, 4, 'F');
+                doc.setTextColor(100, 116, 139);
+                doc.setFont(fontName, "normal");
+                doc.setFontSize(7);
+                doc.text(p.label, p.x + 27.5, 130, { align: "center" });
+                doc.setTextColor(30, 41, 59);
+                doc.setFont(fontName, "bold");
+                doc.setFontSize(9);
+                doc.text(p.value, p.x + 27.5, 140, { align: "center" });
+            });
 
-            doc.setTextColor(100, 116, 139);
-            doc.setFont("Roboto", "normal");
+            // --- 4. CELKOVÉ NÁKLADY ÚVĚRU (2 karty) ---
+            doc.setTextColor(71, 85, 105);
+            doc.setFont(fontName, "bold");
+            doc.setFontSize(10);
+            doc.text("CELKOVÉ NÁKLADY ÚVĚRU", 20, 160);
+            doc.setDrawColor(79, 70, 229);
+            doc.setLineWidth(0.3);
+            doc.line(20, 163, 190, 163);
+
+            doc.setFillColor(255, 255, 255);
+            doc.setDrawColor(203, 213, 225);
+            doc.setLineWidth(0.6);
+            doc.roundedRect(20, 168, 80, 32, 4, 4, 'FD');
+            doc.setTextColor(71, 85, 105);
+            doc.setFont(fontName, "bold");
             doc.setFontSize(8);
-            doc.text("Původní úroky: " + fmt(window.temp_standard.celkemUroky) + "   |   Úroky po mimoř. splátce: " + fmt(window.temp_mimo.celkemUroky), 105, 280, { align: "center" });
+            doc.text("CELKEM ZAPLACENO", 60, 178, { align: "center" });
+            doc.setTextColor(30, 41, 59);
+            doc.setFont(fontName, "normal");
+            doc.setFontSize(11);
+            doc.text(celkem, 60, 192, { align: "center" });
+
+            doc.setFillColor(255, 255, 255);
+            doc.setDrawColor(203, 213, 225);
+            doc.setLineWidth(0.6);
+            doc.roundedRect(110, 168, 80, 32, 4, 4, 'FD');
+            doc.setTextColor(71, 85, 105);
+            doc.setFont(fontName, "bold");
+            doc.setFontSize(8);
+            doc.text("Z TOHO ÚROKY", 150, 178, { align: "center" });
+            doc.setTextColor(249, 115, 22);
+            doc.setFont(fontName, "normal");
+            doc.setFontSize(11);
+            doc.text(uroky, 150, 192, { align: "center" });
+
+            // --- 5. MIMOŘÁDNÁ SPLÁTKA + ÚSPORA ---
+            if (document.getElementById('aktivator-checkbox').checked && window.temp_mimo) {
+                const mimoCastka = document.getElementById("mimoradna-splatka").value;
+                const mimoRok = document.getElementById("mimoradna-rok").value;
+                const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
+                const uspora = window.temp_standard.celkemUroky - window.temp_mimo.celkemUroky;
+
+                doc.setFillColor(255, 247, 237);
+                doc.setDrawColor(251, 146, 60);
+                doc.setLineWidth(0.6);
+                doc.roundedRect(20, 210, 170, 22, 4, 4, 'FD');
+                doc.setTextColor(194, 65, 12);
+                doc.setFont(fontName, "bold");
+                doc.setFontSize(8);
+                doc.text("MIMOŘÁDNÁ SPLÁTKA", 105, 220, { align: "center" });
+                doc.setTextColor(30, 41, 59);
+                doc.setFont(fontName, "normal");
+                doc.setFontSize(10);
+                doc.text(mimoCastka + " Kč  •  Rok " + mimoRok, 105, 228, { align: "center" });
+
+                doc.setTextColor(71, 85, 105);
+                doc.setFont(fontName, "bold");
+                doc.setFontSize(10);
+                doc.text("ÚSPORA NA ÚROCÍCH", 20, 248);
+                doc.setDrawColor(79, 70, 229);
+                doc.setLineWidth(0.3);
+                doc.line(20, 251, 190, 251);
+
+                doc.setTextColor(79, 70, 229);
+                doc.setFont(fontName, "bold");
+                doc.setFontSize(16);
+                doc.text(fmt(uspora), 105, 268, { align: "center" });
+
+                doc.setTextColor(100, 116, 139);
+                doc.setFont(fontName, "normal");
+                doc.setFontSize(8);
+                doc.text("Původní úroky: " + fmt(window.temp_standard.celkemUroky) + "   |   Úroky po mimoř. splátce: " + fmt(window.temp_mimo.celkemUroky), 105, 280, { align: "center" });
+            }
+            if (typeof doc.autoTable === 'function') {
+                doc.addPage();
+                doc.setFont(fontName, "bold");
+                doc.setFontSize(16);
+                doc.text("Amortizační tabulka", 105, 15, { align: 'center' });
+                doc.autoTable({
+                   startY: 25,
+                   head: [['Rok', 'Splátka jistiny', 'Zaplacené úroky', 'Zůstatek']],
+                   body: amortizacniPlan.map(row => [
+                      row.rok,
+                      row.splatkaJistiny,
+                      row.zaplaceneUroky,
+                      row.zustatek
+           ]),
+                   theme: 'striped',
+                   styles: {
+                      font: fontName,
+                      fontStyle: 'normal'
+            },
+                   bodyStyles: {
+                   font: fontName
+            },
+                   headStyles: {
+                   fillColor: [79, 70, 229],
+                   font: fontName,
+                   fontStyle: 'bold'
+            }
+    });
+            }
+            doc.save("vypocet_hypoteky.pdf");
+        } catch (chyba) {
+            console.error('Export PDF selhal:', chyba);
+            alert('Export do PDF se bohužel nezdařil. Zkuste to prosím znovu.');
+        } finally {
+            tlacitkoExport.disabled = false;
+            tlacitkoExport.style.opacity = '';
+            tlacitkoExport.innerHTML = puvodniTextTlacitka;
         }
-        if (typeof doc.autoTable === 'function') {
-            doc.addPage();
-            doc.setFont("Roboto", "bold");
-            doc.setFontSize(16);
-            doc.text("Amortizační tabulka", 105, 15, { align: 'center' });
-            doc.autoTable({
-               startY: 25,
-               head: [['Rok', 'Splátka jistiny', 'Zaplacené úroky', 'Zůstatek']],
-               body: amortizacniPlan.map(row => [
-                  row.rok,
-                  row.splatkaJistiny,
-                  row.zaplaceneUroky,
-                  row.zustatek
-       ]),
-               theme: 'striped',
-               styles: {
-                  font: 'Roboto',
-                  fontStyle: 'normal'
-        },
-               bodyStyles: {
-               font: 'Roboto'
-        },
-               headStyles: {
-               fillColor: [79, 70, 229],
-               font: 'Roboto',
-               fontStyle: 'bold'
-        }
-});
-        }
-        doc.save("vypocet_hypoteky.pdf");
     });
 
     if (document.getElementById("tlacitko-tabulka")) {
