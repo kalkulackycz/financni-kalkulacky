@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bezplatná kalkulačka čisté mzdy. Spočítejte si čistý měsíční příjem, odvody na pojištění a daně.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💼</text></svg>">
+    <title>Kalkulačka čisté mzdy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html" class="aktivni">Kalkulačky</a>
+    </nav>
+
+    <div class="kalkulacka">
+        <h1>💼 Kalkulačka čisté mzdy</h1>
+
+        <!-- Hrubá mzda -->
+        <div class="pole-s-napovedou">
+            <div class="label-radek">
+                <label for="hrubaMzda">💰 Hrubá měsíční mzda (Kč):</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k hrubé mzdě">?</span>
+                <span class="bublina-text">Sjednaná hrubá mzda před odečtením daní a pojistného.</span>
+            </div>
+            <input type="text" id="hrubaMzda" value="45 000">
+            <input type="range" id="hrubaMzda-slider" min="10000" max="300000" step="1000" value="45000">
+            <div id="hrubaMzda-chyba" class="chyba-text"></div>
+        </div>
+
+        <!-- Sleva na poplatníka -->
+        <div class="sleva-radek" style="margin-top: 12px;">
+            <input type="checkbox" id="slevaPoplatnik" checked>
+            <label for="slevaPoplatnik">Sleva na poplatníka (podepsané prohlášení)</label>
+        </div>
+
+        <!-- Invalidita -->
+        <div class="pole-s-napovedou" style="margin-top: 12px; width: 100%;">
+            <div class="label-radek">
+                <label for="invalidita">♿ Invalidita:</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k invaliditě">?</span>
+                <span class="bublina-text">Sleva na dani při pobírání invalidního důchodu.</span>
+            </div>
+            <select id="invalidita">
+                <option value="0">Bez invalidity</option>
+                <option value="1">Invalidita 1. stupně</option>
+                <option value="2">Invalidita 2. stupně</option>
+                <option value="3">Invalidita 3. stupně</option>
+            </select>
+        </div>
+
+        <!-- Držitel ZTP/P -->
+        <div class="sleva-radek" style="margin-top: 12px;">
+            <input type="checkbox" id="ztpP">
+            <label for="ztpP">Držitel průkazu ZTP/P</label>
+        </div>
+
+        <!-- Počet dětí -->
+        <div class="pole-s-napovedou" style="margin-top: 12px; width: 100%;">
+            <div class="label-radek">
+                <label for="pocetDeti">👨‍👩‍👧‍👦 Počet vyživovaných dětí:</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k dětem">?</span>
+                <span class="bublina-text">Daňové zvýhodnění na děti žijící s vámi v společné domácnosti.</span>
+            </div>
+            <select id="pocetDeti">
+                <option value="0">Bez dětí</option>
+                <option value="1">1 dítě</option>
+                <option value="2">2 děti</option>
+                <option value="3">3 děti</option>
+                <option value="4">4 děti</option>
+                <option value="5">5 dětí</option>
+            </select>
+        </div>
+
+        <!-- Dynamický kontejner pro ZTP/P děti -->
+        <div id="kontejner-ztp-deti" style="margin-top: 8px;"></div>
+
+        <!-- Tlačítko -->
+        <button id="vypocitatMzdu">Vypočítat čistou mzdu</button>
+        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
+
+        <!-- Výsledky -->
+        <h2 id="vysledekMzda" class="vysledek-mzda"></h2>
+        <div id="detailyMzda" class="detaily"></div>
+
+        <!-- Sekce s grafem -->
+        <div style="margin-top: 32px; border-top: 2px solid #e0e7ff; padding-top: 24px;">
+            <h2 style="text-align: center; margin-bottom: 20px;">📊 Rozdělení hrubé mzdy</h2>
+            <canvas id="grafMzda" width="400" height="300"></canvas>
+        </div>
+
+        <!-- Článek / Časté otázky -->
+        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
+            <h2>Časté otázky k výpočtu čisté mzdy</h2>
+            <div class="faq-polozka">
+                <h3>Jaké odvody se strhávají z hrubé mzdy zaměstnance?</h3>
+                <p>Ze mzdy se strhává sociální pojištění (7,1 %), zdravotní pojištění (4,5 %) a záloha na daň z příjmů fyzických osob (15 %, případně 23 % z části mzdy přesahující zákonný limit).</p>
+            </div>
+            <div class="faq-polozka">
+                <h3>Jak funguje daňový bonus na dítě?</h3>
+                <p>Pokud je vaše vypočtená daň nižší než daňové zvýhodnění na děti, nejenže neplatíte žádnou daň, ale stát vám rozdíl (daňový bonus) vyplatí k čisté mzdě navíc.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="paticka">
+        <p>Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné účetní či daňové poradenství.</p>
+    </footer>
+
+    <script src="mzda.js"></script>
+</body>
+</html>
