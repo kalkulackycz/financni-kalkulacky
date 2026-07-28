@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Půjčka</title>
+</head>
+<body>
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html" class="aktivni">Kalkulačky</a>
+        
+    </nav>
+    <div class="kalkulacka">
+        <h1>Kalkulačka půjčky</h1>
+        
+        <div class="pole-s-napovedou">
+            <div class="label-radek">
+                <label for="vysePujcky">Výše půjčky (Kč):</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k výši půjčky">?</span>
+                <span class="bublina-text">Celková částka, kterou si chcete půjčit.</span>
+            </div>
+            <input type="text" id="vysePujcky" value="100 000">
+            <input type="range" id="vysePujcky-slider" min="10000" max="1000000" step="10000" value="100000">
+            <div id="vysePujcky-chyba" class="chyba-text"></div>
+        </div>
+        
+        <div class="pole-s-napovedou">
+            <div class="label-radek">
+                <label for="urokPujcka">Úroková sazba (% ročně):</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k úrokové sazbě">?</span>
+                <span class="bublina-text">Roční úrok bez započtených poplatků. Skutečnou cenu vám pak ukáže RPSN.</span>
+            </div>
+            <input type="text" id="urokPujcka" value="8,9">
+            <input type="range" id="urokPujcka-slider" min="1" max="30" step="0.1" value="8.9">
+            <div id="urokPujcka-chyba" class="chyba-text"></div>
+        </div>
+        
+        <div class="pole-s-napovedou">
+            <div class="label-radek">
+                <label for="poplatek">Poplatek za sjednání (Kč):</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k poplatku za sjednání">?</span>
+                <span class="bublina-text">Jednorázový poplatek banky za vyřízení žádosti. Přičítá se k celkové ceně.</span>
+            </div>
+            <input type="text" id="poplatek" value="1 500">
+            <input type="range" id="poplatek-slider" min="0" max="10000" step="100" value="1500">
+            <div id="poplatek-chyba" class="chyba-text"></div>
+        </div>
+        
+        <div class="pole-s-napovedou">
+            <div class="label-radek">
+                <label for="dobaPujcka">Doba splácení (roky):</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k době splácení">?</span>
+                <span class="bublina-text">Doba v letech, po kterou budete spotřebitelský úvěr pravidelně splácet.</span>
+            </div>
+            <input type="text" id="dobaPujcka" value="5">
+            <input type="range" id="dobaPujcka-slider" min="1" max="20" step="1" value="5">
+            <div id="dobaPujcka-chyba" class="chyba-text"></div>
+        </div>
+        
+        <button id="vypocitatPujcka">Vypočítat</button>
+        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
+        
+        <h2 id="text-vysledek"></h2>
+        <div id="detaily" class="detaily"></div>
+        <a href="rpsn-vysvetlene.html" class="info-box">
+            💡 Nevíš, co znamená RPSN? <span>Vysvětlíme ti to →</span>
+        </a>
+        <canvas id="grafPujcka" width="400" height="300"></canvas>
+        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
+            <h2>Časté otázky k půjčkám</h2>
+            <div class="faq-polozka">
+                <h3>Jak rychle budu mít peníze na účtu?</h3>
+                <p>U většiny online žádostí probíhá vyhodnocení do několika minut. Po schválení a elektronické podpisu smlouvy jsou peníze převedeny na váš účet okamžitě, nejpozději následující pracovní den.</p>
+            </div>
+            <div class="faq-polozka">
+                <h3>Mohu si půjčit jako OSVČ nebo na rodičovské dovolené?</h3>
+                <p>Ano, rozhodující je schopnost splácet. Živnostníci (OSVČ) prokazují příjmy pomocí daňového přiznání. V případě rodičovského příspěvku nebo nižších příjmů výrazně pomůže, pokud do žádosti vstoupíte se spolužadatelem.</p>
+            </div>
+            <div class="faq-polozka">
+                <h3>Podle čeho poznám skutečně nejvýhodnější půjčku?</h3>
+                <p>Nikdy se nedívejte pouze na samotný úrok. Klíčová je roční procentní sazba nákladů, která v sobě schovává i poplatky. Přečtěte si naše <a href="rpsn-vysvetlene.html" style="color: #4f46e5; text-decoration: underline;">jednoduché vysvětlení, co je RPSN</a>, ať nepřeplatíte zbytečně navíc.</p>
+            </div>
+        </div>
+    </div>
+    <footer class="paticka">
+        <p>Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
+    </footer>
+    <script src="js/pujcka.js"></script>
+</body>
+</html>
+
