@@ -117,8 +117,12 @@ window.addEventListener("DOMContentLoaded", function() {
         const r = rocniSazba / 100 / 12;
 
         const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-        const celkemZaplaceno = mesicniSplatka * n;
-        const celkoveUroky = celkemZaplaceno - P;
+
+        // K celkové částce (splátky * počet měsíců) přičteme poplatek
+        const celkemZaplaceno = (mesicniSplatka * n) + poplatek;
+
+        // Úroky jsou pouze to, co přeplatíš na splátkách nad rámec půjčené částky (jistiny)
+        const celkoveUroky = (mesicniSplatka * n) - P;
 
         // Formátovací funkce
         const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
