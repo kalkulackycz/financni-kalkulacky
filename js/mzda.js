@@ -25,6 +25,7 @@ let mujGrafMzda = null;
 
 function validujInput(input, chybaId, napoveda, podminka) {
     const chybaEl = document.getElementById(chybaId);
+    if (!chybaEl) return true;
     if (!podminka) {
         chybaEl.innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
         chybaEl.style.display = "block";
@@ -38,9 +39,25 @@ function validujInput(input, chybaId, napoveda, podminka) {
 }
 
 function naformatujHrubou() {
-    let val = el.hruba.value.replace(/\s/g, '');
-    if (val === "" || isNaN(val)) return;
-    el.hruba.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+    const input = el.hruba;
+    let cursorPosition = input.selectionStart;
+    const oldVal = input.value;
+    
+    let val = oldVal.replace(/\s/g, '');
+    if (val === "") {
+        input.value = "";
+        vypoctiMzdu();
+        return;
+    }
+    if (isNaN(val)) return;
+
+    let formatted = parseInt(val, 10).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+    input.value = formatted;
+
+    let diff = formatted.length - oldVal.length;
+    input.setSelectionRange(cursorPosition + diff, cursorPosition + diff);
+
+    vypoctiMzdu();
 }
 
 function zaokrouhliZakladDane(hruba) { return Math.floor(hruba / 100) * 100; }
@@ -61,8 +78,6 @@ function generujDiteZtpInputs(pocet) {
 }
 
 function vypoctiMzdu() {
-    naformatujHrubou();
-
     const chybovaHlaska = document.getElementById("chybova-hlaska");
     if (chybovaHlaska) chybovaHlaska.style.display = "none";
 
@@ -111,7 +126,16 @@ function vypoctiMzdu() {
 
     const cistaMzda = hruba - socPoj - zdravPoj - danKPlaceni + danovyBonus;
 
-    el.vysledekText.textContent = "Čistý měsíční příjem: " + Math.round(cistaMzda).toLocaleString("cs-CZ") + " Kč";
+    if (el.vysledekText) {
+        el.vysledekText.textContent = "Čistý měsíční příjem: " + Math.round(cistaMzda).toLocaleString("cs-CZ") + " Kč";
+        el.vysledekText.style.border = "2px solid #22c55e";
+        el.vysledekText.style.backgroundColor = "#f0fdf4";
+        el.vysledekText.style.padding = "14px 18px";
+        el.vysledekText.style.borderRadius = "8px";
+        el.vysledekText.style.textAlign = "center";
+        el.vysledekText.style.color = "#166534";
+        el.vysledekText.style.fontWeight = "bold";
+    }
 
     let slevyTextDetail = "";
     if (slevyNaDani > 0) {
@@ -200,7 +224,6 @@ async function zajistiRobotoFont(doc) {
     }
 }
 
-// Bezpečnostní filtr textu pro případ nouzového záložního fontu
 function bezpečnýText(text, fontName) {
     if (fontName === 'helvetica') {
         return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -265,7 +288,7 @@ async function generujPDFMzda() {
 
         const cistaMzda = hruba - socPoj - zdravPoj - danKPlaceni + danovyBonus;
 
-        // Záhlaví PDF (vycentrované)
+        // Záhlaví PDF
         doc.setFillColor(79, 70, 229);
         doc.rect(0, 0, 210, 30, 'F');
         doc.setTextColor(255, 255, 255);
@@ -278,10 +301,12 @@ async function generujPDFMzda() {
         doc.setFont(fontName, "normal");
         doc.text(bezpečnýText(`Datum výpočtu: ${new Date().toLocaleDateString("cs-CZ")}`, fontName), 105, 38, { align: 'center' });
 
-        // Hlavní rámeček výsledku (vycentrovaný)
-        doc.setFillColor(243, 244, 246);
-        doc.roundedRect(14, 44, 182, 24, 3, 3, 'F');
-        doc.setTextColor(16, 185, 129);
+        // Zelený rámeček pro výsledek v PDF
+        doc.setFillColor(240, 253, 244);
+        doc.setDrawColor(34, 197, 94);
+        doc.setLineWidth(0.5);
+        doc.roundedRect(14, 44, 182, 24, 3, 3, 'FD');
+        doc.setTextColor(22, 101, 52);
         doc.setFontSize(16);
         doc.setFont(fontName, "bold");
         doc.text(bezpečnýText(`Čistý měsíční příjem: ${Math.round(cistaMzda).toLocaleString("cs-CZ")} Kč`, fontName), 105, 60, { align: 'center' });
@@ -295,7 +320,6 @@ async function generujPDFMzda() {
 
         let detiNazev = `Daňové zvýhodnění na děti (${pocetDeti} ${pocetDeti === 1 ? 'dítě' : pocetDeti < 5 ? 'děti' : 'dětí'})`;
 
-        // Tabulka odvodů a daní
         const tabulkaData = [
             ["Hrubá mzda", `${hruba.toLocaleString("cs-CZ")} Kč`],
             ["Sociální pojištění (7,1 %)", `-${socPoj.toLocaleString("cs-CZ")} Kč`],
@@ -309,7 +333,6 @@ async function generujPDFMzda() {
             ["Čistý měsíční příjem", `${Math.round(cistaMzda).toLocaleString("cs-CZ")} Kč`]
         ];
 
-        // Aplikace bezpečné normalizace textu na všechna data tabulky
         const bezpecnaTabulkaData = tabulkaData.map(radek => [
             bezpečnýText(radek[0], fontName),
             radek[1]
@@ -327,7 +350,6 @@ async function generujPDFMzda() {
             });
         }
 
-        // Patička (vycentrovaná)
         const pocetStran = doc.internal.getNumberOfPages();
         for (let i = 1; i <= pocetStran; i++) {
             doc.setPage(i);
@@ -385,22 +407,39 @@ window.addEventListener("DOMContentLoaded", function() {
     }
 
     ["slevaPoplatnik", "invalidita", "ztpP"].forEach(id => document.getElementById(id)?.addEventListener("change", vypoctiMzdu));
-    el.tlacitko?.addEventListener("click", vypoctiMzdu);
+    
+    // Ošetřeno e.preventDefault(), aby tlačítko neodesílalo formulář / nerefreshovalo stránku
+    el.tlacitko?.addEventListener("click", function(e) {
+        e.preventDefault();
+        vypoctiMzdu();
+    });
+
     el.exportPdfBtn?.addEventListener("click", generujPDFMzda);
 
     el.slider?.addEventListener("input", function() {
         el.hruba.value = Number(this.value).toLocaleString("cs-CZ").replace(/\u00A0/g, " ");
         vypoctiMzdu();
     });
+    
     el.hruba?.addEventListener("input", function() {
         let v = Number(this.value.replace(/\s/g, ''));
-        if (!isNaN(v) && el.slider) el.slider.value = Math.min(Math.max(v, 10000), 300000);
+        if (!isNaN(v) && el.slider) {
+            el.slider.value = Math.min(Math.max(v, 10000), 300000);
+        }
+        naformatujHrubou();
     });
-    el.hruba?.addEventListener("blur", vypoctiMzdu);
+
+    el.hruba?.addEventListener("blur", function() {
+        naformatujHrubou();
+    });
+
     el.hruba?.addEventListener("keydown", function(event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            vypoctiMzdu();
+            this.blur();
+            if (el.pocetDeti) {
+                el.pocetDeti.focus();
+            }
         }
     });
 
