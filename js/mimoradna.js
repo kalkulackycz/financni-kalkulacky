@@ -32,27 +32,31 @@ window.addEventListener("DOMContentLoaded", function() {
 
     // Pomocná funkce pro validaci
     function validujInput(input, chybaId, napoveda, podminka) {
+        const chybaEl = document.getElementById(chybaId);
+        if (!chybaEl) return true;
         if (!podminka) {
-            document.getElementById(chybaId).innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
-            document.getElementById(chybaId).style.display = "block";
+            chybaEl.innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
+            chybaEl.style.display = "block";
             input.classList.add("input-chyba");
             return false;
         } else {
-            document.getElementById(chybaId).style.display = "none";
+            chybaEl.style.display = "none";
             input.classList.remove("input-chyba");
             return true;
         }
     }
+
     // Funkce pro formátování a validaci vstupu
     function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
         const el = document.getElementById(inputId);
+        if (!el) return;
         el.addEventListener('blur', function(e) {
             let val = e.target.value.replace(/\s/g, '');
             if (val !== "" && !isNaN(val.replace(",", "."))) {
                 if (inputId === 'aktualniDluh' || inputId === 'vyskaSplatky') {
-                e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+                    e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+                }
             }
-    }
             validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
         });
         el.addEventListener('focus', function(e) {
@@ -64,6 +68,7 @@ window.addEventListener("DOMContentLoaded", function() {
     function propojSlider(inputId, sliderId, isFloat = false) {
         const input = document.getElementById(inputId);
         const slider = document.getElementById(sliderId);
+        if (!input || !slider) return;
 
         slider.addEventListener('input', function() {
             if (isFloat) {
@@ -71,7 +76,8 @@ window.addEventListener("DOMContentLoaded", function() {
             } else {
                 input.value = parseInt(slider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
             }
-            document.getElementById("vypocitatMimoradnou").click();
+            const tlacitko = document.getElementById("vypocitatMimoradnou");
+            if (tlacitko) tlacitko.click();
         });
 
         input.addEventListener('input', function() {
@@ -87,65 +93,88 @@ window.addEventListener("DOMContentLoaded", function() {
     propojSlider('zbyvajiciDoba', 'zbyvajiciDoba-slider');
     propojSlider('vyskaSplatky', 'vyskaSplatky-slider');
 
-    document.getElementById("vypocitatMimoradnou").addEventListener("click", function() {
-        const chybovaHlaska = document.getElementById("chybova-hlaska");
-        if (chybovaHlaska) chybovaHlaska.style.display = "none";
-        const dluhInput = document.getElementById("aktualniDluh");
-        const urokInput = document.getElementById("urokMimoradna");
-        const dobaInput = document.getElementById("zbyvajiciDoba");
-        const splatkaInput = document.getElementById("vyskaSplatky");
+    const tlacitkoVypocetMimoradna = document.getElementById("vypocitatMimoradnou");
+    if (tlacitkoVypocetMimoradna) {
+        tlacitkoVypocetMimoradna.addEventListener("click", function(e) {
+            if (e) e.preventDefault();
+            const chybovaHlaska = document.getElementById("chybova-hlaska");
+            if (chybovaHlaska) chybovaHlaska.style.display = "none";
 
-        const dluh = parseFloat(dluhInput.value.replace(/\s/g, ''));
-        const rocniSazba = parseFloat(urokInput.value.replace(",", "."));
-        const roky = parseFloat(dobaInput.value);
-        const mimoradnaSplatka = parseFloat(splatkaInput.value.replace(/\s/g, ''));
+            const dluhInput = document.getElementById("aktualniDluh");
+            const urokInput = document.getElementById("urokMimoradna");
+            const dobaInput = document.getElementById("zbyvajiciDoba");
+            const splatkaInput = document.getElementById("vyskaSplatky");
 
-        const jeDluhOk = !isNaN(dluh) && dluh > 0;
-        const jeUrokOk = !isNaN(rocniSazba) && rocniSazba >= 0;
-        const jeDobaOk = !isNaN(roky) && roky > 0;
-        const jeSplatkaOk = !isNaN(mimoradnaSplatka) && mimoradnaSplatka > 0 && mimoradnaSplatka < dluh;
+            if (!dluhInput || !urokInput || !dobaInput || !splatkaInput) return;
 
-        validujInput(dluhInput, "aktualniDluh-chyba", "Např.: 2 000 000", jeDluhOk);
-        validujInput(urokInput, "urokMimoradna-chyba", "Např.: 5,5", jeUrokOk);
-        validujInput(dobaInput, "zbyvajiciDoba-chyba", "Např.: 25", jeDobaOk);
-        validujInput(splatkaInput, "vyskaSplatky-chyba", "Např.: 100 000 (méně než dluh)", jeSplatkaOk);
+            const dluh = parseFloat(dluhInput.value.replace(/\s/g, ''));
+            const rocniSazba = parseFloat(urokInput.value.replace(",", "."));
+            const roky = parseFloat(dobaInput.value);
+            const mimoradnaSplatka = parseFloat(splatkaInput.value.replace(/\s/g, ''));
 
-        if (!jeDluhOk || !jeUrokOk || !jeDobaOk || !jeSplatkaOk) return;
-        const r = rocniSazba / 100 / 12;
-        const nPuvodni = roky * 12;
-        const mesicniSplatka = dluh * (r * Math.pow(1 + r, nPuvodni)) / (Math.pow(1 + r, nPuvodni) - 1);
-        const celkemPuvodne = mesicniSplatka * nPuvodni;
-        const urokyPuvodne = celkemPuvodne - dluh;
-        const novyDluh = dluh - mimoradnaSplatka;
-        const horniCitatel = Math.log(1 - (novyDluh * r) / mesicniSplatka);
-        const spodniJmenovatel = Math.log(1 + r);
-        const nNove = -horniCitatel / spodniJmenovatel;
-        const mesiceNove = Math.ceil(nNove);
-        const usetrenoMesicu = nPuvodni - mesiceNove;
-        const celkemNoveBezMimoradne = mesicniSplatka * nNove;
-        const urokyNove = celkemNoveBezMimoradne - novyDluh;
-        const usporaNaUrocich = urokyPuvodne - urokyNove;
+            const jeDluhOk = !isNaN(dluh) && dluh > 0;
+            const jeUrokOk = !isNaN(rocniSazba) && rocniSazba >= 0;
+            const jeDobaOk = !isNaN(roky) && roky > 0;
+            const jeSplatkaOk = !isNaN(mimoradnaSplatka) && mimoradnaSplatka > 0 && mimoradnaSplatka < dluh;
 
-        const usporaLet = Math.floor(usetrenoMesicu / 12);
-        const usporaZbytekMesicu = usetrenoMesicu % 12;
-        let textCasu = "";
-        if (usporaLet > 0) textCasu += usporaLet + " " + (usporaLet === 1 ? "rok" : (usporaLet < 5 ? "roky" : "let"));
-        if (usporaZbytekMesicu > 0) { if (textCasu !== "") textCasu += " a "; textCasu += usporaZbytekMesicu + " " + (usporaZbytekMesicu === 1 ? "měsíc" : (usporaZbytekMesicu < 5 ? "měsíce" : "měsíců")); }
+            validujInput(dluhInput, "aktualniDluh-chyba", "Např.: 2 000 000", jeDluhOk);
+            validujInput(urokInput, "urokMimoradna-chyba", "Např.: 5,5", jeUrokOk);
+            validujInput(dobaInput, "zbyvajiciDoba-chyba", "Např.: 25", jeDobaOk);
+            validujInput(splatkaInput, "vyskaSplatky-chyba", "Např.: 100 000 (méně než dluh)", jeSplatkaOk);
 
-        document.getElementById("vysledekMimoradna").textContent = "Ušetříte na úrocích: " + Math.round(Math.max(0, usporaNaUrocich)).toLocaleString("cs-CZ") + " Kč";
-        document.getElementById("detailyMimoradna").innerHTML =
-            "<p>Hypotéku doplatíte dříve o: <strong>" + textCasu + "</strong></p>" +
-            "<p>Původní celkové úroky: <strong>" + Math.round(urokyPuvodne).toLocaleString("cs-CZ") + " Kč</strong></p>" +
-            "<p>Nové celkové úroky: <strong>" + Math.round(Math.max(0, urokyNove)).toLocaleString("cs-CZ") + " Kč</strong></p>";
+            if (!jeDluhOk || !jeUrokOk || !jeDobaOk || !jeSplatkaOk) return;
+            const r = rocniSazba / 100 / 12;
+            const nPuvodni = roky * 12;
+            const mesicniSplatka = dluh * (r * Math.pow(1 + r, nPuvodni)) / (Math.pow(1 + r, nPuvodni) - 1);
+            const celkemPuvodne = mesicniSplatka * nPuvodni;
+            const urokyPuvodne = celkemPuvodne - dluh;
+            const novyDluh = dluh - mimoradnaSplatka;
+            const horniCitatel = Math.log(1 - (novyDluh * r) / mesicniSplatka);
+            const spodniJmenovatel = Math.log(1 + r);
+            const nNove = -horniCitatel / spodniJmenovatel;
+            const mesiceNove = Math.ceil(nNove);
+            const usetrenoMesicu = nPuvodni - mesiceNove;
+            const celkemNoveBezMimoradne = mesicniSplatka * nNove;
+            const urokyNove = celkemNoveBezMimoradne - novyDluh;
+            const usporaNaUrocich = urokyPuvodne - urokyNove;
 
-        if (mujGrafMimoradna !== null) mujGrafMimoradna.destroy();
+            const usporaLet = Math.floor(usetrenoMesicu / 12);
+            const usporaZbytekMesicu = usetrenoMesicu % 12;
+            let textCasu = "";
+            if (usporaLet > 0) textCasu += usporaLet + " " + (usporaLet === 1 ? "rok" : (usporaLet < 5 ? "roky" : "let"));
+            if (usporaZbytekMesicu > 0) { if (textCasu !== "") textCasu += " a "; textCasu += usporaZbytekMesicu + " " + (usporaZbytekMesicu === 1 ? "měsíc" : (usporaZbytekMesicu < 5 ? "měsíce" : "měsíců")); }
 
-        if (typeof Chart !== "undefined") { vykresliGraf(urokyNove, usporaNaUrocich); }
-        else { setTimeout(function() { if (typeof Chart !== "undefined") vykresliGraf(urokyNove, usporaNaUrocich); }, 500); }
-    });
+            const el = document.getElementById("vysledekMimoradna");
+            if (el) {
+                el.innerText = "Ušetříte na úrocích: " + Math.round(Math.max(0, usporaNaUrocich)).toLocaleString("cs-CZ") + " Kč";
+                el.style.border = "2px solid #22c55e";
+                el.style.backgroundColor = "#f0fdf4";
+                el.style.padding = "14px 18px";
+                el.style.borderRadius = "8px";
+                el.style.textAlign = "center";
+                el.style.color = "#166534";
+                el.style.fontWeight = "bold";
+            }
+
+            const detailyEl = document.getElementById("detailyMimoradna");
+            if (detailyEl) {
+                detailyEl.innerHTML =
+                    "<p>Hypotéku doplatíte dříve o: <strong>" + textCasu + "</strong></p>" +
+                    "<p>Původní celkové úroky: <strong>" + Math.round(urokyPuvodne).toLocaleString("cs-CZ") + " Kč</strong></p>" +
+                    "<p>Nové celkové úroky: <strong>" + Math.round(Math.max(0, urokyNove)).toLocaleString("cs-CZ") + " Kč</strong></p>";
+            }
+
+            if (mujGrafMimoradna !== null) mujGrafMimoradna.destroy();
+
+            if (typeof Chart !== "undefined") { vykresliGraf(urokyNove, usporaNaUrocich); }
+            else { setTimeout(function() { if (typeof Chart !== "undefined") vykresliGraf(urokyNove, usporaNaUrocich); }, 500); }
+        });
+    }
 
     function vykresliGraf(urokyNove, usporaNaUrocich) {
-        const ctx = document.getElementById("grafMimoradna").getContext("2d");
+        const grafEl = document.getElementById("grafMimoradna");
+        if (!grafEl) return;
+        const ctx = grafEl.getContext("2d");
         mujGrafMimoradna = new Chart(ctx, {
             type: "doughnut",
             data: { labels: ["Nové úroky", "Čistá finanční úspora"], datasets: [{ data: [Math.round(Math.max(0, urokyNove)), Math.round(Math.max(0, usporaNaUrocich))], backgroundColor: ["#f97316", "#22c55e"] }] },
@@ -174,6 +203,7 @@ window.addEventListener("DOMContentLoaded", function() {
     zapnoutFormatovani('urokMimoradna', 'urokMimoradna-chyba', 'Např.: 5,5', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
     zapnoutFormatovani('zbyvajiciDoba', 'zbyvajiciDoba-chyba', 'Např.: 25', v => !isNaN(v) && parseFloat(v) > 0);
     zapnoutFormatovani('vyskaSplatky', 'vyskaSplatky-chyba', 'Např.: 100 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
+
     const inputDluh = document.getElementById("aktualniDluh");
     const inputUrokMimoradna = document.getElementById("urokMimoradna");
     const inputZbyvajiciDoba = document.getElementById("zbyvajiciDoba");
@@ -187,6 +217,8 @@ window.addEventListener("DOMContentLoaded", function() {
         inputVyskaSplatky.addEventListener("keydown", function(event) { if (event.key === "Enter") { event.preventDefault(); tlacitkoVypocitatMimoradnou.click(); } });
     }
 
-    setTimeout(function() { document.getElementById("vypocitatMimoradnou").click(); }, 300);
+    setTimeout(function() { 
+        const tlacitko = document.getElementById("vypocitatMimoradnou");
+        if (tlacitko) tlacitko.click(); 
+    }, 300);
 });
-

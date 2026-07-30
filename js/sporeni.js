@@ -32,13 +32,15 @@ window.addEventListener("DOMContentLoaded", function() {
 
     // Pomocná funkce pro validaci
     function validujInput(input, chybaId, napoveda, podminka) {
+        const chybaEl = document.getElementById(chybaId);
+        if (!chybaEl) return true;
         if (!podminka) {
-            document.getElementById(chybaId).innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
-            document.getElementById(chybaId).style.display = "block";
+            chybaEl.innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
+            chybaEl.style.display = "block";
             input.classList.add("input-chyba");
             return false;
         } else {
-            document.getElementById(chybaId).style.display = "none";
+            chybaEl.style.display = "none";
             input.classList.remove("input-chyba");
             return true;
         }
@@ -46,13 +48,14 @@ window.addEventListener("DOMContentLoaded", function() {
     // Funkce pro formátování a validaci vstupu
     function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
         const el = document.getElementById(inputId);
+        if (!el) return;
         el.addEventListener('blur', function(e) {
             let val = e.target.value.replace(/\s/g, '');
             if (val !== "" && !isNaN(val.replace(",", "."))) {
                 if (inputId === 'mesicniVklad') {
-                e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+                    e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+                }
             }
-    }
             validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
         });
         el.addEventListener('focus', function(e) {
@@ -64,6 +67,7 @@ window.addEventListener("DOMContentLoaded", function() {
     function propojSlider(inputId, sliderId, isFloat = false) {
         const input = document.getElementById(inputId);
         const slider = document.getElementById(sliderId);
+        if (!input || !slider) return;
 
         slider.addEventListener('input', function() {
             if (isFloat) {
@@ -71,7 +75,8 @@ window.addEventListener("DOMContentLoaded", function() {
             } else {
                 input.value = parseInt(slider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
             }
-            document.getElementById("vypocitatSporeni").click();
+            const tlacitko = document.getElementById("vypocitatSporeni");
+            if (tlacitko) tlacitko.click();
         });
 
         input.addEventListener('input', function() {
@@ -86,47 +91,68 @@ window.addEventListener("DOMContentLoaded", function() {
     propojSlider('urokSporeni', 'urokSporeni-slider', true);
     propojSlider('dobaSporeni', 'dobaSporeni-slider');
 
-    document.getElementById("vypocitatSporeni").addEventListener("click", function() {
-        const chybovaHlaska = document.getElementById("chybova-hlaska");
-        if (chybovaHlaska) chybovaHlaska.style.display = "none";
-        
-        const vkladInput = document.getElementById("mesicniVklad");
-        const urokInput = document.getElementById("urokSporeni");
-        const dobaInput = document.getElementById("dobaSporeni");
+    const tlacitkoVypocet = document.getElementById("vypocitatSporeni");
+    if (tlacitkoVypocet) {
+        tlacitkoVypocet.addEventListener("click", function(e) {
+            if (e) e.preventDefault();
+            const chybovaHlaska = document.getElementById("chybova-hlaska");
+            if (chybovaHlaska) chybovaHlaska.style.display = "none";
+            
+            const vkladInput = document.getElementById("mesicniVklad");
+            const urokInput = document.getElementById("urokSporeni");
+            const dobaInput = document.getElementById("dobaSporeni");
 
-        const vklad = parseFloat(vkladInput.value.replace(/\s/g, ''));
-        const rocniUrok = parseFloat(urokInput.value.replace(",", "."));
-        const roky = parseFloat(dobaInput.value);
+            if (!vkladInput || !urokInput || !dobaInput) return;
 
-        const jeVkladOk = !isNaN(vklad) && vklad > 0;
-        const jeUrokOk = !isNaN(rocniUrok) && rocniUrok >= 0;
-        const jeDobaOk = !isNaN(roky) && roky > 0;
+            const vklad = parseFloat(vkladInput.value.replace(/\s/g, ''));
+            const rocniUrok = parseFloat(urokInput.value.replace(",", "."));
+            const roky = parseFloat(dobaInput.value);
 
-        validujInput(vkladInput, "mesicniVklad-chyba", "Např.: 5 000", jeVkladOk);
-        validujInput(urokInput, "urokSporeni-chyba", "Např.: 4", jeUrokOk);
-        validujInput(dobaInput, "dobaSporeni-chyba", "Např.: 10", jeDobaOk);
+            const jeVkladOk = !isNaN(vklad) && vklad > 0;
+            const jeUrokOk = !isNaN(rocniUrok) && rocniUrok >= 0;
+            const jeDobaOk = !isNaN(roky) && roky > 0;
 
-        if (!jeVkladOk || !jeUrokOk || !jeDobaOk) return;
-        const mesice = roky * 12;
-        const r = rocniUrok / 100 / 12;
-        let celkemVlozeno = vklad * mesice;
-        let celkovaCastka = r > 0 ? vklad * ((Math.pow(1 + r, mesice) - 1) / r) * (1 + r) : celkemVlozeno;
-        const urokCelkem = celkovaCastka - celkemVlozeno;
+            validujInput(vkladInput, "mesicniVklad-chyba", "Např.: 5 000", jeVkladOk);
+            validujInput(urokInput, "urokSporeni-chyba", "Např.: 4", jeUrokOk);
+            validujInput(dobaInput, "dobaSporeni-chyba", "Např.: 10", jeDobaOk);
 
-        document.getElementById("vysledekSporeni").textContent =
-            "Naspořená částka: " + Math.round(celkovaCastka).toLocaleString("cs-CZ") + " Kč";
-        document.getElementById("detailySporeni").innerHTML =
-            "<p>Celkem vloženo: <strong>" + Math.round(celkemVlozeno).toLocaleString("cs-CZ") + " Kč</strong></p>" +
-            "<p>Získaný úrok: <strong>" + Math.round(urokCelkem).toLocaleString("cs-CZ") + " Kč</strong></p>";
+            if (!jeVkladOk || !jeUrokOk || !jeDobaOk) return;
+            const mesice = roky * 12;
+            const r = rocniUrok / 100 / 12;
+            let celkemVlozeno = vklad * mesice;
+            let celkovaCastka = r > 0 ? vklad * ((Math.pow(1 + r, mesice) - 1) / r) * (1 + r) : celkemVlozeno;
+            const urokCelkem = celkovaCastka - celkemVlozeno;
 
-        if (mujGrafSporeni !== null) mujGrafSporeni.destroy();
+            const vysledekEl = document.getElementById("vysledekSporeni");
+            if (vysledekEl) {
+                vysledekEl.textContent = "Naspořená částka: " + Math.round(celkovaCastka).toLocaleString("cs-CZ") + " Kč";
+                vysledekEl.style.border = "2px solid #22c55e";
+                vysledekEl.style.backgroundColor = "#f0fdf4";
+                vysledekEl.style.padding = "14px 18px";
+                vysledekEl.style.borderRadius = "8px";
+                vysledekEl.style.textAlign = "center";
+                vysledekEl.style.color = "#166534";
+                vysledekEl.style.fontWeight = "bold";
+            }
 
-        if (typeof Chart !== "undefined") { vykresliGraf(celkemVlozeno, urokCelkem); }
-        else { setTimeout(function() { if (typeof Chart !== "undefined") vykresliGraf(celkemVlozeno, urokCelkem); }, 500); }
-    });
+            const detailyEl = document.getElementById("detailySporeni");
+            if (detailyEl) {
+                detailyEl.innerHTML =
+                    "<p>Celkem vloženo: <strong>" + Math.round(celkemVlozeno).toLocaleString("cs-CZ") + " Kč</strong></p>" +
+                    "<p>Získaný úrok: <strong>" + Math.round(urokCelkem).toLocaleString("cs-CZ") + " Kč</strong></p>";
+            }
+
+            if (mujGrafSporeni !== null) mujGrafSporeni.destroy();
+
+            if (typeof Chart !== "undefined") { vykresliGraf(celkemVlozeno, urokCelkem); }
+            else { setTimeout(function() { if (typeof Chart !== "undefined") vykresliGraf(celkemVlozeno, urokCelkem); }, 500); }
+        });
+    }
 
     function vykresliGraf(celkemVlozeno, urokCelkem) {
-        const ctx = document.getElementById("grafSporeni").getContext("2d");
+        const grafEl = document.getElementById("grafSporeni");
+        if (!grafEl) return;
+        const ctx = grafEl.getContext("2d");
         mujGrafSporeni = new Chart(ctx, {
             type: "doughnut",
             data: {
@@ -169,6 +195,8 @@ window.addEventListener("DOMContentLoaded", function() {
         inputDobaSporeni.addEventListener("keydown", function(event) { if (event.key === "Enter") { event.preventDefault(); tlacitkoVypocitatSporeni.click(); } });
     }
 
-    setTimeout(function() { document.getElementById("vypocitatSporeni").click(); }, 300);
+    setTimeout(function() { 
+        const tlacitko = document.getElementById("vypocitatSporeni");
+        if (tlacitko) tlacitko.click(); 
+    }, 300);
 });
-

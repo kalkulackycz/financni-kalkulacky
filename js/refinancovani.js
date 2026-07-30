@@ -32,13 +32,15 @@ window.addEventListener("DOMContentLoaded", function() {
 
     // Pomocná funkce pro validaci
     function validujInput(input, chybaId, napoveda, podminka) {
+        const chybaEl = document.getElementById(chybaId);
+        if (!chybaEl) return true;
         if (!podminka) {
-            document.getElementById(chybaId).innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
-            document.getElementById(chybaId).style.display = "block";
+            chybaEl.innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
+            chybaEl.style.display = "block";
             input.classList.add("input-chyba");
             return false;
         } else {
-            document.getElementById(chybaId).style.display = "none";
+            chybaEl.style.display = "none";
             input.classList.remove("input-chyba");
             return true;
         }
@@ -47,6 +49,7 @@ window.addEventListener("DOMContentLoaded", function() {
     // Funkce pro formátování a validaci vstupu
     function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
         const el = document.getElementById(inputId);
+        if (!el) return;
         el.addEventListener('blur', function(e) {
             let val = e.target.value.replace(/\s/g, '');
             if (val !== "" && !isNaN(val.replace(",", "."))) {
@@ -65,6 +68,7 @@ window.addEventListener("DOMContentLoaded", function() {
     function propojSlider(inputId, sliderId, isFloat = false) {
         const input = document.getElementById(inputId);
         const slider = document.getElementById(sliderId);
+        if (!input || !slider) return;
 
         slider.addEventListener('input', function() {
             if (isFloat) {
@@ -72,7 +76,8 @@ window.addEventListener("DOMContentLoaded", function() {
             } else {
                 input.value = parseInt(slider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
             }
-            document.getElementById("vypocitatRefin").click();
+            const tlacitko = document.getElementById("vypocitatRefin");
+            if (tlacitko) tlacitko.click();
         });
 
         input.addEventListener('input', function() {
@@ -88,62 +93,83 @@ window.addEventListener("DOMContentLoaded", function() {
     propojSlider('novyUrok', 'novyUrok-slider', true);
     propojSlider('dobaRefin', 'dobaRefin-slider');
 
-    document.getElementById("vypocitatRefin").addEventListener("click", function() {
-        const chybovaHlaska = document.getElementById("chybova-hlaska");
-        if (chybovaHlaska) chybovaHlaska.style.display = "none";
+    const tlacitkoVypocetRefin = document.getElementById("vypocitatRefin");
+    if (tlacitkoVypocetRefin) {
+        tlacitkoVypocetRefin.addEventListener("click", function(e) {
+            if (e) e.preventDefault();
+            const chybovaHlaska = document.getElementById("chybova-hlaska");
+            if (chybovaHlaska) chybovaHlaska.style.display = "none";
 
-        const jistinaInput = document.getElementById("zbytekDluhu");
-        const staryUrokInput = document.getElementById("staryUrok");
-        const novyUrokInput = document.getElementById("novyUrok");
-        const dobaInput = document.getElementById("dobaRefin");
+            const jistinaInput = document.getElementById("zbytekDluhu");
+            const staryUrokInput = document.getElementById("staryUrok");
+            const novyUrokInput = document.getElementById("novyUrok");
+            const dobaInput = document.getElementById("dobaRefin");
 
-        const P = parseFloat(jistinaInput.value.replace(/\s/g, ''));
-        const staryUrokRocni = parseFloat(staryUrokInput.value.replace(",", "."));
-        const novyUrokRocni = parseFloat(novyUrokInput.value.replace(",", "."));
-        const roky = parseFloat(dobaInput.value);
+            if (!jistinaInput || !staryUrokInput || !novyUrokInput || !dobaInput) return;
 
-        const jeJistinaOk = !isNaN(P) && P > 0;
-        const jeStaryUrokOk = !isNaN(staryUrokRocni) && staryUrokRocni >= 0;
-        const jeNovyUrokOk = !isNaN(novyUrokRocni) && novyUrokRocni >= 0;
-        const jeDobaOk = !isNaN(roky) && roky > 0;
+            const P = parseFloat(jistinaInput.value.replace(/\s/g, ''));
+            const staryUrokRocni = parseFloat(staryUrokInput.value.replace(",", "."));
+            const novyUrokRocni = parseFloat(novyUrokInput.value.replace(",", "."));
+            const roky = parseFloat(dobaInput.value);
 
-        validujInput(jistinaInput, "zbytekDluhu-chyba", "Např.: 2 000 000", jeJistinaOk);
-        validujInput(staryUrokInput, "staryUrok-chyba", "Např.: 5,9", jeStaryUrokOk);
-        validujInput(novyUrokInput, "novyUrok-chyba", "Např.: 4,2", jeNovyUrokOk);
-        validujInput(dobaInput, "dobaRefin-chyba", "Např.: 20", jeDobaOk);
+            const jeJistinaOk = !isNaN(P) && P > 0;
+            const jeStaryUrokOk = !isNaN(staryUrokRocni) && staryUrokRocni >= 0;
+            const jeNovyUrokOk = !isNaN(novyUrokRocni) && novyUrokRocni >= 0;
+            const jeDobaOk = !isNaN(roky) && roky > 0;
 
-        if (!jeJistinaOk || !jeStaryUrokOk || !jeNovyUrokOk || !jeDobaOk) return;
+            validujInput(jistinaInput, "zbytekDluhu-chyba", "Např.: 2 000 000", jeJistinaOk);
+            validujInput(staryUrokInput, "staryUrok-chyba", "Např.: 5,9", jeStaryUrokOk);
+            validujInput(novyUrokInput, "novyUrok-chyba", "Např.: 4,2", jeNovyUrokOk);
+            validujInput(dobaInput, "dobaRefin-chyba", "Např.: 20", jeDobaOk);
 
-        const n = roky * 12;
+            if (!jeJistinaOk || !jeStaryUrokOk || !jeNovyUrokOk || !jeDobaOk) return;
 
-        const rStary = staryUrokRocni / 100 / 12;
-        const rNovy = novyUrokRocni / 100 / 12;
+            const n = roky * 12;
 
-        const staryVysledek = P * (rStary * Math.pow(1 + rStary, n)) / (Math.pow(1 + rStary, n) - 1);
-        const novyVysledek = P * (rNovy * Math.pow(1 + rNovy, n)) / (Math.pow(1 + rNovy, n) - 1);
-        const mesicniUspora = staryVysledek - novyVysledek;
-        const celkovaUspora = mesicniUspora * n;
-        const noveCelkoveUroky = (novyVysledek * n) - P;
+            const rStary = staryUrokRocni / 100 / 12;
+            const rNovy = novyUrokRocni / 100 / 12;
 
-        if (mesicniUspora > 0) {
-            document.getElementById("vysledekRefin").textContent = "Měsíčně ušetříte: " + Math.round(mesicniUspora).toLocaleString("cs-CZ") + " Kč";
-        } else {
-            document.getElementById("vysledekRefin").textContent = "Nová nabídka se nevyplatí.";
-        }
+            const staryVysledek = P * (rStary * Math.pow(1 + rStary, n)) / (Math.pow(1 + rStary, n) - 1);
+            const novyVysledek = P * (rNovy * Math.pow(1 + rNovy, n)) / (Math.pow(1 + rNovy, n) - 1);
+            const mesicniUspora = staryVysledek - novyVysledek;
+            const celkovaUspora = mesicniUspora * n;
+            const noveCelkoveUroky = (novyVysledek * n) - P;
 
-        document.getElementById("detailyRefin").innerHTML =
-            "<p>Původní měsíční splátka: <strong>" + Math.round(staryVysledek).toLocaleString("cs-CZ") + " Kč</strong></p>" +
-            "<p>Nová měsíční splátka: <strong>" + Math.round(novyVysledek).toLocaleString("cs-CZ") + " Kč</strong></p>" +
-            "<p>Celková úspora za " + (n / 12) + " let: <strong style='color: #22c55e;'> " + Math.round(Math.max(0, celkovaUspora)).toLocaleString("cs-CZ") + " Kč</strong></p>";
+            const el = document.getElementById("vysledekRefin");
+            if (el) {
+                if (mesicniUspora > 0) {
+                    el.innerText = "Měsíčně ušetříte: " + Math.round(mesicniUspora).toLocaleString("cs-CZ") + " Kč";
+                } else {
+                    el.innerText = "Nová nabídka se nevyplatí.";
+                }
+                el.style.border = "2px solid #22c55e";
+                el.style.backgroundColor = "#f0fdf4";
+                el.style.padding = "14px 18px";
+                el.style.borderRadius = "8px";
+                el.style.textAlign = "center";
+                el.style.color = "#166534";
+                el.style.fontWeight = "bold";
+            }
 
-        if (mujGrafRefin !== null) mujGrafRefin.destroy();
+            const detailyEl = document.getElementById("detailyRefin");
+            if (detailyEl) {
+                detailyEl.innerHTML =
+                    "<p>Původní měsíční splátka: <strong>" + Math.round(staryVysledek).toLocaleString("cs-CZ") + " Kč</strong></p>" +
+                    "<p>Nová měsíční splátka: <strong>" + Math.round(novyVysledek).toLocaleString("cs-CZ") + " Kč</strong></p>" +
+                    "<p>Celková úspora za " + (n / 12) + " let: <strong style='color: #22c55e;'> " + Math.round(Math.max(0, celkovaUspora)).toLocaleString("cs-CZ") + " Kč</strong></p>";
+            }
 
-        if (typeof Chart !== "undefined") { vykresliGraf(P, noveCelkoveUroky); }
-        else { setTimeout(function() { if (typeof Chart !== "undefined") vykresliGraf(P, noveCelkoveUroky); }, 500); }
-    });
+            if (mujGrafRefin !== null) mujGrafRefin.destroy();
+
+            if (typeof Chart !== "undefined") { vykresliGraf(P, noveCelkoveUroky); }
+            else { setTimeout(function() { if (typeof Chart !== "undefined") vykresliGraf(P, noveCelkoveUroky); }, 500); }
+        });
+    }
 
     function vykresliGraf(P, noveCelkoveUroky) {
-        const ctx = document.getElementById("grafRefin").getContext("2d");
+        const grafEl = document.getElementById("grafRefin");
+        if (!grafEl) return;
+        const ctx = grafEl.getContext("2d");
         mujGrafRefin = new Chart(ctx, {
             type: "doughnut",
             data: { labels: ["Zbývající jistina", "Nové budoucí úroky"], datasets: [{ data: [P, Math.max(0, noveCelkoveUroky)], backgroundColor: ["#4f46e5", "#f97316"] }] },
@@ -173,7 +199,6 @@ window.addEventListener("DOMContentLoaded", function() {
     zapnoutFormatovani('novyUrok', 'novyUrok-chyba', 'Např.: 4,2', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
     zapnoutFormatovani('dobaRefin', 'dobaRefin-chyba', 'Např.: 20', v => !isNaN(v) && parseFloat(v) > 0);
 
-    // OPRAVENO: Sekvenční řetězení Enteru pro refinancování
     const inputZbytek = document.getElementById("zbytekDluhu");
     const inputStaryUrok = document.getElementById("staryUrok");
     const inputNovyUrok = document.getElementById("novyUrok");
@@ -187,6 +212,8 @@ window.addEventListener("DOMContentLoaded", function() {
         inputDobaRefin.addEventListener("keydown", function(event) { if (event.key === "Enter") { event.preventDefault(); tlacitkoVypocitatRefin.click(); } });
     }
 
-    setTimeout(function() { document.getElementById("vypocitatRefin").click(); }, 300);
+    setTimeout(function() { 
+        const tlacitko = document.getElementById("vypocitatRefin");
+        if (tlacitko) tlacitko.click(); 
+    }, 300);
 });
-

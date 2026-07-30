@@ -32,13 +32,15 @@ window.addEventListener("DOMContentLoaded", function() {
 
     // Pomocná funkce pro validaci
     function validujInput(input, chybaId, napoveda, podminka) {
+        const chybaEl = document.getElementById(chybaId);
+        if (!chybaEl) return true;
         if (!podminka) {
-            document.getElementById(chybaId).innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
-            document.getElementById(chybaId).style.display = "block";
+            chybaEl.innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
+            chybaEl.style.display = "block";
             input.classList.add("input-chyba");
             return false;
         } else {
-            document.getElementById(chybaId).style.display = "none";
+            chybaEl.style.display = "none";
             input.classList.remove("input-chyba");
             return true;
         }
@@ -46,13 +48,14 @@ window.addEventListener("DOMContentLoaded", function() {
     // Funkce pro formátování a validaci vstupu
     function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
         const el = document.getElementById(inputId);
+        if (!el) return;
         el.addEventListener('blur', function(e) {
             let val = e.target.value.replace(/\s/g, '');
             if (val !== "" && !isNaN(val.replace(",", "."))) {
                  // U částek formátujeme, u procent/let necháváme nebo upravujeme dle typu
                 if (inputId !== 'urokPujcka' && inputId !== 'dobaPujcka') {
-                e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
-            }
+                    e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
+                }
             }
             validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
         });
@@ -65,6 +68,7 @@ window.addEventListener("DOMContentLoaded", function() {
     function propojSlider(inputId, sliderId, isFloat = false) {
         const input = document.getElementById(inputId);
         const slider = document.getElementById(sliderId);
+        if (!input || !slider) return;
 
         slider.addEventListener('input', function() {
             if (isFloat) {
@@ -72,7 +76,8 @@ window.addEventListener("DOMContentLoaded", function() {
             } else {
                 input.value = parseInt(slider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
             }
-            document.getElementById("vypocitatPujcka").click();
+            const tlacitko = document.getElementById("vypocitatPujcka");
+            if (tlacitko) tlacitko.click();
         });
 
         input.addEventListener('input', function() {
@@ -88,64 +93,81 @@ window.addEventListener("DOMContentLoaded", function() {
     propojSlider('poplatek', 'poplatek-slider');
     propojSlider('dobaPujcka', 'dobaPujcka-slider');
 
-    document.getElementById("vypocitatPujcka").addEventListener("click", function() {
-        const chybovaHlaska = document.getElementById("chybova-hlaska");
-        if (chybovaHlaska) chybovaHlaska.style.display = "none";
-        const vyseInput = document.getElementById("vysePujcky");
-        const urokInput = document.getElementById("urokPujcka");
-        const poplatekInput = document.getElementById("poplatek");
-        const dobaInput = document.getElementById("dobaPujcka");
+    const tlacitkoVypocet = document.getElementById("vypocitatPujcka");
+    if (tlacitkoVypocet) {
+        tlacitkoVypocet.addEventListener("click", function(e) {
+            if (e) e.preventDefault();
+            const chybovaHlaska = document.getElementById("chybova-hlaska");
+            if (chybovaHlaska) chybovaHlaska.style.display = "none";
+            const vyseInput = document.getElementById("vysePujcky");
+            const urokInput = document.getElementById("urokPujcka");
+            const poplatekInput = document.getElementById("poplatek");
+            const dobaInput = document.getElementById("dobaPujcka");
 
-        const P = parseFloat(vyseInput.value.replace(/\s/g, ''));
-        const rocniSazba = parseFloat(urokInput.value.replace(",", "."));
-        const poplatek = parseFloat(poplatekInput.value.replace(/\s/g, ''));
-        const roky = parseFloat(dobaInput.value);
+            if (!vyseInput || !urokInput || !poplatekInput || !dobaInput) return;
 
-        const jeVyseOk = !isNaN(P) && P > 0;
-        const jeUrokOk = !isNaN(rocniSazba) && rocniSazba >= 0;
-        const jePoplatekOk = !isNaN(poplatek) && poplatek >= 0;
-        const jeDobaOk = !isNaN(roky) && roky > 0;
+            const P = parseFloat(vyseInput.value.replace(/\s/g, ''));
+            const rocniSazba = parseFloat(urokInput.value.replace(",", "."));
+            const poplatek = parseFloat(poplatekInput.value.replace(/\s/g, ''));
+            const roky = parseFloat(dobaInput.value);
 
-        validujInput(vyseInput, "vysePujcky-chyba", "Např.: 100 000", jeVyseOk);
-        validujInput(urokInput, "urokPujcka-chyba", "Např.: 8,9", jeUrokOk);
-        validujInput(poplatekInput, "poplatek-chyba", "Např.: 1 500", jePoplatekOk);
-        validujInput(dobaInput, "dobaPujcka-chyba", "Např.: 5", jeDobaOk);
+            const jeVyseOk = !isNaN(P) && P > 0;
+            const jeUrokOk = !isNaN(rocniSazba) && rocniSazba >= 0;
+            const jePoplatekOk = !isNaN(poplatek) && poplatek >= 0;
+            const jeDobaOk = !isNaN(roky) && roky > 0;
 
-        if (!jeVyseOk || !jeUrokOk || !jePoplatekOk || !jeDobaOk) return;
+            validujInput(vyseInput, "vysePujcky-chyba", "Např.: 100 000", jeVyseOk);
+            validujInput(urokInput, "urokPujcka-chyba", "Např.: 8,9", jeUrokOk);
+            validujInput(poplatekInput, "poplatek-chyba", "Např.: 1 500", jePoplatekOk);
+            validujInput(dobaInput, "dobaPujcka-chyba", "Např.: 5", jeDobaOk);
 
-        const n = roky * 12;
-        const r = rocniSazba / 100 / 12;
+            if (!jeVyseOk || !jeUrokOk || !jePoplatekOk || !jeDobaOk) return;
 
-        const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            const n = roky * 12;
+            const r = rocniSazba / 100 / 12;
 
-        // K celkové částce (splátky * počet měsíců) přičteme poplatek
-        const celkemZaplaceno = (mesicniSplatka * n) + poplatek;
+            const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
 
-        // Úroky jsou pouze to, co přeplatíš na splátkách nad rámec půjčené částky (jistiny)
-        const celkoveUroky = (mesicniSplatka * n) - P;
+            // K celkové částce (splátky * počet měsíců) přičteme poplatek
+            const celkemZaplaceno = (mesicniSplatka * n) + poplatek;
 
-        // Formátovací funkce
-        const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
+            // Úroky jsou pouze to, co přeplatíš na splátkách nad rámec půjčené částky (jistiny)
+            const celkoveUroky = (mesicniSplatka * n) - P;
 
-        // Zápis do fialové karty
-        const el = document.getElementById("text-vysledek");
-        if (el) el.innerText = "Měsíční splátka: " + fmt(mesicniSplatka);
+            // Formátovací funkce
+            const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ", {maximumFractionDigits: 0}).replace(/\u00A0/g, ' ') + " Kč";
 
-        // Zápis do detailů (GRID)
-        const detailyEl = document.getElementById("detaily");
-        if (detailyEl) {
-            detailyEl.innerHTML =
-                `<p>Celkem zaplaceno <strong>${fmt(celkemZaplaceno)}</strong></p>` +
-                `<p>Z toho úroky <strong>${fmt(celkoveUroky)}</strong></p>`;
-        }
-        if (mujGrafPujcka !== null) mujGrafPujcka.destroy();
+            // Zápis do výsledku se zeleným rámečkem
+            const el = document.getElementById("text-vysledek");
+            if (el) {
+                el.innerText = "Měsíční splátka: " + fmt(mesicniSplatka);
+                el.style.border = "2px solid #22c55e";
+                el.style.backgroundColor = "#f0fdf4";
+                el.style.padding = "14px 18px";
+                el.style.borderRadius = "8px";
+                el.style.textAlign = "center";
+                el.style.color = "#166534";
+                el.style.fontWeight = "bold";
+            }
 
-        if (typeof Chart !== "undefined") { vykresliGraf(P, celkoveUroky, poplatek); }
-        else { setTimeout(function() { if (typeof Chart !== "undefined") vykresliGraf(P, celkoveUroky, poplatek); }, 500); }
-    });
+            // Zápis do detailů (GRID)
+            const detailyEl = document.getElementById("detaily");
+            if (detailyEl) {
+                detailyEl.innerHTML =
+                    `<p>Celkem zaplaceno <strong>${fmt(celkemZaplaceno)}</strong></p>` +
+                    `<p>Z toho úroky <strong>${fmt(celkoveUroky)}</strong></p>`;
+            }
+            if (mujGrafPujcka !== null) mujGrafPujcka.destroy();
+
+            if (typeof Chart !== "undefined") { vykresliGraf(P, celkoveUroky, poplatek); }
+            else { setTimeout(function() { if (typeof Chart !== "undefined") vykresliGraf(P, celkoveUroky, poplatek); }, 500); }
+        });
+    }
 
     function vykresliGraf(P, celkoveUroky, poplatek) {
-        const ctx = document.getElementById("grafPujcka").getContext("2d");
+        const grafEl = document.getElementById("grafPujcka");
+        if (!grafEl) return;
+        const ctx = grafEl.getContext("2d");
         mujGrafPujcka = new Chart(ctx, {
             type: "doughnut",
             data: {
@@ -177,6 +199,7 @@ window.addEventListener("DOMContentLoaded", function() {
     zapnoutFormatovani('urokPujcka', 'urokPujcka-chyba', 'Např.: 8,9', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
     zapnoutFormatovani('poplatek', 'poplatek-chyba', 'Např.: 1 500', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) >= 0);
     zapnoutFormatovani('dobaPujcka', 'dobaPujcka-chyba', 'Např.: 5', v => !isNaN(v) && parseFloat(v) > 0);
+    
     const inputVyse = document.getElementById("vysePujcky");
     const inputUrokPujcka = document.getElementById("urokPujcka");
     const inputPoplatek = document.getElementById("poplatek");
@@ -190,5 +213,8 @@ window.addEventListener("DOMContentLoaded", function() {
         inputDobaPujcka.addEventListener("keydown", function(event) { if (event.key === "Enter") { event.preventDefault(); tlacitkoVypocitatPujcka.click(); } });
     }
 
-    setTimeout(function() { document.getElementById("vypocitatPujcka").click(); }, 300);
+    setTimeout(function() { 
+        const tlacitko = document.getElementById("vypocitatPujcka");
+        if (tlacitko) tlacitko.click(); 
+    }, 300);
 });
