@@ -588,6 +588,24 @@ window.addEventListener("DOMContentLoaded", function() {
                     event.preventDefault();
                     naformatujPole(id);
                     if (tlacitko) tlacitko.click();
+
+                    // Určení aktivních polí podle toho, zda je zaškrtnutá mimořádná splátka
+                    const aktivni = document.getElementById('aktivator-checkbox').checked;
+                    let currentActivePoleIds = ["castka", "urok", "doba"];
+                    if (aktivni) {
+                        currentActivePoleIds.push("mimoradna-splatka", "mimoradna-rok");
+                    }
+
+                    // Posun na další pole v pořadí
+                    const currentIndex = currentActivePoleIds.indexOf(id);
+                    if (currentIndex !== -1 && currentIndex < currentActivePoleIds.length - 1) {
+                        const nextId = currentActivePoleIds[currentIndex + 1];
+                        const nextEl = document.getElementById(nextId);
+                        if (nextEl) {
+                            nextEl.focus();
+                            nextEl.select();
+                        }
+                    }
                 }
             });
         }
