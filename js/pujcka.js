@@ -125,7 +125,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
         // Zápis do fialové karty
         const el = document.getElementById("text-vysledek");
-        if (el) el.innerText = fmt(mesicniSplatka);
+        if (el) el.innerText = "Měsíční splátka: " + fmt(mesicniSplatka);
 
         // Zápis do detailů (GRID)
         const detailyEl = document.getElementById("detaily");
