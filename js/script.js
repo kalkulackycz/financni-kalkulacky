@@ -47,14 +47,19 @@ function vypocitejZbyvajiciUroky(castka, urokovaSazba, roky, mesicMimoradneSplat
         let urokS = zZustatekS * (urokovaSazba / 100 / 12);
         if (i === mesicMimoradneSplatky) {
             zZustatekS -= mimoradnaSplatka;
-            zAktualniSplatkaS = (zZustatekS * (urokovaSazba / 100 / 12)) / (1 - Math.pow(1 + (urokovaSazba / 100 / 12), -(celkemMesicu - i)));
-                }
-        let jistinaS = Math.min(zAktualniSplatkaS - urokS, zZustatekS);
+            // Měsíční splátka zůstává stejná (zAktualniSplatkaS = mesicniSplatka) -> zkracuje se doba splácení
+        }
+        if (zZustatekS <= 0) {
+            zZustatekS = 0;
+        }
+        let jistinaS = zZustatekS > 0 ? Math.min(zAktualniSplatkaS - urokS, zZustatekS) : 0;
         zZustatekS -= jistinaS;
 
         if (i > mesicMimoradneSplatky) {
             zUrokyBez += urokBez;
-            zUrokyS += urokS;
+            if (zZustatekS >= 0) {
+                zUrokyS += urokS;
+            }
         }
     }
     return { bez: zUrokyBez, s: zUrokyS };
@@ -187,20 +192,20 @@ window.addEventListener("DOMContentLoaded", function() {
             if (aktivni && i === mesicMimoradneSplatky) {
                 zustatekS -= mimoradnaSplatka;
                 celkemZaplacenoS += mimoradnaSplatka;
-                if (zustatekS > 0) {
-                    aktualniMesicniSplatka = (zustatekS * (urokovaSazba / 100 / 12)) / (1 - Math.pow(1 + (urokovaSazba / 100 / 12), -(celkemMesicu - i)));
-                } else {
-                    aktualniMesicniSplatka = 0;
-                }
+                // Splátka zůstává nezměněná (aktualniMesicniSplatka = mesicniSplatka), zkracuje se doba splácení
             }
 
-            celkemUrokyS += urokS;
-            let jistinaS = Math.min(aktualniMesicniSplatka - urokS, zustatekS);
-            zustatekS -= jistinaS;
-            celkemZaplacenoS += (jistinaS + urokS);
+            if (zustatekS <= 0) {
+                zustatekS = 0;
+            } else {
+                celkemUrokyS += urokS;
+                let jistinaS = Math.min(aktualniMesicniSplatka - urokS, zustatekS);
+                zustatekS -= jistinaS;
+                celkemZaplacenoS += (jistinaS + urokS);
 
-            ročníJistina += jistinaS;
-            ročníUroky += urokS;
+                ročníJistina += jistinaS;
+                ročníUroky += urokS;
+            }
 
             if (i % 12 === 0 || i === celkemMesicu) {
                 amortizacniPlan.push({
@@ -321,26 +326,24 @@ window.addEventListener("DOMContentLoaded", function() {
         return btoa(binary);
     }
 
-    let fontyRobotoNacteny = false;
+    let cachedRegular = null;
+    let cachedBold = null;
 
-    // Zaregistruje font Roboto (s podporou české diakritiky) do jsPDF.
-    // Pokud stažení selže (např. výpadek CDN), tiše přejde na výchozí font,
-    // aby export PDF v žádném případě nespadl.
+    // Zaregistruje font Roboto (s podporou české diakritiky) do jsPDF pro každou instanci dokumentu.
     async function zajistiRobotoFont(doc) {
-        if (fontyRobotoNacteny) {
-            doc.setFont("Roboto");
-            return "Roboto";
-        }
         try {
-            const [regular, bold] = await Promise.all([
-                nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf'),
-                nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf')
-            ]);
-            doc.addFileToVFS('Roboto-Regular.ttf', regular);
+            if (!cachedRegular || !cachedBold) {
+                const [regular, bold] = await Promise.all([
+                    nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf'),
+                    nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf')
+                ]);
+                cachedRegular = regular;
+                cachedBold = bold;
+            }
+            doc.addFileToVFS('Roboto-Regular.ttf', cachedRegular);
             doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
-            doc.addFileToVFS('Roboto-Medium.ttf', bold);
+            doc.addFileToVFS('Roboto-Medium.ttf', cachedBold);
             doc.addFont('Roboto-Medium.ttf', 'Roboto', 'bold');
-            fontyRobotoNacteny = true;
             doc.setFont("Roboto");
             return "Roboto";
         } catch (chyba) {
@@ -523,15 +526,15 @@ window.addEventListener("DOMContentLoaded", function() {
                    styles: {
                       font: fontName,
                       fontStyle: 'normal'
-            },
+           },
                    bodyStyles: {
-                   font: fontName
-            },
+                font: fontName
+           },
                    headStyles: {
-                   fillColor: [79, 70, 229],
-                   font: fontName,
-                   fontStyle: 'bold'
-            }
+                fillColor: [79, 70, 229],
+                font: fontName,
+                fontStyle: 'bold'
+           }
     });
             }
             doc.save("vypocet_hypoteky.pdf");
