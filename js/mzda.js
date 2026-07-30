@@ -113,14 +113,23 @@ function vypoctiMzdu() {
 
     el.vysledekText.textContent = "Čistý měsíční příjem: " + Math.round(cistaMzda).toLocaleString("cs-CZ") + " Kč";
 
+    let slevyTextDetail = "";
+    if (slevyNaDani > 0) {
+        let castiSlev = [];
+        if (jePoplatnik) castiSlev.push("poplatník");
+        if (invaliditaStupen > 0) castiSlev.push(`invalidita ${invaliditaStupen}. st.`);
+        if (jeZtpP) castiSlev.push("ZTP/P");
+        slevyTextDetail = ` (${castiSlev.join(", ")})`;
+    }
+
     el.detaily.innerHTML = `
         <p>Hrubá mzda: <strong>${hruba.toLocaleString("cs-CZ")} Kč</strong></p>
         <p>Soc. pojištění: <strong>-${socPoj.toLocaleString("cs-CZ")} Kč</strong></p>
         <p>Zdrav. pojištění: <strong>-${zdravPoj.toLocaleString("cs-CZ")} Kč</strong></p>
         <p>Daň (před slevami): <strong>${dan.toLocaleString("cs-CZ")} Kč</strong></p>
-        ${slevyNaDani > 0 ? `<p style="color:#059669;">Slevy na dani: <strong>-${slevyNaDani.toLocaleString("cs-CZ")} Kč</strong></p>` : ''}
+        ${slevyNaDani > 0 ? `<p style="color:#059669;">Slevy na dani${slevyTextDetail}: <strong>-${slevyNaDani.toLocaleString("cs-CZ")} Kč</strong></p>` : ''}
         <p>Daň po slevách: <strong>${danPoSlevach.toLocaleString("cs-CZ")} Kč</strong></p>
-        ${zvyhodneniDeti > 0 ? `<p style="color:#059669;">Zvýhodnění děti: <strong>-${zvyhodneniDeti.toLocaleString("cs-CZ")} Kč</strong></p>` : ''}
+        ${zvyhodneniDeti > 0 ? `<p style="color:#059669;">Zvýhodnění na děti (${pocetDeti} ${pocetDeti === 1 ? 'dítě' : pocetDeti < 5 ? 'děti' : 'dětí'}): <strong>-${zvyhodneniDeti.toLocaleString("cs-CZ")} Kč</strong></p>` : ''}
         ${danovyBonus > 0 ? `<p style="color:#059669;">Daňový bonus: <strong>+${danovyBonus.toLocaleString("cs-CZ")} Kč</strong></p>` : ''}
     `;
 
@@ -153,8 +162,193 @@ function vypoctiMzdu() {
     }
 }
 
+async function nactiFontJakoBase64(url) {
+    const odpoved = await fetch(url);
+    const buffer = await odpoved.arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+    let binary = "";
+    const kus = 0x8000;
+    for (let i = 0; i < bytes.length; i += kus) {
+        binary += String.fromCharCode.apply(null, bytes.subarray(i, i + kus));
+    }
+    return btoa(binary);
+}
+
+let fontyRobotoNacteny = false;
+
+async function zajistiRobotoFont(doc) {
+    if (fontyRobotoNacteny) {
+        doc.setFont("Roboto");
+        return "Roboto";
+    }
+    try {
+        const [regular, bold] = await Promise.all([
+            nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf'),
+            nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf')
+        ]);
+        doc.addFileToVFS('Roboto-Regular.ttf', regular);
+        doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
+        doc.addFileToVFS('Roboto-Medium.ttf', bold);
+        doc.addFont('Roboto-Medium.ttf', 'Roboto', 'bold');
+        fontyRobotoNacteny = true;
+        doc.setFont("Roboto");
+        return "Roboto";
+    } catch (chyba) {
+        console.warn('Nepodařilo se načíst font Roboto pro PDF, použije se záložní font.', chyba);
+        doc.setFont("helvetica");
+        return "helvetica";
+    }
+}
+
+// Bezpečnostní filtr textu pro případ nouzového záložního fontu
+function bezpečnýText(text, fontName) {
+    if (fontName === 'helvetica') {
+        return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+    return text;
+}
+
+async function generujPDFMzda() {
+    if (typeof window.jspdf === "undefined" || !window.jspdf.jsPDF) {
+        alert("Knihovna pro PDF se ještě nenačetla, zkuste to prosím za chvíli.");
+        return;
+    }
+
+    const tlacitkoExport = el.exportPdfBtn;
+    const puvodniTextTlacitka = tlacitkoExport.innerHTML;
+    tlacitkoExport.disabled = true;
+    tlacitkoExport.style.opacity = '0.7';
+    tlacitkoExport.innerHTML = '⏳ Generuji PDF…';
+
+    try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const fontName = await zajistiRobotoFont(doc);
+
+        const hruba = parseFloat(el.hruba.value.replace(/\s/g, '')) || 0;
+        const pocetDeti = Number(el.pocetDeti?.value) || 0;
+        const ztpDeti = [...document.querySelectorAll(".ztp-dite:checked")].map(e => Number(e.value));
+        const jePoplatnik = document.getElementById("slevaPoplatnik")?.checked;
+        const invaliditaStupen = Number(document.getElementById("invalidita")?.value) || 0;
+        const jeZtpP = document.getElementById("ztpP")?.checked;
+
+        const socPoj = pojisteni(hruba, 0.071);
+        const zdravPoj = pojisteni(hruba, 0.045);
+        const zaklad = zaokrouhliZakladDane(hruba);
+        const dan = (zaklad > CONFIG.LIMIT_DAN_23_MESIC)
+            ? Math.ceil(CONFIG.LIMIT_DAN_23_MESIC * 0.15) + Math.ceil((zaklad - CONFIG.LIMIT_DAN_23_MESIC) * 0.23)
+            : Math.ceil(zaklad * 0.15);
+
+        let zvyhodneniDeti = 0;
+        for (let i = 1; i <= pocetDeti; i++) {
+            let sazba = CONFIG.DETI_SAZBY[Math.min(i, 3)];
+            if (ztpDeti.includes(i)) sazba *= 2;
+            zvyhodneniDeti += sazba;
+        }
+
+        const slevyNaDani = (jePoplatnik ? CONFIG.SLEVA_POPLATNIK : 0) +
+                            (CONFIG.INVALIDITA[invaliditaStupen] || 0) +
+                            (jeZtpP ? CONFIG.SLEVA_ZTP : 0);
+
+        const danPoSlevach = Math.max(0, dan - slevyNaDani);
+        let danKPlaceni = danPoSlevach;
+        let danovyBonus = 0;
+        let danPoZvyhodneni = danPoSlevach - zvyhodneniDeti;
+
+        if (danPoZvyhodneni < 0) {
+            const moznyBonus = Math.abs(danPoZvyhodneni);
+            danovyBonus = (hruba * 12 >= CONFIG.MIN_PRIJEM_ROCNI_BONUS) ? Math.min(moznyBonus, CONFIG.MAX_DANOVY_BONUS_MESIC) : 0;
+            danKPlaceni = 0;
+        } else {
+            danKPlaceni = danPoZvyhodneni;
+        }
+
+        const cistaMzda = hruba - socPoj - zdravPoj - danKPlaceni + danovyBonus;
+
+        // Záhlaví PDF (vycentrované)
+        doc.setFillColor(79, 70, 229);
+        doc.rect(0, 0, 210, 30, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(20);
+        doc.setFont(fontName, "bold");
+        doc.text(bezpečnýText("Výpočet čisté mzdy", fontName), 105, 20, { align: 'center' });
+
+        doc.setTextColor(50, 50, 50);
+        doc.setFontSize(10);
+        doc.setFont(fontName, "normal");
+        doc.text(bezpečnýText(`Datum výpočtu: ${new Date().toLocaleDateString("cs-CZ")}`, fontName), 105, 38, { align: 'center' });
+
+        // Hlavní rámeček výsledku (vycentrovaný)
+        doc.setFillColor(243, 244, 246);
+        doc.roundedRect(14, 44, 182, 24, 3, 3, 'F');
+        doc.setTextColor(16, 185, 129);
+        doc.setFontSize(16);
+        doc.setFont(fontName, "bold");
+        doc.text(bezpečnýText(`Čistý měsíční příjem: ${Math.round(cistaMzda).toLocaleString("cs-CZ")} Kč`, fontName), 105, 60, { align: 'center' });
+
+        let slevyNazev = "Slevy na dani";
+        let castiSlev = [];
+        if (jePoplatnik) castiSlev.push("poplatník");
+        if (invaliditaStupen > 0) castiSlev.push(`inv. ${invaliditaStupen}. st.`);
+        if (jeZtpP) castiSlev.push("ZTP/P");
+        if (castiSlev.length > 0) slevyNazev += ` (${castiSlev.join(", ")})`;
+
+        let detiNazev = `Daňové zvýhodnění na děti (${pocetDeti} ${pocetDeti === 1 ? 'dítě' : pocetDeti < 5 ? 'děti' : 'dětí'})`;
+
+        // Tabulka odvodů a daní
+        const tabulkaData = [
+            ["Hrubá mzda", `${hruba.toLocaleString("cs-CZ")} Kč`],
+            ["Sociální pojištění (7,1 %)", `-${socPoj.toLocaleString("cs-CZ")} Kč`],
+            ["Zdravotní pojištění (4,5 %)", `-${zdravPoj.toLocaleString("cs-CZ")} Kč`],
+            ["Daň z příjmů (před slevami)", `${dan.toLocaleString("cs-CZ")} Kč`],
+            [slevyNazev, `-${slevyNaDani.toLocaleString("cs-CZ")} Kč`],
+            ["Daň po slevách", `${danPoSlevach.toLocaleString("cs-CZ")} Kč`],
+            [detiNazev, `-${zvyhodneniDeti.toLocaleString("cs-CZ")} Kč`],
+            ["Daňový bonus", `+${danovyBonus.toLocaleString("cs-CZ")} Kč`],
+            ["Výsledná daň k úhradě", `${danKPlaceni.toLocaleString("cs-CZ")} Kč`],
+            ["Čistý měsíční příjem", `${Math.round(cistaMzda).toLocaleString("cs-CZ")} Kč`]
+        ];
+
+        // Aplikace bezpečné normalizace textu na všechna data tabulky
+        const bezpecnaTabulkaData = tabulkaData.map(radek => [
+            bezpečnýText(radek[0], fontName),
+            radek[1]
+        ]);
+
+        if (typeof doc.autoTable === 'function') {
+            doc.autoTable({
+                startY: 75,
+                head: [[bezpečnýText("Položka", fontName), "Částka"]],
+                body: bezpecnaTabulkaData,
+                theme: "striped",
+                headStyles: { fillColor: [79, 70, 229], textColor: [255, 255, 255], fontStyle: "bold", font: fontName },
+                styles: { fontSize: 9.5, cellPadding: 3.5, font: fontName },
+                columnStyles: { 1: { halign: "right", fontStyle: "bold" } }
+            });
+        }
+
+        // Patička (vycentrovaná)
+        const pocetStran = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= pocetStran; i++) {
+            doc.setPage(i);
+            doc.setFontSize(8);
+            doc.setTextColor(150, 150, 150);
+            doc.setFont(fontName, "normal");
+            doc.text(bezpečnýText("Generováno z webu Finanční mapa. Kalkulačka slouží pouze pro orientační výpočet.", fontName), 105, 285, { align: 'center' });
+        }
+
+        doc.save("vypocet-ciste-mzdy.pdf");
+    } catch (chyba) {
+        console.error('Export PDF selhal:', chyba);
+        alert('Export do PDF se bohužel nezdařil. Zkuste to prosím znovu.');
+    } finally {
+        tlacitkoExport.disabled = false;
+        tlacitkoExport.style.opacity = '';
+        tlacitkoExport.innerHTML = puvodniTextTlacitka;
+    }
+}
+
 window.addEventListener("DOMContentLoaded", function() {
-    // Globální logika pro otazníky (PC hover / Mobil klik)
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('ikona-otaznik')) {
             const bublina = e.target.nextElementSibling;
@@ -181,7 +375,8 @@ window.addEventListener("DOMContentLoaded", function() {
         graf: document.getElementById("grafMzda"),
         kontejnerZtp: document.getElementById("kontejner-ztp-deti"),
         detaily: document.getElementById("detailyMzda"),
-        vysledekText: document.getElementById("vysledekMzda")
+        vysledekText: document.getElementById("vysledekMzda"),
+        exportPdfBtn: document.getElementById("export-pdf")
     };
 
     if (el.pocetDeti) {
@@ -191,6 +386,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
     ["slevaPoplatnik", "invalidita", "ztpP"].forEach(id => document.getElementById(id)?.addEventListener("change", vypoctiMzdu));
     el.tlacitko?.addEventListener("click", vypoctiMzdu);
+    el.exportPdfBtn?.addEventListener("click", generujPDFMzda);
 
     el.slider?.addEventListener("input", function() {
         el.hruba.value = Number(this.value).toLocaleString("cs-CZ").replace(/\u00A0/g, " ");
@@ -198,7 +394,7 @@ window.addEventListener("DOMContentLoaded", function() {
     });
     el.hruba?.addEventListener("input", function() {
         let v = Number(this.value.replace(/\s/g, ''));
-        if (!isNaN(v)) el.slider.value = Math.min(Math.max(v, 10000), 300000);
+        if (!isNaN(v) && el.slider) el.slider.value = Math.min(Math.max(v, 10000), 300000);
     });
     el.hruba?.addEventListener("blur", vypoctiMzdu);
     el.hruba?.addEventListener("keydown", function(event) {
