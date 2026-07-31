@@ -60,7 +60,13 @@ function naformatujHrubou() {
     vypoctiMzdu();
 }
 
-function zaokrouhliZakladDane(hruba) { return Math.floor(hruba / 100) * 100; }
+// OPRAVA: dle §38h odst. 2 zákona o daních z příjmů se základ pro výpočet MĚSÍČNÍ zálohy
+// zaokrouhluje NAHORU (do 100 Kč na celé koruny nahoru, nad 100 Kč na celé stokoruny nahoru).
+// Původní kód chybně používal Math.floor (zaokrouhlení dolů), což platí jen pro ROČNÍ základ daně (§16 ZDP), ne pro měsíční zálohu.
+function zaokrouhliZakladDane(hruba) {
+    if (hruba <= 100) return Math.ceil(hruba);
+    return Math.ceil(hruba / 100) * 100;
+}
 function pojisteni(zaklad, sazba) { return Math.ceil(zaklad * sazba); }
 
 function generujDiteZtpInputs(pocet) {
