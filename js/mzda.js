@@ -250,11 +250,19 @@ async function generujPDFMzda() {
     tlacitkoExport.innerHTML = '⏳ Generuji PDF…';
 
     try {
+        // Ujistíme se, že tlačítko Vypočítat aktualizovalo hodnoty a validaci.
+        vypoctiMzdu();
+
+        const hruba = parseFloat(el.hruba.value.replace(/\s/g, '')) || 0;
+        if (hruba <= 0) {
+            alert('Zadejte prosím platnou hrubou mzdu před exportem do PDF.');
+            return;
+        }
+
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
         const fontName = await zajistiRobotoFont(doc);
 
-        const hruba = parseFloat(el.hruba.value.replace(/\s/g, '')) || 0;
         const pocetDeti = Number(el.pocetDeti?.value) || 0;
         const ztpDeti = [...document.querySelectorAll(".ztp-dite:checked")].map(e => Number(e.value));
         const jePoplatnik = document.getElementById("slevaPoplatnik")?.checked;
@@ -294,16 +302,18 @@ async function generujPDFMzda() {
 
         const cistaMzda = hruba - socPoj - zdravPoj - danKPlaceni + danovyBonus;
 
-        // Záhlaví PDF
+        // Záhlaví PDF ve stylu existujících kalkulaček
         doc.setFillColor(79, 70, 229);
-        doc.rect(0, 0, 210, 30, 'F');
+        doc.rect(0, 0, 210, 42, 'F');
+        doc.setFillColor(99, 102, 241);
+        doc.rect(0, 42, 210, 2, 'F');
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(20);
         doc.setFont(fontName, "bold");
-        doc.text(bezpečnýText("Výpočet čisté mzdy", fontName), 105, 20, { align: 'center' });
+        doc.text(bezpečnýText("Výpočet čisté mzdy", fontName), 105, 30, { align: 'center' });
 
-        doc.setTextColor(50, 50, 50);
-        doc.setFontSize(10);
+        doc.setTextColor(245, 245, 245);
+        doc.setFontSize(9);
         doc.setFont(fontName, "normal");
         doc.text(bezpečnýText(`Datum výpočtu: ${new Date().toLocaleDateString("cs-CZ")}`, fontName), 105, 38, { align: 'center' });
 
@@ -311,11 +321,11 @@ async function generujPDFMzda() {
         doc.setFillColor(240, 253, 244);
         doc.setDrawColor(34, 197, 94);
         doc.setLineWidth(0.5);
-        doc.roundedRect(14, 44, 182, 24, 3, 3, 'FD');
+        doc.roundedRect(14, 50, 182, 24, 3, 3, 'FD');
         doc.setTextColor(22, 101, 52);
         doc.setFontSize(16);
         doc.setFont(fontName, "bold");
-        doc.text(bezpečnýText(`Čistý měsíční příjem: ${Math.round(cistaMzda).toLocaleString("cs-CZ")} Kč`, fontName), 105, 60, { align: 'center' });
+        doc.text(bezpečnýText(`Čistý měsíční příjem: ${Math.round(cistaMzda).toLocaleString("cs-CZ")} Kč`, fontName), 105, 66, { align: 'center' });
 
         let slevyNazev = "Slevy na dani";
         let castiSlev = [];
@@ -346,13 +356,28 @@ async function generujPDFMzda() {
 
         if (typeof doc.autoTable === 'function') {
             doc.autoTable({
-                startY: 75,
+                startY: 80,
+                margin: { left: 14, right: 14 },
+                tableWidth: 'auto',
                 head: [[bezpečnýText("Položka", fontName), "Částka"]],
                 body: bezpecnaTabulkaData,
                 theme: "striped",
-                headStyles: { fillColor: [79, 70, 229], textColor: [255, 255, 255], fontStyle: "bold", font: fontName },
-                styles: { fontSize: 9.5, cellPadding: 3.5, font: fontName },
-                columnStyles: { 1: { halign: "right", fontStyle: "bold" } }
+                headStyles: {
+                    fillColor: [79, 70, 229],
+                    textColor: [255, 255, 255],
+                    fontStyle: "bold",
+                    font: fontName
+                },
+                styles: {
+                    fontSize: 9.5,
+                    cellPadding: 3.5,
+                    font: fontName,
+                    overflow: 'linebreak'
+                },
+                columnStyles: {
+                    0: { cellWidth: 120 },
+                    1: { halign: "right", cellWidth: 62, fontStyle: "bold" }
+                }
             });
         }
 
