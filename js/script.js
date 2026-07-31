@@ -33,7 +33,11 @@ let mujGraf = null;
 
 function vypocitejZbyvajiciUroky(castka, urokovaSazba, roky, mesicMimoradneSplatky, mimoradnaSplatka) {
     let celkemMesicu = roky * 12;
-    let mesicniSplatka = (castka * (urokovaSazba / 100 / 12)) / (1 - Math.pow(1 + (urokovaSazba / 100 / 12), -celkemMesicu));
+    const mesicniUrok = urokovaSazba / 100 / 12;
+    // OPRAVA: stejny fix jako ve funkci vypocitat() - pri 0% uroku puvodni vzorec delil nulou.
+    let mesicniSplatka = mesicniUrok === 0
+        ? castka / celkemMesicu
+        : (castka * mesicniUrok) / (1 - Math.pow(1 + mesicniUrok, -celkemMesicu));
 
     let zUrokyBez = 0;
     let zUrokyS = 0;
@@ -164,7 +168,16 @@ window.addEventListener("DOMContentLoaded", function() {
         const aktivni = aktivator ? aktivator.checked : false;
 
         let celkemMesicu = roky * 12;
-        let mesicniSplatka = (castka * (urokovaSazba / 100 / 12)) / (1 - Math.pow(1 + (urokovaSazba / 100 / 12), -celkemMesicu));
+        // OPRAVA: guard proti nesmyslnym/neplatnym vstupum, ktere mohou obejit validaci
+        // tlacitka "Vypocitat" (napr. primy volani vypocitat() z checkboxu mimoradne splatky).
+        if (castka <= 0 || celkemMesicu <= 0) return;
+
+        const mesicniUrok = urokovaSazba / 100 / 12;
+        // OPRAVA: puvodni vzorec pri 0% uroku delil nulou (1 - (1+0)^-n = 0) a vracel NaN.
+        // Pri 0% uroku je mesicni splatka proste jistina / pocet mesicu.
+        let mesicniSplatka = mesicniUrok === 0
+            ? castka / celkemMesicu
+            : (castka * mesicniUrok) / (1 - Math.pow(1 + mesicniUrok, -celkemMesicu));
         let aktualniMesicniSplatka = mesicniSplatka;
         let zustatekS = castka;
         let zustatekBez = castka;

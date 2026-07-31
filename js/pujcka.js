@@ -126,7 +126,11 @@ window.addEventListener("DOMContentLoaded", function() {
             const n = roky * 12;
             const r = rocniSazba / 100 / 12;
 
-            const mesicniSplatka = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            // OPRAVA: puvodni vzorec pri 0% uroku (r=0) delil nulou ((1+0)^n - 1 = 0) a vracel NaN.
+            // Validace uroku povoluje hodnotu 0 (rocniSazba >= 0), takze k teto chybe realne dochazelo.
+            const mesicniSplatka = r === 0
+                ? P / n
+                : P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
 
             // K celkové částce (splátky * počet měsíců) přičteme poplatek
             const celkemZaplaceno = (mesicniSplatka * n) + poplatek;

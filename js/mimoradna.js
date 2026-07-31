@@ -125,13 +125,24 @@ window.addEventListener("DOMContentLoaded", function() {
             if (!jeDluhOk || !jeUrokOk || !jeDobaOk || !jeSplatkaOk) return;
             const r = rocniSazba / 100 / 12;
             const nPuvodni = roky * 12;
-            const mesicniSplatka = dluh * (r * Math.pow(1 + r, nPuvodni)) / (Math.pow(1 + r, nPuvodni) - 1);
+            // OPRAVA: puvodni vzorec pri 0% uroku (r=0) delil nulou a vracel NaN.
+            // Validace uroku povoluje hodnotu 0 (rocniSazba >= 0), takze k teto chybe realne dochazelo.
+            const mesicniSplatka = r === 0
+                ? dluh / nPuvodni
+                : dluh * (r * Math.pow(1 + r, nPuvodni)) / (Math.pow(1 + r, nPuvodni) - 1);
             const celkemPuvodne = mesicniSplatka * nPuvodni;
             const urokyPuvodne = celkemPuvodne - dluh;
             const novyDluh = dluh - mimoradnaSplatka;
-            const horniCitatel = Math.log(1 - (novyDluh * r) / mesicniSplatka);
-            const spodniJmenovatel = Math.log(1 + r);
-            const nNove = -horniCitatel / spodniJmenovatel;
+            // OPRAVA: puvodni logaritmicky vzorec pro novy pocet mesicu take pri r=0 delil nulou
+            // (log(1+0) = 0 ve jmenovateli). Pri 0% uroku je novy pocet mesicu proste linearni podil.
+            let nNove;
+            if (r === 0) {
+                nNove = novyDluh / mesicniSplatka;
+            } else {
+                const horniCitatel = Math.log(1 - (novyDluh * r) / mesicniSplatka);
+                const spodniJmenovatel = Math.log(1 + r);
+                nNove = -horniCitatel / spodniJmenovatel;
+            }
             const mesiceNove = Math.ceil(nNove);
             const usetrenoMesicu = nPuvodni - mesiceNove;
             const celkemNoveBezMimoradne = mesicniSplatka * nNove;

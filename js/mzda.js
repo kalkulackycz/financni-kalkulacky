@@ -118,7 +118,7 @@ function vypoctiMzdu() {
 
     if (danPoZvyhodneni < 0) {
         const moznyBonus = Math.abs(danPoZvyhodneni);
-        danovyBonus = (hruba * 12 >= CONFIG.MIN_PRIJEM_ROCNI_BONUS) ? Math.min(moznyBonus, CONFIG.MAX_DANOVY_BONUS_MESIC) : 0;
+        danovyBonus = (hruba * 12 >= CONFIG.MIN_PRIJEM_ROCNI_BONUS) ? moznyBonus : 0;
         danKPlaceni = 0;
     } else {
         danKPlaceni = danPoZvyhodneni;
@@ -280,7 +280,7 @@ async function generujPDFMzda() {
 
         if (danPoZvyhodneni < 0) {
             const moznyBonus = Math.abs(danPoZvyhodneni);
-            danovyBonus = (hruba * 12 >= CONFIG.MIN_PRIJEM_ROCNI_BONUS) ? Math.min(moznyBonus, CONFIG.MAX_DANOVY_BONUS_MESIC) : 0;
+            danovyBonus = (hruba * 12 >= CONFIG.MIN_PRIJEM_ROCNI_BONUS) ? moznyBonus : 0;
             danKPlaceni = 0;
         } else {
             danKPlaceni = danPoZvyhodneni;

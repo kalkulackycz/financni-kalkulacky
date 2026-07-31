@@ -129,8 +129,15 @@ window.addEventListener("DOMContentLoaded", function() {
             const rStary = staryUrokRocni / 100 / 12;
             const rNovy = novyUrokRocni / 100 / 12;
 
-            const staryVysledek = P * (rStary * Math.pow(1 + rStary, n)) / (Math.pow(1 + rStary, n) - 1);
-            const novyVysledek = P * (rNovy * Math.pow(1 + rNovy, n)) / (Math.pow(1 + rNovy, n) - 1);
+            // OPRAVA: puvodni vzorec pri 0% uroku (r=0) delil nulou a vracel NaN.
+            // Validace uroku povoluje hodnotu 0 (napr. novyUrokRocni >= 0), takze k chybe realne dochazelo,
+            // typicky u nove sazby (napr. bezurocna nabidka refinancovani).
+            const staryVysledek = rStary === 0
+                ? P / n
+                : P * (rStary * Math.pow(1 + rStary, n)) / (Math.pow(1 + rStary, n) - 1);
+            const novyVysledek = rNovy === 0
+                ? P / n
+                : P * (rNovy * Math.pow(1 + rNovy, n)) / (Math.pow(1 + rNovy, n) - 1);
             const mesicniUspora = staryVysledek - novyVysledek;
             const celkovaUspora = mesicniUspora * n;
             const noveCelkoveUroky = (novyVysledek * n) - P;
