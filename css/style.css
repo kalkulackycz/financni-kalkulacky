@@ -397,6 +397,93 @@ button:hover {
     text-align:right;
 }
 
+/* ===== Kalkulačky: karty (přesun z kalkulacky.html) ===== */
+.uvodni-sekce {
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+.karty-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 30px;
+}
+.karta {
+    background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(250,250,255,0.9) 100%);
+    padding: 18px 20px;
+    border-radius: 14px;
+    border: 1px solid rgba(15,23,42,0.06);
+    box-shadow: 0 10px 30px rgba(2,6,23,0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+    text-decoration: none;
+    color: #0f172a;
+    transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: visible;
+}
+.karta:before {
+    content: "";
+    position: absolute;
+    left: 12px;
+    top: 14px;
+    bottom: 14px;
+    width: 6px;
+    border-radius: 6px;
+    background: linear-gradient(180deg,#a78bfa,#4f46e5);
+    box-shadow: 0 6px 18px rgba(79,70,229,0.12);
+}
+.karta:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 18px 40px rgba(2,6,23,0.10);
+    border-color: rgba(79,70,229,0.14);
+}
+.karta h3 {
+    margin-left: 28px;
+    margin-bottom: 8px;
+    color: #0f172a;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.karta-popis {
+    margin-left: 28px;
+    margin-top: 6px;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.3;
+    margin-bottom: 12px;
+}
+.karta-footer {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top: 8px;
+    margin-left: 28px;
+}
+.karta-cta {
+    background: linear-gradient(90deg,#10b981,#059669);
+    color: #fff;
+    padding:8px 12px;
+    border-radius:8px;
+    font-weight:700;
+    font-size:13px;
+    text-decoration:none;
+    box-shadow: 0 6px 18px rgba(6,95,70,0.12);
+}
+.karta-cta:hover { transform: translateY(-1px); }
+/* Responsive */
+@media (max-width: 900px) {
+    .karty-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+    .karty-grid { grid-template-columns: 1fr; }
+}
+
 
 #amortizacni-tabulka th,
 #amortizacni-tabulka td {

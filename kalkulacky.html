@@ -6,37 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finanční kalkulačky</title>
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        .uvodni-sekce {
-            text-align: center;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        .karty-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-top: 30px;
-        }
-        .karta {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,.08);
-            text-decoration: none;
-            color: #1a1a2e;
-            transition: transform 0.2s;
-            display: block;
-        }
-        .karta:hover {
-            transform: translateY(-5px);
-        }
-        .karta h3 {
-            margin-bottom: 10px;
-            color: #4f46e5;
-        }
-    </style>
 </head>
 <body>
 
@@ -47,18 +16,72 @@
 
     <div class="uvodni-sekce">
         <h1>Finanční kalkulačky</h1>
-        <p class="uvod">"Jednoduché online kalkulačky pro hypotéky, půjčky, spoření a osobní finance."</p>
+        <p class="uvod">Jednoduché online kalkulačky pro hypotéky, půjčky, spoření a osobní finance.</p>
 
         <div class="karty-grid">
-            <a href="index.html" class="karta"><h3>🏠 Hypoteční kalkulačka</h3></a>
-            <a href="mzda.html" class="karta"><h3>💼 Kalkulačka čisté mzdy</h3></a>
-            <a href="sporeni.html" class="karta"><h3>💰 Kalkulačka spoření</h3></a>
-            <a href="pujcka.html" class="karta"><h3>💳 Kalkulačka půjčky</h3></a>
-            <a href="refinancovani.html" class="karta"><h3>🔄 Kalkulačka refinancování</h3></a>
-            <a href="mimoradna-splatka.html" class="karta"><h3>💸 Kalkulačka mimořádné splátky</h3></a>
-            <a href="nemocenska-2026.html" class="karta"><h3>🩺 Kalkulačka nemocenské 2026</h3></a>
-            <a href="ppm.html" class="karta"><h3>👶 Kalkulačka mateřské (PPM)</h3></a>
-            <a href="inflace.html" class="karta"><h3>📉 Kalkulačka inflace</h3></a>
+            <a href="index.html" class="karta">
+                <div>
+                    <h3>🏠 Hypoteční kalkulačka</h3>
+                    <p class="karta-popis">Odhad měsíční splátky a celkových nákladů úvěru.</p>
+                </div>
+                <div class="karta-footer"><span></span><span class="karta-cta">Otevřít</span></div>
+            </a>
+            <a href="mzda.html" class="karta">
+                <div>
+                    <h3>💼 Kalkulačka čisté mzdy</h3>
+                    <p class="karta-popis">Spočítejte čistou mzdu po odvodech a daních.</p>
+                </div>
+                <div class="karta-footer"><span></span><span class="karta-cta">Otevřít</span></div>
+            </a>
+            <a href="sporeni.html" class="karta">
+                <div>
+                    <h3>💰 Kalkulačka spoření</h3>
+                    <p class="karta-popis">Plán spoření s pravidelnými vklady a zhodnocením.</p>
+                </div>
+                <div class="karta-footer"><span></span><span class="karta-cta">Otevřít</span></div>
+            </a>
+            <a href="pujcka.html" class="karta">
+                <div>
+                    <h3>💳 Kalkulačka půjčky</h3>
+                    <p class="karta-popis">Výpočet splátek, RPSN a celkových nákladů půjčky.</p>
+                </div>
+                <div class="karta-footer"><span></span><span class="karta-cta">Otevřít</span></div>
+            </a>
+            <a href="refinancovani.html" class="karta">
+                <div>
+                    <h3>🔄 Kalkulačka refinancování</h3>
+                    <p class="karta-popis">Porovnejte stávající úvěr s nabídkami refinancování.</p>
+                </div>
+                <div class="karta-footer"><span></span><span class="karta-cta">Otevřít</span></div>
+            </a>
+            <a href="mimoradna-splatka.html" class="karta">
+                <div>
+                    <h3>💸 Kalkulačka mimořádné splátky</h3>
+                    <p class="karta-popis">Zjistěte úsporu na úrocích po mimořádné splátce.</p>
+                </div>
+                <div class="karta-footer"><span></span><span class="karta-cta">Otevřít</span></div>
+            </a>
+            <a href="nemocenska-2026.html" class="karta">
+                <div>
+                    <h3>🩺 Kalkulačka nemocenské 2026</h3>
+                    <p class="karta-popis">Spočítejte nárok na nemocenské a jeho výši.</p>
+                </div>
+                <div class="karta-footer"><span></span><span class="karta-cta">Otevřít</span></div>
+            </a>
+            <a href="ppm.html" class="karta">
+                <div>
+                    <h3>👶 Kalkulačka mateřské (PPM)</h3>
+                    <p class="karta-popis">Výpočet PPM podle redukčních hranic a denního základu.</p>
+                </div>
+                <div class="karta-footer"><span></span><span class="karta-cta">Otevřít</span></div>
+            </a>
+            <a href="inflace.html" class="karta">
+                <div>
+                    <h3>📉 Kalkulačka inflace</h3>
+                    <p class="karta-popis">Zjistěte reálnou hodnotu peněz po zohlednění inflace.</p>
+                </div>
+                <div class="karta-footer"><span></span><span class="karta-cta">Otevřít</span></div>
+            </a>
         </div>
     </div>
 
