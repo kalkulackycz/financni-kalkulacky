@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kalkulačka inflace — zjistěte reálnou hodnotu peněz po zohlednění inflace.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
+    <title>Kalkulačka inflace</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html" class="aktivni">Kalkulačky</a>
+    </nav>
+
+    <div class="kalkulacka">
+        <h1>📉 Kalkulačka inflace</h1>
+
+        <div class="pole-s-napovedou">
+            <div class="label-radek">
+                <label for="castka">💰 Částka dnes (Kč):</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k částce">?</span>
+                <span class="bublina-text">Zadejte částku, jejíž reálnou hodnotu chcete spočítat po roční inflaci.</span>
+            </div>
+            <input type="text" id="castka" value="100000">
+            <input type="range" id="castka-slider" min="1000" max="1000000" step="1000" value="100000">
+            <div id="castka-chyba" class="chyba-text"></div>
+        </div>
+
+        <div class="pole-s-napovedou" style="margin-top: 12px; width: 100%;">
+            <div class="label-radek">
+                <label for="inflace">📈 Roční inflace (%):</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k inflaci">?</span>
+                <span class="bublina-text">Použijte aktuální roční inflaci. Např. 4,5. Pokud nevíte, použijte odkaz níže.</span>
+            </div>
+            <input type="text" id="inflace" value="4.5">
+            <input type="range" id="inflace-slider" min="0" max="20" step="0.1" value="4.5">
+            <div id="inflace-chyba" class="chyba-text"></div>
+        </div>
+
+        <div class="pole-s-napovedou" style="margin-top: 12px; width: 100%;">
+            <div class="label-radek">
+                <label for="doba">📅 Doba (roky):</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k době">?</span>
+                <span class="bublina-text">Zadejte počet let, po které chcete sledovat reálnou hodnotu peněz.</span>
+            </div>
+            <input type="text" id="doba" value="5">
+            <input type="range" id="doba-slider" min="1" max="50" step="1" value="5">
+            <div id="doba-chyba" class="chyba-text"></div>
+        </div>
+
+        <button id="vypocitatInflaci">Vypočítat</button>
+        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
+
+        <h2 id="vysledekInflace" class="vysledek-mzda"></h2>
+        <div id="detailyInflace" class="detaily"></div>
+
+        <a href="https://csu.gov.cz/inflace-spotrebitelske-ceny" class="info-box" target="_blank" style="display:block; text-align:center; margin-top:12px;">
+            💡 Otevřít stránku ČSÚ (otevře se v novém okně)
+        </a>
+
+        <div style="margin-top:14px; font-size:14px; color:#334155; text-align:left; max-width:720px; margin-left:auto; margin-right:auto;">
+            <strong>Přesný text, který na stránce ČSÚ hledejte a zkopírujte:</strong>
+            <div style="margin-top:8px; font-weight:700;">Míra inflace vyjádřená přírůstkem indexu spotřebitelských cen ke stejnému měsíci předchozího roku</div>
+            <div style="margin-top:8px;">Vedle tohoto řádku bude uvedena procentní hodnota (např. <strong>1,5 %</strong>). Do pole kalkulačky zadejte pouze číslo bez znaku procent: <strong>1,5</strong> nebo <strong>1.5</strong>.</div>
+        </div>
+
+        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
+            <h2>Jak kalkulačka funguje</h2>
+            <div class="faq-polozka">
+                <h3>Co kalkuluje reálnou hodnotu?</h3>
+                <p>Vypočítá, kolik bude mít zadaná částka kupní sílu po zohlednění inflace za zadaný počet let.</p>
+            </div>
+            <div class="faq-polozka">
+                <h3>Proč je to užitečné?</h3>
+                <p>Tato kalkulačka ukáže, jak rychle inflace snižuje reálnou hodnotu peněz a kolik peněz bude v budoucnu potřeba k nákupu stejného zboží.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="paticka">
+        <p>Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné finanční poradenství.</p>
+    </footer>
+
+    <script src="js/inflace.js"></script>
+    <script src="js/layout.js"></script>
+</body>
+</html>
