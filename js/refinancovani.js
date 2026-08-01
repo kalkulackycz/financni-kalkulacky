@@ -223,4 +223,56 @@ window.addEventListener("DOMContentLoaded", function() {
         const tlacitko = document.getElementById("vypocitatRefin");
         if (tlacitko) tlacitko.click(); 
     }, 300);
+
+    // Export do PDF
+    const exportPdfBtn = document.getElementById("export-pdf");
+    if (exportPdfBtn) {
+        exportPdfBtn.addEventListener("click", async function() {
+            const jistinaInput = document.getElementById("zbytekDluhu");
+            const staryUrokInput = document.getElementById("staryUrok");
+            const novyUrokInput = document.getElementById("novyUrok");
+            const dobaInput = document.getElementById("dobaRefin");
+            if (!jistinaInput || !staryUrokInput || !novyUrokInput || !dobaInput) return;
+
+            const P = parseFloat(jistinaInput.value.replace(/\s/g, ''));
+            const staryUrokRocni = parseFloat(staryUrokInput.value.replace(",", "."));
+            const novyUrokRocni = parseFloat(novyUrokInput.value.replace(",", "."));
+            const roky = parseFloat(dobaInput.value);
+
+            if (isNaN(P) || P <= 0 || isNaN(staryUrokRocni) || isNaN(novyUrokRocni) || isNaN(roky) || roky <= 0) {
+                alert('Zadejte prosím platné hodnoty před exportem do PDF.');
+                return;
+            }
+
+            const n = roky * 12;
+            const rStary = staryUrokRocni / 100 / 12;
+            const rNovy = novyUrokRocni / 100 / 12;
+            const staryVysledek = rStary === 0 ? P / n : P * (rStary * Math.pow(1 + rStary, n)) / (Math.pow(1 + rStary, n) - 1);
+            const novyVysledek = rNovy === 0 ? P / n : P * (rNovy * Math.pow(1 + rNovy, n)) / (Math.pow(1 + rNovy, n) - 1);
+            const mesicniUspora = staryVysledek - novyVysledek;
+            const celkovaUspora = Math.max(0, mesicniUspora * n);
+
+            const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ") + " Kč";
+            const hlavniText = mesicniUspora > 0
+                ? "Měsíčně ušetříte: " + fmt(mesicniUspora)
+                : "Nová nabídka se nevyplatí";
+
+            await window.PDFSpolecne.exportKalkulackaPDF({
+                nazev: "Výpočet refinancování",
+                hlavniVysledek: hlavniText,
+                radky: [
+                    ["Zbývající jistina", fmt(P)],
+                    ["Současná úroková sazba", staryUrokRocni.toLocaleString("cs-CZ") + " %"],
+                    ["Nová úroková sazba", novyUrokRocni.toLocaleString("cs-CZ") + " %"],
+                    ["Zbývající doba splácení", roky + " let"],
+                    ["Původní měsíční splátka", fmt(staryVysledek)],
+                    ["Nová měsíční splátka", fmt(novyVysledek)],
+                    ["Celková úspora za " + (n / 12) + " let", fmt(celkovaUspora)]
+                ],
+                souborNazev: "vypocet-refinancovani",
+                canvasId: "grafRefin",
+                tlacitko: exportPdfBtn
+            });
+        });
+    }
 });

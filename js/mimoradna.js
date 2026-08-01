@@ -232,4 +232,76 @@ window.addEventListener("DOMContentLoaded", function() {
         const tlacitko = document.getElementById("vypocitatMimoradnou");
         if (tlacitko) tlacitko.click(); 
     }, 300);
+
+    // Export do PDF
+    const exportPdfBtn = document.getElementById("export-pdf");
+    if (exportPdfBtn) {
+        exportPdfBtn.addEventListener("click", async function() {
+            const dluhInput = document.getElementById("aktualniDluh");
+            const urokInput = document.getElementById("urokMimoradna");
+            const dobaInput = document.getElementById("zbyvajiciDoba");
+            const splatkaInput = document.getElementById("vyskaSplatky");
+            if (!dluhInput || !urokInput || !dobaInput || !splatkaInput) return;
+
+            const dluh = parseFloat(dluhInput.value.replace(/\s/g, ''));
+            const rocniSazba = parseFloat(urokInput.value.replace(",", "."));
+            const roky = parseFloat(dobaInput.value);
+            const mimoradnaSplatka = parseFloat(splatkaInput.value.replace(/\s/g, ''));
+
+            if (isNaN(dluh) || dluh <= 0 || isNaN(rocniSazba) || isNaN(roky) || roky <= 0 ||
+                isNaN(mimoradnaSplatka) || mimoradnaSplatka <= 0 || mimoradnaSplatka >= dluh) {
+                alert('Zadejte prosím platné hodnoty před exportem do PDF.');
+                return;
+            }
+
+            const r = rocniSazba / 100 / 12;
+            const nPuvodni = roky * 12;
+            const mesicniSplatka = r === 0
+                ? dluh / nPuvodni
+                : dluh * (r * Math.pow(1 + r, nPuvodni)) / (Math.pow(1 + r, nPuvodni) - 1);
+            const celkemPuvodne = mesicniSplatka * nPuvodni;
+            const urokyPuvodne = celkemPuvodne - dluh;
+            const novyDluh = dluh - mimoradnaSplatka;
+            let nNove;
+            if (r === 0) {
+                nNove = novyDluh / mesicniSplatka;
+            } else {
+                const horniCitatel = Math.log(1 - (novyDluh * r) / mesicniSplatka);
+                const spodniJmenovatel = Math.log(1 + r);
+                nNove = -horniCitatel / spodniJmenovatel;
+            }
+            const mesiceNove = Math.ceil(nNove);
+            const usetrenoMesicu = nPuvodni - mesiceNove;
+            const celkemNoveBezMimoradne = mesicniSplatka * nNove;
+            const urokyNove = celkemNoveBezMimoradne - novyDluh;
+            const usporaNaUrocich = Math.max(0, urokyPuvodne - urokyNove);
+
+            const usporaLet = Math.floor(usetrenoMesicu / 12);
+            const usporaZbytekMesicu = usetrenoMesicu % 12;
+            let textCasu = "";
+            if (usporaLet > 0) textCasu += usporaLet + " " + (usporaLet === 1 ? "rok" : (usporaLet < 5 ? "roky" : "let"));
+            if (usporaZbytekMesicu > 0) { if (textCasu !== "") textCasu += " a "; textCasu += usporaZbytekMesicu + " " + (usporaZbytekMesicu === 1 ? "měsíc" : (usporaZbytekMesicu < 5 ? "měsíce" : "měsíců")); }
+            if (textCasu === "") textCasu = "0 měsíců";
+
+            const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ") + " Kč";
+
+            await window.PDFSpolecne.exportKalkulackaPDF({
+                nazev: "Výpočet mimořádné splátky",
+                hlavniVysledek: "Ušetříte na úrocích: " + fmt(usporaNaUrocich),
+                radky: [
+                    ["Aktuální dluh", fmt(dluh)],
+                    ["Úroková sazba (% ročně)", rocniSazba.toLocaleString("cs-CZ") + " %"],
+                    ["Zbývající doba splácení", roky + " let"],
+                    ["Výše mimořádné splátky", fmt(mimoradnaSplatka)],
+                    ["Hypotéku doplatíte dříve o", textCasu],
+                    ["Původní celkové úroky", fmt(urokyPuvodne)],
+                    ["Nové celkové úroky", fmt(Math.max(0, urokyNove))],
+                    ["Úspora na úrocích", fmt(usporaNaUrocich)]
+                ],
+                souborNazev: "vypocet-mimoradne-splatky",
+                canvasId: "grafMimoradna",
+                tlacitko: exportPdfBtn
+            });
+        });
+    }
 });

@@ -221,4 +221,50 @@ window.addEventListener("DOMContentLoaded", function() {
         const tlacitko = document.getElementById("vypocitatPujcka");
         if (tlacitko) tlacitko.click(); 
     }, 300);
+
+    // Export do PDF
+    const exportPdfBtn = document.getElementById("export-pdf");
+    if (exportPdfBtn) {
+        exportPdfBtn.addEventListener("click", async function() {
+            const vyseInput = document.getElementById("vysePujcky");
+            const urokInput = document.getElementById("urokPujcka");
+            const poplatekInput = document.getElementById("poplatek");
+            const dobaInput = document.getElementById("dobaPujcka");
+            if (!vyseInput || !urokInput || !poplatekInput || !dobaInput) return;
+
+            const P = parseFloat(vyseInput.value.replace(/\s/g, ''));
+            const rocniSazba = parseFloat(urokInput.value.replace(",", "."));
+            const poplatek = parseFloat(poplatekInput.value.replace(/\s/g, ''));
+            const roky = parseFloat(dobaInput.value);
+
+            if (isNaN(P) || P <= 0 || isNaN(rocniSazba) || isNaN(poplatek) || isNaN(roky) || roky <= 0) {
+                alert('Zadejte prosím platné hodnoty před exportem do PDF.');
+                return;
+            }
+
+            const n = roky * 12;
+            const r = rocniSazba / 100 / 12;
+            const mesicniSplatka = r === 0 ? P / n : P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            const celkemZaplaceno = (mesicniSplatka * n) + poplatek;
+            const celkoveUroky = (mesicniSplatka * n) - P;
+            const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ") + " Kč";
+
+            await window.PDFSpolecne.exportKalkulackaPDF({
+                nazev: "Výpočet splátky půjčky",
+                hlavniVysledek: "Měsíční splátka: " + fmt(mesicniSplatka),
+                radky: [
+                    ["Výše půjčky", fmt(P)],
+                    ["Úroková sazba (% ročně)", rocniSazba.toLocaleString("cs-CZ") + " %"],
+                    ["Poplatek za sjednání", fmt(poplatek)],
+                    ["Doba splácení", roky + " let"],
+                    ["Měsíční splátka", fmt(mesicniSplatka)],
+                    ["Celkem zaplaceno", fmt(celkemZaplaceno)],
+                    ["Z toho úroky", fmt(celkoveUroky)]
+                ],
+                souborNazev: "vypocet-pujcky",
+                canvasId: "grafPujcka",
+                tlacitko: exportPdfBtn
+            });
+        });
+    }
 });

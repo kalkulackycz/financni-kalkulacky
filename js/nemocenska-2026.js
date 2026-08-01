@@ -39,50 +39,11 @@ function fmtKc(n) {
     return Math.round(n).toLocaleString('cs-CZ') + ' Kč';
 }
 
-async function nactiFontJakoBase64(url) {
-    const odpoved = await fetch(url);
-    const buffer = await odpoved.arrayBuffer();
-    const bytes = new Uint8Array(buffer);
-    let binary = '';
-    const kus = 0x8000;
-    for (let i = 0; i < bytes.length; i += kus) {
-        binary += String.fromCharCode.apply(null, bytes.subarray(i, i + kus));
-    }
-    return btoa(binary);
-}
-
-let cachedRobotoRegular = null;
-let cachedRobotoBold = null;
-
-async function zajistiRobotoFont(doc) {
-    try {
-        if (!cachedRobotoRegular || !cachedRobotoBold) {
-            const [regular, bold] = await Promise.all([
-                nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf'),
-                nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf')
-            ]);
-            cachedRobotoRegular = regular;
-            cachedRobotoBold = bold;
-        }
-        doc.addFileToVFS('Roboto-Regular.ttf', cachedRobotoRegular);
-        doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
-        doc.addFileToVFS('Roboto-Medium.ttf', cachedRobotoBold);
-        doc.addFont('Roboto-Medium.ttf', 'Roboto', 'bold');
-        doc.setFont('Roboto');
-        return 'Roboto';
-    } catch (e) {
-        console.warn('Nepodařilo se načíst font Roboto pro PDF, použije se výchozí font.', e);
-        doc.setFont('helvetica');
-        return 'helvetica';
-    }
-}
-
-function bezpecnyText(text, fontName) {
-    if (fontName === 'helvetica') {
-        return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    }
-    return text;
-}
+// Načítání fontu a bezpečné ošetření diakritiky teď řeší sdílený modul
+// js/pdf-spolecne.js (viz proměnná window.PDFSpolecne), aby nedocházelo
+// k duplicitě a rozjetí chování mezi jednotlivými kalkulačkami.
+const zajistiRobotoFont = (doc) => window.PDFSpolecne.zajistiRobotoFont(doc);
+const bezpecnyText = (text, fontName) => window.PDFSpolecne.bezpecnyText(text, fontName);
 
 function vypocitejDenniVymZaklad(hrubaMesic) {
     const rocniVZ = hrubaMesic * 12;

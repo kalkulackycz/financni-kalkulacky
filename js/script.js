@@ -339,43 +339,9 @@ window.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    async function nactiFontJakoBase64(url) {
-        const odpoved = await fetch(url);
-        const buffer = await odpoved.arrayBuffer();
-        const bytes = new Uint8Array(buffer);
-        let binary = "";
-        const kus = 0x8000;
-        for (let i = 0; i < bytes.length; i += kus) {
-            binary += String.fromCharCode.apply(null, bytes.subarray(i, i + kus));
-        }
-        return btoa(binary);
-    }
-
-    let cachedRegular = null;
-    let cachedBold = null;
-
-    async function zajistiRobotoFont(doc) {
-        try {
-            if (!cachedRegular || !cachedBold) {
-                const [regular, bold] = await Promise.all([
-                    nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf'),
-                    nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf')
-                ]);
-                cachedRegular = regular;
-                cachedBold = bold;
-            }
-            doc.addFileToVFS('Roboto-Regular.ttf', cachedRegular);
-            doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
-            doc.addFileToVFS('Roboto-Medium.ttf', cachedBold);
-            doc.addFont('Roboto-Medium.ttf', 'Roboto', 'bold');
-            doc.setFont("Roboto");
-            return "Roboto";
-        } catch (chyba) {
-            console.warn('Nepodařilo se načíst font Roboto pro PDF, použije se výchozí font.', chyba);
-            doc.setFont("helvetica");
-            return "helvetica";
-        }
-    }
+    // Načítání fontu teď řeší sdílený modul js/pdf-spolecne.js
+    // (viz proměnná window.PDFSpolecne), aby nedocházelo k duplicitě.
+    const zajistiRobotoFont = (doc) => window.PDFSpolecne.zajistiRobotoFont(doc);
 
     // PDF Export (sjednoceno se zeleným designem)
     const exportPdfBtn = document.getElementById("export-pdf");

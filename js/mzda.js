@@ -192,50 +192,10 @@ function vypoctiMzdu() {
     }
 }
 
-async function nactiFontJakoBase64(url) {
-    const odpoved = await fetch(url);
-    const buffer = await odpoved.arrayBuffer();
-    const bytes = new Uint8Array(buffer);
-    let binary = "";
-    const kus = 0x8000;
-    for (let i = 0; i < bytes.length; i += kus) {
-        binary += String.fromCharCode.apply(null, bytes.subarray(i, i + kus));
-    }
-    return btoa(binary);
-}
-
-let robotoFontData = null;
-
-async function zajistiRobotoFont(doc) {
-    try {
-        if (!robotoFontData) {
-            const [regular, bold] = await Promise.all([
-                nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf'),
-                nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf')
-            ]);
-            robotoFontData = { regular, bold };
-        }
-        // Font musí být zaregistrovaný v KAŽDÉ nové instanci jsPDF dokumentu,
-        // nestačí ho stáhnout a zaregistrovat jen jednou globálně.
-        doc.addFileToVFS('Roboto-Regular.ttf', robotoFontData.regular);
-        doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
-        doc.addFileToVFS('Roboto-Medium.ttf', robotoFontData.bold);
-        doc.addFont('Roboto-Medium.ttf', 'Roboto', 'bold');
-        doc.setFont("Roboto");
-        return "Roboto";
-    } catch (chyba) {
-        console.warn('Nepodařilo se načíst font Roboto pro PDF, použije se záložní font.', chyba);
-        doc.setFont("helvetica");
-        return "helvetica";
-    }
-}
-
-function bezpečnýText(text, fontName) {
-    if (fontName === 'helvetica') {
-        return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    }
-    return text;
-}
+// Načítání fontu a bezpečné ošetření diakritiky teď řeší sdílený modul
+// js/pdf-spolecne.js (viz proměnná window.PDFSpolecne), aby nedocházelo
+// k duplicitě a rozjetí chování mezi jednotlivými kalkulačkami.
+const bezpečnýText = (text, fontName) => window.PDFSpolecne.bezpecnyText(text, fontName);
 
 async function generujPDFMzda() {
     if (typeof window.jspdf === "undefined" || !window.jspdf.jsPDF) {
@@ -261,7 +221,7 @@ async function generujPDFMzda() {
 
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-        const fontName = await zajistiRobotoFont(doc);
+        const fontName = await window.PDFSpolecne.zajistiRobotoFont(doc);
 
         const pocetDeti = Number(el.pocetDeti?.value) || 0;
         const ztpDeti = [...document.querySelectorAll(".ztp-dite:checked")].map(e => Number(e.value));

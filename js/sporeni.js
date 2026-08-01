@@ -199,4 +199,48 @@ window.addEventListener("DOMContentLoaded", function() {
         const tlacitko = document.getElementById("vypocitatSporeni");
         if (tlacitko) tlacitko.click(); 
     }, 300);
+
+    // Export do PDF
+    const exportPdfBtn = document.getElementById("export-pdf");
+    if (exportPdfBtn) {
+        exportPdfBtn.addEventListener("click", async function() {
+            const vkladInput = document.getElementById("mesicniVklad");
+            const urokInput = document.getElementById("urokSporeni");
+            const dobaInput = document.getElementById("dobaSporeni");
+            if (!vkladInput || !urokInput || !dobaInput) return;
+
+            const vklad = parseFloat(vkladInput.value.replace(/\s/g, ''));
+            const rocniUrok = parseFloat(urokInput.value.replace(",", "."));
+            const roky = parseFloat(dobaInput.value);
+
+            if (isNaN(vklad) || vklad <= 0 || isNaN(rocniUrok) || isNaN(roky) || roky <= 0) {
+                alert('Zadejte prosím platné hodnoty před exportem do PDF.');
+                return;
+            }
+
+            const mesice = roky * 12;
+            const r = rocniUrok / 100 / 12;
+            const celkemVlozeno = vklad * mesice;
+            const celkovaCastka = r > 0 ? vklad * ((Math.pow(1 + r, mesice) - 1) / r) * (1 + r) : celkemVlozeno;
+            const urokCelkem = celkovaCastka - celkemVlozeno;
+
+            const fmt = (cislo) => Math.round(cislo).toLocaleString("cs-CZ") + " Kč";
+
+            await window.PDFSpolecne.exportKalkulackaPDF({
+                nazev: "Výpočet spoření",
+                hlavniVysledek: "Naspořená částka: " + fmt(celkovaCastka),
+                radky: [
+                    ["Měsíční vklad", fmt(vklad)],
+                    ["Roční úrok", rocniUrok.toLocaleString("cs-CZ") + " %"],
+                    ["Doba spoření", roky + " let"],
+                    ["Celkem vloženo", fmt(celkemVlozeno)],
+                    ["Získaný úrok", fmt(urokCelkem)],
+                    ["Naspořená částka", fmt(celkovaCastka)]
+                ],
+                souborNazev: "vypocet-sporeni",
+                canvasId: "grafSporeni",
+                tlacitko: exportPdfBtn
+            });
+        });
+    }
 });
