@@ -411,7 +411,40 @@
     </div>
   </div>
 </div>
+<script>
+(function() {
+  // Zobrazit lištu, pokud ještě uživatel nerozhodl
+  if (!localStorage.getItem('cookie_consent')) {
+    document.getElementById('cookie-banner').style.display = 'block';
+  } else if (localStorage.getItem('cookie_consent') === 'accepted') {
+    loadAnalytics();
+  }
+})();
 
+function cookieConsent(accepted) {
+  localStorage.setItem('cookie_consent', accepted ? 'accepted' : 'rejected');
+  document.getElementById('cookie-banner').style.display = 'none';
+  if (accepted) {
+    loadAnalytics();
+  }
+}
+
+function loadAnalytics() {
+  // ---------------------------------------------------------
+  // SEM VLOŽ SVŮJ GOOGLE ANALYTICS KÓD (gtag.js), např.:
+  //
+  // var script = document.createElement('script');
+  // script.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX';
+  // script.async = true;
+  // document.head.appendChild(script);
+  //
+  // window.dataLayer = window.dataLayer || [];
+  // function gtag(){dataLayer.push(arguments);}
+  // gtag('js', new Date());
+  // gtag('config', 'G-XXXXXXX');
+  // ---------------------------------------------------------
+}
+</script>
 
 </body>
 </html>
