@@ -204,23 +204,23 @@ async function nactiFontJakoBase64(url) {
     return btoa(binary);
 }
 
-let fontyRobotoNacteny = false;
+let robotoFontData = null;
 
 async function zajistiRobotoFont(doc) {
-    if (fontyRobotoNacteny) {
-        doc.setFont("Roboto");
-        return "Roboto";
-    }
     try {
-        const [regular, bold] = await Promise.all([
-            nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf'),
-            nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf')
-        ]);
-        doc.addFileToVFS('Roboto-Regular.ttf', regular);
+        if (!robotoFontData) {
+            const [regular, bold] = await Promise.all([
+                nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf'),
+                nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf')
+            ]);
+            robotoFontData = { regular, bold };
+        }
+        // Font musí být zaregistrovaný v KAŽDÉ nové instanci jsPDF dokumentu,
+        // nestačí ho stáhnout a zaregistrovat jen jednou globálně.
+        doc.addFileToVFS('Roboto-Regular.ttf', robotoFontData.regular);
         doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
-        doc.addFileToVFS('Roboto-Medium.ttf', bold);
+        doc.addFileToVFS('Roboto-Medium.ttf', robotoFontData.bold);
         doc.addFont('Roboto-Medium.ttf', 'Roboto', 'bold');
-        fontyRobotoNacteny = true;
         doc.setFont("Roboto");
         return "Roboto";
     } catch (chyba) {
