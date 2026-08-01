@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bezplatná kalkulačka peněžité pomoci v mateřství (PPM).">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
+    <title>Kalkulačka mateřské (PPM)</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="menu">
+        <a href="uvod.html">Domů</a>
+        <a href="kalkulacky.html" class="aktivni">Kalkulačky</a>
+    </nav>
+
+    <div class="kalkulacka">
+        <h1>👶 Kalkulačka mateřské (PPM)</h1>
+
+        <div class="pole-s-napovedou">
+            <div class="label-radek">
+                <label for="hrubyMesicniPrijem">💰 Hrubý měsíční příjem (Kč):</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k hrubému měsíčnímu příjmu">?</span>
+                <span class="bublina-text">Zadejte svůj hrubý měsíční příjem. Výpočet vychází z ročního přepočtu na denní vyměřovací základ.</span>
+            </div>
+            <input type="text" id="hrubyMesicniPrijem" value="45 000">
+            <input type="range" id="hrubyMesicniPrijem-slider" min="10000" max="300000" step="1000" value="45000">
+            <div id="hrubyMesicniPrijem-chyba" class="chyba-text"></div>
+        </div>
+
+        <div class="sleva-radek" style="margin-top: 12px;">
+            <input type="checkbox" id="cekamVicercata">
+            <label for="cekamVicercata">Čekám vícerčata</label>
+        </div>
+
+        <button id="vypocitatPpm">Vypočítat mateřskou</button>
+        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h2 id="vysledekPpm" class="vysledek-mzda" style="display: inline-flex; white-space: nowrap;"></h2>
+            <div style="margin-top: 16px;">
+                <button id="export-pdf" style="padding: 12px 28px; background-color: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; white-space: nowrap;">
+                    📥 Stáhnout PDF
+                </button>
+            </div>
+        </div>
+        <div id="detailyPpm" class="detaily"></div>
+
+        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
+            <h2>Časté otázky k PPM</h2>
+            <div class="faq-polozka">
+                <h3>Jak se vypočítává PPM?</h3>
+                <p>Výše peněžité pomoci v mateřství vychází z denního vyměřovacího základu, který je zredukován podle stanovených hranic a následně vynásoben sazbou 70 %.</p>
+            </div>
+            <div class="faq-polozka">
+                <h3>Jak dlouho lze dávku pobírat?</h3>
+                <p>Pokud nejde o vícerčata, je maximální doba pobírání 28 týdnů. U vícerčat je to 37 týdnů.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="paticka">
+        <p>Kalkulačky slouží pouze pro orientační výpočet a nenahrazují odborné poradenství.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="js/pdf-spolecne.js"></script>
+    <script src="js/ppm.js"></script>
+    <script src="js/layout.js"></script>
+</body>
+</html>
