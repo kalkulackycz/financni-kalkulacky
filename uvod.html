@@ -181,43 +181,31 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 12px;
+            gap: 16px;
             margin-top: 20px;
         }
 
         .odkazy-grid a {
             display: inline-flex;
-            flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
             justify-content: center;
-            padding: 18px 20px;
-            min-width: 200px;
-            border-radius: 14px;
+            padding: 20px 26px;
+            min-width: 220px;
+            border-radius: 18px;
             background: #eef2ff;
             color: #1e293b;
             text-decoration: none;
             font-weight: 700;
-            transition: background-color 0.2s ease, transform 0.2s ease;
+            font-size: 15px;
+            text-align: center;
+            box-shadow: 0 10px 26px rgba(15, 23, 42, 0.07);
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .odkazy-grid a:hover {
             background: #dbeafe;
             transform: translateY(-2px);
-        }
-
-        .odkazy-grid a strong {
-            display: block;
-            margin-bottom: 6px;
-            color: #0f172a;
-        }
-
-        .odkazy-grid a span {
-            display: block;
-            margin-top: 4px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #475569;
-            line-height: 1.5;
+            box-shadow: 0 14px 32px rgba(15, 23, 42, 0.1);
         }
 
         @media (max-width: 900px) {
@@ -344,9 +332,9 @@
         <section class="sekce" id="clanky">
             <h2>Užitečné články</h2>
             <div class="odkazy-grid">
-                <a href="cla/inflace-vysvetlene.html"><strong>Co je inflace?</strong><span>Krátké vysvětlení, proč ceny rostou a jak to ovlivňuje vaše úspory.</span></a>
-                <a href="cla/rpsn-vysvetlene.html"><strong>Jak funguje RPSN</strong><span>Jednoduchý přehled, co je RPSN a proč není vždy rozhodující jen nízký úrok.</span></a>
-                <a href="cla/refinancovani-vysvetlene.html"><strong>Refinancování hypotéky</strong><span>Krátký článek o tom, kdy se vyplatí přejít na levnější hypotéku bez složitých detailů.</span></a>
+                <a href="cla/inflace-vysvetlene.html">Co je inflace?</a>
+                <a href="cla/rpsn-vysvetlene.html">Jak funguje RPSN</a>
+                <a href="cla/refinancovani-vysvetlene.html">Refinancování hypotéky</a>
             </div>
         </section>
     </main>
