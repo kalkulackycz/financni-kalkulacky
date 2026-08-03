@@ -1,8 +1,4 @@
 (function() {
-    var gTagUrl = "https://www.googletagmanager.com/gtag/js?id=G-2BW708HYKH";
-    var s1 = document.createElement("script"); s1.async = true; s1.src = gTagUrl; document.head.appendChild(s1);
-    window.dataLayer = window.dataLayer || []; window.gtag = function() { dataLayer.push(arguments); };
-    gtag('js', new Date()); gtag('config', 'G-2BW708HYKH');
     var chartUrl = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js";
     var s2 = document.createElement("script"); s2.src = chartUrl;
     s2.onload = function() { window.ChartJsPripraven = true; vypoctiMzdu(); };
