@@ -1,197 +1,170 @@
-// Sdílený generátor PDF reportů pro všechny kalkulačky Finanční Mapy
-// Používá jsPDF (https://github.com/parallax/jsPDF)
-// Font Roboto (podpora české diakritiky) z Fontsource CDN
-
-function formatKc(cislo) {
-    return Math.round(cislo).toLocaleString("cs-CZ") + " Kč";
-}
-
-// Cache stažených fontů, aby se nestahovaly znovu při každém exportu
-let fontRegularCache = null;
-let fontBoldCache = null;
-
-async function nactiFontBase64(url) {
-    const odpoved = await fetch(url);
-    const arrayBuffer = await odpoved.arrayBuffer();
-    const bytes = new Uint8Array(arrayBuffer);
-    let binarniRetezec = '';
-    for (let i = 0; i < bytes.byteLength; i++) {
-        binarniRetezec += String.fromCharCode(bytes[i]);
-    }
-    return btoa(binarniRetezec);
-}
-
-async function pripravCeskyFont(doc) {
-    if (!fontRegularCache) {
-        fontRegularCache = await nactiFontBase64(
-            "https://cdn.jsdelivr.net/fontsource/fonts/roboto@latest/latin-ext-400-normal.ttf"
-        );
-    }
-    if (!fontBoldCache) {
-        fontBoldCache = await nactiFontBase64(
-            "https://cdn.jsdelivr.net/fontsource/fonts/roboto@latest/latin-ext-700-normal.ttf"
-        );
+async function exportKalkulackaPDF(data) {
+    const jsPDFLib = window.jspdf ? window.jspdf.jsPDF : null;
+    if (!jsPDFLib) {
+        alert("Knihovna jsPDF nebyla načtena.");
+        return;
     }
 
-    doc.addFileToVFS("Roboto-Regular.ttf", fontRegularCache);
-    doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
-
-    doc.addFileToVFS("Roboto-Bold.ttf", fontBoldCache);
-    doc.addFont("Roboto-Bold.ttf", "Roboto", "bold");
-}
-
-/**
- * Vygeneruje a stáhne profesionální PDF report kalkulačky s podporou české diakritiky.
- *
- * @param {Object} data
- * @param {string} data.nazevKalkulacky - Např. "Hypoteční kalkulačka"
- * @param {Array<{label: string, hodnota: string}>} data.parametry - Vstupní hodnoty
- * @param {{label: string, hodnota: string}} data.hlavniVysledek - Zvýrazněná karta (např. měsíční splátka)
- * @param {Array<{label: string, hodnota: string}>} data.infoKarty - Dvě informační karty
- * @param {string} [data.canvasId] - ID <canvas> s Chart.js grafem, který se má vložit
- * @param {string} data.souborNazev - Název výsledného PDF souboru bez přípony
- * @param {string} [data.castka] - Hodnota jistiny pro legendu
- * @param {string} [data.celkoveUroky] - Hodnota úroků pro legendu
- */
-async function exportKalkulackaPDF(kalkulackaData) {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ unit: "mm", format: "a4" });
-
-    // FIX: Ošetření undefined objektu pro zabránění TypeError
-    const data = kalkulackaData || { nazevKalkulacky: "Hypoteční kalkulačka" };
-
-    await pripravCeskyFont(doc);
-
-    const sirkaStranky = 210;
-    const barvaHlavni = [79, 70, 229];   // #4f46e5
-    const barvaTmava = [26, 26, 46];     // #1a1a2e
-    const barvaSeda = [100, 116, 139];   // #64748b
-    const barvaSvetla = [238, 242, 255]; // #eef2ff
-
-    // ---------- HLAVIČKA ----------
-    doc.setFillColor(...barvaHlavni);
-    doc.rect(0, 0, sirkaStranky, 32, "F");
-
-    doc.setTextColor(255, 255, 255);
-    doc.setFont("Roboto", "bold");
-    doc.setFontSize(20);
-    doc.text(data.nazevKalkulacky, 15, 16);
-
-    doc.setFont("Roboto", "normal");
-    doc.setFontSize(11);
-    doc.text("Finanční Mapa", 15, 24);
-
-    const datum = new Date().toLocaleDateString("cs-CZ");
-    doc.setFontSize(9);
-    doc.text("Vytvořeno: " + datum, sirkaStranky - 15, 16, { align: "right" });
-
-    let y = 45;
-
-    // ---------- PARAMETRY ----------
-    doc.setTextColor(...barvaTmava);
-    doc.setFont("Roboto", "bold");
-    doc.setFontSize(13);
-    doc.text("Parametry", 15, y);
-    y += 8;
-
-    doc.setFont("Roboto", "normal");
-    doc.setFontSize(11);
-    data.parametry.forEach(function (p) {
-        doc.setTextColor(...barvaSeda);
-        doc.text(p.label, 15, y);
-        doc.setTextColor(...barvaTmava);
-        doc.setFont("Roboto", "bold");
-        doc.text(p.hodnota, sirkaStranky - 15, y, { align: "right" });
-        doc.setFont("Roboto", "normal");
-        y += 7;
+    const doc = new jsPDFLib({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
     });
 
-    y += 6;
+    // Registrace bezplatného fontu Roboto s podporou češtiny z CDN
+    try {
+        const fontUrl = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf";
+        const fontBoldUrl = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf";
+        
+        // Načteme regulérní i tučný font
+        const fontResponse = await fetch(fontUrl);
+        const fontBlob = await fontResponse.blob();
+        const fontBase64 = await blobToBase64(fontBlob);
 
-    // ---------- ZVÝRAZNĚNÁ KARTA (hlavní výsledek) ----------
-    const vyskaKarty = 28;
-    doc.setFillColor(...barvaHlavni);
-    doc.roundedRect(15, y, sirkaStranky - 30, vyskaKarty, 4, 4, "F");
+        const boldResponse = await fetch(fontBoldUrl);
+        const boldBlob = await boldResponse.blob();
+        const boldBase64 = await blobToBase64(boldBlob);
 
-    doc.setTextColor(220, 220, 255);
-    doc.setFont("Roboto", "normal");
-    doc.setFontSize(10);
-    doc.text(data.hlavniVysledek.label.toUpperCase(), sirkaStranky / 2, y + 9, { align: "center" });
+        doc.addFileToVFS("Roboto-Regular.ttf", fontBase64);
+        doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
+
+        doc.addFileToVFS("Roboto-Medium.ttf", boldBase64);
+        doc.addFont("Roboto-Medium.ttf", "Roboto", "bold");
+
+        doc.setFont("Roboto", "normal");
+    } catch (e) {
+        console.warn("Nepodařilo se načíst český font, použije se výchozí.", e);
+    }
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 20;
+    const contentWidth = pageWidth - (margin * 2);
+    let y = 20;
+
+    // --- 1. HLAVIČKA ---
+    doc.setFillColor(79, 70, 229);
+    doc.rect(margin, y, contentWidth, 22, 'F');
 
     doc.setTextColor(255, 255, 255);
     doc.setFont("Roboto", "bold");
-    doc.setFontSize(22);
-    doc.text(data.hlavniVysledek.hodnota, sirkaStranky / 2, y + 21, { align: "center" });
+    doc.setFontSize(15);
+    let nazev = data.nazevKalkulacky || "Výsledek kalkulace";
+    doc.text(nazev, margin + 5, y + 14);
+    
+    y += 32;
 
-    y += vyskaKarty + 10;
-
-    // ---------- DVĚ INFORMAČNÍ KARTY ----------
-    const sirkaKarty = (sirkaStranky - 30 - 8) / 2;
-    const vyskaInfoKarty = 24;
-
-    data.infoKarty.forEach(function (karta, index) {
-        const x = 15 + index * (sirkaKarty + 8);
-        doc.setDrawColor(226, 232, 240);
-        doc.setFillColor(...barvaSvetla);
-        doc.roundedRect(x, y, sirkaKarty, vyskaInfoKarty, 3, 3, "FD");
-
-        doc.setTextColor(...barvaSeda);
+    // --- 2. PARAMETRY ---
+    if (data.parametry && data.parametry.length > 0) {
+        doc.setTextColor(107, 114, 128);
         doc.setFont("Roboto", "normal");
         doc.setFontSize(9);
-        doc.text(karta.label, x + sirkaKarty / 2, y + 8, { align: "center" });
-
-        doc.setTextColor(...barvaTmava);
-        doc.setFont("Roboto", "bold");
-        doc.setFontSize(14);
-        doc.text(karta.hodnota, x + sirkaKarty / 2, y + 18, { align: "center" });
-    });
-
-    y += vyskaInfoKarty + 12;
-
-    // ---------- GRAF (pokud existuje) ----------
-    const sourceCanvas = document.getElementById("graf");
-    if (sourceCanvas) {
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = sourceCanvas.width;
-        tempCanvas.height = sourceCanvas.height;
-        const ctx = tempCanvas.getContext('2d');
-
-        // Bílé pozadí
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-        ctx.drawImage(sourceCanvas, 0, 0);
-        const imgData = tempCanvas.toDataURL("image/jpeg", 1.0);
-        doc.addImage(imgData, 'JPEG', 65, 160, 80, 70);
-
-        // 7. Legenda pod grafem (čistá, ručně vykreslená)
-    doc.setFont("Roboto", "normal");
-        doc.setFontSize(10);
-        doc.setTextColor(30, 41, 59);
-
-        // Legenda - Jistina
-        doc.setFillColor(79, 70, 229); // #4f46e5
-        doc.rect(50, 235, 5, 5, 'F');
-        doc.text("Jistina: " + (data.castka || "") + " Kč", 60, 239);
-
-        // Legenda - Úroky
-        doc.setFillColor(249, 115, 22); // #f97316
-        doc.rect(120, 235, 5, 5, 'F');
-        doc.text("Úroky: " + (data.celkoveUroky || ""), 130, 239);
+        
+        let paramText = data.parametry.map(p => `${p.label} ${p.hodnota}`).join("  |  ");
+        doc.text(paramText, margin, y);
+        y += 10;
     }
 
-    // ---------- PATIČKA ----------
-    const yPaticky = 280;
-    doc.setDrawColor(226, 232, 240);
-    doc.line(15, yPaticky - 6, sirkaStranky - 15, yPaticky - 6);
-    doc.setTextColor(...barvaSeda);
+    // --- 3. HLAVNÍ VÝSLEDEK ---
+    if (data.hlavniVysledek) {
+        doc.setFillColor(243, 244, 246);
+        doc.roundedRect(margin, y, contentWidth, 18, 2, 2, 'F');
+
+        doc.setTextColor(55, 65, 81);
+        doc.setFont("Roboto", "bold");
+        doc.setFontSize(10);
+        doc.text(data.hlavniVysledek.label, margin + 5, y + 11);
+
+        doc.setTextColor(16, 185, 129);
+        doc.setFontSize(13);
+        doc.text(data.hlavniVysledek.hodnota, pageWidth - margin - 5, y + 11, { align: 'right' });
+        
+        y += 24;
+    }
+
+    // --- 4. INFO KARTY ---
+    if (data.infoKarty && data.infoKarty.length > 0) {
+        let cardWidth = (contentWidth - 5) / 2;
+        let startX = margin;
+
+        data.infoKarty.forEach((karta, index) => {
+            let x = startX + (index * (cardWidth + 5));
+            doc.setFillColor(249, 250, 251);
+            doc.setDrawColor(229, 231, 235);
+            doc.roundedRect(x, y, cardWidth, 14, 1, 1, 'FD');
+
+            doc.setTextColor(107, 114, 128);
+            doc.setFont("Roboto", "normal");
+            doc.setFontSize(8);
+            doc.text(karta.label, x + 4, y + 9);
+
+            doc.setTextColor(31, 41, 55);
+            doc.setFont("Roboto", "bold");
+            doc.setFontSize(9);
+            doc.text(karta.hodnota, x + cardWidth - 4, y + 9, { align: 'right' });
+        });
+        y += 20;
+    }
+
+    // --- 5. TABULKA ---
+    if (data.amortizacniPlan && data.amortizacniPlan.length > 0) {
+        doc.setTextColor(31, 41, 55);
+        doc.setFont("Roboto", "bold");
+        doc.setFontSize(11);
+        doc.text("Položkový rozpis", margin, y);
+        y += 6;
+
+        doc.setFillColor(243, 244, 246);
+        doc.rect(margin, y, contentWidth, 8, 'F');
+        doc.setTextColor(107, 114, 128);
+        doc.setFontSize(8);
+        doc.text("Položka / Období", margin + 4, y + 5.5);
+        doc.text("Částka", pageWidth - margin - 4, y + 5.5, { align: 'right' });
+        y += 8;
+
+        doc.setFont("Roboto", "normal");
+        data.amortizacniPlan.forEach((radek, idx) => {
+            if (y > 270) {
+                doc.addPage();
+                y = 20;
+            }
+
+            if (idx % 2 === 1) {
+                doc.setFillColor(249, 250, 251);
+                doc.rect(margin, y, contentWidth, 7, 'F');
+            }
+
+            doc.setTextColor(55, 65, 81);
+            doc.setFontSize(8);
+            let nazev = String(radek[0] || "");
+            let hodnota = String(radek[1] || radek[2] || "");
+
+            doc.text(nazev, margin + 4, y + 4.5);
+            doc.text(hodnota, pageWidth - margin - 4, y + 4.5, { align: 'right' });
+
+            doc.setDrawColor(243, 244, 246);
+            doc.line(margin, y + 7, pageWidth - margin, y + 7);
+
+            y += 7;
+        });
+        y += 10;
+    }
+
+    // --- 6. PATIČKA ---
+    doc.setTextColor(156, 163, 175);
     doc.setFont("Roboto", "normal");
-    doc.setFontSize(9);
-    doc.text("Tento výpočet je orientační.", sirkaStranky / 2, yPaticky, { align: "center" });
+    doc.setFontSize(7);
+    doc.text("Dokument byl vygenerován online kalkulačkou.", margin, 285);
+    doc.text("Strana 1 z 1", pageWidth - margin, 285, { align: 'right' });
 
-    doc.setTextColor(...barvaHlavni);
-    doc.text("www.financnimapa.cz", sirkaStranky / 2, yPaticky + 6, { align: "center" });
+    const nazevSouboru = (data.souborNazev || "kalkulace") + ".pdf";
+    doc.save(nazevSouboru);
+}
 
-    // ---------- ULOŽENÍ ----------
-    body: data.amortizacniPlan.map(row => [row.rok, row.splatkaJistiny, row.zaplaceneUroky, row.zustatek]),
-    doc.save(data.souborNazev + ".pdf");
+// Pomocná funkce pro převod blob dat fontu do Base64
+function blobToBase64(blob) {
+    return new Promise((resolve, _) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result.split(',')[1]);
+        reader.readAsDataURL(blob);
+    });
 }
