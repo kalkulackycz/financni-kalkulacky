@@ -17,6 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 <a href="ochrana-soukromi.html" style="color: #4f46e5; text-decoration: none;">
                     Ochrana osobních údajů (GDPR)
                 </a>
+
+                <span>•</span>
+
+                <a href="kontakt.html" style="color: #4f46e5; text-decoration: none;">
+                    Kontakt
+                </a>
+
+
             </div>
         `;
     }
