@@ -1019,3 +1019,76 @@ button { margin-top: 12px !important; }
     }
 
 }
+
+/* ================= ÚVOD - MODERNÍ KARTY KALKULAČEK ================= */
+
+.karty-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 35px;
+}
+
+
+.karta {
+
+    background: #ffffff;
+
+    padding: 30px 20px;
+
+    min-height: 110px;
+
+    border-radius: 18px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,.08);
+
+    text-decoration: none;
+
+    color: #1a1a2e;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: .3s;
+
+}
+
+
+.karta h3 {
+
+    margin: 0;
+
+    color: #4f46e5;
+
+    font-size: 18px;
+
+    text-align: center;
+
+}
+
+
+.karta:hover {
+
+    transform: translateY(-8px);
+
+    box-shadow: 0 15px 35px rgba(0,0,0,.15);
+
+    border-color: #c7d2fe;
+
+}
+
+
+@media(max-width:800px){
+
+    .karty-grid {
+
+        grid-template-columns:1fr;
+
+    }
+
+}
