@@ -840,3 +840,14 @@ button { margin-top: 12px !important; }
 @media (max-width: 600px) {
     .cookie-lista { flex-direction: column; align-items: stretch; text-align: center; }
 }
+.paticka {
+    margin: 60px auto 40px auto;
+    text-align: center;
+}
+
+.paticka div {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    font-size: 13px;
+}
