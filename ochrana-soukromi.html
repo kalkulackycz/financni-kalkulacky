@@ -7,6 +7,7 @@
 <title>Zásady ochrany osobních údajů | Finanční Mapa</title>
 
 <meta name="description" content="Zásady ochrany osobních údajů webu Finanční Mapa. Informace o zpracování osobních údajů, cookies a službách Google Analytics.">
+<link rel="stylesheet" href="css/style.css">
 
 <style>
 
@@ -17,6 +18,54 @@ body{
     padding:0 20px;
     line-height:1.8;
     color:#333;
+    text-align: left; /* Klasické zarovnání vlevo */
+}
+
+/* Centrování horního menu */
+.menu {
+    display: flex;
+    gap: 8px;
+    margin: 0 auto 24px auto;
+    width: 100%;
+    max-width: 620px;
+    align-items: stretch;
+}
+
+/* Oprava vzhledu tlačítek navigace */
+.menu a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 4px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #2d2d2d;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 1.2;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    transition: background-color .15s, color .15s, transform .1s;
+    cursor: pointer;
+}
+
+.menu a:hover:not(.aktivni) {
+    background-color: #f8fafc;
+    color: #4f46e5;
+}
+
+.menu a.aktivni {
+    background-color: #4f46e5;
+    color: #ffffff;
+    box-shadow:
+        inset 0 2px 4px rgba(0,0,0,.15),
+        0 1px 2px rgba(0,0,0,.05);
+}
+
+.menu a:active {
+    transform: translateY(2px);
 }
 
 h1{
@@ -67,7 +116,6 @@ a:hover{
 
 
 <body>
-
 
     <nav class="menu">
         <a href="uvod.html">Domů</a>
@@ -208,7 +256,7 @@ Osobní údaje jsou zpracovávány zejména na základě:
 <h2>8. Doba uchování údajů</h2>
 
 <p>
-Osobní údaje jsou uchovávány pouze po dobu nezbytnou pro splnění účelu jejich zpracování nebo po dobu stanovenou právními předpisy.
+Osobní údaje jsou archivovány pouze po dobu nezbytnou pro splnění účelu jejich zpracování nebo po dobu stanovenou právními předpisy.
 </p>
 
 
@@ -226,7 +274,7 @@ Při využívání těchto služeb může docházet ke zpracování údajů mimo
 <h2>10. Vaše práva</h2>
 
 <p>
-Podle GDPR máte zejména právo:
+Podly GDPR máte zejména právo:
 </p>
 
 <ul>

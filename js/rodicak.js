@@ -192,7 +192,45 @@ function vypoctiRp() {
     }
 }
 
-// Funkce pro PDF zůstává podobná předloze z mzdové kalkulačky
+async function nactiFontJakoBase64(url) {
+    const odpoved = await fetch(url);
+    const buffer = await odpoved.arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+    let binary = "";
+    const kus = 0x8000;
+    for (let i = 0; i < bytes.length; i += kus) {
+        binary += String.fromCharCode.apply(null, bytes.subarray(i, i + kus));
+    }
+    return btoa(binary);
+}
+
+let cachedRegular = null;
+let cachedBold = null;
+
+async function zajistiRobotoFont(doc) {
+    try {
+        if (!cachedRegular || !cachedBold) {
+            const [regular, bold] = await Promise.all([
+                nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf'),
+                nactiFontJakoBase64('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf')
+            ]);
+            cachedRegular = regular;
+            cachedBold = bold;
+        }
+        doc.addFileToVFS('Roboto-Regular.ttf', cachedRegular);
+        doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
+        doc.addFileToVFS('Roboto-Medium.ttf', cachedBold);
+        doc.addFont('Roboto-Medium.ttf', 'Roboto', 'bold');
+        doc.setFont("Roboto");
+        return "Roboto";
+    } catch (chyba) {
+        console.warn('Nepodařilo se načíst font Roboto pro PDF, použije se výchozí font.', chyba);
+        doc.setFont("helvetica");
+        return "helvetica";
+    }
+}
+
+// Funkce pro PDF sjednocená se správným načítáním fontů a diakritikou
 async function generujPDFRp() {
     if (typeof window.jspdf === "undefined" || !window.jspdf.jsPDF) {
         alert("Knihovna pro PDF se ještě nenačetla.");
@@ -205,6 +243,9 @@ async function generujPDFRp() {
     try {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
+        const fontName = await zajistiRobotoFont(doc);
+        
+        doc.setFont(fontName, "bold");
         doc.setFontSize(16);
         doc.text("Plán čerpání rodičovského příspěvku", 14, 20);
         
@@ -218,6 +259,10 @@ async function generujPDFRp() {
                 ["Vícerčata:", jeVicercata],
                 ["Celkový nárok:", elRp.vysledekCelkem.innerText.replace('Celkový nárok: ', '')],
             ],
+            theme: 'striped',
+            styles: { font: fontName, fontStyle: 'normal' },
+            bodyStyles: { font: fontName },
+            headStyles: { fillColor: [79, 70, 229], font: fontName, fontStyle: 'bold' }
         });
         
         doc.save("rodicovsky-prispevek-plan.pdf");
