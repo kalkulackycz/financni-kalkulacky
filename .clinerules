@@ -1,0 +1,22 @@
+# Pravidla pro práci na tomto projektu
+
+## Úspora tokenů
+- Neposílej mi zpět celý obsah upravených souborů, pokud o to výslovně nepožádám. Stačí shrnutí, co ses změnil a proč.
+- Uprav pouze ty řádky/bloky kódu, které je skutečně potřeba změnit. Nepřepisuj celé soubory od začátku, pokud to není nutné.
+- Nepřidávej vysvětlující komentáře do kódu, pokud o ně nepožádám.
+- Než začneš upravovat více souborů najednou, krátce (2-3 věty) popiš plán a počkej na potvrzení, pokud je úkol netriviální.
+- Pokud si nejsi jistý zadáním, zeptej se jednou stručnou otázkou místo toho, abys zkoušel různé varianty pokus-omyl.
+- Drž odpovědi stručné. Nepiš dlouhé úvody ani shrnutí na konci, pokud o ně nežádám.
+
+## Styl kódu (HTML/CSS/JS)
+- Projekt je statický web (HTML stránky + složky css/js). Nepoužívej žádný framework (React, Vue apod.), pokud o to výslovně nepožádám.
+- Nový CSS piš do existujících souborů ve složce css/, nový JS do souborů ve složce js/ – nevytvářej duplicitní styly/skripty přímo v HTML, pokud tam už podobný vzor není.
+- Zachovej stávající pojmenování tříd, ID a proměnných v JS. Drž se konvence, která už ve zbytku projektu je.
+- Nepřidávej externí knihovny (CDN skripty apod.) bez upozornění a vysvětlení, proč jsou potřeba.
+- Pokud upravuješ jednu HTML stránku (např. mzda.html), neupravuj ostatní stránky, pokud to úkol nevyžaduje.
+- Nepřepisuj celý soubor kvůli malé změně – uprav jen konkrétní blok/sekci.
+- Dej pozor na to, aby úpravy jedné stránky neporušily sdílené prvky (hlavička, patička, navigace), které se pravděpodobně opakují napříč stránkami.
+
+## Pracovní postup
+- Jeden úkol = jedna jasně ohraničená změna. Nespojuj více nesouvisejících úprav do jednoho zadání.
+- Po dokončení úkolu mi řekni, co je vhodné otestovat ručně.
