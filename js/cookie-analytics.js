@@ -101,7 +101,7 @@
         '<p>' +
         'Tento web používá cookies pro analýzu návštěvnosti a zlepšování služeb. ' +
         'Reklamní cookies nejsou nyní aktivní. ' +
-        '<a href="zasady-ochrany-osobnich-udaju.html">' +
+        '<a href="ochrana-soukromi.html">' +
         'Více v zásadách ochrany osobních údajů</a>.' +
         '</p>' +
 
