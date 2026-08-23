@@ -1,93 +1,93 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Kalkulačka nemocenské 2026 — orientační výpočet náhrady mzdy a nemocenského podle oficiálních pravidel ČSSZ.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
-    <title>Nemocenské 2026 — Kalkulačka</title>
-    <link rel="stylesheet" href="css/style.css">
-
-    <!-- PDF knihovny -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-</head>
-<body>
-    <nav class="menu">
-        <a href="uvod.html">Domů</a>
-        <a href="kalkulacky.html">Kalkulačky</a>
-        <a href="o-mne.html">O mně</a>
-    </nav>
-
-    <div class="kalkulacka">
-        <h1>🩺 Výpočet nemocenské (2026)</h1>
-
-        <div class="pole-s-napovedou">
-            <div class="label-radek">
-                <label for="hrubaMzda">💰 Hrubá měsíční mzda (Kč):</label>
-                <span class="ikona-otaznik" aria-label="Nápověda k hrubé mzdě">?</span>
-                <span class="bublina-text">Zadejte vaši průměrnou hrubou měsíční mzdu (bez mezd vyplácených mimo mzdu).</span>
-            </div>
-            <input type="text" id="hrubaMzda" value="45 000">
-            <input type="range" id="hrubaMzda-slider" min="10000" max="300000" step="1000" value="45000">
-            <div id="hrubaMzda-chyba" class="chyba-text"></div>
-        </div>
-
-        <div class="pole-s-napovedou" style="margin-top:12px;">
-            <div class="label-radek">
-                <label for="datumZacatku">📅 Datum začátku PN:</label>
-                <span class="ikona-otaznik" aria-label="Nápověda k datu">?</span>
-                <span class="bublina-text">Vyberte první den pracovní neschopnosti.</span>
-            </div>
-            <input type="date" id="datumZacatku">
-            <div id="datum-chyba" class="chyba-text"></div>
-        </div>
-
-        <div class="pole-s-napovedou" style="margin-top:12px;">
-            <div class="label-radek">
-                <label for="pocetDni">📆 Počet kalendářních dnů pracovní neschopnosti:</label>
-                <span class="ikona-otaznik" aria-label="Nápověda k dnům">?</span>
-                <span class="bublina-text">Zadejte celkový počet dnů, po které očekáváte pracovní neschopnost.</span>
-            </div>
-            <input type="number" id="pocetDni" value="30" min="1">
-            <div id="dny-chyba" class="chyba-text"></div>
-        </div>
-
-        <button id="vypocitatNemocenska">Vypočítat nemocenské</button>
-        <div id="chybova-hlaska" style="color:#ef4444; font-size:14px; margin-top:10px; display:none;"></div>
-
-        <!-- Výsledky -->
-        <h2 id="vysledekHlavni" class="vysledek-mzda"></h2>
-        <div id="detailyNemocenska" class="detaily"></div>
-
-        <div style="margin-top:32px; border-top:2px solid #e0e7ff; padding-top:24px;">
-            <h2 style="text-align:center; margin-bottom:20px;">📊 Rozdělení vyplacených částek</h2>
-
-            <div style="text-align:center; margin-bottom:20px;">
-                <button id="export-pdf" style="padding:12px 28px; background-color:#4f46e5; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; font-size:15px;">
-                    📥 Stáhnout PDF
-                </button>
-            </div>
-
-            <canvas id="graf" width="400" height="300"></canvas>
-        </div>
-
-        <div class="clanek" style="margin-top:32px; border-top:1px solid #eee; padding-top:20px;">
-            <h2>Poznámky k legislativě</h2>
-            <ul>
-                <li>Vstupní legislativa a redukční hranice podle ČSSZ: <a href="https://www.cssz.gov.cz/web/cz/nemocenske" target="_blank">ČSSZ — Nemocenské</a> a <a href="https://www.cssz.gov.cz/vyse-a-vypocet-davek" target="_blank">ČSSZ — Výše a výpočet dávek</a>.</li>
-                <li>Redukční hranice (denní): 1 633 Kč, 2 449 Kč, 4 897 Kč — použito dle ČSSZ (2026).</li>
-                <li>Sazby nemocenského (z redukovaného denního vyměřovacího základu): 15.–30. den 60 %, 31.–60. den 66 %, od 61. dne 72 % (ČSSZ).</li>
-                <li>UPOZORNĚNÍ: Výpočet náhrady mzdy vyplácené zaměstnavatelem v prvních 14 dnech není explicitně popsán na stránce přímo v číslech — výsledná částka zde používá sazbu 60 % (běžně citovaná praxe). Pokud to není akceptovatelné, částka je označena jako TODO a v PDF bude poznámka. (TODO: ověřit u MPSV/ČSSZ).</li>
-            </ul>
-        </div>
-    </div>
-
-    <footer id="paticka" class="paticka"></footer>
-    <script src="js/paticka.js"></script>
-
-    <script src="js/nemocenska-2026.js"></script>
-    <script src="js/layout.js"></script>
-    <script src="js/cookie-analytics.js"></script>
-</body>
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kalkulačka nemocenské 2026 — orientační výpočet náhrady mzdy a nemocenského podle oficiálních pravidel ČSSZ.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
+    <title>Nemocenské 2026 — Kalkulačka</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- PDF knihovny -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <nav class="menu">
+        <a href="index.html">Domů</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="o-mne.html">O mně</a>
+    </nav>
+
+    <div class="kalkulacka">
+        <h1>🩺 Výpočet nemocenské (2026)</h1>
+
+        <div class="pole-s-napovedou">
+            <div class="label-radek">
+                <label for="hrubaMzda">💰 Hrubá měsíční mzda (Kč):</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k hrubé mzdě">?</span>
+                <span class="bublina-text">Zadejte vaši průměrnou hrubou měsíční mzdu (bez mezd vyplácených mimo mzdu).</span>
+            </div>
+            <input type="text" id="hrubaMzda" value="45 000">
+            <input type="range" id="hrubaMzda-slider" min="10000" max="300000" step="1000" value="45000">
+            <div id="hrubaMzda-chyba" class="chyba-text"></div>
+        </div>
+
+        <div class="pole-s-napovedou" style="margin-top:12px;">
+            <div class="label-radek">
+                <label for="datumZacatku">📅 Datum začátku PN:</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k datu">?</span>
+                <span class="bublina-text">Vyberte první den pracovní neschopnosti.</span>
+            </div>
+            <input type="date" id="datumZacatku">
+            <div id="datum-chyba" class="chyba-text"></div>
+        </div>
+
+        <div class="pole-s-napovedou" style="margin-top:12px;">
+            <div class="label-radek">
+                <label for="pocetDni">📆 Počet kalendářních dnů pracovní neschopnosti:</label>
+                <span class="ikona-otaznik" aria-label="Nápověda k dnům">?</span>
+                <span class="bublina-text">Zadejte celkový počet dnů, po které očekáváte pracovní neschopnost.</span>
+            </div>
+            <input type="number" id="pocetDni" value="30" min="1">
+            <div id="dny-chyba" class="chyba-text"></div>
+        </div>
+
+        <button id="vypocitatNemocenska">Vypočítat nemocenské</button>
+        <div id="chybova-hlaska" style="color:#ef4444; font-size:14px; margin-top:10px; display:none;"></div>
+
+        <!-- Výsledky -->
+        <h2 id="vysledekHlavni" class="vysledek-mzda"></h2>
+        <div id="detailyNemocenska" class="detaily"></div>
+
+        <div style="margin-top:32px; border-top:2px solid #e0e7ff; padding-top:24px;">
+            <h2 style="text-align:center; margin-bottom:20px;">📊 Rozdělení vyplacených částek</h2>
+
+            <div style="text-align:center; margin-bottom:20px;">
+                <button id="export-pdf" style="padding:12px 28px; background-color:#4f46e5; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; font-size:15px;">
+                    📥 Stáhnout PDF
+                </button>
+            </div>
+
+            <canvas id="graf" width="400" height="300"></canvas>
+        </div>
+
+        <div class="clanek" style="margin-top:32px; border-top:1px solid #eee; padding-top:20px;">
+            <h2>Poznámky k legislativě</h2>
+            <ul>
+                <li>Vstupní legislativa a redukční hranice podle ČSSZ: <a href="https://www.cssz.gov.cz/web/cz/nemocenske" target="_blank">ČSSZ — Nemocenské</a> a <a href="https://www.cssz.gov.cz/vyse-a-vypocet-davek" target="_blank">ČSSZ — Výše a výpočet dávek</a>.</li>
+                <li>Redukční hranice (denní): 1 633 Kč, 2 449 Kč, 4 897 Kč — použito dle ČSSZ (2026).</li>
+                <li>Sazby nemocenského (z redukovaného denního vyměřovacího základu): 15.–30. den 60 %, 31.–60. den 66 %, od 61. dne 72 % (ČSSZ).</li>
+                <li>UPOZORNĚNÍ: Výpočet náhrady mzdy vyplácené zaměstnavatelem v prvních 14 dnech není explicitně popsán na stránce přímo v číslech — výsledná částka zde používá sazbu 60 % (běžně citovaná praxe). Pokud to není akceptovatelné, částka je označena jako TODO a v PDF bude poznámka. (TODO: ověřit u MPSV/ČSSZ).</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer id="paticka" class="paticka"></footer>
+    <script src="js/paticka.js"></script>
+
+    <script src="js/nemocenska-2026.js"></script>
+    <script src="js/layout.js"></script>
+    <script src="js/cookie-analytics.js"></script>
+</body>
 </html>

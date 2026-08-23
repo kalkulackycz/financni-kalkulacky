@@ -1,91 +1,91 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finanční kalkulačky</title>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        .uvodni-sekce {
-            text-align: center;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        .karty-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-            margin-top: 40px;
-        }
-        .karta {
-            background: white;
-            padding: 30px 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            text-decoration: none;
-            color: #1f2937;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #f3f4f6;
-            text-align: center;
-        }
-        .karta:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border-color: #4f46e5;
-            background-color: #f5f7ff;
-        }
-        .karta h3 {
-            margin: 0;
-            color: #4f46e5;
-            font-size: 1.15rem;
-            line-height: 1.4;
-            font-weight: 600;
-        }
-        .karta span {
-            display: block;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-        @media (max-width: 768px) {
-            .karty-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <nav class="menu">
-        <a href="uvod.html">Domů</a>
-        <a href="kalkulacky.html" class="aktivni">Kalkulačky</a>
-        <a href="o-mne.html">O mně</a>
-    </nav>
-
-    <div class="uvodni-sekce">
-        <h1>Finanční kalkulačky</h1>
-        <p class="uvod">"Jednoduché online kalkulačky pro hypotéky, půjčky, spoření a osobní finance."</p>
-
-        <div class="karty-grid">
-            <a href="index.html" class="karta"><span>🏠</span><h3>Hypoteční kalkulačka</h3></a>
-            <a href="mzda.html" class="karta"><span>💼</span><h3>Kalkulačka čisté mzdy</h3></a>
-            <a href="sporeni.html" class="karta"><span>💰</span><h3>Kalkulačka spoření</h3></a>
-            <a href="pujcka.html" class="karta"><span>💳</span><h3>Kalkulačka půjčky</h3></a>
-            <a href="refinancovani.html" class="karta"><span>🔄</span><h3>Kalkulačka refinancování</h3></a>
-            <a href="mimoradna-splatka.html" class="karta"><span>💸</span><h3>Kalkulačka mimořádné splátky</h3></a>
-            <a href="nemocenska-2026.html" class="karta"><span>🩺</span><h3>Kalkulačka nemocenské 2026</h3></a>
-            <a href="rodicovsky-prispevek.html" class="karta"><span>👨‍👩‍👧‍👦</span><h3>Kalkulačka rodičovského příspěvku</h3></a>
-        </div>
-    </div>
-
-    <footer id="paticka" class="paticka"></footer>
-    <script src="js/paticka.js"></script>
-    <script src="js/cookie-analytics.js"></script>
-</body>
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finanční kalkulačky</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .uvodni-sekce {
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .karty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+        .karta {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            text-decoration: none;
+            color: #1f2937;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #f3f4f6;
+            text-align: center;
+        }
+        .karta:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #4f46e5;
+            background-color: #f5f7ff;
+        }
+        .karta h3 {
+            margin: 0;
+            color: #4f46e5;
+            font-size: 1.15rem;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+        .karta span {
+            display: block;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        @media (max-width: 768px) {
+            .karty-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="menu">
+        <a href="index.html">Domů</a>
+        <a href="kalkulacky.html" class="aktivni">Kalkulačky</a>
+        <a href="o-mne.html">O mně</a>
+    </nav>
+
+    <div class="uvodni-sekce">
+        <h1>Finanční kalkulačky</h1>
+        <p class="uvod">"Jednoduché online kalkulačky pro hypotéky, půjčky, spoření a osobní finance."</p>
+
+        <div class="karty-grid">
+            <a href="hypotecni-kalkulacka.html" class="karta"><span>🏠</span><h3>Hypoteční kalkulačka</h3></a>
+            <a href="mzda.html" class="karta"><span>💼</span><h3>Kalkulačka čisté mzdy</h3></a>
+            <a href="sporeni.html" class="karta"><span>💰</span><h3>Kalkulačka spoření</h3></a>
+            <a href="pujcka.html" class="karta"><span>💳</span><h3>Kalkulačka půjčky</h3></a>
+            <a href="refinancovani.html" class="karta"><span>🔄</span><h3>Kalkulačka refinancování</h3></a>
+            <a href="mimoradna-splatka.html" class="karta"><span>💸</span><h3>Kalkulačka mimořádné splátky</h3></a>
+            <a href="nemocenska-2026.html" class="karta"><span>🩺</span><h3>Kalkulačka nemocenské 2026</h3></a>
+            <a href="rodicovsky-prispevek.html" class="karta"><span>👨‍👩‍👧‍👦</span><h3>Kalkulačka rodičovského příspěvku</h3></a>
+        </div>
+    </div>
+
+    <footer id="paticka" class="paticka"></footer>
+    <script src="js/paticka.js"></script>
+    <script src="js/cookie-analytics.js"></script>
+</body>
 </html>
