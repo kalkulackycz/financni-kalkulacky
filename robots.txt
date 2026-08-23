@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kalkulackycz.github.io/financni-kalkulacky/sitemap.xml
+Sitemap: https://financnimapa.cz/sitemap.xml
