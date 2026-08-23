@@ -1,21 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://sitemaps.org">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://github.io</loc>
+    <loc>https://financnimapa.cz/</loc>
   </url>
   <url>
-    <loc>https://github.io</loc>
+    <loc>https://financnimapa.cz/kalkulacky.html</loc>
   </url>
   <url>
-    <loc>https://github.io</loc>
+    <loc>https://financnimapa.cz/hypotecni-kalkulacka.html</loc>
   </url>
   <url>
-    <loc>https://github.io</loc>
+    <loc>https://financnimapa.cz/mzda.html</loc>
   </url>
   <url>
-    <loc>https://github.io</loc>
+    <loc>https://financnimapa.cz/mimoradna-splatka.html</loc>
   </url>
   <url>
-    <loc>https://github.io</loc>
+    <loc>https://financnimapa.cz/nemocenska-2026.html</loc>
+  </url>
+  <url>
+    <loc>https://financnimapa.cz/pujcka.html</loc>
+  </url>
+  <url>
+    <loc>https://financnimapa.cz/refinancovani.html</loc>
+  </url>
+  <url>
+    <loc>https://financnimapa.cz/rodicovsky-prispevek.html</loc>
+  </url>
+  <url>
+    <loc>https://financnimapa.cz/sporeni.html</loc>
+  </url>
+  <url>
+    <loc>https://financnimapa.cz/o-mne.html</loc>
+  </url>
+  <url>
+    <loc>https://financnimapa.cz/kontakt.html</loc>
+  </url>
+  <url>
+    <loc>https://financnimapa.cz/ochrana-soukromi.html</loc>
+  </url>
+  <url>
+    <loc>https://financnimapa.cz/podminky.html</loc>
+  </url>
+  <url>
+    <loc>https://financnimapa.cz/cla/rpsn-vysvetlene.html</loc>
   </url>
 </urlset>
