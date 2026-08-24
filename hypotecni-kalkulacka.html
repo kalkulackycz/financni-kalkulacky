@@ -20,6 +20,261 @@
         <a href="clanky/index.html">📰 Články</a>
 <div class="menu-polozka">
             <a href="menova-kalkulacka.html">🌍 Měny <span class="menu-sipka">▾</span></a>
+    <style>
+        /* ===== Profi dark vzhled hypoteční kalkulačky ===== */
+        .kalkulacka {
+            background: #ffffff !important;
+            color: #1e293b !important;
+            border: 1px solid #e0e7ff !important;
+            box-shadow: 0 20px 50px -15px rgba(15, 12, 41, 0.5) !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .kalkulacka::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(165, 180, 252, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(165, 180, 252, 0.06) 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none;
+        }
+        .kalkulacka > * { position: relative; z-index: 1; }
+
+        .kalkulacka h1 {
+            background: #1e1b4b;
+            width: auto;
+            margin: -32px -32px 24px;
+            padding: 30px 24px;
+            color: #ffffff !important;
+            letter-spacing: -0.02em;
+        }
+
+        .kalkulacka label {
+            color: #1e1b4b !important;
+        }
+
+        .kalkulacka input[type="text"] {
+            background: #ffffff !important;
+            border: 1px solid #c7d2fe !important;
+            color: #0f172a !important;
+            border-radius: 10px !important;
+            font-weight: 600;
+        }
+        .kalkulacka input[type="text"]:focus {
+            outline: none;
+            border-color: #818cf8 !important;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+        }
+        .kalkulacka input[type="range"] {
+            accent-color: #1e1b4b;
+        }
+        .kalkulacka input[type="checkbox"] {
+            accent-color: #1e1b4b;
+            width: 16px;
+            height: 16px;
+        }
+
+        .ikona-otaznik {
+            background: #1e1b4b !important;
+            color: #ffffff !important;
+            border: none !important;
+            font-weight: 800;
+            box-shadow: 0 2px 6px rgba(30, 27, 75, 0.35);
+        }
+
+        .blok-mimoradna {
+            background: #eef2ff !important;
+            border: 1px solid #c7d2fe !important;
+            border-radius: 14px !important;
+            margin-top: 18px !important;
+        }
+        .mimoradna-prepinac {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 2px;
+        }
+        .mimoradna-prepinac label {
+            margin: 0 !important;
+            font-size: 0.95rem !important;
+            color: #1e1b4b !important;
+        }
+        .mimoradna-prepinac input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin: 0 !important;
+        }
+        #blok-mimoradna-splatka {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 12px;
+            background: transparent;
+            border: none;
+            padding: 4px 0 0;
+            margin-top: 12px !important;
+            opacity: 0.55;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        #blok-mimoradna-splatka label:nth-of-type(1) { grid-column: 1; grid-row: 1; }
+        #blok-mimoradna-splatka input#mimoradna-splatka { grid-column: 1; grid-row: 2; }
+        #blok-mimoradna-splatka label:nth-of-type(2) { grid-column: 2; grid-row: 1; }
+        #blok-mimoradna-splatka input#mimoradna-rok { grid-column: 2; grid-row: 2; }
+        #blok-mimoradna-splatka label { margin-top: 0 !important; font-size: 0.8rem !important; color: #475569 !important; }
+
+        #vypocitat {
+            margin-top: 22px !important;
+            background: #1e1b4b !important;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 8px 24px -8px rgba(99, 102, 241, 0.7);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        #vypocitat:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 28px -8px rgba(99, 102, 241, 0.85);
+        }
+
+.vysledek-nadpis {
+            background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 60%, #312e81 100%);
+            border-radius: 20px 20px 0 0;
+            margin: 28px 0 0;
+            padding: 20px 20px 2px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #a5b4fc;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+        #vysledek {
+            background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 60%, #312e81 100%) !important;
+            border: none !important;
+            border-radius: 0 !important;
+            color: #ffffff !important;
+            font-size: 1.35rem !important;
+            padding: 4px 20px 26px !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            
+        }
+        #detaily {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%) !important;
+            border-radius: 0 0 20px 20px;
+            margin: 0 auto 24px !important;
+            padding: 4px 8px 12px;
+        }
+        #detaily p {
+            flex: 1;
+            max-width: none;
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0;
+            padding: 10px 8px;
+            margin: 0 !important;
+            font-size: 0.85rem;
+            color: #a5b4fc !important;
+        }
+        #detaily p + p {
+            border-left: 1px solid rgba(165, 180, 252, 0.25) !important;
+        }
+        #detaily p strong {
+            display: block;
+            color: #ffffff !important;
+            font-size: 1.2rem;
+            margin-top: 4px;
+        }
+        @media (max-width: 480px) { #detaily { flex-direction: column; } #detaily p + p { border-left: none; border-top: 1px solid rgba(165, 180, 252, 0.25); } }
+
+#tisk-pdf, #sdilet, #tlacitko-tabulka {
+            display: inline-block !important;
+            width: auto !important;
+        }
+        #blokSrovnani p { color: #334155 !important; }
+        #blokSrovnani strong { color: #1e1b4b; }
+
+        .kalkulacka h2 { color: #1e1b4b !important; }
+        .clanek h2 { color: #1e1b4b !important; }
+        .clanek h3 { color: #334155 !important; }
+        .clanek p, .faq-polozka p { color: #475569 !important; }
+
+        #tisk-pdf, #sdilet, #tlacitko-tabulka {
+            background: #ffffff !important;
+            color: #1e1b4b !important;
+            border: 2px solid #1e1b4b !important;
+            border-radius: 10px !important;
+            transition: background 0.2s, color 0.2s;
+        }
+        #tisk-pdf:hover, #sdilet:hover, #tlacitko-tabulka:hover {
+            background: #1e1b4b !important;
+            color: #ffffff !important;
+        }
+
+        #amortizacni-tabulka {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 12px !important;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(30, 27, 75, 0.08) !important;
+        }
+        #amortizacni-tabulka thead tr { background: #1e1b4b !important; }
+        #amortizacni-tabulka th { color: #ffffff !important; background: transparent !important; }
+        #amortizacni-tabulka tbody tr { background: transparent !important; }
+        #amortizacni-tabulka tbody tr:nth-child(even) { background: #f8fafc !important; }
+        #amortizacni-tabulka td { color: #334155 !important; border-bottom: 1px solid #eef2f7 !important; background: transparent !important; }
+
+        #graf {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 10px;
+            max-width: 100%;
+        }
+
+        .kalkulacka .info-box {
+            background: #f5f7ff !important;
+            border: 1px solid #c7d2fe !important;
+            color: #3730a3 !important;
+            border-radius: 14px !important;
+        }
+        .kalkulacka .info-box span { color: #4f46e5 !important; }
+
+        .kalkulacka .chyba-text { color: #fca5a5 !important; }
+
+        @media (max-width: 600px) {
+            .kalkulacka { padding: 20px !important; }
+            .kalkulacka h1 { margin: -20px -20px 20px; padding: 22px 18px; font-size: 1.4rem; }
+        }
+.kalkulacka::before { display: none !important; }
+        .kalkulacka input[type="text"] { font-weight: 600; }
+        @media print {
+            .menu, .paticka, .info-box, .clanek, #vypocitat, #tisk-pdf, #sdilet, #tlacitko-tabulka, #graf, .kalkulacka::before {
+                display: none !important;
+            }
+            #obal-tabulky { display: block !important; }
+            .kalkulacka {
+                background: #ffffff !important; color: #000 !important; border: none !important; box-shadow: none !important; max-width: 100% !important;
+            }
+            .kalkulacka h1, .kalkulacka h2, .kalkulacka label, #vysledek, .detaily, #blokSrovnani p {
+                color: #000 !important; -webkit-text-fill-color: #000 !important;
+            }
+            #vysledek, .pole-s-napovedou[style], #blok-mimoradna-splatka[style], #amortizacni-tabulka {
+                background: #fff !important; border: 1px solid #ccc !important;
+            }
+            #amortizacni-tabulka thead tr { background: #eee !important; }
+            #amortizacni-tabulka th, #amortizacni-tabulka td { color: #000 !important; }
+        }
+    </style>
+
             <div class="menu-dropdown">
                 <a href="menova-kalkulacka.html">💱 Měnová kalkulačka</a>
                 <a href="kurzovni-listek.html">📋 Kurzovní lístek ČNB</a>
@@ -64,13 +319,13 @@
             <div id="doba-chyba" class="chyba-text"></div>
         </div>
 
-        <div class="pole-s-napovedou" style="border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 15px; background: #f8fafc;">
-            <div style="margin-top: 15px;">
+        <div class="pole-s-napovedou blok-mimoradna">
+            <div class="mimoradna-prepinac">
                 <input type="checkbox" id="aktivator-checkbox">
                 <label for="aktivator-checkbox">Aktivovat mimořádnou splátku</label>
             </div>
 
-            <div id="blok-mimoradna-splatka" style="background-color: #f3f4f6; opacity: 0.7; pointer-events: none; padding: 15px; border-radius: 8px; margin-top: 10px;">
+            <div id="blok-mimoradna-splatka">
                 <label for="mimoradna-splatka">Částka (Kč):</label>
                 <input type="text" id="mimoradna-splatka" value="0">
                 <label for="mimoradna-rok">Rok splátky:</label>
@@ -82,6 +337,8 @@
         <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
 
         <!-- Hlavní výsledek (Standard) -->
+        <div class="vysledek-nadpis">Výsledek</div>
+
         <h2 id="vysledek"></h2>
         <div id="detaily" class="detaily"></div>
 
@@ -99,9 +356,13 @@
             
             <!-- Tlačítka pro PDF a amortizační plán -->
             <div style="text-align: center; margin-bottom: 20px;">
-                <button id="export-pdf" style="padding: 12px 28px; background-color: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; margin-right: 10px;">
-                    📥 Stáhnout PDF
+                <button id="tisk-pdf" type="button" style="padding: 12px 28px; background: #1e1b4b; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; margin-right: 10px;">
+                    🖨️ Tisk / PDF
                 </button>
+                <button type="button" id="sdilet" style="padding: 12px 28px; background: transparent; color: #1e1b4b; border: 2px solid #1e1b4b; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px;">
+                    &#128228; Sd&iacute;let
+                </button>
+
                 <button id="tlacitko-tabulka" style="padding: 12px 28px; background-color: white; color: #4f46e5; border: 2px solid #4f46e5; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px;">
                     📊 Zobrazit amortizační plán
                 </button>
@@ -151,6 +412,23 @@
     </div> <!-- Zde se správně uzavírá bílá karta kalkulačky -->
 
     <footer id="paticka" class="paticka"></footer>
+    <script>
+    document.getElementById("tisk-pdf").addEventListener("click", function () { window.print(); });
+    document.getElementById("sdilet").addEventListener("click", async function () {
+        const text = "Hypote\u010dn\u00ed kalkula\u010dka \u2013 Finan\u010dn\u00ed Mapa";
+        const url = window.location.href;
+        if (navigator.share) {
+            try { await navigator.share({ title: document.title, text: text, url: url }); return; } catch (e) {}
+        }
+        try {
+            await navigator.clipboard.writeText(url);
+            alert("Odkaz na kalkula\u010dku byl zkop\u00edrov\u00e1n do schr\u00e1nky.");
+        } catch (e) {
+            window.location.href = "mailto:?subject=" + encodeURIComponent(text) + "&body=" + encodeURIComponent(url);
+        }
+    });
+    </script>
+
     <script src="js/paticka.js"></script>
     <script src="js/script.js"></script>
     <script src="js/layout.js"></script>

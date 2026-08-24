@@ -70,14 +70,37 @@ function aktualizujGraf(jistina, uroky) {
             labels: ["Jistina", "Úroky"],
             datasets: [{
                 data: [Math.max(0, jistina), Math.max(0, uroky)],
-                backgroundColor: ["#4f46e5", "#f97316"]
+                backgroundColor: ["#1e1b4b", "#818cf8"],
+                borderWidth: 3,
+                borderColor: "#ffffff",
+                spacing: 2,
+                hoverOffset: 6
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: true,
-            plugins: { legend: { display: false } }
-        }
+            cutout: "62%",
+            plugins: {
+                legend: {
+                    display: true,
+                    position: "bottom",
+                    labels: {
+                        color: "#334155",
+                        font: { size: 13, weight: "600" },
+                        padding: 16,
+                        usePointStyle: true,
+                        pointStyle: "circle"
+                    }
+                },
+                tooltip: {
+                    backgroundColor: "#1e1b4b",
+                    padding: 10,
+                    cornerRadius: 8,
+                    titleFont: { weight: "700" }
+                }
+            }
+        },
     });
 }
 
