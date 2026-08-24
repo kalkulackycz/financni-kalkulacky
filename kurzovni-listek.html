@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Denní kurzovní lístek ČNB – aktuální kurzy eur, dolarů, liber i dalších měn. Stažení CSV, tisk nebo sdílení odkazu.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📋</text></svg>">
+    <title>Kurzovní lístek ČNB – aktuální kurzy měn | Finanční Mapa</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .listek-karta {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 0;
+            overflow: hidden;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .listek-hlavicka {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(600px 220px at 50% -60px, rgba(129, 140, 248, 0.35), transparent 65%),
+                linear-gradient(160deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
+            padding: 30px 26px;
+            text-align: center;
+        }
+
+        .listek-hlavicka::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+            background-size: 36px 36px;
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), transparent 75%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), transparent 75%);
+            pointer-events: none;
+        }
+
+        .listek-hlavicka h1 {
+            position: relative;
+            z-index: 1;
+            margin: 0 0 8px 0;
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #eef2ff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .listek-badge {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(165, 180, 252, 0.35);
+            background: rgba(99, 102, 241, 0.16);
+            color: #c7d2fe;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .listek-badge .bod {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4ade80;
+            flex-shrink: 0;
+        }
+
+        .listek-nastroje {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px 14px;
+            padding: 16px 22px;
+            border-bottom: 1px solid #eef2ff;
+        }
+
+        .listek-hledat {
+            flex: 1;
+            min-width: 180px;
+            max-width: 300px;
+            padding: 10px 14px;
+            border: 1px solid #e0e7ff;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            font-family: inherit;
+            background: #f8fafc;
+            color: #1f2937;
+        }
+
+        .listek-hledat:focus {
+            outline: none;
+            border-color: #a5b4fc;
+            background: #ffffff;
+        }
+
+        .listek-tlacitka {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .listek-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 14px;
+            border-radius: 10px;
+            border: 1px solid #e0e7ff;
+            background: #f5f7ff;
+            color: #4f46e5;
+            font-weight: 700;
+            font-size: 0.82rem;
+            font-family: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .listek-btn:hover {
+            background: #eef2ff;
+            border-color: #c7d2fe;
+            transform: translateY(-1px);
+        }
+
+        .tabulka-listek {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+        }
+
+        .tabulka-listek th {
+            background: #f5f7ff;
+            color: #4338ca;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .tabulka-listek th:hover {
+            background: #eef2ff;
+        }
+
+        .tabulka-listek th .smer {
+            font-size: 0.7rem;
+            opacity: 0.9;
+        }
+
+        .tabulka-listek th.prava, .tabulka-listek td.prava {
+            text-align: right;
+        }
+
+        .tabulka-listek td {
+            padding: 11px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #1f2937;
+        }
+
+        .tabulka-listek tbody tr:hover td {
+            background: #f8faff;
+        }
+
+        .tabulka-listek td { text-align: right; font-variant-numeric: tabular-nums; } .tabulka-listek th:first-child, .tabulka-listek td:first-child { text-align: left; width: 55%; padding-left: 22%; } .tabulka-listek th.prava { width: 22.5%; } .tabulka-listek .mena-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tabulka-listek .mena-kod {
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+
+        .mena-flag {
+            width: 22px;
+            height: 16px;
+            object-fit: cover;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+        }
+
+        .listek-paticka {
+            padding: 14px 22px 20px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .listek-prazdno {
+            text-align: center;
+            color: #94a3b8;
+            padding: 30px 16px;
+            font-size: 0.9rem;
+        }
+
+        .info-box {
+            display: block;
+            max-width: 760px;
+            margin: 20px auto 0 auto;
+            background: #f5f7ff;
+            border: 1px solid #e0e7ff;
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: #4338ca;
+            font-size: 0.92rem;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .info-box span {
+            font-weight: 700;
+        }
+
+        .info-box:hover {
+            background: #eef2ff;
+        }
+
+        @media print {
+            .menu, .paticka, .listek-nastroje, .info-box, .listek-badge {
+                display: none !important;
+            }
+            .listek-karta {
+                box-shadow: none;
+                max-width: 100%;
+            }
+            body {
+                background: #ffffff;
+            }
+        }
+    </style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8651858140507312"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav class="menu">
+        <a href="index.html" class="menu-brand">💰 Finanční Mapa</a>
+        <a href="index.html">🏠 Domů</a>
+        <a href="kalkulacky.html">🧮 Kalkulačky</a>
+        <a href="clanky/index.html">📰 Články</a>
+        <div class="menu-polozka">
+            <a href="menova-kalkulacka.html" class="aktivni">🌍 Měny <span class="menu-sipka">▾</span></a>
+            <div class="menu-dropdown">
+                <a href="menova-kalkulacka.html">💱 Měnová kalkulačka</a>
+                <a href="kurzovni-listek.html">📋 Kurzovní lístek ČNB</a>
+            </div>
+        </div>
+        <a href="o-mne.html">👤 O mně</a>
+    </nav>
+
+    <div class="uvodni-sekce" style="padding-bottom: 30px;">
+        <div class="listek-karta">
+            <div class="listek-hlavicka">
+                <h1>📋 Kurzovní lístek ČNB</h1>
+                <span class="listek-badge"><span class="bod"></span><span id="listekDatum">Načítám aktuální kurzy…</span></span>
+            </div>
+
+            <div class="listek-nastroje">
+                <input type="text" id="listekHledat" class="listek-hledat" placeholder="🔍 Hledat měnu (např. euro)…">
+                <div class="listek-tlacitka">
+                    <button type="button" class="listek-btn" id="btnCsv" title="Stáhnout lístek jako CSV">⬇️ CSV</button>
+                    <button type="button" class="listek-btn" id="btnTisk" title="Tisk nebo uložení jako PDF">🖨️ Tisk / PDF</button>
+                    <button type="button" class="listek-btn" id="btnSdilet" title="Sdílet odkaz na lístek">📤 Sdílet</button>
+                </div>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="tabulka-listek">
+                    <thead>
+                        <tr>
+                            <th data-sort="nazev">Měna <span class="smer"></span></th>
+                            <th class="prava" data-sort="mnozstvi">Množství <span class="smer"></span></th>
+                            <th class="prava" data-sort="kurz">Kurz (CZK) <span class="smer"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="listekTelo"></tbody>
+                </table>
+                <div id="listekPrazdno" class="listek-prazdno" style="display:none;">Nic nenalezeno. Zkuste jiné hledané slovo.</div>
+            </div>
+
+            <div class="listek-paticka">
+                Údaje jsou informativní střední kurzy ČNB, nikoli obchodní kurzy bank.
+                Zdroj: Česká národní banka (lístek aktualizovaný pracovní dny kolem 14:30).
+            </div>
+        </div>
+
+        <a href="menova-kalkulacka.html" class="info-box">
+            💱 Chcete si částku přepočítat? <span>Otevřít měnovou kalkulačku →</span>
+        </a>
+    </div>
+
+    <footer id="paticka" class="paticka"></footer>
+    <script src="js/paticka.js"></script>
+
+    <script src="js/kurzovni-listek.js"></script>
+    <script src="js/cookie-analytics.js"></script>
+</body>
+</html>

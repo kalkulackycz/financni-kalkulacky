@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
@@ -42,7 +42,13 @@
         <a href="index.html">🏠 Domů</a>
         <a href="kalkulacky.html">🧮 Kalkulačky</a>
         <a href="clanky/index.html">📰 Články</a>
-        <a href="menova-kalkulacka.html" class="aktivni">🌍 Měny</a>
+<div class="menu-polozka">
+            <a href="menova-kalkulacka.html" class="aktivni">🌍 Měny <span class="menu-sipka">▾</span></a>
+            <div class="menu-dropdown">
+                <a href="menova-kalkulacka.html">💱 Měnová kalkulačka</a>
+                <a href="kurzovni-listek.html">📋 Kurzovní lístek ČNB</a>
+            </div>
+        </div>
         <a href="o-mne.html">👤 O mně</a>
     </nav>
 
@@ -92,29 +98,9 @@
             💡 Řešíte i hypotéku, půjčku nebo mzdu? <span>Prohlédněte si všechny kalkulačky →</span>
         </a>
 
-        <!-- Tabulka kurzů -->
-        <div style="margin-top: 32px; border-top: 2px solid #e0e7ff; padding-top: 24px;">
-            <h2 style="text-align: center; margin-bottom: 8px;">📋 Kurzovní lístek ČNB</h2>
-            <p id="datumListku" style="text-align: center; color: #64748b; font-size: 14px;"></p>
-
-            <div id="obal-tabulky-men" style="overflow-x: auto; margin-top: 16px;">
-                <table class="tabulka-odecitky" style="max-width: 560px; margin-left: auto; margin-right: auto;">
-                    <thead>
-                        <tr>
-                            <th>Měna</th>
-                            <th style="text-align: right;">Množství</th>
-                            <th style="text-align: right;">Kurz (CZK)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="telo-tabulky-men">
-                    </tbody>
-                </table>
-            </div>
-            <p style="text-align: center; color: #64748b; font-size: 13px; margin-top: 14px;">
-                Údaje jsou informativní středy kurzů ČNB, nikoli obchodní kurzy bank.
-                Zdroj: Česká národní banka.
-            </p>
-        </div>
+        <a href="kurzovni-listek.html" class="info-box">
+            📋 Chcete přehled všech kurzů? <span>Otevřít kurzovní lístek ČNB →</span>
+        </a>
     </div>
 
     <footer id="paticka" class="paticka"></footer>

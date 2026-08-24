@@ -1,4 +1,4 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     // Zdroje kurzů: primárně stejno-doménní kurzy.json (denně generuje GitHub Actions
     // z oficiálního kurzovní lístku ČNB – žádný problém s CORS), záložně open er-api.
     const ZDROJ_JSON = "kurzy.json";
@@ -178,6 +178,7 @@
     }
 
     function vykresliTabulku() {
+        if (!teloTabulky) return;
         teloTabulky.innerHTML = "";
         const kody = Object.keys(kurzy).filter(function (k) { return k !== "CZK"; }).sort();
         for (const kod of kody) {
@@ -196,7 +197,7 @@
     }
 
     function nastavDatumText(text) {
-        datumListku.textContent = text;
+        if (!datumListku) return;        datumListku.textContent = text;
     }
 
     function zobrazKurzy(poznamka) {
