@@ -11,82 +11,188 @@
         .clanek-obsah {
             max-width: 800px;
             margin: 40px auto;
-            padding: 40px;
+            padding: 0 0 36px;
             background: white;
             border-radius: 24px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
             border: 1px solid #f1f5f9;
             text-align: left;
+            overflow: hidden;
         }
-        .clanek-obsah h1 {
-            color: #1e1b4b;
-            margin-bottom: 24px;
+        .clanek-hlavicka {
+            background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 55%, #312e81 100%);
+            padding: 42px 44px 38px;
+            position: relative;
+        }
+        .clanek-hlavicka::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(165, 180, 252, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(165, 180, 252, 0.07) 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none;
+        }
+        .clanek-kategorie {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(165, 180, 252, 0.35);
+            background: rgba(99, 102, 241, 0.18);
+            color: #c7d2fe;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            position: relative;
+        }
+        .clanek-hlavicka h1 {
+            color: #ffffff;
+            margin: 18px 0 12px;
             text-align: left;
+            font-size: 2rem;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            position: relative;
         }
-        .clanek-obsah p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #475569;
-            margin-bottom: 20px;
+        .clanek-meta {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #a5b4fc;
+            font-size: 0.85rem;
+            font-weight: 600;
+            position: relative;
         }
+        article > p {
+            font-size: 1.13rem;
+            line-height: 1.7;
+            color: #1e293b;
+            font-weight: 500;
+            margin: 30px 44px 20px;
+        }
+        article > p strong { color: #0f172a; }
         .clanek-obsah a {
             color: #4f46e5;
             text-decoration: underline;
             font-weight: 600;
         }
-        @media (max-width: 600px) {
-            .clanek-obsah {
-                padding: 24px;
-                margin: 20px 12px;
-            }
-        }
-        .clanek-obsah h2 {
-            color: #1e1b4b;
-            margin-top: 36px;
-            margin-bottom: 16px;
-            line-height: 1.35;
-        }
-        .clanek-obsah ul {
-            line-height: 1.8;
-            color: #475569;
-            margin-bottom: 20px;
-            padding-left: 22px;
-        }
-        .tabulka-odecitky {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 28px 0;
-            font-size: 0.98rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
-            border-radius: 12px;
+        .myt {
+            margin: 22px 44px 0;
+            padding: 20px 24px;
+            background: #f8faff;
+            border: 1px solid #eef2ff;
+            border-left: 4px solid #6366f1;
+            border-radius: 14px;
+            position: relative;
             overflow: hidden;
         }
-        .tabulka-odecitky th {
-            background-color: #4f46e5;
-            color: #ffffff;
-            padding: 12px 14px;
-            text-align: left;
-            font-weight: 600;
-        }
-        .tabulka-odecitky td {
-            padding: 11px 14px;
-            border-bottom: 1px solid #e0e7ff;
-            color: #1f2937;
-        }
-        .tabulka-odecitky tr:nth-child(even) td {
-            background-color: #f5f7ff;
-        }
-        .tabulka-odecitky td.cislo {
-            text-align: right;
-            white-space: nowrap;
-            font-weight: 600;
-            color: #3730a3;
-        }
-        .tabulka-odecitky tr.vitez td {
-            background-color: #e0e7ff;
-            font-weight: 700;
+        .myt h2 {
             color: #1e1b4b;
-            border-bottom: none;
+            font-size: 1.08rem;
+            margin: 0 0 10px;
+            line-height: 1.35;
+            position: relative;
+        }
+        .myt p {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #475569;
+            margin: 0 0 12px;
+        }
+        .myt p:last-child { margin-bottom: 0; }
+        .myt ul {
+            margin: 8px 0 0;
+            padding-left: 20px;
+            line-height: 1.75;
+            color: #475569;
+            font-size: 1rem;
+        }
+        .myt li { margin-bottom: 6px; }
+        .myt li:last-child { margin-bottom: 0; }
+        .myt table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 4px;
+            font-size: 0.95rem;
+        }
+        .myt th {
+            background: #eef2ff;
+            color: #4338ca;
+            text-align: left;
+            padding: 9px 12px;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .myt td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+        }
+        .info-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 26px 44px 0;
+            padding: 20px 24px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 55%, #312e81 100%);
+            color: #e0e7ff;
+            text-decoration: none;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .info-box span {
+            color: #ffffff;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .info-box:hover span {
+            text-decoration: underline;
+        }
+        .disclaimer-box {
+            margin: 26px 44px 0;
+            padding: 14px 18px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+        .disclaimer-box p {
+            font-size: 0.82rem;
+
+            line-height: 1.6;
+            color: #94a3b8;
+            margin: 0;
+        }
+        @media (max-width: 600px) {
+            .clanek-obsah {
+                margin: 20px 12px;
+            }
+            .clanek-hlavicka {
+                padding: 30px 22px 26px;
+            }
+            .clanek-hlavicka h1 {
+                font-size: 1.5rem;
+            }
+            article > p,
+            .myt,
+            .info-box,
+            .disclaimer-box {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+            .myt,
+            .info-box,
+            .disclaimer-box {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
         }
     </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8651858140507312"
@@ -111,7 +217,11 @@
 
     <div class="clanek-obsah">
       <article>
-        <h1>Mimořádná splátka hypotéky: Kdy se vyplatí a kdy ne</h1>
+        <header class="clanek-hlavicka">
+            <span class="clanek-kategorie">&#127953; Hypot&eacute;ky</span>
+            <h1>Mimořádná splátka hypotéky: Kdy se vyplatí a kdy ne</h1>
+            <div class="clanek-meta"><span>&#9201; 5 min &#269;ten&iacute;</span><span>&bull;</span><span>Finan&#269;n&iacute; Mapa</span></div>
+        </header>
 
         <p>Představ si situaci: na spoření ti leží 300 tisíc korun, které zrovna teď nikam
         nepotřebuješ. Spořicí účet ti dává úrok kolem dvou procent, hypotéku platíš s pětiapůl
@@ -120,7 +230,7 @@
         aplikaci na "mimořádná splátka", stojí za to si projít pár věcí, které rozhodnou, jestli
         je to opravdu nejlepší tah.</p>
 
-        <h2>Proč je mimořádná splátka „jistá investice"</h2>
+        <section class="myt"><h2>Proč je mimořádná splátka „jistá investice"</h2>
         <p>Když splatíš kus hypotéky, přestaneš za tuhle částku platit úrok. A to je v podstatě
         zaručený výnos – bez rizika, bez poplatků, bez daně. Kde jinde dnes získáš spolehlivých
         pět a půl procenta ročně? Akcie to slibují, ale nikdy nevíš předem. Vklad u banky je
@@ -130,7 +240,7 @@
         porazila spousta spořicích produktů i konzervativních investic – a pak najednou
         mimořádná splátka není automaticky nejlepší volba.</p>
 
-        <h2>Pravidlo zdarma: kolik můžu splatit, aniž bych zaplatil sankci</h2>
+        </section><section class="myt"><h2>Pravidlo zdarma: kolik můžu splatit, aniž bych zaplatil sankci</h2>
         <p>Tady se skrývá nejčastější past. Během fixace nemůžeš obvykle splatit libovolnou
         částku zadarmo – banka ti ale každý rok umožňuje mimořádně splatit zpravidla až 25 %
         jistiny zdarma, typicky v období kolem výročí smlouvy (často měsíc před ním a měsíc po).
@@ -142,11 +252,11 @@
             <li><strong>Písemné potvrzení</strong> od banky o podmínkách tě chrání, když by se něco nesedělo.</li>
         </ul>
 
-        <a href="../mimoradna-splatka.html" class="info-box">
+        </section><a href="../mimoradna-splatka.html" class="info-box">
             💡 Kolik by ti mimořádná splátka reálně ušetřila? <span>Spočítej si to →</span>
         </a>
 
-        <h2>Snížit splátku, nebo zkrátit dobu?</h2>
+        <section class="myt"><h2>Snížit splátku, nebo zkrátit dobu?</h2>
         <p>Až peníze pošleš, zeptá se tě banka, co s tím chceš udělat dál. A tahle volba dělá
         v celkové úspoře obrovský rozdíl:</p>
         <table class="tabulka-odecitky">
@@ -175,7 +285,7 @@
         rozpočet, což se hodí, když čekáte děcko nebo si nejste jistí příjmem. Není to soutěž,
         je to nástroj.</p>
 
-        <h2>Kdy se mimořádná splátka NEVYPLATÍ</h2>
+        </section><section class="myt"><h2>Kdy se mimořádná splátka NEVYPLATÍ</h2>
         <ul>
             <li><strong>Máš levnou fixaci.</strong> Sazba 2 % a spoření ti dává 4 %? Pak jsou naspořené peníze produktivnější na účtu než v hypotéce.</li>
             <li><strong>Nemáš finanční polštář.</strong> Nejdřív si odlož 3–6 měsíců výdajů. Hypotéku můžeš splácet deset let, rezervu potřebuješ dnes.</li>
@@ -183,7 +293,7 @@
             <li><strong>Splácením bys propadl limitu zdarma.</strong> Sankce za předčasnou splátku může celou úsporu snadno sežrat.</li>
         </ul>
 
-        <h2>Jak na to prakticky</h2>
+        </section><section class="myt"><h2>Jak na to prakticky</h2>
         <p>Rozhodl ses? Postup je jednodušší, než čekáš. Ve většině bank dnes zadáš mimořádnou
         splátku přímo v internetovém bankovnictví – stačí ji nahlásit pár dní předem, ideálně
         do onoho okna kolem výročí smlouvy. Nezapomeň si zvolit, jestli chceš zkrátit dobu
@@ -195,7 +305,7 @@
         a rozhodni se podle svých čísel, ne podle rady známého, který "to tam prostě hodil
         a je to vyřešený".</p>
 
-        <a href="../hypotecni-kalkulacka.html" class="info-box">
+        </section><a href="../hypotecni-kalkulacka.html" class="info-box">
             💡 Chceš vidět dopad na celou hypotéku? <span>Vyzkoušej hypoteční kalkulačku →</span>
         </a>
 

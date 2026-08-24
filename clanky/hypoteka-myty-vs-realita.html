@@ -7,36 +7,187 @@
     <title>Hypotéka: mýty vs. realita - Finanční Mapa</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        .clanek-obsah {
+        .clanek-obsah { counter-reset: myt;
             max-width: 800px;
             margin: 40px auto;
-            padding: 40px;
+            padding: 0 0 36px;
             background: white;
             border-radius: 24px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
             border: 1px solid #f1f5f9;
             text-align: left;
+            overflow: hidden;
         }
-        .clanek-obsah h1 {
-            color: #1e1b4b;
-            margin-bottom: 24px;
+        .clanek-hlavicka {
+            background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 55%, #312e81 100%);
+            padding: 42px 44px 38px;
+            position: relative;
+        }
+        .clanek-hlavicka::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(165, 180, 252, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(165, 180, 252, 0.07) 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none;
+        }
+        .clanek-kategorie {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(165, 180, 252, 0.35);
+            background: rgba(99, 102, 241, 0.18);
+            color: #c7d2fe;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            position: relative;
+        }
+        .clanek-hlavicka h1 {
+            color: #ffffff;
+            margin: 18px 0 12px;
             text-align: left;
+            font-size: 2rem;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            position: relative;
         }
-        .clanek-obsah p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #475569;
+        .clanek-meta {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #a5b4fc;
+            font-size: 0.85rem;
+            font-weight: 600;
+            position: relative;
+        }
+        .clanek-obsah > p {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: #334155;
+            margin: 0;
+            padding: 0 44px;
             margin-bottom: 20px;
+        }
+        .clanek-obsah > p:first-of-type {
+            margin-top: 30px;
+            font-size: 1.13rem;
+            color: #1e293b;
+            font-weight: 500;
+            line-height: 1.7;
         }
         .clanek-obsah a {
             color: #4f46e5;
             text-decoration: underline;
             font-weight: 600;
         }
+        .myt {
+            margin: 22px 44px 0;
+            padding: 20px 24px;
+            background: #f8faff;
+            border: 1px solid #eef2ff;
+            border-left: 4px solid #6366f1;
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+        .myt::after {
+            counter-increment: myt;
+            content: "0" counter(myt);
+            position: absolute;
+            top: 6px;
+            right: 14px;
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #6366f1;
+            opacity: 0.12;
+            line-height: 1;
+        }
+        .myt h2 {
+            color: #1e1b4b;
+            font-size: 1.08rem;
+            margin: 0 0 10px;
+            line-height: 1.35;
+            position: relative;
+        }
+        .myt p {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #475569;
+            margin: 0;
+        }
+        .clanek-obsah > p:last-of-type {
+            margin: 30px 44px 0;
+            padding: 18px 22px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 14px;
+            color: #14532d;
+            font-size: 1rem;
+        }
+        .info-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 26px 44px 0;
+            padding: 20px 24px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 55%, #312e81 100%);
+            color: #e0e7ff;
+            text-decoration: none;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .info-box span {
+            color: #ffffff;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .info-box:hover span {
+            text-decoration: underline;
+        }
+        .disclaimer-box {
+            margin: 26px 44px 0;
+            padding: 14px 18px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+        .disclaimer-box p {
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: #94a3b8;
+            margin: 0;
+        }
         @media (max-width: 600px) {
-            .clanek-obsah {
-                padding: 24px;
+            .clanek-obsah { counter-reset: myt;
                 margin: 20px 12px;
+            }
+            .clanek-hlavicka {
+                padding: 30px 22px 26px;
+            }
+            .clanek-hlavicka h1 {
+                font-size: 1.5rem;
+            }
+            .clanek-obsah > p,
+            .myt,
+            .info-box,
+            .disclaimer-box {
+                margin-left: 20px;
+                margin-right: 20px;
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+            .clanek-obsah > p {
+                padding-left: 0;
+                padding-right: 0;
             }
         }
     </style>
@@ -61,7 +212,11 @@
     </nav>
 
     <div class="clanek-obsah">
-        <h1>Hypotéka: mýty vs. realita</h1>
+        <header class="clanek-hlavicka">
+            <span class="clanek-kategorie">📰 Hypotéky</span>
+            <h1>Hypotéka: mýty vs. realita</h1>
+            <div class="clanek-meta"><span>⏱ 5 min čtení</span><span>•</span><span>6 nejčastějších omylů</span></div>
+        </header>
 
         <p>Když si lidé poprvé v životě řeší hypotéku, většinou už mají v hlavě nasbíráno spoustu
         "pravd" – od rodičů, od kolegy z práce, co si bral hypotéku před deseti lety, nebo z diskuzí
@@ -69,52 +224,52 @@
         nebo nikdy nebyla úplně pravdivá. Pojďme se podívat na šest nejčastějších mýtů, které
         prvožadatele zbytečně stresují – nebo naopak uspí v momentě, kdy by měli být ostražití.</p>
 
-        <h2>Mýtus 1: Musíš mít našetřeno 20 % z ceny nemovitosti</h2>
+        <div class="myt"><h2>Mýtus 1: Musíš mít našetřeno 20 % z ceny nemovitosti</h2>
         <p>Tohle je asi nejrozšířenější strašák. Realita je jiná – banky dnes běžně financují
         80 % hodnoty nemovitosti, a pokud je ti méně než 36 let, můžeš se dostat i na 90 %. Znamená to,
         že vlastních úspor může stačit výrazně méně, než si lidé myslí. To ale neznamená, že vlastní
         zdroje jsou zbytečné – čím víc jich máš, tím lepší podmínky obvykle dostaneš a tím menší
-        je tvoje měsíční splátka. Je to spíš otázka strategie než tvrdé podmínky "buď 20 %, nebo nic".</p>
+        je tvoje měsíční splátka. Je to spíš otázka strategie než tvrdé podmínky "buď 20 %, nebo nic".</p></div>
 
-        <h2>Mýtus 2: Nejdůležitější je jen úroková sazba</h2>
+        <div class="myt"><h2>Mýtus 2: Nejdůležitější je jen úroková sazba</h2>
         <p>Chápu, proč lidi honí nejnižší číslo – vypadá to jako nejjednodušší způsob, jak porovnat
         nabídky. Jenže úrok je jen jedna část skládačky. Poplatky za vedení účtu, podmínky pojištění
         nemovitosti, sankce při předčasném splacení, flexibilita mimořádných splátek – to všechno
         dohromady rozhoduje o tom, kolik hypotéka za celou dobu skutečně stojí. Dvě nabídky se stejným
-        úrokem mohou vyjít úplně jinak draho.</p>
+        úrokem mohou vyjít úplně jinak draho.</p></div>
 
         <a href="../hypotecni-kalkulacka.html" class="info-box">
             💡 Chceš vidět, jak by vypadala tvoje konkrétní splátka? <span>Vyzkoušej hypoteční kalkulačku →</span>
         </a>
 
-        <h2>Mýtus 3: Fixace na co nejdelší dobu je vždy nejlepší</h2>
+        <div class="myt"><h2>Mýtus 3: Fixace na co nejdelší dobu je vždy nejlepší</h2>
         <p>Dlouhá fixace dává pocit jistoty – víš přesně, kolik budeš platit příštích deset let,
         a nemusíš se bát růstu sazeb. Jenže ta jistota něco stojí a hodí se hlavně lidem, kteří
         preferují klid nad flexibilitou. Pokud naopak očekáváš, že se tvoje životní situace může
         v příštích letech měnit (stěhování, změna práce, plánované navýšení splátek), kratší fixace
         ti dá víc prostoru refinancovat nebo upravit podmínky, aniž bys čekal roky na konec fixačního
-        období.</p>
+        období.</p></div>
 
-        <h2>Mýtus 4: Předčasné splacení je vždy penalizované</h2>
+        <div class="myt"><h2>Mýtus 4: Předčasné splacení je vždy penalizované</h2>
         <p>Tenhle mýtus přežívá z dob, kdy banky mohly za mimořádné splátky účtovat prakticky
         cokoliv. Dnes je situace jiná a mnohé banky umožňují bezplatné mimořádné splátky do určité
         výše ročně, nebo za konkrétních životních situací (například prodej nemovitosti). Než hypotéku
         podepíšeš, stojí za to se přímo zeptat, jaké jsou podmínky mimořádných splátek – je to jedna
-        z věcí, která se mezi bankami dost liší a v běžné nabídkové tabulce často nevynikne.</p>
+        z věcí, která se mezi bankami dost liší a v běžné nabídkové tabulce často nevynikne.</p></div>
 
-        <h2>Mýtus 5: Bez hypotečního makléře to nejde</h2>
+        <div class="myt"><h2>Mýtus 5: Bez hypotečního makléře to nejde</h2>
         <p>Makléř umí ušetřit čas a má přehled o aktuálních nabídkách napříč bankami – to je jeho
         hlavní hodnota. Ale "nejde to bez něj" prostě není pravda. Pokud si uděláš domácí úkol,
         porovnáš si nabídky sám a víš, na co se ptát, zvládneš si hypotéku vyřídit i bez prostředníka.
         Otázka spíš je, jestli chceš ušetřit čas, nebo se do porovnávání pustit sám – obojí je validní
-        cesta.</p>
+        cesta.</p></div>
 
-        <h2>Mýtus 6: Stačí požádat v jedné bance, nejlepší nabídka přijde sama</h2>
+        <div class="myt"><h2>Mýtus 6: Stačí požádat v jedné bance, nejlepší nabídka přijde sama</h2>
         <p>Tohle je možná nejdražší mýtus ze všech. Banky mají různé interní politiky, různě
         hodnotí bonitu klienta a nabídky se mohou lišit i o desetiny procentního bodu úroku – což
         u hypotéky na dvacet nebo třicet let dělá rozdíl v řádu desítek tisíc korun. První nabídka,
         kterou dostaneš, není automaticky ta nejlepší, kterou můžeš získat. Srovnání aspoň dvou až
-        tří bank se prakticky vždy vyplatí.</p>
+        tří bank se prakticky vždy vyplatí.</p></div>
 
         <p>Hypotéka není nic, co se má řešit narychlo nebo podle toho, co si pamatuješ z vyprávění
         známých. Pravidla se mění, nabídky bank se liší a to, co platilo před pár lety, dnes nemusí

@@ -11,82 +11,188 @@
         .clanek-obsah {
             max-width: 800px;
             margin: 40px auto;
-            padding: 40px;
+            padding: 0 0 36px;
             background: white;
             border-radius: 24px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
             border: 1px solid #f1f5f9;
             text-align: left;
+            overflow: hidden;
         }
-        .clanek-obsah h1 {
-            color: #1e1b4b;
-            margin-bottom: 24px;
+        .clanek-hlavicka {
+            background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 55%, #312e81 100%);
+            padding: 42px 44px 38px;
+            position: relative;
+        }
+        .clanek-hlavicka::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(165, 180, 252, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(165, 180, 252, 0.07) 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none;
+        }
+        .clanek-kategorie {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(165, 180, 252, 0.35);
+            background: rgba(99, 102, 241, 0.18);
+            color: #c7d2fe;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            position: relative;
+        }
+        .clanek-hlavicka h1 {
+            color: #ffffff;
+            margin: 18px 0 12px;
             text-align: left;
+            font-size: 2rem;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            position: relative;
         }
-        .clanek-obsah p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #475569;
-            margin-bottom: 20px;
+        .clanek-meta {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #a5b4fc;
+            font-size: 0.85rem;
+            font-weight: 600;
+            position: relative;
         }
+        article > p {
+            font-size: 1.13rem;
+            line-height: 1.7;
+            color: #1e293b;
+            font-weight: 500;
+            margin: 30px 44px 20px;
+        }
+        article > p strong { color: #0f172a; }
         .clanek-obsah a {
             color: #4f46e5;
             text-decoration: underline;
             font-weight: 600;
         }
-        @media (max-width: 600px) {
-            .clanek-obsah {
-                padding: 24px;
-                margin: 20px 12px;
-            }
-        }
-        .clanek-obsah h2 {
-            color: #1e1b4b;
-            margin-top: 36px;
-            margin-bottom: 16px;
-            line-height: 1.35;
-        }
-        .clanek-obsah ul {
-            line-height: 1.8;
-            color: #475569;
-            margin-bottom: 20px;
-            padding-left: 22px;
-        }
-        .tabulka-odecitky {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 28px 0;
-            font-size: 0.98rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
-            border-radius: 12px;
+        .myt {
+            margin: 22px 44px 0;
+            padding: 20px 24px;
+            background: #f8faff;
+            border: 1px solid #eef2ff;
+            border-left: 4px solid #6366f1;
+            border-radius: 14px;
+            position: relative;
             overflow: hidden;
         }
-        .tabulka-odecitky th {
-            background-color: #4f46e5;
-            color: #ffffff;
-            padding: 12px 14px;
-            text-align: left;
-            font-weight: 600;
-        }
-        .tabulka-odecitky td {
-            padding: 11px 14px;
-            border-bottom: 1px solid #e0e7ff;
-            color: #1f2937;
-        }
-        .tabulka-odecitky tr:nth-child(even) td {
-            background-color: #f5f7ff;
-        }
-        .tabulka-odecitky td.cislo {
-            text-align: right;
-            white-space: nowrap;
-            font-weight: 600;
-            color: #3730a3;
-        }
-        .tabulka-odecitky tr.vitez td {
-            background-color: #e0e7ff;
-            font-weight: 700;
+        .myt h2 {
             color: #1e1b4b;
-            border-bottom: none;
+            font-size: 1.08rem;
+            margin: 0 0 10px;
+            line-height: 1.35;
+            position: relative;
+        }
+        .myt p {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #475569;
+            margin: 0 0 12px;
+        }
+        .myt p:last-child { margin-bottom: 0; }
+        .myt ul {
+            margin: 8px 0 0;
+            padding-left: 20px;
+            line-height: 1.75;
+            color: #475569;
+            font-size: 1rem;
+        }
+        .myt li { margin-bottom: 6px; }
+        .myt li:last-child { margin-bottom: 0; }
+        .myt table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 4px;
+            font-size: 0.95rem;
+        }
+        .myt th {
+            background: #eef2ff;
+            color: #4338ca;
+            text-align: left;
+            padding: 9px 12px;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .myt td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+        }
+        .info-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 26px 44px 0;
+            padding: 20px 24px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 55%, #312e81 100%);
+            color: #e0e7ff;
+            text-decoration: none;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .info-box span {
+            color: #ffffff;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .info-box:hover span {
+            text-decoration: underline;
+        }
+        .disclaimer-box {
+            margin: 26px 44px 0;
+            padding: 14px 18px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+        .disclaimer-box p {
+            font-size: 0.82rem;
+
+            line-height: 1.6;
+            color: #94a3b8;
+            margin: 0;
+        }
+        @media (max-width: 600px) {
+            .clanek-obsah {
+                margin: 20px 12px;
+            }
+            .clanek-hlavicka {
+                padding: 30px 22px 26px;
+            }
+            .clanek-hlavicka h1 {
+                font-size: 1.5rem;
+            }
+            article > p,
+            .myt,
+            .info-box,
+            .disclaimer-box {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+            .myt,
+            .info-box,
+            .disclaimer-box {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
         }
     </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8651858140507312"
@@ -111,7 +217,11 @@
 
     <div class="clanek-obsah">
       <article>
-        <h1>Kdy se vyplatí refinancovat hypotéku a jak neprohloupit</h1>
+        <header class="clanek-hlavicka">
+            <span class="clanek-kategorie">&#127953; Hypot&eacute;ky</span>
+            <h1>Kdy se vyplatí refinancovat hypotéku a jak neprohloupit</h1>
+            <div class="clanek-meta"><span>&#9201; 5 min &#269;ten&iacute;</span><span>&bull;</span><span>Finan&#269;n&iacute; Mapa</span></div>
+        </header>
 
         <p>Půl roku před koncem fixace ti do schránky doputuje dopis od banky. Pěkně graficky
         zpracovaná nabídka "obnovení fixace" s sazbou, která ti přijde... no, přiměřená. Většina
@@ -119,14 +229,14 @@
         cena", nebo dopis odloží do šuplíku a nechá to bejt. Obě varianty můžou stát desítky
         tisíc korun. Pojďme se podívat, jak na to chytřeji.</p>
 
-        <h2>Co je refinancování jednou větou</h2>
+        <section class="myt"><h2>Co je refinancování jednou větou</h2>
         <p>Refinancování znamená, že nová banka ti vezme hypotéku na sebe: zaplatí staré bance
         celý zbývající dluh a ty pak splácíš jí – ideálně s nižším úrokem. Nic jiného se
         nemění: nemovitost zůstává tvá, jen se změní "majitel" tvého dluhu. Smysl to má
         výhradně tehdy, když nová nabídka je skutečně lepší než ta současná. Není-li, není
         důvod nic řešit.</p>
 
-        <h2>Zlaté okno: tři až šest měsíců před koncem fixace</h2>
+        </section><section class="myt"><h2>Zlaté okno: tři až šest měsíců před koncem fixace</h2>
         <p>Načasování je tady skoro všechno. Příliš brzy – a nabídka, kterou dostaneš, může být
         za půl roku zastaralá (sazby se hýbou). Příliš pozdě – a můžeš propadnout té
         nejdražší chybě: nechat fixaci propadnout. Když totiž fixace skončí a ty nic
@@ -136,7 +246,7 @@
         Máš čas sbírat nabídky, porovnat je v klidu a nové banky většinou umí garantovat
         podmínky s odstupem, aby sazba "nepropadla" čekáním na termín konce fixace.</p>
 
-        <h2>Zůstat u své banky, nebo odejít?</h2>
+        </section><section class="myt"><h2>Zůstat u své banky, nebo odejít?</h2>
         <p>Máš dvě cesty – a nejlepší je zkusit obě najednou:</p>
         <ul>
             <li><strong>Vyjednat u své banky.</strong> S konkurenční nabídkou v ruce překvapivě často dostaneš lepší sazbu i tam, kde jsi. Bance se tě ztrácet nechce a "retence" nabídky bývá lepší než ta z dopisu.</li>
@@ -146,7 +256,7 @@
         poplatky za předčasné splacení se týkají hlavně splacení mimo konec fixačního období.
         Proto celé refinancování staví na tom správném načasování.</p>
 
-        <h2>Jak poznat dobrou nabídku</h2>
+        </section><section class="myt"><h2>Jak poznat dobrou nabídku</h2>
         <p>Úrok je jen začátek příběhu. Dvě nabídky se stejným úrokem můžou vyjít úplně jinak,
         podle toho, jak dlouho budeš splácet a jaké poplatky jsou schované v drobném písmu
         (vyřízení, odhad nemovitosti, vedení účtu). Podívej se na konkrétní příklad – zbytek
@@ -177,11 +287,11 @@
             </tbody>
         </table>
 
-        <a href="../refinancovani.html" class="info-box">
+        </section><a href="../refinancovani.html" class="info-box">
             💡 Kolik by ti refinancování reálně ušetřilo? <span>Spočítej si to →</span>
         </a>
 
-        <h2>Nejčastější chyby, jak neprohloupit</h2>
+        <section class="myt"><h2>Nejčastější chyby, jak neprohloupit</h2>
         <ul>
             <li><strong>Podepsat první nabídku bez konkurence.</strong> Dopis od vlastní banky není tržní nabídka – je to startovní čára pro vyjednávání.</li>
             <li><strong>Nechat fixaci propadnout.</strong> Obnovovací sazba je téměř vždy horší, než co získáš aktivním přístupem.</li>
@@ -190,7 +300,7 @@
             <li><strong>Navyšovat si úvěr "při tom".</strong> Čerstvé auto nebo rekonstrukce financované navýšením hypotéky dokáží smazat celou úsporu z refinancování.</li>
         </ul>
 
-        <h2>Jak proces probíhá prakticky</h2>
+        </section><section class="myt"><h2>Jak proces probíhá prakticky</h2>
         <p>Většina lidí očekává hory papírů – realita je jednodušší. Poptej 2–3 banky (stačí
         základní parametry: zbytek dluhu, sazba, zbývající doba), vyber nejlepší nabídku a
         administrativu kolem převodu řeší nová banka sama. Peníze na doplacení starého úvěru
@@ -202,7 +312,7 @@
         statisíců za celou dobu. Nech dopis ležet den, spočítej si varianty a rozhodni se
         podle čísel – ne podle hezkého grafu v marketingovém letáku.</p>
 
-        <a href="../refinancovani.html" class="info-box">
+        </section><a href="../refinancovani.html" class="info-box">
             💡 Máš před sebou konec fixace? <span>Porovnej si nabídky v kalkulačce refinancování →</span>
         </a>
 

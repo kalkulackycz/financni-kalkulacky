@@ -11,76 +11,188 @@
         .clanek-obsah {
             max-width: 800px;
             margin: 40px auto;
-            padding: 40px;
+            padding: 0 0 36px;
             background: white;
             border-radius: 24px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
             border: 1px solid #f1f5f9;
             text-align: left;
+            overflow: hidden;
         }
-        .clanek-obsah h1 {
-            color: #1e1b4b;
-            margin-bottom: 24px;
+        .clanek-hlavicka {
+            background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 55%, #312e81 100%);
+            padding: 42px 44px 38px;
+            position: relative;
+        }
+        .clanek-hlavicka::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(165, 180, 252, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(165, 180, 252, 0.07) 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none;
+        }
+        .clanek-kategorie {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(165, 180, 252, 0.35);
+            background: rgba(99, 102, 241, 0.18);
+            color: #c7d2fe;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            position: relative;
+        }
+        .clanek-hlavicka h1 {
+            color: #ffffff;
+            margin: 18px 0 12px;
             text-align: left;
+            font-size: 2rem;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            position: relative;
         }
-        .clanek-obsah p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #475569;
-            margin-bottom: 20px;
+        .clanek-meta {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #a5b4fc;
+            font-size: 0.85rem;
+            font-weight: 600;
+            position: relative;
         }
+        article > p {
+            font-size: 1.13rem;
+            line-height: 1.7;
+            color: #1e293b;
+            font-weight: 500;
+            margin: 30px 44px 20px;
+        }
+        article > p strong { color: #0f172a; }
         .clanek-obsah a {
             color: #4f46e5;
             text-decoration: underline;
             font-weight: 600;
         }
-        @media (max-width: 600px) {
-            .clanek-obsah {
-                padding: 24px;
-                margin: 20px 12px;
-            }
-        }
-        .clanek-obsah h2 {
-            color: #1e1b4b;
-            margin-top: 36px;
-            margin-bottom: 16px;
-            line-height: 1.35;
-        }
-        .clanek-obsah ul {
-            line-height: 1.8;
-            color: #475569;
-            margin-bottom: 20px;
-            padding-left: 22px;
-        }
-        .tabulka-odecitky {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 28px 0;
-            font-size: 0.98rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
-            border-radius: 12px;
+        .myt {
+            margin: 22px 44px 0;
+            padding: 20px 24px;
+            background: #f8faff;
+            border: 1px solid #eef2ff;
+            border-left: 4px solid #6366f1;
+            border-radius: 14px;
+            position: relative;
             overflow: hidden;
         }
-        .tabulka-odecitky th {
-            background-color: #4f46e5;
-            color: #ffffff;
-            padding: 12px 14px;
+        .myt h2 {
+            color: #1e1b4b;
+            font-size: 1.08rem;
+            margin: 0 0 10px;
+            line-height: 1.35;
+            position: relative;
+        }
+        .myt p {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #475569;
+            margin: 0 0 12px;
+        }
+        .myt p:last-child { margin-bottom: 0; }
+        .myt ul {
+            margin: 8px 0 0;
+            padding-left: 20px;
+            line-height: 1.75;
+            color: #475569;
+            font-size: 1rem;
+        }
+        .myt li { margin-bottom: 6px; }
+        .myt li:last-child { margin-bottom: 0; }
+        .myt table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 4px;
+            font-size: 0.95rem;
+        }
+        .myt th {
+            background: #eef2ff;
+            color: #4338ca;
             text-align: left;
-            font-weight: 600;
+            padding: 9px 12px;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
-        .tabulka-odecitky td {
-            padding: 11px 14px;
-            border-bottom: 1px solid #e0e7ff;
-            color: #1f2937;
+        .myt td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
         }
-        .tabulka-odecitky tr:nth-child(even) td {
-            background-color: #f5f7ff;
+        .info-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 26px 44px 0;
+            padding: 20px 24px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 55%, #312e81 100%);
+            color: #e0e7ff;
+            text-decoration: none;
+            font-size: 1rem;
+            line-height: 1.5;
         }
-        .tabulka-odecitky td.cislo {
-            text-align: right;
+        .info-box span {
+            color: #ffffff;
+            font-weight: 700;
+            text-decoration: none;
             white-space: nowrap;
-            font-weight: 600;
-            color: #3730a3;
+        }
+        .info-box:hover span {
+            text-decoration: underline;
+        }
+        .disclaimer-box {
+            margin: 26px 44px 0;
+            padding: 14px 18px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+        .disclaimer-box p {
+            font-size: 0.82rem;
+
+            line-height: 1.6;
+            color: #94a3b8;
+            margin: 0;
+        }
+        @media (max-width: 600px) {
+            .clanek-obsah {
+                margin: 20px 12px;
+            }
+            .clanek-hlavicka {
+                padding: 30px 22px 26px;
+            }
+            .clanek-hlavicka h1 {
+                font-size: 1.5rem;
+            }
+            article > p,
+            .myt,
+            .info-box,
+            .disclaimer-box {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+            .myt,
+            .info-box,
+            .disclaimer-box {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
         }
     </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8651858140507312"
@@ -105,7 +217,11 @@
 
     <div class="clanek-obsah">
       <article>
-        <h1>Rodičovská a přivýdělek: Na co si dát pozor</h1>
+        <header class="clanek-hlavicka">
+            <span class="clanek-kategorie">&#128118; Rodi&#269;ovstv&iacute;</span>
+            <h1>Rodičovská a přivýdělek: Na co si dát pozor</h1>
+            <div class="clanek-meta"><span>&#9201; 5 min &#269;ten&iacute;</span><span>&bull;</span><span>Finan&#269;n&iacute; Mapa</span></div>
+        </header>
 
         <p>Kamarádce se na rodičovské ozval bývalý kolega: "Nemáš chuť nám dělat deset hodin
         týdně z domova? Klidně na DPP." Radostná nabídka, za kterou následovala panika:
@@ -113,7 +229,7 @@
         jeden mýtus, který koluje mezi rodiči nejvíc, je to přesně tenhle. Pojďme si to
         rovnat – protože realita je mnohem přívětivější, než si většina lidí myslí.</p>
 
-        <h2>Rodičovská ≠ nemocenská: pracovat smíš, a to klidně plno</h2>
+        <section class="myt"><h2>Rodičovská ≠ nemocenská: pracovat smíš, a to klidně plno</h2>
         <p>Tady je ten zásadní rozdíl, který spousta lidí míchá. Při <strong>nemocenské</strong>
         ti lékař nařizuje klid a výdělek se omezuje. <strong>Rodičovský příspěvek</strong> ale
         není náhrada mzdy – je to státní podpora pro rodiče, kteří pečují o malé dítě. A péče
@@ -121,20 +237,20 @@
         jakoukoli mzdu a rodičovský příspěvek ti <strong>nikdy nekrátí ani korunu</strong>.
         Žádný "přesah povolených hodin", žádné sankce za přivýdělek.</p>
 
-        <h2>Co ale skutečně podmínkuje nárok: péče o dítě</h2>
+        </section><section class="myt"><h2>Co ale skutečně podmínkuje nárok: péče o dítě</h2>
         <p>Jediné, co stát hlídá, není tvůj výdělek, ale to, jestli dítě opravdu pečuješ.
         Prakticky to znamená jediné pravidlo: u dětí mladších dvou let nesmí být dítě
         umístěné v jeslích či školce více než <strong>92 hodin měsíčně</strong>. Překročíš-li
         tuhle hranici, příspěvek za období, kdy péče chyběla, propadne. U starších dětí už
         délka docházky o nárok nerozhoduje.</p>
 
-        <h2>Rodičovská dovolená vs. rodičovský příspěvek – dvě různé věci</h2>
+        </section><section class="myt"><h2>Rodičovská dovolená vs. rodičovský příspěvek – dvě různé věci</h2>
         <ul>
             <li><strong>Rodičovská dovolená</strong> je vztah k tvému zaměstnavateli. Jsi "odhlášená" z práce, máš nárok se na stejné místo vrátit a zaměstnavatel tě nemůže po dobu RD vydat. Pracovat jde i během ní – typicky formou DPP, DPČ nebo dohody, ideálně u jiného zaměstnavatele než toho, u kterého jsi na RD.</li>
             <li><strong>Rodičovský příspěvek</strong> je peníze od státu (ÚPČ), celkový "košíček" 350 000 Kč na dítě (u dětí narozených od roku 2027 400 000 Kč). Sám si určíš, v jaké měsíční výši a jak dlouho ho budeš čerpat – jen musíš hlídat, aby košíček do dítěte čtvrtého roku stačil.</li>
         </ul>
 
-        <h2>Jak si rozdělit košíček: rychle, nebo pomalu?</h2>
+        </section><section class="myt"><h2>Jak si rozdělit košíček: rychle, nebo pomalu?</h2>
         <table class="tabulka-odecitky">
             <thead>
                 <tr>
@@ -165,11 +281,11 @@
         částku a kratší čerpání. Kdo chce zůstat doma déle, táhne košíček pomaleji. Není to
         jednorázové rozhodnutí navždy – výši čerpání můžeš průběžně měnit.</p>
 
-        <a href="../rodicovsky-prispevek.html" class="info-box">
+        </section><a href="../rodicovsky-prispevek.html" class="info-box">
             💡 Jak si nejlíp rozplánovat výplatu rodičovské? <span>Spočítej si to v kalkulačce →</span>
         </a>
 
-        <h2>Na co si konkrétně dát pozor</h2>
+        <section class="myt"><h2>Na co si konkrétně dát pozor</h2>
         <ul>
             <li><strong>92 hodin ve školce.</strong> U dětí do dvou let to je ta jediná hranice, kterou opravdu hlídat. Překročení = ztráta příspěvku za příslušné období.</li>
             <li><strong>Smlouva u stejného zaměstnavatele.</strong> Během rodičovské dovolené u svého zaměstnavatele pracuj jen přes dohody (DPP/DPČ) – pracovní poměr by mohl komplikovat čerpání dovolené.</li>
@@ -178,7 +294,7 @@
             <li><strong>Vícerčata.</strong> U dvojčat a víc se košíček násobí – to stojí za pozornost při plánování čerpání.</li>
         </ul>
 
-        <h2>Návrat do práce: jak to zvládnout v pohodě</h2>
+        </section><section class="myt"><h2>Návrat do práce: jak to zvládnout v pohodě</h2>
         <p>Většina rodin to nakonec řeší postupně. Nejdřív pár hodin týdně na dohodu, pak
         kratší úvazek a až když dítě nastoupí do školky, plný návrat. Rodičovský příspěvek
         přitom běží dál – dokud se nevyčerpá košíček nebo dokud dítě nedosáhne čtyř let.
@@ -191,7 +307,7 @@
         jistotu. Hlídej si školku u nejmenších dětí, správnou formu smlouvy a hlášení Úřádu práce.
         Všechno ostatní je flexibilní.</p>
 
-        <a href="../rodicovsky-prispevek.html" class="info-box">
+        </section><a href="../rodicovsky-prispevek.html" class="info-box">
             💡 Chceš vědět, jak dlouho ti košíček 350 000 Kč vydrží? <span>Spočítej si plán čerpání →</span>
         </a>
 
