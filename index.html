@@ -14,51 +14,223 @@
             padding: 60px 20px;
         }
 
-        .hero-box {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            padding: 50px 30px;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-            border: 1px solid #f1f5f9;
-            margin-bottom: 40px;
-        }
-
-        .hlavni-nadpis {
-            font-size: 2.75rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
-        }
-
-        .hlavni-popis {
-            font-size: 1.15rem;
-            color: #475569;
-            max-width: 550px;
-            margin: 0 auto 28px auto;
-            line-height: 1.6;
-        }
-
-        .hlavni-tlacitko {
-            display: inline-block;
-            padding: 16px 32px;
-            background: #4f46e5;
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-        }
-
-        .hlavni-tlacitko:hover {
-            background: #4338ca;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+        .hero-box {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(900px 320px at 50% -80px, rgba(129, 140, 248, 0.35), transparent 65%),
+                linear-gradient(160deg, #0f172a 0%, #1e1b4b 55%, #312e81 100%);
+            padding: 70px 30px 60px;
+            border-radius: 28px;
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            box-shadow: 0 30px 60px -20px rgba(30, 27, 75, 0.55);
+            margin-bottom: 40px;
+        }
+
+        .hero-box::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+            background-size: 44px 44px;
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), transparent 75%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), transparent 75%);
+            pointer-events: none;
+        }
+
+        .hero-box::after {
+            content: "";
+            position: absolute;
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.45), transparent 70%);
+            top: -140px;
+            right: -100px;
+            filter: blur(10px);
+            animation: hero-svit 9s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes hero-svit {
+            from { transform: translate(0, 0) scale(1); opacity: 0.7; }
+            to { transform: translate(-60px, 40px) scale(1.25); opacity: 1; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-box::after {
+                animation: none;
+            }
+        }
+
+.hero-graf {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 62%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.55;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 35%);
+            mask-image: linear-gradient(to bottom, transparent 0%, #000 35%);
+        }
+
+        .hero-graf .cara {
+            fill: none;
+            stroke: url(#heroGradient);
+            stroke-width: 2.5;
+            stroke-linejoin: round;
+            stroke-linecap: round;
+            filter: drop-shadow(0 0 6px rgba(129, 140, 248, 0.8));
+            stroke-dasharray: 3200;
+            stroke-dashoffset: 3200;
+            animation: hero-kresleni 4.5s ease-out forwards;
+        }
+
+        .hero-graf .plocha {
+            fill: url(#heroPlocha);
+        }
+
+        @keyframes hero-kresleni {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-graf .cara {
+                animation: none;
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .hero-badge {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(165, 180, 252, 0.35);
+            background: rgba(99, 102, 241, 0.14);
+            color: #c7d2fe;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            margin-bottom: 22px;
+        }
+
+        .hero-badge-bod {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6);
+            animation: hero-pulz 2s infinite;
+        }
+
+        @keyframes hero-pulz {
+            0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.55); }
+            70% { box-shadow: 0 0 0 9px rgba(74, 222, 128, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+        }
+
+        .hlavni-nadpis {
+            position: relative;
+            z-index: 1;
+            font-size: 3.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #eef2ff 0%, #a5b4fc 60%, #818cf8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            letter-spacing: -0.03em;
+        }
+
+        .hlavni-popis {
+            position: relative;
+            z-index: 1;
+            font-size: 1.15rem;
+            color: #c7d2fe;
+            max-width: 560px;
+            margin: 0 auto 30px auto;
+            line-height: 1.65;
+        }
+
+        .hero-tlacitka {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 30px;
+        }
+
+        .hlavni-tlacitko {
+            display: inline-block;
+            padding: 15px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px -8px rgba(99, 102, 241, 0.7);
+        }
+
+        .hlavni-tlacitko:hover {
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px -8px rgba(99, 102, 241, 0.8);
+        }
+
+        .hlavni-tlacitko--ghost {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(165, 180, 252, 0.45);
+            box-shadow: none;
+            color: #e0e7ff;
+        }
+
+        .hlavni-tlacitko--ghost:hover {
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: none;
+        }
+
+        .hero-odkazy {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .hero-odkazy a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            color: #cbd5f5;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .hero-odkazy a:hover {
+            background: rgba(99, 102, 241, 0.25);
+            border-color: rgba(165, 180, 252, 0.6);
+            color: #ffffff;
+            transform: translateY(-1px);
         }
 
         /* ===== VÝHODY ===== */
@@ -162,20 +334,18 @@
             margin-bottom: 15px;
         }
 
-        @media (max-width: 768px) {
-            .hlavni-nadpis {
-                font-size: 2.15rem;
-            }
-            .vyhody-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            .hero-box {
-                padding: 40px 20px;
-            }
-            .karty-grid {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width: 768px) {
+            .hlavni-nadpis {
+                font-size: 2.3rem;
+            }
+            .hero-box {
+                padding: 50px 20px 45px;
+            }
+            .hero-tlacitka .hlavni-tlacitko {
+                width: 100%;
+                max-width: 320px;
+                text-align: center;
+            }
         }
 
         @media (max-width: 600px) {
@@ -207,15 +377,38 @@
     </nav>
     <div class="uvodni-sekce">
     
-        <div class="hero-box">
-            <h1 class="hlavni-nadpis">Finanční Mapa</h1>
-            <p class="hlavni-popis">
-                Jednoduché finanční kalkulačky pro každodenní rozhodování.
-                Spočítejte si hypotéku, mzdu nebo spoření rychle a přehledně.
-            </p>
-            <a href="kalkulacky.html" class="hlavni-tlacitko">
-                Vyzkoušet kalkulačky
-            </a>
+                <div class="hero-box">
+        <svg class="hero-graf" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+                <linearGradient id="heroGradient" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stop-color="#818cf8"/>
+                    <stop offset="1" stop-color="#38bdf8"/>
+                </linearGradient>
+                <linearGradient id="heroPlocha" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="rgba(99, 102, 241, 0.35)"/>
+                    <stop offset="1" stop-color="rgba(99, 102, 241, 0)"/>
+                </linearGradient>
+            </defs>
+            <path class="plocha" d="M0,340 L60,320 L110,335 L170,290 L230,305 L300,260 L360,275 L430,225 L490,245 L560,200 L620,215 L700,165 L760,185 L840,130 L900,150 L980,95 L1040,115 L1120,60 L1200,80 L1200,400 L0,400 Z"/>
+            <path class="cara" d="M0,340 L60,320 L110,335 L170,290 L230,305 L300,260 L360,275 L430,225 L490,245 L560,200 L620,215 L700,165 L760,185 L840,130 L900,150 L980,95 L1040,115 L1120,60 L1200,80"/>
+        </svg>
+            <span class="hero-badge"><span class="hero-badge-bod"></span>Kalkulačky i články · kurzy ČNB · zdarma a bez registrace</span>
+            <h1 class="hlavni-nadpis">Finanční Mapa</h1>
+            <p class="hlavni-popis">
+                Jednoduché finanční kalkulačky pro každodenní rozhodování.
+                Spočítejte si hypotéku, mzdu nebo spoření rychle a přehledně.
+            </p>
+            <div class="hero-tlacitka">
+                <a href="kalkulacky.html" class="hlavni-tlacitko">Vyzkoušet kalkulačky</a>
+                <a href="clanky/index.html" class="hlavni-tlacitko hlavni-tlacitko--ghost">Přečíst články</a>
+            </div>
+            <div class="hero-odkazy">
+                <a href="hypotecni-kalkulacka.html">🏠 Hypotéka</a>
+                <a href="mzda.html">💳 Mzda</a>
+                <a href="sporeni.html">💰 Spoření</a>
+                <a href="menova-kalkulacka.html">🌍 Měny</a>
+                <a href="nemocenska-2026.html">🤒 Nemocenská 2026</a>
+            </div>
         </div>
 
         <!-- TICKER KURZŮ ČNB -->
