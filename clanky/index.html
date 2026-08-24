@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="cs">
 <head>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📰</text></svg>">
@@ -15,9 +15,9 @@
         }
         .karty-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+            gap: 16px;
+            margin-top: 28px;
         }
         .karta {
             background: white;
@@ -58,6 +58,137 @@
             line-height: 1.6;
             color: #475569;
         }
+        /* ===== PROFIL KARTA (články) ===== */
+        .karta--profi {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(420px 170px at 80% -20%, rgba(129, 140, 248, 0.35), transparent 65%),
+                linear-gradient(160deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            box-shadow: 0 18px 40px -18px rgba(15, 23, 42, 0.55);
+            align-items: flex-start;
+            text-align: left;
+            padding: 16px 14px;
+        }
+
+        .karta--profi::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+            background-size: 36px 36px;
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.8), transparent 80%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,.8), transparent 80%);
+            pointer-events: none;
+        }
+
+        .karta--profi::after {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.4), transparent 70%);
+            top: -80px;
+            right: -60px;
+            filter: blur(8px);
+            animation: profi-svit 7s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes profi-svit {
+            from { transform: translate(0, 0) scale(1); opacity: 0.65; }
+            to { transform: translate(-30px, 25px) scale(1.2); opacity: 1; }
+        }
+
+        .karta .karta--profi-ikona {
+            position: relative;
+            z-index: 1;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            border-radius: 10px;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(165, 180, 252, 0.35);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.35);
+            margin-bottom: 8px;
+        }
+
+        .karta.karta--profi h3 {
+            position: relative;
+            z-index: 1;
+            color: #ffffff;
+            font-size: 0.95rem;
+            margin: 0 0 5px 0;
+            line-height: 1.35;
+        }
+
+        .karta .karta--profi-popis {
+            position: relative;
+            z-index: 1;
+            color: #c7d2fe;
+            font-size: 0.8rem;
+            line-height: 1.45;
+            margin: 0;
+        }
+
+        .karta .karta--profi-cta {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #a5b4fc;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-top: 9px;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 0.25s ease, transform 0.25s ease, color 0.2s ease;
+        }
+
+        .karta .karta--profi-cta i {
+            font-style: normal;
+            transition: transform 0.3s ease;
+        }
+
+        .karta--profi:hover {
+            transform: translateY(-8px);
+            border-color: rgba(165, 180, 252, 0.65);
+            background:
+                radial-gradient(420px 170px at 80% -20%, rgba(129, 140, 248, 0.45), transparent 65%),
+                linear-gradient(160deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
+            box-shadow: 0 26px 50px -18px rgba(15, 23, 42, 0.7);
+        }
+
+        .karta--profi:hover .karta--profi-cta {
+            opacity: 1;
+            transform: translateY(0);
+            color: #ffffff;
+        }
+
+        .karta--profi:hover .karta--profi-cta i {
+            transform: translateX(5px);
+        }
+
+        @media (hover: none) {
+            .karta .karta--profi-cta {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .karta--profi::after {
+                animation: none;
+            }
+        }
         @media (max-width: 768px) {
             .karty-grid {
                 grid-template-columns: 1fr;
@@ -70,12 +201,13 @@
 </head>
 <body>
 
-    <nav class="menu">
-        <a href="../index.html">Domů</a>
-        <a href="../kalkulacky.html">Kalkulačky</a>
-        <a href="index.html" class="aktivni">Články</a>
-        <a href="../menova-kalkulacka.html">Měny</a>
-        <a href="../o-mne.html">O mně</a>
+        <nav class="menu">
+        <a href="../index.html" class="menu-brand">💰 Finanční Mapa</a>
+        <a href="../index.html">🏠 Domů</a>
+        <a href="../kalkulacky.html">🧮 Kalkulačky</a>
+        <a href="../clanky/index.html" class="aktivni">📰 Články</a>
+        <a href="../menova-kalkulacka.html">🌍 Měny</a>
+        <a href="../o-mne.html">👤 O mně</a>
     </nav>
 
     <div class="uvodni-sekce">
@@ -86,17 +218,17 @@
 
         <div class="karty-grid">
 
-            <a href="hypoteka-myty-vs-realita.html" class="karta"><span>🏦</span><h3>Hypotéka: mýty vs. realita</h3><p>Nejčastější omyly o hypotékách – fixace, sankce, refinancování a co se skutečně vyplatí.</p></a>
+            <a href="hypoteka-myty-vs-realita.html" class="karta karta--profi"><span class="karta--profi-ikona">🏦</span><h3>Hypotéka: mýty vs. realita</h3><p class="karta--profi-popis">Nejčastější omyly o hypotékách – fixace, sankce, refinancování a co se skutečně vyplatí.</p><span class="karta--profi-cta">Přečíst článek <i>→</i></span></a>
 
-            <a href="cista-vs-hruba-mzda.html" class="karta"><span>💼</span><h3>Čistá vs. hrubá mzda: Kam mizí vaše výplaty</h3><p>Kolik odejde na odvodech a daních, co znamená sleva na poplatníka a proč je dobré si hrubou přepočítat na čisto.</p></a>
+            <a href="cista-vs-hruba-mzda.html" class="karta karta--profi"><span class="karta--profi-ikona">💼</span><h3>Čistá vs. hrubá mzda: Kam mizí vaše výplaty</h3><p class="karta--profi-popis">Kolik odejde na odvodech a daních, co znamená sleva na poplatníka a proč je dobré si hrubou přepočítat na čisto.</p><span class="karta--profi-cta">Přečíst článek <i>→</i></span></a>
 
-            <a href="mimoradna-splatka-kdy-se-vyplati.html" class="karta"><span>💸</span><h3>Mimořádná splátka hypotéky: Kdy se vyplatí a kdy ne</h3><p>Pravidlo 25 % zdarma, snížení splátky vs. zkrácení doby a situace, kdy je lepší peníze nechat na účtu.</p></a>
+            <a href="mimoradna-splatka-kdy-se-vyplati.html" class="karta karta--profi"><span class="karta--profi-ikona">💸</span><h3>Mimořádná splátka hypotéky: Kdy se vyplatí a kdy ne</h3><p class="karta--profi-popis">Pravidlo 25 % zdarma, snížení splátky vs. zkrácení doby a situace, kdy je lepší peníze nechat na účtu.</p><span class="karta--profi-cta">Přečíst článek <i>→</i></span></a>
 
-            <a href="nemocenska-2026-jak-funguje.html" class="karta"><span>🩺</span><h3>Jak funguje nemocenská v roce 2026 a jak překlenout výpadek příjmů</h3><p>Náhrada mzdy vs. nemocenské, kariéra 60/66/72 % a praktické tipy, jak přežít měsíc bez plné výplaty.</p></a>
+            <a href="nemocenska-2026-jak-funguje.html" class="karta karta--profi"><span class="karta--profi-ikona">🩺</span><h3>Jak funguje nemocenská v roce 2026 a jak překlenout výpadek příjmů</h3><p class="karta--profi-popis">Náhrada mzdy vs. nemocenské, kariéra 60/66/72 % a praktické tipy, jak přežít měsíc bez plné výplaty.</p><span class="karta--profi-cta">Přečíst článek <i>→</i></span></a>
 
-            <a href="rodicovsky-a-privydelek.html" class="karta"><span>👶</span><h3>Rodičovská a přivýdělek: Na co si dát pozor</h3><p>Můžete na rodičovské pracovat? Výdělek není omezen – hlídá se péče o dítě. Limity, smlouvy a tipy pro návrat do práce.</p></a>
+            <a href="rodicovsky-a-privydelek.html" class="karta karta--profi"><span class="karta--profi-ikona">👶</span><h3>Rodičovská a přivýdělek: Na co si dát pozor</h3><p class="karta--profi-popis">Můžete na rodičovské pracovat? Výdělek není omezen – hlídá se péče o dítě. Limity, smlouvy a tipy pro návrat do práce.</p><span class="karta--profi-cta">Přečíst článek <i>→</i></span></a>
 
-            <a href="kdy-se-vyplati-refinancovat-hypoteku.html" class="karta"><span>🔄</span><h3>Kdy se vyplatí refinancovat hypotéku a jak neprohloupit</h3><p>Zlaté okno před koncem fixace, vyjednávání s bankou a nejčastější chyby, které stojí statisíce.</p></a>
+            <a href="kdy-se-vyplati-refinancovat-hypoteku.html" class="karta karta--profi"><span class="karta--profi-ikona">🔄</span><h3>Kdy se vyplatí refinancovat hypotéku a jak neprohloupit</h3><p class="karta--profi-popis">Zlaté okno před koncem fixace, vyjednávání s bankou a nejčastější chyby, které stojí statisíce.</p><span class="karta--profi-cta">Přečíst článek <i>→</i></span></a>
 
         </div>
 

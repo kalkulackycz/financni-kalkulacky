@@ -20,52 +20,7 @@ body{
     text-align: left; /* Klasické zarovnání vlevo */
 }
 
-/* Centrování horního menu */
-.menu {
-    display: flex;
-    gap: 8px;
-    margin: 0 auto 24px auto;
-    width: 100%;
-    max-width: 620px;
-    align-items: stretch;
-}
 
-/* Oprava vzhledu tlačítek navigace */
-.menu a {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 10px 4px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    text-decoration: none;
-    color: #2d2d2d;
-    font-weight: 600;
-    font-size: 13px;
-    line-height: 1.2;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    transition: background-color .15s, color .15s, transform .1s;
-    cursor: pointer;
-}
-
-.menu a:hover:not(.aktivni) {
-    background-color: #f8fafc;
-    color: #4f46e5;
-}
-
-.menu a.aktivni {
-    background-color: #4f46e5;
-    color: #ffffff;
-    box-shadow:
-        inset 0 2px 4px rgba(0,0,0,.15),
-        0 1px 2px rgba(0,0,0,.05);
-}
-
-.menu a:active {
-    transform: translateY(2px);
-}
 
 .page-container{
     max-width:800px;
@@ -125,12 +80,13 @@ a:hover{
 
 <body>
 
-    <nav class="menu">
-        <a href="index.html">Domů</a>
-        <a href="kalkulacky.html">Kalkulačky</a>
-        <a href="clanky/index.html">Články</a>
-        <a href="menova-kalkulacka.html">Měny</a>
-        <a href="o-mne.html">O mně</a>
+        <nav class="menu">
+        <a href="index.html" class="menu-brand">💰 Finanční Mapa</a>
+        <a href="index.html">🏠 Domů</a>
+        <a href="kalkulacky.html">🧮 Kalkulačky</a>
+        <a href="clanky/index.html">📰 Články</a>
+        <a href="menova-kalkulacka.html">🌍 Měny</a>
+        <a href="o-mne.html">👤 O mně</a>
     </nav>
 
 <div class="page-container">

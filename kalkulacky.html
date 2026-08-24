@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="cs">
 <head>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
@@ -15,9 +15,9 @@
         }
         .karty-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+            gap: 16px;
+            margin-top: 28px;
         }
         .karta {
             background: white;
@@ -40,6 +40,153 @@
             border-color: #4f46e5;
             background-color: #f5f7ff;
         }
+                /* ===== PROFIL KARTA (hypoteční) ===== */
+        .karta--profi {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(420px 170px at 80% -20%, rgba(129, 140, 248, 0.35), transparent 65%),
+                linear-gradient(160deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            box-shadow: 0 18px 40px -18px rgba(15, 23, 42, 0.55);
+            align-items: flex-start;
+            text-align: left;
+            padding: 16px 14px;
+        }
+
+        .karta--profi::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+            background-size: 36px 36px;
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.8), transparent 80%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,.8), transparent 80%);
+            pointer-events: none;
+        }
+
+        .karta--profi::after {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.4), transparent 70%);
+            top: -80px;
+            right: -60px;
+            filter: blur(8px);
+            animation: profi-svit 7s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes profi-svit {
+            from { transform: translate(0, 0) scale(1); opacity: 0.65; }
+            to { transform: translate(-30px, 25px) scale(1.2); opacity: 1; }
+        }
+
+        .karta .karta--profi-badge {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(165, 180, 252, 0.35);
+            background: rgba(99, 102, 241, 0.16);
+            color: #c7d2fe;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .karta .karta--profi-ikona {
+            position: relative;
+            z-index: 1;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            border-radius: 10px;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(165, 180, 252, 0.35);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.35);
+            margin-bottom: 8px;
+        }
+
+        .karta.karta--profi h3 {
+            position: relative;
+            z-index: 1;
+            color: #ffffff;
+            font-size: 0.98rem;
+            margin-bottom: 3px;
+        }
+
+        .karta .karta--profi-popis {
+            position: relative;
+            z-index: 1;
+            color: #c7d2fe;
+            font-size: 0.8rem;
+            line-height: 1.45;
+            margin: 0;
+        }
+
+        .karta .karta--profi-cta {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #a5b4fc;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-top: 9px;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 0.25s ease, transform 0.25s ease, color 0.2s ease;
+        }
+
+        .karta .karta--profi-cta i {
+            font-style: normal;
+            transition: transform 0.3s ease;
+        }
+
+        .karta--profi:hover {
+            transform: translateY(-8px);
+            border-color: rgba(165, 180, 252, 0.65);
+            background:
+                radial-gradient(420px 170px at 80% -20%, rgba(129, 140, 248, 0.45), transparent 65%),
+                linear-gradient(160deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
+            box-shadow: 0 26px 50px -18px rgba(15, 23, 42, 0.7);
+        }
+
+        .karta--profi:hover .karta--profi-cta {
+            opacity: 1;
+            transform: translateY(0);
+            color: #ffffff;
+        }
+
+        .karta--profi:hover .karta--profi-cta i {
+            transform: translateX(5px);
+        }
+
+        @media (hover: none) {
+            .karta .karta--profi-cta {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .karta--profi::after {
+                animation: none;
+            }
+        }
         .karta h3 {
             margin: 0;
             color: #4f46e5;
@@ -64,29 +211,75 @@
 </head>
 <body>
 
-    <nav class="menu">
-        <a href="index.html">Domů</a>
-        <a href="kalkulacky.html" class="aktivni">Kalkulačky</a>
-        <a href="clanky/index.html">Články</a>
-        <a href="menova-kalkulacka.html">Měny</a>
-        <a href="o-mne.html">O mně</a>
+        <nav class="menu">
+        <a href="index.html" class="menu-brand">💰 Finanční Mapa</a>
+        <a href="index.html">🏠 Domů</a>
+        <a href="kalkulacky.html" class="aktivni">🧮 Kalkulačky</a>
+        <a href="clanky/index.html">📰 Články</a>
+        <a href="menova-kalkulacka.html">🌍 Měny</a>
+        <a href="o-mne.html">👤 O mně</a>
     </nav>
 
     <div class="uvodni-sekce">
         <h1>Finanční kalkulačky</h1>
         <p class="uvod">"Jednoduché online kalkulačky pro hypotéky, půjčky, spoření a osobní finance."</p>
 
-        <div class="karty-grid">
-            <a href="hypotecni-kalkulacka.html" class="karta"><span>🏠</span><h3>Hypoteční kalkulačka</h3></a>
-            <a href="mzda.html" class="karta"><span>💼</span><h3>Kalkulačka čisté mzdy</h3></a>
-            <a href="sporeni.html" class="karta"><span>💰</span><h3>Kalkulačka spoření</h3></a>
-            <a href="pujcka.html" class="karta"><span>💳</span><h3>Kalkulačka půjčky</h3></a>
-            <a href="refinancovani.html" class="karta"><span>🔄</span><h3>Kalkulačka refinancování</h3></a>
-            <a href="mimoradna-splatka.html" class="karta"><span>💸</span><h3>Kalkulačka mimořádné splátky</h3></a>
-            <a href="nemocenska-2026.html" class="karta"><span>🩺</span><h3>Kalkulačka nemocenské 2026</h3></a>
-            <a href="rodicovsky-prispevek.html" class="karta"><span>👨‍👩‍👧‍👦</span><h3>Kalkulačka rodičovského příspěvku</h3></a>
-
-            <a href="menova-kalkulacka.html" class="karta"><span>💱</span><h3>Měnová kalkulačka a kurzovní lístek ČNB</h3></a>
+        <div class="karty-grid">
+            <a href="hypotecni-kalkulacka.html" class="karta karta--profi">
+                <span class="karta--profi-badge">Nejpoužívanější</span>
+                <span class="karta--profi-ikona">🏠</span>
+                <h3>Hypoteční kalkulačka</h3>
+                <p class="karta--profi-popis">Spočítejte si měsíční splátku, úrok a celkovou cenu hypotéky.</p>
+                <span class="karta--profi-cta">Otevřít kalkulačku <i>→</i></span>
+            </a>
+            <a href="mzda.html" class="karta karta--profi">
+                <span class="karta--profi-ikona">💼</span>
+                <h3>Kalkulačka čisté mzdy</h3>
+                <p class="karta--profi-popis">Kolik vám zůstane z hrubé mzdy po odvodech a daních.</p>
+                <span class="karta--profi-cta">Otevřít kalkulačku <i>→</i></span>
+            </a>
+            <a href="sporeni.html" class="karta karta--profi">
+                <span class="karta--profi-ikona">💰</span>
+                <h3>Kalkulačka spoření</h3>
+                <p class="karta--profi-popis">Kolik naspoříte a kolik vyděláte na úrocích.</p>
+                <span class="karta--profi-cta">Otevřít kalkulačku <i>→</i></span>
+            </a>
+            <a href="pujcka.html" class="karta karta--profi">
+                <span class="karta--profi-ikona">💳</span>
+                <h3>Kalkulačka půjčky</h3>
+                <p class="karta--profi-popis">Měsíční splátka, úrok a celková cena půjčky.</p>
+                <span class="karta--profi-cta">Otevřít kalkulačku <i>→</i></span>
+            </a>
+            <a href="refinancovani.html" class="karta karta--profi">
+                <span class="karta--profi-ikona">🔄</span>
+                <h3>Kalkulačka refinancování</h3>
+                <p class="karta--profi-popis">Vyplatí se vám refinancovat hypotéku? Spočítejte si úsporu.</p>
+                <span class="karta--profi-cta">Otevřít kalkulačku <i>→</i></span>
+            </a>
+            <a href="mimoradna-splatka.html" class="karta karta--profi">
+                <span class="karta--profi-ikona">💸</span>
+                <h3>Kalkulačka mimořádné splátky</h3>
+                <p class="karta--profi-popis">Kolik na úrocích ušetříte mimořádnou splátkou.</p>
+                <span class="karta--profi-cta">Otevřít kalkulačku <i>→</i></span>
+            </a>
+            <a href="nemocenska-2026.html" class="karta karta--profi">
+                <span class="karta--profi-ikona">🩺</span>
+                <h3>Kalkulačka nemocenské 2026</h3>
+                <p class="karta--profi-popis">Kolik dostanete nemocenské v roce 2026.</p>
+                <span class="karta--profi-cta">Otevřít kalkulačku <i>→</i></span>
+            </a>
+            <a href="rodicovsky-prispevek.html" class="karta karta--profi">
+                <span class="karta--profi-ikona">👨‍👩‍👧‍👦</span>
+                <h3>Kalkulačka rodičovského příspěvku</h3>
+                <p class="karta--profi-popis">Kolik peněz vám náleží a jak je rozplánovat.</p>
+                <span class="karta--profi-cta">Otevřít kalkulačku <i>→</i></span>
+            </a>
+            <a href="menova-kalkulacka.html" class="karta karta--profi">
+                <span class="karta--profi-ikona">💱</span>
+                <h3>Měnová kalkulačka a kurzovní lístek ČNB</h3>
+                <p class="karta--profi-popis">Přepočet měn podle aktuálních kurzů ČNB.</p>
+                <span class="karta--profi-cta">Otevřít kalkulačku <i>→</i></span>
+            </a>
         </div>
     </div>
 
