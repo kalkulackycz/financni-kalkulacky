@@ -13,6 +13,60 @@
             margin: 0 auto;
             padding: 40px 20px;
         }
+        /* ===== HLAVIČKA STRÁNKY ===== */
+        .hlavicka {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            text-align: left;
+            margin-bottom: 6px;
+        }
+
+        .hlavicka h1 {
+            margin: 0;
+            font-size: 1.9rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #1e1b4b;
+            line-height: 1.2;
+        }
+
+        .hlavicka .akcent {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hlavicka-popis {
+            margin: 6px 0 0 0;
+            color: #64748b;
+            font-size: 1rem;
+            line-height: 1.5;
+            max-width: 560px;
+        }
+
+        .hlavicka-pilulka {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 14px;
+            border-radius: 999px;
+            border: 1px solid #e0e7ff;
+            background: #f5f7ff;
+            color: #4f46e5;
+            font-weight: 700;
+            font-size: 0.82rem;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 600px) {
+            .hlavicka h1 {
+                font-size: 1.5rem;
+            }
+        }
         .karty-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
@@ -212,9 +266,13 @@
 
     <div class="uvodni-sekce">
 
-        <h1>Články</h1>
-
-        <p class="uvod">"Srozumitelné texty o hypotékách, půjčkách a osobních financích – bez zbytečného žargonu."</p>
+<div class="hlavicka">
+            <div>
+                <h1>Články a <span class="akcent">průvodce</span></h1>
+                <p class="hlavicka-popis">Srozumitelné texty o hypotékách, půjčkách a osobních financích – bez zbytečného žargonu.</p>
+            </div>
+            <span class="hlavicka-pilulka">📰 6 článků · zdarma</span>
+        </div>
 
         <div class="karty-grid">
 
