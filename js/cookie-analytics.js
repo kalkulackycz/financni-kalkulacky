@@ -92,37 +92,64 @@
 
 
 
-    function vlozListu() {
+    function vlozModal() {
 
         var html =
 
-        '<div id="cookie-lista" class="cookie-lista" style="display:none;">' +
+        '<div id="cookie-overlay" class="cookie-overlay" style="display:none;">' +
+
+        '<div class="cookie-modal" role="dialog" aria-modal="true" aria-labelledby="cookie-nadpis">' +
+
+        '<h2 id="cookie-nadpis">Cookies na tomto webu</h2>' +
 
         '<p>' +
-        'Tento web používá cookies pro analýzu návštěvnosti a zlepšování služeb. ' +
-        'Reklamní cookies nejsou nyní aktivní. ' +
-        '<a href="ochrana-soukromi.html">' +
-        'Více v zásadách ochrany osobních údajů</a>.' +
+        'Používáme cookies pro <strong>analytiku návštěvnosti (Google Analytics)</strong> ' +
+        'a <strong>zobrazování reklam (Google AdSense)</strong>. ' +
+        'Web funguje v obou případech. ' +
+        '<a href="/ochrana-soukromi.html">Zásady ochrany osobních údajů</a>.' +
         '</p>' +
+
+        '<div id="cookie-vrstva1">' +
 
         '<div class="cookie-tlacitka">' +
 
-        '<button id="cookie-prijmout">' +
-        'Přijmout vše' +
+        '<button id="cookie-prijmout" class="cookie-btn-souhlas">' +
+        'Souhlasím' +
         '</button>' +
 
-        '<button id="cookie-odmitnout">' +
-        'Odmítnout vše' +
-        '</button>' +
-
-        '<button id="cookie-nastaveni">' +
-        'Nastavení cookies' +
+        '<button id="cookie-odmitnout" class="cookie-btn-odmitnout">' +
+        'Odmítnout' +
         '</button>' +
 
         '</div>' +
 
-        '</div>';
+        '<button type="button" id="cookie-podrobne" class="cookie-podrobne-odkaz">' +
+        'Podrobné nastavení' +
+        '</button>' +
 
+        '</div>' +
+
+        '<div id="cookie-vrstva2" style="display:none;">' +
+
+        '<label class="cookie-prepinac">' +
+        '<input type="checkbox" id="cookie-toggle-analytika" checked>' +
+        '<span>Analytika (Google Analytics)</span>' +
+        '</label>' +
+
+        '<label class="cookie-prepinac">' +
+        '<input type="checkbox" id="cookie-toggle-reklamy">' +
+        '<span>Reklamy (Google AdSense)</span>' +
+        '</label>' +
+
+        '<button type="button" id="cookie-ulozit" class="cookie-btn-souhlas cookie-btn-ulozit">' +
+        'Uložit nastavení' +
+        '</button>' +
+
+        '</div>' +
+
+        '</div>' +
+
+        '</div>';
 
         document.body.insertAdjacentHTML(
             'beforeend',
@@ -132,28 +159,25 @@
 
 
 
-    function zobrazNastaveni() {
+    function otevriModal(modal) {
 
-        var volba = confirm(
-            'Povolit analytické cookies (Google Analytics)?'
-        );
+        modal.style.display = 'flex';
 
+        document.body.style.overflow = 'hidden';
 
-        ulozSouhlas({
-
-            analytics: volba,
-
-            // připraveno pro reklamy
-            ads: false
-
-        });
-
-
-        if (volba) {
-            loadAnalytics();
-        }
-
+        document
+        .getElementById('cookie-prijmout')
+        .focus();
     }
+
+
+    function zavriModal(modal) {
+
+        modal.style.display = 'none';
+
+        document.body.style.overflow = '';
+    }
+
 
 
 
@@ -162,12 +186,12 @@
         function () {
 
 
-            vlozListu();
+            vlozModal();
 
 
-            var banner =
+            var overlay =
                 document.getElementById(
-                    'cookie-lista'
+                    'cookie-overlay'
                 );
 
 
@@ -189,7 +213,7 @@
             } else {
 
 
-                banner.style.display = 'flex';
+                otevriModal(overlay);
 
             }
 
@@ -202,6 +226,7 @@
                 function () {
 
 
+                    // TODO: až bude AdSense schválen, změnit výchozí hodnotu ads na true při souhlasu (nebo navázat na přepínač z druhé vrstvy)
                     ulozSouhlas({
 
                         analytics: true,
@@ -211,7 +236,7 @@
                     });
 
 
-                    banner.style.display = 'none';
+                    zavriModal(overlay);
 
 
                     loadAnalytics();
@@ -237,7 +262,7 @@
                     });
 
 
-                    banner.style.display = 'none';
+                    zavriModal(overlay);
 
                 }
             );
@@ -245,14 +270,57 @@
 
 
             document
-            .getElementById('cookie-nastaveni')
+            .getElementById('cookie-podrobne')
             .addEventListener(
                 'click',
                 function () {
 
-                    zobrazNastaveni();
+                    document
+                    .getElementById('cookie-vrstva1')
+                    .style.display = 'none';
 
-                    banner.style.display = 'none';
+                    document
+                    .getElementById('cookie-vrstva2')
+                    .style.display = 'block';
+
+                    document
+                    .getElementById('cookie-toggle-analytika')
+                    .focus();
+
+                }
+            );
+
+
+
+            document
+            .getElementById('cookie-ulozit')
+            .addEventListener(
+                'click',
+                function () {
+
+                    var analytika =
+                        document.getElementById('cookie-toggle-analytika').checked;
+
+                    var reklamy =
+                        document.getElementById('cookie-toggle-reklamy').checked;
+
+
+                    // TODO: až bude AdSense schválen, změnit výchozí hodnotu ads na true při souhlasu (nebo navázat na přepínač z druhé vrstvy)
+                    ulozSouhlas({
+
+                        analytics: analytika,
+
+                        ads: reklamy
+
+                    });
+
+
+                    zavriModal(overlay);
+
+
+                    if (analytika) {
+                        loadAnalytics();
+                    }
 
                 }
             );
@@ -260,6 +328,7 @@
 
         }
     );
+
 
 
 })();
