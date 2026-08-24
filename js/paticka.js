@@ -8,19 +8,19 @@ document.addEventListener("DOMContentLoaded", function () {
             </p>
 
             <div style="display: flex; justify-content: center; gap: 16px; font-size: 13px;">
-                <a href="podminky.html" style="color: #4f46e5; text-decoration: none;">
+                <a href="/podminky.html" style="color: #4f46e5; text-decoration: none;">
                     Právní informace a podmínky použití
                 </a>
 
                 <span>•</span>
 
-                <a href="ochrana-soukromi.html" style="color: #4f46e5; text-decoration: none;">
+                <a href="/ochrana-soukromi.html" style="color: #4f46e5; text-decoration: none;">
                     Ochrana osobních údajů (GDPR)
                 </a>
 
                 <span>•</span>
 
-                <a href="kontakt.html" style="color: #4f46e5; text-decoration: none;">
+                <a href="/kontakt.html" style="color: #4f46e5; text-decoration: none;">
                     Kontakt
                 </a>
 
