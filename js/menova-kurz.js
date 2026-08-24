@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
         CAD: "Kanadský dolar", AUD: "Australský dolar", CNY: "Čínský juan",
         JPY: "Japonský jen", TRY: "Turecká lira",
         EGP: "Egyptská libra", TND: "Tuniský dinár",
-        BGN: "Bulharský lev", ISK: "Islandská koruna", CZK: "Koruna (ČR)",
+        BGN: "Bulharský lev", ISK: "Islandská koruna", CZK: "Česká koruna",
         BRL: "Brazilský real", PHP: "Filipínské peso", HKD: "Hongkongský dolar",
         INR: "Indická rupie", IDR: "Indonéská rupie", ILS: "Izraelský šekel",
         ZAR: "Jihoafrický rand", KRW: "Jižokorejský won", MYR: "Malajsijský ringgit",
@@ -111,6 +111,12 @@ document.addEventListener("DOMContentLoaded", function () {
         function napln() {
             list.innerHTML = "";
             for (const opt of select.options) {
+                if (opt.disabled) {
+                    const oddelovac = document.createElement("div");
+                    oddelovac.className = "mena-drop-oddelovac";
+                    list.appendChild(oddelovac);
+                    continue;
+                }
                 const polozka = document.createElement("div");
                 polozka.className = "mena-drop-polozka";
                 polozka.dataset.kod = opt.value;
@@ -161,13 +167,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function naplnSelecty() {
-        const kody = Object.keys(kurzy).sort();
+        const TOP_MENY = ["EUR", "USD", "GBP", "CHF", "PLN", "CZK"];
+        const kody = [];
+        for (const kod of TOP_MENY) if (kurzy[kod]) kody.push(kod);
+        kody.push("---");
+        for (const kod of Object.keys(kurzy).sort()) if (kody.indexOf(kod) === -1) kody.push(kod);
         for (const select of [zMenyEl, doMenyEl]) {
             select.innerHTML = "";
             for (const kod of kody) {
                 const opt = document.createElement("option");
                 opt.value = kod;
-                opt.textContent = (NAZVY_MEN[kod] || kod) + " (" + kod + ")";
+                if (kod === "---") { opt.disabled = true; opt.textContent = "──────────"; }
+                else opt.textContent = (NAZVY_MEN[kod] || kod) + " (" + kod + ")";
                 select.appendChild(opt);
             }
         }
@@ -244,6 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const c = JSON.parse(localStorage.getItem(CACHE_KEY));
             // Cache je platná jen tehdy, když obsahuje skutečné kurzy (min. EUR)
             if (!c || !c.kurzy || !c.ts || !c.kurzy.EUR) return null;
+            if (!c.kurzy.CZK) c.kurzy.CZK = { mnozstvi: 1, kurz: 1 };
             return { kurzy: c.kurzy, poznamka: c.poznamka || "", starsi: (Date.now() - c.ts) > CACHE_TTL };
         } catch (e) {
             return null;
