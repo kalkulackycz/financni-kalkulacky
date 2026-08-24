@@ -5,14 +5,28 @@
     const ZDROJ_ERAPI = "https://open.er-api.com/v6/latest/CZK";
 
     // Měny pro tabulku kurzů (v tomto pořadí) + české názvy
-    const TABULKOVE_MENY = ["EUR", "USD", "GBP", "CHF", "PLN", "HUF", "RON", "SEK", "NOK", "DKK", "CAD", "AUD", "CNY", "JPY", "TRY"];
+    const TABULKOVE_MENY = ["EUR", "USD", "GBP", "CHF", "PLN", "HUF", "RON", "SEK", "NOK", "DKK", "CAD", "AUD", "CNY", "JPY", "TRY", "EGP", "TND"];
     const NAZVY_MEN = {
         EUR: "Euro", USD: "Dolar USA", GBP: "Britská libra", CHF: "Švýcarský frank",
         PLN: "Polský zlotý", HUF: "Maďarský forint", RON: "Rumunský lei",
         SEK: "Švédská koruna", NOK: "Norská koruna", DKK: "Dánská koruna",
         CAD: "Kanadský dolar", AUD: "Australský dolar", CNY: "Čínský juan",
         JPY: "Japonský jen", TRY: "Turecká lira",
-        BGN: "Bulharský lev", ISK: "Islandská koruna"
+        EGP: "Egyptská libra", TND: "Tuniský dinár",
+        BGN: "Bulharský lev", ISK: "Islandská koruna", CZK: "Koruna (ČR)",
+        BRL: "Brazilský real", PHP: "Filipínské peso", HKD: "Hongkongský dolar",
+        INR: "Indická rupie", IDR: "Indonéská rupie", ILS: "Izraelský šekel",
+        ZAR: "Jihoafrický rand", KRW: "Jižokorejský won", MYR: "Malajsijský ringgit",
+        MXN: "Mexické peso", NZD: "Novozélandský dolar", SGD: "Singapurský dolar",
+        THB: "Thajský baht", XDR: "Zvláštní práva čerpání (MMF)"
+    };
+    // Mapa měna → kód země pro vlaječky (obrázky z flagcdn.com)
+    const FLAGY = {
+        EUR: "eu", USD: "us", GBP: "gb", CHF: "ch", PLN: "pl", HUF: "hu", RON: "ro",
+        SEK: "se", NOK: "no", DKK: "dk", CAD: "ca", AUD: "au", CNY: "cn", JPY: "jp",
+        TRY: "tr", EGP: "eg", TND: "tn", BGN: "bg", ISK: "is", CZK: "cz", BRL: "br",
+        PHP: "ph", HKD: "hk", INR: "in", IDR: "id", ILS: "il", ZAR: "za", KRW: "kr",
+        MYR: "my", MXN: "mx", NZD: "nz", SGD: "sg", THB: "th"
     };
     // Měny povolené v převodníku (fallback er-api nabízí 160+ měn, filtrujeme na běžnou sadu)
     const PVOLENE_MENY = TABULKOVE_MENY.concat(["BGN", "ISK"]);
@@ -64,6 +78,88 @@
             " = " + vysledek.toLocaleString("cs-CZ", { maximumFractionDigits: 2 }) + " " + doMeny;
     }
 
+    // ---------- Vlastní dropdown s vlaječkami (nahrazuje nativní select) ----------
+    const dropDowny = {};
+    let aktualizujDropdowny = function () {};
+
+    function vlajkaHTML(kod) {
+        if (kod === "XDR") return '<span class="mena-flag mena-flag-xdr">🏦</span>';
+        const zeme = FLAGY[kod];
+        return zeme ? '<img class="mena-flag" src="https://flagcdn.com/w40/' + zeme + '.png" alt="" loading="lazy">' : "";
+    }
+
+    function vytvorDropdown(select) {
+        const wrap = document.createElement("div");
+        wrap.className = "mena-drop";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "mena-drop-btn";
+        btn.setAttribute("aria-haspopup", "listbox");
+        const list = document.createElement("div");
+        list.className = "mena-drop-list";
+        list.setAttribute("role", "listbox");
+
+        function aktualizuj() {
+            const kod = select.value;
+            btn.innerHTML = vlajkaHTML(kod) +
+                '<span class="mena-drop-nazev">' + (NAZVY_MEN[kod] || kod) + "</span>" +
+                '<span class="mena-drop-kod">' + kod + '</span>' +
+                '<span class="mena-drop-sipka">▾</span>';
+            for (const el of list.children) el.classList.toggle("aktivni", el.dataset.kod === kod);
+        }
+
+        function napln() {
+            list.innerHTML = "";
+            for (const opt of select.options) {
+                const polozka = document.createElement("div");
+                polozka.className = "mena-drop-polozka";
+                polozka.dataset.kod = opt.value;
+                polozka.setAttribute("role", "option");
+                polozka.innerHTML = vlajkaHTML(opt.value) +
+                    '<span class="mena-drop-nazev">' + (NAZVY_MEN[opt.value] || opt.value) + "</span>" +
+                    '<span class="mena-drop-kod">' + opt.value + "</span>";
+                polozka.addEventListener("click", function () {
+                    select.value = opt.value;
+                    aktualizuj();
+                    zavrit();
+                    select.dispatchEvent(new Event("change"));
+                });
+                list.appendChild(polozka);
+            }
+            aktualizuj();
+        }
+
+        function zavrit() { wrap.classList.remove("otevren"); }
+
+        btn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            wrap.classList.toggle("otevren");
+        });
+        document.addEventListener("click", function (e) {
+            if (!wrap.contains(e.target)) zavrit();
+        });
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") zavrit();
+        });
+
+        select.style.display = "none";
+        select.insertAdjacentElement("afterend", wrap);
+        wrap.appendChild(btn);
+        wrap.appendChild(list);
+        napln();
+        return { aktualizuj: aktualizuj, napln: napln };
+    }
+
+    function zajistiDropdowny() {
+        for (const select of [zMenyEl, doMenyEl]) {
+            if (!dropDowny[select.id]) dropDowny[select.id] = vytvorDropdown(select);
+            else dropDowny[select.id].napln();
+        }
+        aktualizujDropdowny = function () {
+            for (const id in dropDowny) dropDowny[id].aktualizuj();
+        };
+    }
+
     function naplnSelecty() {
         const kody = Object.keys(kurzy).sort();
         for (const select of [zMenyEl, doMenyEl]) {
@@ -71,25 +167,29 @@
             for (const kod of kody) {
                 const opt = document.createElement("option");
                 opt.value = kod;
-                opt.textContent = kod === "CZK" ? "CZK (koruna)" : (NAZVY_MEN[kod] || kod) + " (" + kod + ")";
+                opt.textContent = (NAZVY_MEN[kod] || kod) + " (" + kod + ")";
                 select.appendChild(opt);
             }
         }
         zMenyEl.value = "EUR";
         doMenyEl.value = "CZK";
+        zajistiDropdowny();
+        aktualizujDropdowny();
     }
 
     function vykresliTabulku() {
         teloTabulky.innerHTML = "";
-        for (const kod of TABULKOVE_MENY) {
+        const kody = Object.keys(kurzy).filter(function (k) { return k !== "CZK"; }).sort();
+        for (const kod of kody) {
             const m = kurzy[kod];
             if (!m) continue;
             const tr = document.createElement("tr");
 
             tr.innerHTML =
-                "<td>" + (NAZVY_MEN[kod] || kod) + " (" + kod + ")</td>" +
-                "<td style='text-align: right;'>" + m.mnozstvi + "</td>" +
-                "<td style='text-align: right; font-weight: 600; color: #3730a3;'>" +
+                "<td><span class='mena-cell'>" + vlajkaHTML(kod) +
+                    "<span>" + (NAZVY_MEN[kod] || kod) + " (" + kod + ")</span></span></td>" +
+                "<td class='mena-mnozstvi'>" + m.mnozstvi + "</td>" +
+                "<td class='mena-kurz'>" +
                     m.kurz.toLocaleString("cs-CZ", { minimumFractionDigits: 3 }) + "</td>";
             teloTabulky.appendChild(tr);
         }
@@ -118,6 +218,7 @@
             const tmp = zMenyEl.value;
             zMenyEl.value = doMenyEl.value;
             doMenyEl.value = tmp;
+            aktualizujDropdowny();
             preved();
         });
     }

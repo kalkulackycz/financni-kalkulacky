@@ -1362,3 +1362,278 @@ button { margin-top: 12px !important; }
     color: #64748b;
     line-height: 1.5;
 }
+
+
+
+/* ================= TICKER KURZŮ ČNB (homepage) – burzový styl ================= */
+
+.kurz-ticker {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    max-width: 1100px;
+    margin: 0 auto 10px auto;
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px -10px rgba(2, 6, 23, 0.55);
+    text-decoration: none;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.kurz-ticker:hover {
+    border-color: #334155;
+    box-shadow: 0 14px 36px -10px rgba(2, 6, 23, 0.7);
+}
+
+.kurz-ticker-oznaceni {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 12px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #f8fafc;
+    background: rgba(79, 70, 229, 0.18);
+    border-right: 1px solid #1e293b;
+    white-space: nowrap;
+}
+
+.kurz-ticker-datum {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    color: #64748b;
+    border-left: 1px solid #1e293b;
+    white-space: nowrap;
+}
+
+.kurz-ticker-okno {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+}
+
+.kurz-ticker-pas {
+    display: inline-flex;
+    white-space: nowrap;
+    animation: kurz-ticker-posun 55s linear infinite;
+}
+
+.kurz-ticker:hover .kurz-ticker-pas {
+    animation-play-state: paused;
+}
+
+.kurz-ticker-skupina {
+    display: inline-flex;
+}
+
+.kurz-ticker-hodnota {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 12px 22px;
+    border-right: 1px solid #1e293b;
+    font-family: 'Consolas', 'SF Mono', monospace;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.kurz-ticker-hodnota b {
+    color: #f1f5f9;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+.kurz-ticker-hodnota i {
+    font-style: normal;
+    font-family: inherit;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.kurz-ticker-hodnota em {
+    font-style: normal;
+    color: #4ade80;
+    font-variant-numeric: tabular-nums;
+}
+
+@keyframes kurz-ticker-posun {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .kurz-ticker-pas { animation: none; }
+}
+
+@media (max-width: 700px) {
+    .kurz-ticker {
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+
+    .kurz-ticker-oznaceni { padding: 10px 12px; font-size: 12px; }
+    .kurz-ticker-hodnota { padding: 10px 14px; gap: 6px; }
+    .kurz-ticker-hodnota i { display: none; }
+    .kurz-ticker-datum { display: none; }
+}
+
+/* ================= VLASTNÍ DROPDOWN MĚN S VLAJEČKAMI ================= */
+
+.mena-drop {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
+.mena-drop-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 11px 14px;
+    background: #ffffff;
+    border: 1px solid #d7dce5;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    color: #111827;
+    text-align: left;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mena-drop-btn:hover,
+.mena-drop.otevren .mena-drop-btn {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+.mena-flag {
+    width: 22px;
+    height: 16px;
+    object-fit: cover;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+    flex-shrink: 0;
+}
+
+.mena-flag-xdr {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.mena-drop-nazev {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mena-drop-kod {
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.mena-drop-sipka {
+    color: #6b7280;
+    margin-left: 2px;
+    font-size: 12px;
+}
+
+.mena-drop-list {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    z-index: 60;
+    max-height: 300px;
+    overflow-y: auto;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 16px 40px -12px rgba(15, 23, 42, 0.28);
+    padding: 6px;
+}
+
+.mena-drop.otevren .mena-drop-list {
+    display: block;
+}
+
+.mena-drop-polozka {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    color: #111827;
+}
+
+.mena-drop-polozka:hover {
+    background: #eef2ff;
+}
+
+.mena-drop-polozka.aktivni {
+    background: #e0e7ff;
+    font-weight: 600;
+}
+
+.mena-drop-polozka .mena-drop-nazev {
+    flex: 1;
+}
+
+@media (max-width: 600px) {
+    .mena-drop-btn { padding: 10px 12px; font-size: 14px; }
+    .mena-drop-polozka { font-size: 14px; }
+}
+
+/* vlajka + název měny v tabulce kurzovního lístku */
+
+.mena-cell {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mena-cell .mena-flag {
+    flex-shrink: 0;
+}
+
+/* zarovnání kurzovního lístku doleva + jemné oddělovače řádků */
+
+#telo-tabulky-men td {
+    text-align: left;
+    border-bottom: 1px solid #eef1f6;
+}
+
+#telo-tabulky-men tr:last-child td {
+    border-bottom: none;
+}
+
+#telo-tabulky-men .mena-mnozstvi,
+#telo-tabulky-men .mena-kurz {
+    text-align: right;
+    white-space: nowrap;
+}
+
+#telo-tabulky-men .mena-kurz {
+    font-weight: 600;
+    color: #3730a3;
+}
