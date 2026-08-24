@@ -1354,3 +1354,11 @@ button { margin-top: 12px !important; }
     }
 
 }
+.disclaimer-box {
+    margin-top: 40px;
+    padding-top: 15px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 0.85rem;
+    color: #64748b;
+    line-height: 1.5;
+}
