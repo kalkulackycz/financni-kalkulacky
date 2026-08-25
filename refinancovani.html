@@ -1,15 +1,35 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Refinancování</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
+<!DOCTYPE html>
+
+
+<html lang="cs">
+
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link rel="stylesheet" href="css/style.css">
+
+
+    <title>Refinancování</title>
+
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
+
+
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8651858140507312"
      crossorigin="anonymous"></script>
-</head>
-<body>
+</head>
+
+
+<body>
+
+
         <nav class="menu">
         <a href="index.html" class="menu-brand">💰 Finanční Mapa</a>
         <a href="index.html">🏠 Domů</a>
@@ -23,83 +43,243 @@
             </div>
         </div>
         <a href="o-mne.html">👤 O mně</a>
-    </nav>
-    <div class="kalkulacka">
-        <h1>🔄 Kalkulačka refinancování</h1>
-        
-        <div class="pole-s-napovedou">
-            <div class="label-radek">
-                <label for="zbytekDluhu">💰 Zbývající jistina (Kč):</label>
-                <span class="ikona-otaznik" aria-label="Nápověda k jistině">?</span>
-                <span class="bublina-text">Částka, kterou ještě zbývá u stávajícího úvěru doplatit.</span>
-            </div>
-            <input type="text" id="zbytekDluhu" value="2 000 000">
-            <input type="range" id="zbytekDluhu-slider" min="100000" max="10000000" step="100000" value="2000000">
-            <div id="zbytekDluhu-chyba" class="chyba-text"></div>
-        </div>
-        
-        <div class="pole-s-napovedou">
-            <div class="label-radek">
-                <label for="staryUrok">📈 Současná úroková sazba (% ročně):</label>
-                <span class="ikona-otaznik" aria-label="Nápověda k současné úrokové sazbě">?</span>
-                <span class="bublina-text">Úrok, který na stávající smlouvě aktuálně bance platíte.</span>
-            </div>
-            <input type="text" id="staryUrok" value="5,9">
-            <input type="range" id="staryUrok-slider" min="0" max="15" step="0.1" value="5.9">
-            <div id="staryUrok-chyba" class="chyba-text"></div>
-        </div>
-        
-        <div class="pole-s-napovedou">
-            <div class="label-radek">
-                <label for="novyUrok">📉 Nová úroková sazba (% ročně):</label>
-                <span class="ikona-otaznik" aria-label="Nápověda k nové úrokové sazbě">?</span>
-                <span class="bublina-text">Nabízená úroková sazba od nové banky, pro kterou počítáte úsporu.</span>
-            </div>
-            <input type="text" id="novyUrok" value="4,2">
-            <input type="range" id="novyUrok-slider" min="0" max="15" step="0.1" value="4.2">
-            <div id="novyUrok-chyba" class="chyba-text"></div>
-        </div>
-        
-        <div class="pole-s-napovedou">
-            <div class="label-radek">
-                <label for="dobaRefin">⏱️ Zbývající doba splácení (roky):</label>
-                <span class="ikona-otaznik" aria-label="Nápověda ke zbývající době splácení">?</span>
-                <span class="bublina-text">Počet let, které zbývají do úplného konce původní splatnosti úvěru.</span>
-            </div>
-            <input type="text" id="dobaRefin" value="20">
-            <input type="range" id="dobaRefin-slider" min="1" max="30" step="1" value="20">
-            <div id="dobaRefin-chyba" class="chyba-text"></div>
-        </div>
-        
-        <button id="vypocitatRefin">Vypočítat</button>
-        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
-        <h2 id="vysledekRefin" style="text-align: center;"></h2>
+    </nav>
+
+
+    <div class="kalkulacka kalkulacka-profi">
+
+
+        <h1>🔄 Kalkulačka refinancování</h1>
+
+
+        
+
+
+        <div class="pole-s-napovedou">
+
+
+            <div class="label-radek">
+
+
+                <label for="zbytekDluhu">💰 Zbývající jistina (Kč):</label>
+
+
+                <span class="ikona-otaznik" aria-label="Nápověda k jistině">?</span>
+
+
+                <span class="bublina-text">Částka, kterou ještě zbývá u stávajícího úvěru doplatit.</span>
+
+
+            </div>
+
+
+            <input type="text" id="zbytekDluhu" value="2 000 000">
+
+
+            <input type="range" id="zbytekDluhu-slider" min="100000" max="10000000" step="100000" value="2000000">
+
+
+            <div id="zbytekDluhu-chyba" class="chyba-text"></div>
+
+
+        </div>
+
+
+        
+
+
+        <div class="pole-s-napovedou">
+
+
+            <div class="label-radek">
+
+
+                <label for="staryUrok">📈 Současná úroková sazba (% ročně):</label>
+
+
+                <span class="ikona-otaznik" aria-label="Nápověda k současné úrokové sazbě">?</span>
+
+
+                <span class="bublina-text">Úrok, který na stávající smlouvě aktuálně bance platíte.</span>
+
+
+            </div>
+
+
+            <input type="text" id="staryUrok" value="5,9">
+
+
+            <input type="range" id="staryUrok-slider" min="0" max="15" step="0.1" value="5.9">
+
+
+            <div id="staryUrok-chyba" class="chyba-text"></div>
+
+
+        </div>
+
+
+        
+
+
+        <div class="pole-s-napovedou">
+
+
+            <div class="label-radek">
+
+
+                <label for="novyUrok">📉 Nová úroková sazba (% ročně):</label>
+
+
+                <span class="ikona-otaznik" aria-label="Nápověda k nové úrokové sazbě">?</span>
+
+
+                <span class="bublina-text">Nabízená úroková sazba od nové banky, pro kterou počítáte úsporu.</span>
+
+
+            </div>
+
+
+            <input type="text" id="novyUrok" value="4,2">
+
+
+            <input type="range" id="novyUrok-slider" min="0" max="15" step="0.1" value="4.2">
+
+
+            <div id="novyUrok-chyba" class="chyba-text"></div>
+
+
+        </div>
+
+
+        
+
+
+        <div class="pole-s-napovedou">
+
+
+            <div class="label-radek">
+
+
+                <label for="dobaRefin">⏱️ Zbývající doba splácení (roky):</label>
+
+
+                <span class="ikona-otaznik" aria-label="Nápověda ke zbývající době splácení">?</span>
+
+
+                <span class="bublina-text">Počet let, které zbývají do úplného konce původní splatnosti úvěru.</span>
+
+
+            </div>
+
+
+            <input type="text" id="dobaRefin" value="20">
+
+
+            <input type="range" id="dobaRefin-slider" min="1" max="30" step="1" value="20">
+
+
+            <div id="dobaRefin-chyba" class="chyba-text"></div>
+
+
+        </div>
+
+
+        
+
+
+        <button id="vypocitatRefin">Vypočítat</button>
+
+
+        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
+
+
+        <h2 id="vysledekRefin" style="text-align: center;"></h2>
+
+
         <div id="detailyRefin" class="detaily"></div>
         <a href="clanky/kdy-se-vyplati-refinancovat-hypoteku.html" class="info-box">
             💡 Kdy se refinancování vyplatí a jak neprohloupit? <span>Přečti si článek →</span>
-        </a>
-<canvas id="grafRefin" width="400" height="300"></canvas>
-        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
-            <h2>Časté otázky k refinancování</h2>
-            <div class="faq-polozka">
-                <h3>Kdy mohu úvěr refinancovat?</h3>
-                <p>Refinancování dává největší smysl ve chvíli, kdy tržní úrokové sazby klesnou pod úroveň vaší současné smlouvy, nebo když vám končí období fixace u hypotéky.</p>
-            </div>
-            <div class="faq-polozka">
-                <h3>Jak rychle získám peníze na doplacení staré půjčky?</h3>
-                <p>Nová banka obvykle vyřídí celý proces administrativy za vás. Finanční prostředky na doplacení původního dluhu převede přímo na účet staré banky ihned po schválení procesu.</p>
-            </div>
-            <div class="faq-polozka">
-                <h3>Co ovlivňuje schválení u nové banky?</h3>
-                <p>Klíčová je vaše platební morálka. Pokud jste starý úvěr spláceli včas a bez zpoždění, nová banka na vás nahlíží jako na spolehlivého klienta a schválení bývá velmi rychlé.</p>
-            </div>
-        </div>
-    </div>
-    <footer id="paticka" class="paticka"></footer>
-    <script src="js/paticka.js"></script>
-    <script src="js/refinancovani.js"></script>
-    <script src="js/layout.js"></script>
-    <script src="js/cookie-analytics.js"></script>
-</body>
-</html>
-
+        </a>
+
+
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button id="tisk-pdf" type="button">🖨️ Tisk / PDF</button>
+                <button type="button" id="sdilet">📤 Sdílet</button>
+            </div>
+
+<canvas id="grafRefin" width="400" height="300"></canvas>
+
+
+        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
+
+
+            <h2>Časté otázky k refinancování</h2>
+
+
+            <div class="faq-polozka">
+
+
+                <h3>Kdy mohu úvěr refinancovat?</h3>
+
+
+                <p>Refinancování dává největší smysl ve chvíli, kdy tržní úrokové sazby klesnou pod úroveň vaší současné smlouvy, nebo když vám končí období fixace u hypotéky.</p>
+
+
+            </div>
+
+
+            <div class="faq-polozka">
+
+
+                <h3>Jak rychle získám peníze na doplacení staré půjčky?</h3>
+
+
+                <p>Nová banka obvykle vyřídí celý proces administrativy za vás. Finanční prostředky na doplacení původního dluhu převede přímo na účet staré banky ihned po schválení procesu.</p>
+
+
+            </div>
+
+
+            <div class="faq-polozka">
+
+
+                <h3>Co ovlivňuje schválení u nové banky?</h3>
+
+
+                <p>Klíčová je vaše platební morálka. Pokud jste starý úvěr spláceli včas a bez zpoždění, nová banka na vás nahlíží jako na spolehlivého klienta a schválení bývá velmi rychlé.</p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <footer id="paticka" class="paticka"></footer>
+
+
+    <script src="js/paticka.js"></script>
+
+
+    <script src="js/refinancovani.js"></script>
+
+
+    <script src="js/tlacitka-sdileni.js"></script>
+    <script src="js/layout.js"></script>
+
+
+    <script src="js/cookie-analytics.js"></script>
+
+
+</body>
+
+
+</html>
+
+
+
+
+

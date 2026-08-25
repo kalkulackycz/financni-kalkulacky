@@ -172,13 +172,36 @@ window.addEventListener("DOMContentLoaded", function() {
             type: "doughnut",
             data: {
                 labels: ["Jistina (půjčené peníze)", "Úroky", "Poplatek"],
-                datasets: [{ data: [P, Math.max(0, celkoveUroky), poplatek], backgroundColor: ["#4f46e5", "#f97316", "#ef4444"] }]
+                datasets: [{
+                    data: [P, Math.max(0, celkoveUroky), Math.max(0, poplatek)],
+                    backgroundColor: ["#1e1b4b", "#818cf8", "#c7d2fe"],
+                    borderWidth: 3,
+                    borderColor: "#ffffff",
+                    spacing: 2,
+                    hoverOffset: 6
+                }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: true,
+                cutout: "62%",
                 plugins: {
-                    legend: { position: "bottom" },
+                    legend: {
+                        display: true,
+                        position: "bottom",
+                        labels: {
+                            color: "#334155",
+                            font: { size: 13, weight: "600" },
+                            padding: 16,
+                            usePointStyle: true,
+                            pointStyle: "circle"
+                        }
+                    },
                     tooltip: {
+                        backgroundColor: "#1e1b4b",
+                        padding: 10,
+                        cornerRadius: 8,
+                        titleFont: { weight: "700" },
                         callbacks: {
                             label: function(context) {
                                 let label = context.label || '';

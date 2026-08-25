@@ -1,16 +1,38 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Bezplatná online kalkulačka spoření a složeného úročení.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
-    <title>Kalkulačka spoření</title>
-    <link rel="stylesheet" href="css/style.css">
+<!DOCTYPE html>
+
+
+<html lang="cs">
+
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <meta name="description" content="Bezplatná online kalkulačka spoření a složeného úročení.">
+
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
+
+
+    <title>Kalkulačka spoření</title>
+
+
+    <link rel="stylesheet" href="css/style.css">
+
+
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8651858140507312"
      crossorigin="anonymous"></script>
-</head>
-<body>
+</head>
+
+
+<body>
+
+
         <nav class="menu">
         <a href="index.html" class="menu-brand">💰 Finanční Mapa</a>
         <a href="index.html">🏠 Domů</a>
@@ -24,79 +46,249 @@
             </div>
         </div>
         <a href="o-mne.html">👤 O mně</a>
-    </nav>
-
-    <!-- Obalovací rámeček stejný jako u hypotéky -->
-    <div class="kalkulacka">
-        <h1>🐷 Kalkulačka spoření</h1>
-        
-        <div class="pole-s-napovedou">
-            <div class="label-radek">
-                <label for="mesicniVklad">💰 Měsíční vklad (Kč):</label>
-                <span class="ikona-otaznik" aria-label="Nápověda k měsíčnímu vkladu">?</span>
-                <span class="bublina-text">Částka, kterou si chcete měsíčně odkládat stranou.</span>
-            </div>
-            <input type="text" id="mesicniVklad" value="5 000">
-            <input type="range" id="mesicniVklad-slider" min="500" max="50000" step="500" value="5000">
-            <div id="mesicniVklad-chyba" class="chyba-text"></div>
-        </div>
-        
-        <div class="pole-s-napovedou">
-            <div class="label-radek">
-                <label for="urokSporeni">📈 Roční úrok (%):</label>
-                <span class="ikona-otaznik" aria-label="Nápověda k ročnímu úroku">?</span>
-                <span class="bublina-text">Úroková sazba, kterou vám banka na produktu nabízí před odečtením daně.</span>
-            </div>
-            <input type="text" id="urokSporeni" value="4">
-            <input type="range" id="urokSporeni-slider" min="0" max="10" step="0.1" value="4">
-            <div id="urokSporeni-chyba" class="chyba-text"></div>
-        </div>
-        
-        <div class="pole-s-napovedou">
-            <div class="label-radek">
-                <label for="dobaSporeni">📅 Doba spoření (roky):</label>
-                <span class="ikona-otaznik" aria-label="Nápověda k době spoření">?</span>
-                <span class="bublina-text">Celkový počet let, po které plánujete pravidelně peníze odkládat a úročit.</span>
-            </div>
-            <input type="text" id="dobaSporeni" value="10">
-            <input type="range" id="dobaSporeni-slider" min="1" max="40" step="1" value="10">
-            <div id="dobaSporeni-chyba" class="chyba-text"></div>
-        </div>
-        
-        <button id="vypocitatSporeni">Vypočítat</button>
-        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
-        
-        <!-- Výsledky -->
-        <h2 id="vysledekSporeni"></h2>
-        <div id="detailySporeni" class="detaily"></div>
-
-<!-- Sekce s grafem sjednocená s hypotékou -->
-        <div style="margin-top: 32px; border-top: 2px solid #e0e7ff; padding-top: 24px;">
-            <h2 style="text-align: center; margin-bottom: 20px;">📊 Vývoj vašich úspor v čase</h2>
-            <canvas id="grafSporeni" width="400" height="300"></canvas>
-        </div>
-
-        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
-            <h2>Časté otázky ke spoření</h2>
-            <div class="faq-polozka">
-                <h3>Jak funguje složené úročení?</h3>
-                <p>Složené úročení znamená, že úroky, které každý rok vyděláte, se přičtou k vašemu vkladu. Další rok se pak úročí nejen vaše původní peníze, ale i tyto získané úroky. Čím déle spoříte, tím rychleji vaše peníze rostou.</p>
-            </div>
-            <div class="faq-polozka">
-                <h3>Musím z výnosů ze spoření platit daně?</h3>
-                <p>Ano, výnosy z úroků na spořicích účtech a termívaných vkladech podléhají srážkové dani ve výši 15 %. Banka tuto daň strhává z úroků automaticky, takže vy sami nemusíte nic nikam vykazovat ani řešit daňové přiznání.</p>
-            </div>
-            <div class="faq-polozka">
-                <h3>Stačí běžný spořicí účet na ochranu před inflací?</h3>
-                <p>Bohužel většinou nestačí. Úroky na klasických spořicích účtech bývají dlouhodobě nižší než míra inflace. Peníze sice rostou číselně, ale jejich reálná kupní síla pomalu klesá.</p>
-            </div>
-        </div>
-    </div>
-
-    <footer id="paticka" class="paticka"></footer>
-    <script src="js/paticka.js"></script>
-    <script src="js/sporeni.js"></script>
-    <script src="js/layout.js"></script>
-    <script src="js/cookie-analytics.js"></script>
-</body>
+    </nav>
+
+
+
+
+
+    <!-- Obalovací rámeček stejný jako u hypotéky -->
+
+
+    <div class="kalkulacka kalkulacka-profi">
+
+
+        <h1>🐷 Kalkulačka spoření</h1>
+
+
+        
+
+
+        <div class="pole-s-napovedou">
+
+
+            <div class="label-radek">
+
+
+                <label for="mesicniVklad">💰 Měsíční vklad (Kč):</label>
+
+
+                <span class="ikona-otaznik" aria-label="Nápověda k měsíčnímu vkladu">?</span>
+
+
+                <span class="bublina-text">Částka, kterou si chcete měsíčně odkládat stranou.</span>
+
+
+            </div>
+
+
+            <input type="text" id="mesicniVklad" value="5 000">
+
+
+            <input type="range" id="mesicniVklad-slider" min="500" max="50000" step="500" value="5000">
+
+
+            <div id="mesicniVklad-chyba" class="chyba-text"></div>
+
+
+        </div>
+
+
+        
+
+
+        <div class="pole-s-napovedou">
+
+
+            <div class="label-radek">
+
+
+                <label for="urokSporeni">📈 Roční úrok (%):</label>
+
+
+                <span class="ikona-otaznik" aria-label="Nápověda k ročnímu úroku">?</span>
+
+
+                <span class="bublina-text">Úroková sazba, kterou vám banka na produktu nabízí před odečtením daně.</span>
+
+
+            </div>
+
+
+            <input type="text" id="urokSporeni" value="4">
+
+
+            <input type="range" id="urokSporeni-slider" min="0" max="10" step="0.1" value="4">
+
+
+            <div id="urokSporeni-chyba" class="chyba-text"></div>
+
+
+        </div>
+
+
+        
+
+
+        <div class="pole-s-napovedou">
+
+
+            <div class="label-radek">
+
+
+                <label for="dobaSporeni">📅 Doba spoření (roky):</label>
+
+
+                <span class="ikona-otaznik" aria-label="Nápověda k době spoření">?</span>
+
+
+                <span class="bublina-text">Celkový počet let, po které plánujete pravidelně peníze odkládat a úročit.</span>
+
+
+            </div>
+
+
+            <input type="text" id="dobaSporeni" value="10">
+
+
+            <input type="range" id="dobaSporeni-slider" min="1" max="40" step="1" value="10">
+
+
+            <div id="dobaSporeni-chyba" class="chyba-text"></div>
+
+
+        </div>
+
+
+        
+
+
+        <button id="vypocitatSporeni">Vypočítat</button>
+
+
+        <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
+
+
+        
+
+
+        <!-- Výsledky -->
+
+
+        <h2 id="vysledekSporeni"></h2>
+
+
+        <div id="detailySporeni" class="detaily"></div>
+
+
+
+
+
+<!-- Sekce s grafem sjednocená s hypotékou -->
+
+
+        <div style="margin-top: 32px; border-top: 2px solid #e0e7ff; padding-top: 24px;">
+
+
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button id="tisk-pdf" type="button">🖨️ Tisk / PDF</button>
+                <button type="button" id="sdilet">📤 Sdílet</button>
+            </div>
+
+            <h2 style="text-align: center; margin-bottom: 20px;">📊 Rozložení vašich úspor</h2>
+
+
+            <canvas id="grafSporeni" width="400" height="300"></canvas>
+
+
+        </div>
+
+
+
+
+
+        <a href="hypotecni-kalkulacka.html" class="info-box">
+            🏠 Kolik si můžete dovolit na hypotéku? <span>Vyzkoušej hypoteční kalkulačku →</span>
+        </a>
+        <a href="pujcka.html" class="info-box">
+            💳 Spočítat splátku půjčky? <span>Přejdi na kalkulačku půjčky →</span>
+        </a>
+        <a href="mimoradna-splatka.html" class="info-box">
+            ⚡ Vyplatí se mimořádná splátka hypotéky? <span>Zkus kalkulačku mimořádné splátky →</span>
+        </a>
+
+        <div class="clanek" style="margin-top: 32px; border-top: 1px solid #eee; padding-top: 20px;">
+
+
+            <h2>Časté otázky ke spoření</h2>
+
+
+            <div class="faq-polozka">
+
+
+                <h3>Jak funguje složené úročení?</h3>
+
+
+                <p>Složené úročení znamená, že úroky, které každý rok vyděláte, se přičtou k vašemu vkladu. Další rok se pak úročí nejen vaše původní peníze, ale i tyto získané úroky. Čím déle spoříte, tím rychleji vaše peníze rostou.</p>
+
+
+            </div>
+
+
+            <div class="faq-polozka">
+
+
+                <h3>Musím z výnosů ze spoření platit daně?</h3>
+
+
+                <p>Ano, výnosy z úroků na spořicích účtech a termínovaných vkladech podléhají srážkové dani ve výši 15 %. Banka tuto daň strhává z úroků automaticky, takže vy sami nemusíte nic nikam vykazovat ani řešit daňové přiznání.</p>
+
+
+            </div>
+
+
+            <div class="faq-polozka">
+
+
+                <h3>Stačí běžný spořicí účet na ochranu před inflací?</h3>
+
+
+                <p>Bohužel většinou nestačí. Úroky na klasických spořicích účtech bývají dlouhodobě nižší než míra inflace. Peníze sice rostou číselně, ale jejich reálná kupní síla pomalu klesá.</p>
+
+
+            </div>
+
+
+        </div>
+
+
+        <div class="disclaimer-box">
+            <p>Tento výpočet je orientační a vychází ze zadaných hodnot a předpokladu konstantní úrokové sazby po celou dobu spoření. Skutečný výnos se může lišit podle konkrétní banky, typu produktu a aktuálních sazeb; z úroků navíc podléháte srážkové dani ve výši 15 %. Pro přesné porovnání produktů doporučujeme konzultaci s finančním poradcem.</p>
+        </div>
+
+    </div>
+
+
+
+
+
+    <footer id="paticka" class="paticka"></footer>
+
+
+    <script src="js/paticka.js"></script>
+
+
+    <script src="js/sporeni.js"></script>
+
+
+    <script src="js/tlacitka-sdileni.js"></script>
+    <script src="js/layout.js"></script>
+
+
+    <script src="js/cookie-analytics.js"></script>
+
+
+</body>
+
+
 </html>

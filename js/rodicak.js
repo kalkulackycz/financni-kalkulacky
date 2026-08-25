@@ -142,12 +142,7 @@ function vypoctiRp() {
     }
 
     elRp.vysledekCelkem.textContent = "Celkový nárok: " + celkovaCastka.toLocaleString("cs-CZ") + " Kč";
-    elRp.vysledekCelkem.style.border = "2px solid #22c55e";
-    elRp.vysledekCelkem.style.backgroundColor = "#f0fdf4";
-    elRp.vysledekCelkem.style.padding = "14px 18px";
-    elRp.vysledekCelkem.style.borderRadius = "8px";
-    elRp.vysledekCelkem.style.textAlign = "center";
-    elRp.vysledekCelkem.style.color = "#166534";
+    // Vzhled výsledku řídí sdílená třída .kalkulacka-profi v css/style.css
 
     elRp.detaily.innerHTML = `
         <p>Měsíční výplata: <strong>${pozadovana.toLocaleString("cs-CZ")} Kč</strong></p>
@@ -170,16 +165,36 @@ function vypoctiRp() {
             type: "doughnut",
             data: {
                 labels: ["Měsíce čerpání", "Volné měsíce (do limitu věku)", "Propadnuté měsíce"],
-                datasets: [{ 
-                    data: [vycerpano, zbyvaMesicu, propadnuto], 
-                    backgroundColor: ["#4f46e5", "#e2e8f0", "#ef4444"] 
+                datasets: [{
+                    data: [vycerpano, zbyvaMesicu, propadnuto],
+                    backgroundColor: ["#1e1b4b", "#818cf8", "#ef4444"],
+                    borderWidth: 3,
+                    borderColor: "#ffffff",
+                    spacing: 2,
+                    hoverOffset: 6
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: true,
+                cutout: "62%",
                 plugins: {
-                    legend: { position: "bottom" },
+                    legend: {
+                        display: true,
+                        position: "bottom",
+                        labels: {
+                            color: "#334155",
+                            font: { size: 13, weight: "600" },
+                            padding: 16,
+                            usePointStyle: true,
+                            pointStyle: "circle"
+                        }
+                    },
                     tooltip: {
+                        backgroundColor: "#1e1b4b",
+                        padding: 10,
+                        cornerRadius: 8,
+                        titleFont: { weight: "700" },
                         callbacks: {
                             label: function(context) {
                                 return ` ${context.label}: ${context.parsed} měs.`;

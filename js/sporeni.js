@@ -1,6 +1,10 @@
 (function() {
     var chartUrl = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js";
     var s2 = document.createElement("script"); s2.src = chartUrl; document.head.appendChild(s2);
+    // NOVÉ — fallback: při úspěchu i selhání načtení Chart.js se spustí výpočet,
+    // aby kalkulačka fungovala i bez grafu (graf se pak prostě nezobrazí)
+    s2.onload = function() { window.ChartJsStav = "ok"; if (window._sporeniVypocet) window._sporeniVypocet(); };
+    s2.onerror = function() { window.ChartJsStav = "chyba"; if (window._sporeniVypocet) window._sporeniVypocet(); };
 })();
 
 window.addEventListener("DOMContentLoaded", function() {
@@ -121,14 +125,8 @@ window.addEventListener("DOMContentLoaded", function() {
 
             const vysledekEl = document.getElementById("vysledekSporeni");
             if (vysledekEl) {
+                // Vzhled výsledku řídí sdílená třída .kalkulacka-profi v css/style.css
                 vysledekEl.textContent = "Naspořená částka: " + Math.round(celkovaCastka).toLocaleString("cs-CZ") + " Kč";
-                vysledekEl.style.border = "2px solid #22c55e";
-                vysledekEl.style.backgroundColor = "#f0fdf4";
-                vysledekEl.style.padding = "14px 18px";
-                vysledekEl.style.borderRadius = "8px";
-                vysledekEl.style.textAlign = "center";
-                vysledekEl.style.color = "#166534";
-                vysledekEl.style.fontWeight = "bold";
             }
 
             const detailyEl = document.getElementById("detailySporeni");
@@ -153,13 +151,36 @@ window.addEventListener("DOMContentLoaded", function() {
             type: "doughnut",
             data: {
                 labels: ["Vaše vklady", "Získané úroky"],
-                datasets: [{ data: [celkemVlozeno, Math.max(0, urokCelkem)], backgroundColor: ["#4f46e5", "#22c55e"] }]
+                datasets: [{
+                    data: [Math.max(0, celkemVlozeno), Math.max(0, urokCelkem)],
+                    backgroundColor: ["#1e1b4b", "#818cf8"],
+                    borderWidth: 3,
+                    borderColor: "#ffffff",
+                    spacing: 2,
+                    hoverOffset: 6
+                }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: true,
+                cutout: "62%",
                 plugins: {
-                    legend: { position: "bottom" },
+                    legend: {
+                        display: true,
+                        position: "bottom",
+                        labels: {
+                            color: "#334155",
+                            font: { size: 13, weight: "600" },
+                            padding: 16,
+                            usePointStyle: true,
+                            pointStyle: "circle"
+                        }
+                    },
                     tooltip: {
+                        backgroundColor: "#1e1b4b",
+                        padding: 10,
+                        cornerRadius: 8,
+                        titleFont: { weight: "700" },
                         callbacks: {
                             label: function(context) {
                                 let label = context.label || '';
@@ -191,8 +212,15 @@ window.addEventListener("DOMContentLoaded", function() {
         inputDobaSporeni.addEventListener("keydown", function(event) { if (event.key === "Enter") { event.preventDefault(); tlacitkoVypocitatSporeni.click(); } });
     }
 
-    setTimeout(function() { 
+    // NOVÉ — první výpočet: spustí se po načtení DOM i po doběhu/erru Chart.js;
+    // pojistný časovač zajistí výpočet, i kdyby se knihovna grafu nenačetla vůbec
+    window._sporeniVypocet = function() {
         const tlacitko = document.getElementById("vypocitatSporeni");
-        if (tlacitko) tlacitko.click(); 
-    }, 300);
+        if (tlacitko) tlacitko.click();
+    };
+    if (window.ChartJsStav) window._sporeniVypocet();
+    setTimeout(function() {
+        const vysledekEl = document.getElementById("vysledekSporeni");
+        if (!vysledekEl || !vysledekEl.textContent) window._sporeniVypocet();
+    }, 1500);
 });

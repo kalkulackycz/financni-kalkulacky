@@ -184,12 +184,38 @@ window.addEventListener("DOMContentLoaded", function() {
         const ctx = grafEl.getContext("2d");
         mujGrafMimoradna = new Chart(ctx, {
             type: "doughnut",
-            data: { labels: ["Nové úroky", "Čistá finanční úspora"], datasets: [{ data: [Math.round(Math.max(0, urokyNove)), Math.round(Math.max(0, usporaNaUrocich))], backgroundColor: ["#f97316", "#22c55e"] }] },
+            data: {
+                labels: ["Nové úroky", "Čistá finanční úspora"],
+                datasets: [{
+                    data: [Math.round(Math.max(0, urokyNove)), Math.round(Math.max(0, usporaNaUrocich))],
+                    backgroundColor: ["#818cf8", "#1e1b4b"],
+                    borderWidth: 3,
+                    borderColor: "#ffffff",
+                    spacing: 2,
+                    hoverOffset: 6
+                }]
+            },
             options: {
                 responsive: true,
+                maintainAspectRatio: true,
+                cutout: "62%",
                 plugins: {
-                    legend: { position: "bottom" },
+                    legend: {
+                        display: true,
+                        position: "bottom",
+                        labels: {
+                            color: "#334155",
+                            font: { size: 13, weight: "600" },
+                            padding: 16,
+                            usePointStyle: true,
+                            pointStyle: "circle"
+                        }
+                    },
                     tooltip: {
+                        backgroundColor: "#1e1b4b",
+                        padding: 10,
+                        cornerRadius: 8,
+                        titleFont: { weight: "700" },
                         callbacks: {
                             label: function(context) {
                                 let label = context.label || '';

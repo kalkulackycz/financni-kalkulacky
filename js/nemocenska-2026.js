@@ -2,7 +2,10 @@
     var chartUrl = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js";
     var s = document.createElement("script");
     s.src = chartUrl;
-    s.onload = function(){ window.ChartJsPripraven = true; inicializujNemocenska(); };
+    // NOVÉ — fallback: kalkulačka se musí inicializovat i když se Chart.js nenačte,
+    // jen se pak nezobrazí graf (výpočet a výsledky fungují dál)
+    s.onload = function(){ window.ChartJsNemocenska = "ok"; if (window._nemocenskaInit) window._nemocenskaInit(); };
+    s.onerror = function(){ window.ChartJsNemocenska = "chyba"; if (window._nemocenskaInit) window._nemocenskaInit(); };
     document.head.appendChild(s);
 })();
 
@@ -171,14 +174,34 @@ function vykresliGraf(celkovaNahrada, celkoveNemocenske) {
             labels: ['Náhrada mzdy (1–14)', 'Nemocenské (15+)'],
             datasets: [{
                 data: [celkovaNahrada, celkoveNemocenske],
-                backgroundColor: ['#4f46e5', '#f97316']
+                backgroundColor: ['#1e1b4b', '#818cf8'],
+                borderWidth: 3,
+                borderColor: '#ffffff',
+                spacing: 2,
+                hoverOffset: 6
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: true,
+            cutout: '62%',
             plugins: {
-                legend: { position: 'bottom' },
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        color: '#334155',
+                        font: { size: 13, weight: '600' },
+                        padding: 16,
+                        usePointStyle: true,
+                        pointStyle: 'circle'
+                    }
+                },
                 tooltip: {
+                    backgroundColor: '#1e1b4b',
+                    padding: 10,
+                    cornerRadius: 8,
+                    titleFont: { weight: '700' },
                     callbacks: {
                         label: function(context) {
                             let label = context.label || '';
@@ -215,12 +238,7 @@ function provestVypocet() {
     const celkemVyplaceno = celkovaNahrada + celkoveNem;
 
     el.vysledek.textContent = `Celkem vyplaceno: ${fmtKc(celkemVyplaceno)}`;
-    el.vysledek.style.border = '2px solid #4f46e5';
-    el.vysledek.style.backgroundColor = '#eef2ff';
-    el.vysledek.style.padding = '14px 18px';
-    el.vysledek.style.borderRadius = '8px';
-    el.vysledek.style.textAlign = 'center';
-    el.vysledek.style.fontWeight = '700';
+    // Vzhled výsledku řídí sdílená třída .kalkulacka-profi v css/style.css
 
     let html = '';
     html += `<p>Redukovaný denní vyměřovací základ: <strong>${Math.round(redukovanyDVZ).toLocaleString('cs-CZ')} Kč</strong></p>`;
@@ -464,3 +482,20 @@ function inicializujNemocenska() {
         exportPDF();
     });
 }
+
+// NOVÉ — inicializace se spustí po načtení DOM, nezávisle na Chart.js;
+// pojistný časovač zajistí init i kdyby se událost onload/onerror ztratila
+window._nemocenskaInit = (function() {
+    let probehlo = false;
+    return function() {
+        if (probehlo) return;
+        probehlo = true;
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', inicializujNemocenska);
+        } else {
+            inicializujNemocenska();
+        }
+    };
+})();
+if (window.ChartJsNemocenska) window._nemocenskaInit();
+setTimeout(function() { window._nemocenskaInit(); }, 1500);
