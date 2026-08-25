@@ -28,6 +28,30 @@
     }
 
 
+    /* NOVÁ FUNKCE — Google Consent Mode v2: předává souhlas (ad_storage,
+       ad_user_data, ad_personalization, analytics_storage) do GTM/gtag.
+       Bez souhlasu musí být vše 'denied'. */
+    function aplikujConsentMode(analytics, ads) {
+
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        if (!window.gtag) {
+            window.gtag = gtag;
+        }
+
+        window.gtag('consent', 'update', {
+            ad_storage: ads ? 'granted' : 'denied',
+            ad_user_data: ads ? 'granted' : 'denied',
+            ad_personalization: ads ? 'granted' : 'denied',
+            analytics_storage: analytics ? 'granted' : 'denied'
+        });
+    }
+
+
     function ulozSouhlas(nastaveni) {
 
         localStorage.setItem(
@@ -199,8 +223,12 @@
                 nactiSouhlas();
 
 
+            // NOVÉ — Consent Mode v2: výchozí stav vždy 'denied', update dle uloženého souhlasu
+            aplikujConsentMode(false, false);
 
             if (souhlas) {
+
+                aplikujConsentMode(souhlas.analytics, souhlas.ads);
 
 
                 if (souhlas.analytics) {
@@ -226,15 +254,17 @@
                 function () {
 
 
-                    // TODO: až bude AdSense schválen, změnit výchozí hodnotu ads na true při souhlasu (nebo navázat na přepínač z druhé vrstvy)
+                    // AdSense schválen — při plném souhlasu jsou reklamy povoleny
                     ulozSouhlas({
 
                         analytics: true,
 
-                        ads: false
+                        ads: true
 
                     });
 
+
+                    aplikujConsentMode(true, true);
 
                     zavriModal(overlay);
 
@@ -261,6 +291,8 @@
 
                     });
 
+
+                    aplikujConsentMode(false, false);
 
                     zavriModal(overlay);
 
@@ -305,7 +337,7 @@
                         document.getElementById('cookie-toggle-reklamy').checked;
 
 
-                    // TODO: až bude AdSense schválen, změnit výchozí hodnotu ads na true při souhlasu (nebo navázat na přepínač z druhé vrstvy)
+                    // hodnota ads se řídí přepínačem "Reklamy (Google AdSense)" ve druhé vrstvě
                     ulozSouhlas({
 
                         analytics: analytika,
@@ -314,6 +346,8 @@
 
                     });
 
+
+                    aplikujConsentMode(analytika, reklamy);
 
                     zavriModal(overlay);
 
