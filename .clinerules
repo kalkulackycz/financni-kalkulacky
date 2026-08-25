@@ -1,22 +1,195 @@
-# Pravidla pro práci na tomto projektu
+# .clinerules — financnimapa.cz
 
-## Úspora tokenů
-- Neposílej mi zpět celý obsah upravených souborů, pokud o to výslovně nepožádám. Stačí shrnutí, co ses změnil a proč.
-- Uprav pouze ty řádky/bloky kódu, které je skutečně potřeba změnit. Nepřepisuj celé soubory od začátku, pokud to není nutné.
-- Nepřidávej vysvětlující komentáře do kódu, pokud o ně nepožádám.
-- Než začneš upravovat více souborů najednou, krátce (2-3 věty) popiš plán a počkej na potvrzení, pokud je úkol netriviální.
-- Pokud si nejsi jistý zadáním, zeptej se jednou stručnou otázkou místo toho, abys zkoušel různé varianty pokus-omyl.
-- Drž odpovědi stručné. Nepiš dlouhé úvody ani shrnutí na konci, pokud o ně nežádám.
+Tento soubor je závazný pro každý úkol na projektu financnimapa.cz. Pokud je
+cokoliv v zadání uživatele nejasné nebo v rozporu s těmito pravidly, ptej se
+PŘED tím, než začneš psát kód — nikdy si nic nedomýšlej.
 
-## Styl kódu (HTML/CSS/JS)
-- Projekt je statický web (HTML stránky + složky css/js). Nepoužívej žádný framework (React, Vue apod.), pokud o to výslovně nepožádám.
-- Nový CSS piš do existujících souborů ve složce css/, nový JS do souborů ve složce js/ – nevytvářej duplicitní styly/skripty přímo v HTML, pokud tam už podobný vzor není.
-- Zachovej stávající pojmenování tříd, ID a proměnných v JS. Drž se konvence, která už ve zbytku projektu je.
-- Nepřidávej externí knihovny (CDN skripty apod.) bez upozornění a vysvětlení, proč jsou potřeba.
-- Pokud upravuješ jednu HTML stránku (např. mzda.html), neupravuj ostatní stránky, pokud to úkol nevyžaduje.
-- Nepřepisuj celý soubor kvůli malé změně – uprav jen konkrétní blok/sekci.
-- Dej pozor na to, aby úpravy jedné stránky neporušily sdílené prvky (hlavička, patička, navigace), které se pravděpodobně opakují napříč stránkami.
+## 0. KONTEXT PROJEKTU (přečti si vždy jako první)
 
-## Pracovní postup
-- Jeden úkol = jedna jasně ohraničená změna. Nespojuj více nesouvisejících úprav do jednoho zadání.
-- Po dokončení úkolu mi řekni, co je vhodné otestovat ručně.
+- Statický web: čisté HTML + CSS + Vanilla JS. ŽÁDNÉ frameworky (React, Vue,
+  build systémy typu Webpack/Vite) se nesmí zavádět bez výslovného schválení.
+- Hostováno na GitHub Pages.
+- Web je uprostřed redesignu. Styly jsou aktuálně SMÍŠENÉ — část webu používá
+  starý CSS, část nový. To znamená, že si NESMÍŠ vymýšlet vlastní CSS třídy
+  ani konvence pojmenování. Místo toho vždy analyzuješ existující kód.
+- REFERENČNÍ VZOR pro strukturu i vizuální styl kalkulaček je soubor
+  `hypotecni-kalkulacka.html` (+ jeho CSS a JS). Pokud si nejsi jistý, jak má
+  nová kalkulačka nebo prvek vypadat, otevři si tento soubor a napodob jeho
+  strukturu, třídy a konvence. Totéž platí pro kurzovou lištu a měnovou
+  kalkulačku s API od ČNB — to je referenční vzor pro práci s externím API.
+- REFERENČNÍ VZOR pro strukturu i styl SEO článků je soubor
+  `hypoteka-myty-vs-realita.html`. Před psaním nového článku si ho vždy
+  otevři a drž se stejné struktury nadpisů, meta tagů, sémantického HTML,
+  CTA/prolinkovacích boxů a CSS tříd, které v něm najdeš.
+
+## 1. ZLATÉ PRAVIDLO: NEJDŘÍV ANALÝZA, POTOM KÓD
+
+Před jakýmkoliv zásahem do kódu (nová kalkulačka, nový článek, úprava stylu)
+MUSÍŠ provést tento postup a v odpovědi uživateli stručně shrnout, co jsi
+zjistil:
+
+1. Otevři `hypotecni-kalkulacka.html` a jeho přidružený CSS/JS soubor.
+2. Projdi hlavní CSS soubor(y) projektu a vypiš si (interně), jaké třídy už
+   existují pro: karty/boxy, tlačítka, formulářové vstupy (input, select,
+   label), CTA sekce, chybové/informační hlášky, grid/flex kontejnery.
+3. Pokud najdeš třídu, která dělá to, co potřebuješ (např. `.card`,
+   `.btn-primary`, `.input-group`, `.info-box`) — POUŽIJ JI. Nevytvářej
+   duplicitní `.card-v2`, `.new-button` apod.
+4. Novou CSS třídu smíš vytvořit POUZE pokud pro daný účel opravdu nic
+   neexistuje. V takovém případě ji pojmenuj konzistentně s většinovým stylem
+   v souboru, do kterého ji přidáváš, a přidej krátký komentář
+   `/* NOVÁ TŘÍDA — důvod: ... */`, aby uživatel při redesignu snadno poznal,
+   co je nové.
+5. Pokud narazíš na rozpor mezi starým a novým stylem (např. dvě různé třídy
+   pro tlačítko) a nejsi si jistý, kterou použít — ZEPTEJ SE uživatele, nehádej.
+
+## 2. TVORBA KALKULAČEK
+
+### 2.1 Struktura souborů
+- Každá kalkulačka = samostatný HTML soubor + vlastní `<jméno>.js`.
+- **HTML a JS jsou striktně oddělené.** Žádné `onclick="..."` inline v HTML,
+  žádný `<script>` s logikou přímo v HTML souboru (max. připojení
+  `<script src="...">` na konci body). Veškerá logika (výpočty, event
+  listenery, DOM manipulace) patří do externího JS souboru.
+- CSS: pokud kalkulačka nepotřebuje nic mimo sdílené/globální styly, nový CSS
+  soubor nevytvářej. Pokud potřebuje specifické styly, přidej je do
+  odpovídajícího CSS souboru podle stávající konvence projektu (zjištěné
+  v kroku "Analýza" výše), ne do nového izolovaného souboru bez důvodu.
+
+### 2.2 Povinná struktura obsahu kalkulačky (v tomto pořadí)
+1. **H1** — jasný název kalkulačky (jen jeden na stránku).
+2. Krátký úvodní odstavec (1–3 věty) vysvětlující, k čemu kalkulačka slouží.
+3. **Formulář se vstupy** — použij existující `.input-group`/form třídy z
+   referenčního vzoru. Každé pole musí mít `<label>`, srozumitelný placeholder
+   nebo nápovědu, a validaci vstupu (min/max, povinná pole).
+4. **Výstup/výsledek** — vizuálně odlišená sekce (karta/box), aktualizuje se
+   dynamicky přes JS bez reloadu stránky.
+5. **CTA box s prolinkováním na související kalkulačky** — povinná sekce na
+   konci hlavního obsahu, např. "Mohlo by vás zajímat" / "Další kalkulačky",
+   min. 2–3 odkazy na tematicky související kalkulačky/nástroje na webu.
+   Použij existující CTA/box třídu, ne novou.
+6. **Disclaimer v patičce sekce** — vždy uveď formulaci typu: kalkulačka má
+   informativní charakter, nenahrazuje odbornou/finanční konzultaci, výsledky
+   se mohou lišit od nabídky konkrétní instituce. Styl disclaimeru přebírej
+   z referenčního vzoru (malé písmo, tlumená barva, existující třída typu
+   `.disclaimer` nebo `.note`).
+
+### 2.3 Pravidla pro asynchronní API (např. ČNB kurzy a podobně)
+- Vzorem je implementace měnové kalkulačky — analyzuj ji a drž se stejného
+  patternu (fetch wrapper, error handling, cache/fallback).
+- **Povinný stav "načítání"** — při volání API musí uživatel vidět vizuální
+  indikaci (spinner, text "Načítám aktuální kurz…", disabled tlačítko), nikdy
+  prázdný nebo zamrzlý stav.
+- **Povinný fallback při chybě/výpadku API nebo CORS** — pokud primární zdroj
+  (např. ČNB) selže:
+  - zkus definovaný fallback/proxy zdroj, pokud v projektu existuje (zjisti
+    v referenčním vzoru, jaký mechanismus se už používá — CORS proxy, cache
+    poslední úspěšné hodnoty apod.), a použij ten samý přístup,
+  - pokud fallback také selže, zobraz srozumitelnou chybovou hlášku v UI
+    (ne jen `console.error`) — např. "Kurzy se nepodařilo načíst, zkuste to
+    prosím později", a kalkulačka nesmí zůstat v "rozbitém" nebo tichém stavu.
+- Nikdy nenech promise/fetch bez `.catch` / `try-catch`.
+- API klíče, endpointy a proxy adresy piš do konstant na začátku JS souboru,
+  ne natvrdo napříč kódem.
+
+## 3. TVORBA ČLÁNKŮ (SEO obsah)
+
+> Referenční vzor: `hypoteka-myty-vs-realita.html`. Než začneš psát nový
+> článek, otevři si ho a napodob jeho strukturu (nadpisy, meta tagy, sémantické
+> HTML, CTA box, CSS třídy) — stejně jako u kalkulaček v sekci 2.
+
+### 3.1 SEO a metadata (povinné u každého článku)
+- Přesně jeden `<h1>` odpovídající hlavnímu tématu/klíčovému slovu.
+- Logická hierarchie `<h2>`/`<h3>` — nepřeskakovat úrovně (žádné h3 bez
+  nadřazeného h2).
+- `<title>` — unikátní, výstižný, ideálně do ~60 znaků.
+- `<meta name="description">` — unikátní shrnutí obsahu, ideálně 120–160
+  znaků.
+- Vyplněné Open Graph tagy (`og:title`, `og:description`, `og:image` pokud
+  má web zavedenou konvenci pro OG obrázky — ověř v jiném hotovém článku).
+- Kanonická URL (`<link rel="canonical">`), pokud to projekt jinde používá.
+
+### 3.2 Sémantické HTML
+- Používej `<article>`, `<section>`, `<header>`, `<footer>`, `<nav>` smysluplně
+  — ne jen `<div>` na všechno.
+- Obrázky vždy s `alt` textem popisujícím obsah (ne prázdné/klíčovým slovem
+  přeplácané alt texty).
+- Odkazy s popisným textem, ne "klikněte zde".
+
+### 3.3 Povinné prolinkování na kalkulačky
+- Každý finančně tematický článek MUSÍ obsahovat alespoň jedno prolinkování
+  na relevantní kalkulačku — buď jako:
+  - vložený info-box/widget (pokud web má komponentu pro vkládání kalkulačky
+    do článku, použij ji — ověř existenci v jiném hotovém článku),
+  - nebo textový CTA odkaz v přirozeném místě textu + shrnující box na konci
+    článku stejný jako CTA box u kalkulaček (viz 2.2 bod 5).
+- Nikdy nekonči článek bez akčního odkazu dál na web (kalkulačka nebo
+  související článek).
+
+## 4. STYL A DESIGN (kritické pravidlo kvůli probíhajícímu redesignu)
+
+> ⚠️ **TODO PRO UŽIVATELE — revize po dokončení redesignu:**
+> Tato sekce (4) a odkazy na `hypotecni-kalkulacka.html` jako "referenční
+> design vzor" v bodech 0 a 4 platí jen dokud web běží ve smíšeném stavu
+> starý/nový styl. Jakmile bude redesign dokončen a CSS sjednoceno:
+> 1. Aktualizuj bod 0 a 4 — nahraď odkaz na `hypotecni-kalkulacka.html` jasnou
+>    definicí finální CSS konvence projektu (např. odkaz na styleguide/
+>    design-tokens soubor, pokud vznikne).
+> 2. Odeber formulace typu "smíšené styly", "starý vs. nový design" — po
+>    dokončení redesignu už neplatí a mohly by Clina/Ox Alphu zbytečně mást.
+> 3. Zvaž přidání konkrétního seznamu utilit/tříd (např. výpis z finálního
+>    CSS) přímo do tohoto souboru, aby model nemusel pokaždé re-analyzovat
+>    celý CSS soubor.
+> Dokud toto TODO nevyřešíte, sekce 4 zůstává v platnosti tak, jak je níže.
+
+- Web je z poloviny předělaný na nový design. **Nikdy nevytvářej nové CSS
+  třídy impulzivně** pro každý nový prvek — vždy nejdřív hledej a znovu
+  používej existující třídy.
+- Postup je stejný jako v bodě 1 (Zlaté pravidlo): nejdřív dohledej existující
+  třídu pro karty, tlačítka, formuláře, boxy, gridy — a tu použij.
+- Responzivita je povinná u všeho nového: layout musí fungovat na mobilu.
+  Používej flexbox/grid, žádné pevné šířky v px u kontejnerů obsahu. Otestuj
+  (alespoň v hlavě/kódu) chování při šířce ~360–400px.
+- Pokud přidáváš nový vizuální prvek, který v žádném stávajícím souboru nemá
+  vzor, drž se vizuální identity z `hypotecni-kalkulacka.html` (spacing,
+  border-radius, barvy, typografie) — ne z nějakého jiného, staršího souboru.
+- Pokud si nejsi jistý, jestli daný CSS soubor patří ke starému nebo novému
+  designu, zeptej se uživatele, než do něj začneš psát.
+
+## 5. WORKFLOW A GIT
+
+- **Každá nová funkčnost (kalkulačka, článek, větší úprava) jde do vlastní
+  větve** ve formátu `feature/nazev-ukolu` (např. `feature/kalkulacka-cisty-plat`).
+  Nikdy nepracuj rovnou v `main`/`master`.
+- U každé nové stránky (kalkulačka nebo článek) nezapomeň:
+  - přidat odkaz do hlavního menu (pokud je stránka určená k tomu, aby v menu
+    byla — pokud si nejsi jistý, zeptej se),
+  - přidat záznam do `sitemap.xml`.
+- **ZÁKAZ automatického `git commit` / `git push` bez výslovného souhlasu
+  uživatele.** Můžeš připravit změny a navrhnout commit message, ale commit i
+  push provedeš až po explicitním "ano, commitni/pushni".
+- Než ukážeš uživateli `diff` nebo shrnutí provedených změn, **ověř si ho
+  ještě jednou proti reálnému obsahu souboru** (např. přes `git diff` nebo
+  opětovné otevření souboru) — nespoléhej na to, co sis "pamatoval" z editace.
+  Přepisování diffu ručně do textu odpovědi je náchylné k překlepům, které
+  pak mate uživatele (např. poškozený tag, který v souboru vůbec není). Pokud
+  je to možné, vlož skutečný výstup `git diff` doslovně, místo aby sis ho
+  přepisoval vlastními slovy.
+- Na konci úkolu vždy shrň uživateli: které soubory jsi vytvořil/upravil, jaké
+  CSS třídy jsi znovupoužil vs. nově vytvořil (pokud nějaké), a co ještě zbývá
+  udělat (menu, sitemap, commit).
+
+## 6. FINÁLNÍ CHECKLIST PŘED DOKONČENÍM ÚKOLU
+
+Před tím, než nahlásíš úkol jako hotový, projdi si:
+- [ ] Analyzoval jsem existující styl/strukturu předtím, než jsem psal kód?
+- [ ] HTML a JS jsou striktně oddělené (žádná inline logika)?
+- [ ] Použil jsem existující CSS třídy místo nových, kde to šlo?
+- [ ] U kalkulačky: má vstupy, výsledkový box, CTA prolinkování a disclaimer?
+- [ ] U API volání: je ošetřen loading stav, chyba i fallback?
+- [ ] U článku: správná hierarchie nadpisů, meta tagy, prolinkování na
+      kalkulačku?
+- [ ] Je layout responzivní (flex/grid, funguje na mobilu)?
+- [ ] Jsem v samostatné feature větvi?
+- [ ] Aktualizoval jsem (nebo navrhl aktualizovat) menu a sitemap.xml?
+- [ ] Nezapsal jsem žádný commit/push bez souhlasu uživatele?

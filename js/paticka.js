@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (paticka) {
         paticka.innerHTML = `
             <p style="margin-bottom: 8px;">
-                © 2026 Finanční Mapa | Kalkulačky slouží pouze pro orientační výpočty.
+                © 2026 Finanční Mapa | Kalkulačky na webu slouží pouze pro orientační výpočty a nenahrazují nabídku konkrétní finanční instituce.
             </p>
 
             <div style="display: flex; justify-content: center; gap: 16px; font-size: 13px;">

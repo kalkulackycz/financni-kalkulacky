@@ -13,6 +13,126 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8651858140507312"
      crossorigin="anonymous"></script>
+    <style>
+        /* ===== Profi vzhled kalkulačky mzdy (shodný s hypoteční) ===== */
+        .kalkulacka {
+            background: #ffffff !important;
+            color: #1e293b !important;
+            border: 1px solid #e0e7ff !important;
+            box-shadow: 0 20px 50px -15px rgba(15, 12, 41, 0.35) !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .kalkulacka h1 {
+            background: #1e1b4b;
+            width: auto;
+            margin: -32px -32px 24px;
+            padding: 30px 24px;
+            color: #ffffff !important;
+            letter-spacing: -0.02em;
+        }
+        .kalkulacka label { color: #1e1b4b !important; }
+        .kalkulacka input[type="text"], .kalkulacka select {
+            background: #ffffff !important;
+            border: 1px solid #c7d2fe !important;
+            color: #0f172a !important;
+            border-radius: 10px !important;
+            font-weight: 600;
+        }
+        .kalkulacka input[type="text"]:focus {
+            outline: none;
+            border-color: #818cf8 !important;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+        }
+        .kalkulacka input[type="range"] { accent-color: #1e1b4b; }
+        .kalkulacka input[type="checkbox"] { accent-color: #1e1b4b; width: 16px; height: 16px; }
+        .ikona-otaznik {
+            background: #1e1b4b !important;
+            color: #ffffff !important;
+            border: none !important;
+            font-weight: 800;
+            box-shadow: 0 2px 6px rgba(30, 27, 75, 0.35);
+        }
+        #vypocitatMzdu {
+            background: #1e1b4b !important;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            margin-top: 10px !important;
+            box-shadow: 0 8px 24px -8px rgba(30, 27, 75, 0.6);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        #vypocitatMzdu:hover { transform: translateY(-1px); }
+        #vysledekMzda {
+            background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 60%, #312e81 100%) !important;
+            border: none !important;
+            border-radius: 16px !important;
+            color: #ffffff !important;
+            font-size: 1.2rem !important;
+            padding: 22px 20px !important;
+            box-shadow: 0 14px 30px -12px rgba(30, 27, 75, 0.55) !important;
+        }
+        #detailyMzda {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 4px 16px;
+            margin-top: 14px !important;
+            box-shadow: 0 4px 14px rgba(30, 27, 75, 0.06);
+        }
+        #detailyMzda p {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+            padding: 11px 0 !important;
+            margin: 0 !important;
+            border-bottom: 1px solid #eef2f7;
+            font-size: 0.9rem;
+            color: #475569 !important;
+            background: transparent !important;
+        }
+        #detailyMzda p:last-child { border-bottom: none; }
+        #detailyMzda p strong { color: #1e1b4b !important; font-size: 0.95rem; white-space: nowrap; }
+        #grafMzda {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 10px;
+            max-width: 100%;
+        }
+        #export-pdf, #tisk-pdf, #sdilet {
+            background: #ffffff !important;
+            color: #1e1b4b !important;
+            border: 2px solid #1e1b4b !important;
+            border-radius: 10px !important;
+            transition: background 0.2s, color 0.2s;
+        }
+        #export-pdf:hover, #tisk-pdf:hover, #sdilet:hover { background: #1e1b4b !important; color: #ffffff !important; }
+        .kalkulacka h2 { color: #1e1b4b !important; }
+        .clanek h2 { color: #1e1b4b !important; }
+        .clanek h3 { color: #334155 !important; }
+        .clanek p, .faq-polozka p { color: #475569 !important; }
+        @media (max-width: 600px) {
+            .kalkulacka { padding: 20px !important; }
+            .kalkulacka h1 { margin: -20px -20px 20px; padding: 22px 18px; font-size: 1.4rem; }
+        }
+        @media print {
+            .menu, .paticka, .info-box, .clanek, #vypocitatMzdu, #tisk-pdf, #sdilet, #grafMzda, #export-pdf {
+                display: none !important;
+            }
+            .kalkulacka {
+                background: #ffffff !important; color: #000 !important; border: none !important; box-shadow: none !important; max-width: 100% !important;
+            }
+            .kalkulacka h1, .kalkulacka h2, .kalkulacka label, #vysledekMzda, #detailyMzda, #detailyMzda p, #detailyMzda p strong {
+                color: #000 !important; -webkit-text-fill-color: #000 !important; background: #fff !important;
+            }
+        }
+    </style>
 </head>
 <body>
         <nav class="menu">
@@ -77,7 +197,7 @@
             <div class="label-radek">
                 <label for="pocetDeti">👨‍👩‍👧‍👦 Počet vyživovaných dětí:</label>
                 <span class="ikona-otaznik" aria-label="Nápověda k dětem">?</span>
-                <span class="bublina-text">Daňové zvýhodnění na děti žijící s vámi v společné domácnosti.</span>
+                <span class="bublina-text">Daňové zvýhodnění na děti žijící s vámi ve společné domácnosti.</span>
             </div>
             <select id="pocetDeti">
                 <option value="0">Bez dětí</option>
@@ -93,7 +213,7 @@
         <div id="kontejner-ztp-deti" style="margin-top: 8px;"></div>
 
         <!-- Tlačítko -->
-        <button id="vypocitatMzdu">Vypočítat čistou mzda</button>
+        <button id="vypocitatMzdu">Vypočítat čistou mzdu</button>
         <div id="chybova-hlaska" style="color: #ef4444; font-size: 14px; margin-top: 10px; display: none;"></div>
 
         <!-- Výsledky -->
@@ -111,11 +231,24 @@
                 </button>
             </div>
 
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button id="tisk-pdf" type="button" style="padding: 12px 28px; cursor: pointer; font-weight: 600; font-size: 15px; margin-right: 10px;">🖨️ Tisk / PDF</button>
+                <button type="button" id="sdilet" style="padding: 12px 28px; cursor: pointer; font-weight: 600; font-size: 15px;">📤 Sdílet</button>
+            </div>
             <canvas id="grafMzda" width="400" height="300"></canvas>
         </div>
 
         <a href="clanky/cista-vs-hruba-mzda.html" class="info-box">
             💡 Proč je čistá mzda nižší než hrubá? <span>Přečti si článek →</span>
+        </a>
+        <a href="hypotecni-kalkulacka.html" class="info-box">
+            🏠 Kolik si můžete půjčit na hypotéku? <span>Vyzkoušej hypoteční kalkulačku →</span>
+        </a>
+        <a href="pujcka.html" class="info-box">
+            💳 Spočítat splátku půjčky? <span>Přejdi na kalkulačku půjčky →</span>
+        </a>
+        <a href="sporeni.html" class="info-box">
+            📈 Kolik naspoříte pravidelným odkládáním? <span>Zkus kalkulačku spoření →</span>
         </a>
 
         <!-- Článek / Časté otázky -->
@@ -130,9 +263,28 @@
                 <p>Pokud je vaše vypočtená daň nižší než daňové zvýhodnění na děti, nejenže neplatíte žádnou daň, ale stát vám rozdíl (daňový bonus) vyplatí k čisté mzdě navíc.</p>
             </div>
         </div>
+        <div class="disclaimer-box">
+            <p>Tento výpočet je orientační a vychází ze zadaných hodnot a platných parametrů pro zdaňovací období. Skutečná výše čisté mzdy se může lišit podle konkrétního zaměstnavatele, dalších srážek (např. stravenky, doplňkové pojištění) nebo individuální daňové situace. Pro přesný výpočet doporučujeme konzultaci s finančním poradcem nebo účetním.</p>
+        </div>
     </div>
 
     <footer id="paticka" class="paticka"></footer>
+    <script>
+    document.getElementById("tisk-pdf").addEventListener("click", function () { window.print(); });
+    document.getElementById("sdilet").addEventListener("click", async function () {
+        const text = "Kalkulačka čisté mzdy – Finanční Mapa";
+        const url = window.location.href;
+        if (navigator.share) {
+            try { await navigator.share({ title: document.title, text: text, url: url }); return; } catch (e) {}
+        }
+        try {
+            await navigator.clipboard.writeText(url);
+            alert("Odkaz na kalkulačku byl zkopírován do schránky.");
+        } catch (e) {
+            window.location.href = "mailto:?subject=" + encodeURIComponent(text) + "&body=" + encodeURIComponent(url);
+        }
+    });
+    </script>
     <script src="js/paticka.js"></script>
 
     <script src="js/pdf-export.js"></script>

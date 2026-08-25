@@ -2,6 +2,7 @@
     var chartUrl = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js";
     var s2 = document.createElement("script"); s2.src = chartUrl;
     s2.onload = function() { window.ChartJsPripraven = true; vypoctiMzdu(); };
+    s2.onerror = function() { window.ChartJsPripraven = false; vypoctiMzdu(); }; // NOVÉ — fallback: graf se nepodaří načíst, ale výpočet musí fungovat
     document.head.appendChild(s2);
 })();
 
@@ -62,6 +63,49 @@ function zaokrouhliZakladDane(hruba) {
 }
 function pojisteni(zaklad, sazba) { return Math.ceil(zaklad * sazba); }
 
+// NOVÁ FUNKCE — sdílený výpočet pro zobrazení i PDF export (odstranění duplikace)
+function spocitejMzdu(hruba, pocetDeti, ztpDeti, jePoplatnik, invaliditaStupen, jeZtpP) {
+    const socPoj = pojisteni(hruba, 0.071);
+    const zdravPoj = pojisteni(hruba, 0.045);
+
+    const zaklad = zaokrouhliZakladDane(hruba);
+    const dan = (zaklad > CONFIG.LIMIT_DAN_23_MESIC)
+        ? Math.ceil(CONFIG.LIMIT_DAN_23_MESIC * 0.15) + Math.ceil((zaklad - CONFIG.LIMIT_DAN_23_MESIC) * 0.23)
+        : Math.ceil(zaklad * 0.15);
+
+    let zvyhodneniDeti = 0;
+    for (let i = 1; i <= pocetDeti; i++) {
+        let sazba = CONFIG.DETI_SAZBY[Math.min(i, 3)];
+        if (ztpDeti.includes(i)) sazba *= 2;
+        zvyhodneniDeti += sazba;
+    }
+
+    const slevyNaDani = (jePoplatnik ? CONFIG.SLEVA_POPLATNIK : 0) +
+                        (CONFIG.INVALIDITA[invaliditaStupen] || 0) +
+                        (jeZtpP ? CONFIG.SLEVA_ZTP : 0);
+
+    const danPoSlevach = Math.max(0, dan - slevyNaDani);
+
+    let danKPlaceni = danPoSlevach;
+    let danovyBonus = 0;
+    let danPoZvyhodneni = danPoSlevach - zvyhodneniDeti;
+
+    if (danPoZvyhodneni < 0) {
+        // Oprava: daňový bonus je zákonem stropovaný (max 60 300 Kč ročně = 5 025 Kč měsíčně)
+        const moznyBonus = Math.abs(danPoZvyhodneni);
+        danovyBonus = (hruba * 12 >= CONFIG.MIN_PRIJEM_ROCNI_BONUS)
+            ? Math.min(moznyBonus, CONFIG.MAX_DANOVY_BONUS_MESIC)
+            : 0;
+        danKPlaceni = 0;
+    } else {
+        danKPlaceni = danPoZvyhodneni;
+    }
+
+    const cistaMzda = hruba - socPoj - zdravPoj - danKPlaceni + danovyBonus;
+
+    return { socPoj, zdravPoj, dan, zvyhodneniDeti, slevyNaDani, danPoSlevach, danKPlaceni, danovyBonus, cistaMzda };
+}
+
 function generujDiteZtpInputs(pocet) {
     if (!el.kontejnerZtp) return;
     const stare = [...document.querySelectorAll(".ztp-dite:checked")].map(e => Number(e.value));
@@ -90,50 +134,12 @@ function vypoctiMzdu() {
     const invaliditaStupen = Number(document.getElementById("invalidita")?.value) || 0;
     const jeZtpP = document.getElementById("ztpP")?.checked;
 
-    const socPoj = pojisteni(hruba, 0.071);
-    const zdravPoj = pojisteni(hruba, 0.045);
-
-    const zaklad = zaokrouhliZakladDane(hruba);
-    const dan = (zaklad > CONFIG.LIMIT_DAN_23_MESIC)
-        ? Math.ceil(CONFIG.LIMIT_DAN_23_MESIC * 0.15) + Math.ceil((zaklad - CONFIG.LIMIT_DAN_23_MESIC) * 0.23)
-        : Math.ceil(zaklad * 0.15);
-
-    let zvyhodneniDeti = 0;
-    for (let i = 1; i <= pocetDeti; i++) {
-        let sazba = CONFIG.DETI_SAZBY[Math.min(i, 3)];
-        if (ztpDeti.includes(i)) sazba *= 2;
-        zvyhodneniDeti += sazba;
-    }
-
-    const slevyNaDani = (jePoplatnik ? CONFIG.SLEVA_POPLATNIK : 0) +
-                        (CONFIG.INVALIDITA[invaliditaStupen] || 0) +
-                        (jeZtpP ? CONFIG.SLEVA_ZTP : 0);
-
-    const danPoSlevach = Math.max(0, dan - slevyNaDani);
-
-    let danKPlaceni = danPoSlevach;
-    let danovyBonus = 0;
-    let danPoZvyhodneni = danPoSlevach - zvyhodneniDeti;
-
-    if (danPoZvyhodneni < 0) {
-        const moznyBonus = Math.abs(danPoZvyhodneni);
-        danovyBonus = (hruba * 12 >= CONFIG.MIN_PRIJEM_ROCNI_BONUS) ? moznyBonus : 0;
-        danKPlaceni = 0;
-    } else {
-        danKPlaceni = danPoZvyhodneni;
-    }
-
-    const cistaMzda = hruba - socPoj - zdravPoj - danKPlaceni + danovyBonus;
+    const v = spocitejMzdu(hruba, pocetDeti, ztpDeti, jePoplatnik, invaliditaStupen, jeZtpP);
+    const { socPoj, zdravPoj, dan, zvyhodneniDeti, slevyNaDani, danPoSlevach, danKPlaceni, danovyBonus, cistaMzda } = v;
 
     if (el.vysledekText) {
+        // Vzhled výsledku řídí CSS (#vysledekMzda) — shodné s hypoteční kalkulačkou, žádné inline styly
         el.vysledekText.textContent = "Čistý měsíční příjem: " + Math.round(cistaMzda).toLocaleString("cs-CZ") + " Kč";
-        el.vysledekText.style.border = "2px solid #22c55e";
-        el.vysledekText.style.backgroundColor = "#f0fdf4";
-        el.vysledekText.style.padding = "14px 18px";
-        el.vysledekText.style.borderRadius = "8px";
-        el.vysledekText.style.textAlign = "center";
-        el.vysledekText.style.color = "#166534";
-        el.vysledekText.style.fontWeight = "bold";
     }
 
     let slevyTextDetail = "";
@@ -163,13 +169,20 @@ function vypoctiMzdu() {
             type: "doughnut",
             data: {
                 labels: ["Čistý příjem", "Odvody", "Daň"],
-                datasets: [{ data: [cistaMzda, socPoj + zdravPoj, danKPlaceni], backgroundColor: ["#22c55e", "#4f46e5", "#ef4444"] }]
+                datasets: [{ data: [cistaMzda, socPoj + zdravPoj, danKPlaceni], backgroundColor: ["#1e1b4b", "#818cf8", "#c7d2fe"], borderWidth: 3, borderColor: "#ffffff", spacing: 2, hoverOffset: 6 }]
             },
             options: {
                 responsive: true,
+                cutout: "62%",
                 plugins: {
-                    legend: { position: "bottom" },
+                    legend: {
+                        position: "bottom",
+                        labels: { color: "#334155", font: { size: 13, weight: "600" }, padding: 16, usePointStyle: true, pointStyle: "circle" }
+                    },
                     tooltip: {
+                        backgroundColor: "#1e1b4b",
+                        padding: 10,
+                        cornerRadius: 8,
                         callbacks: {
                             label: function(context) {
                                 let label = context.label || '';
@@ -214,38 +227,8 @@ async function stahnoutPDFMzda() {
         const invaliditaStupen = Number(document.getElementById("invalidita")?.value) || 0;
         const jeZtpP = document.getElementById("ztpP")?.checked;
 
-        const socPoj = pojisteni(hruba, 0.071);
-        const zdravPoj = pojisteni(hruba, 0.045);
-        const zaklad = zaokrouhliZakladDane(hruba);
-        const dan = (zaklad > CONFIG.LIMIT_DAN_23_MESIC)
-            ? Math.ceil(CONFIG.LIMIT_DAN_23_MESIC * 0.15) + Math.ceil((zaklad - CONFIG.LIMIT_DAN_23_MESIC) * 0.23)
-            : Math.ceil(zaklad * 0.15);
-
-        let zvyhodneniDeti = 0;
-        for (let i = 1; i <= pocetDeti; i++) {
-            let sazba = CONFIG.DETI_SAZBY[Math.min(i, 3)];
-            if (ztpDeti.includes(i)) sazba *= 2;
-            zvyhodneniDeti += sazba;
-        }
-
-        const slevyNaDani = (jePoplatnik ? CONFIG.SLEVA_POPLATNIK : 0) +
-                            (CONFIG.INVALIDITA[invaliditaStupen] || 0) +
-                            (jeZtpP ? CONFIG.SLEVA_ZTP : 0);
-
-        const danPoSlevach = Math.max(0, dan - slevyNaDani);
-        let danKPlaceni = danPoSlevach;
-        let danovyBonus = 0;
-        let danPoZvyhodneni = danPoSlevach - zvyhodneniDeti;
-
-        if (danPoZvyhodneni < 0) {
-            const moznyBonus = Math.abs(danPoZvyhodneni);
-            danovyBonus = (hruba * 12 >= CONFIG.MIN_PRIJEM_ROCNI_BONUS) ? moznyBonus : 0;
-            danKPlaceni = 0;
-        } else {
-            danKPlaceni = danPoZvyhodneni;
-        }
-
-        const cistaMzda = hruba - socPoj - zdravPoj - danKPlaceni + danovyBonus;
+        const v = spocitejMzdu(hruba, pocetDeti, ztpDeti, jePoplatnik, invaliditaStupen, jeZtpP);
+        const { socPoj, zdravPoj, dan, zvyhodneniDeti, slevyNaDani, danPoSlevach, danKPlaceni, danovyBonus, cistaMzda } = v;
 
         let slevyTextDetail = [];
         if (jePoplatnik) slevyTextDetail.push("poplatník");
