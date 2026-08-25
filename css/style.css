@@ -1794,3 +1794,333 @@ button { margin-top: 12px !important; }
     margin: 6px 10px;
     background: #e5e7eb;
 }
+
+/* ============================================================
+   NOVÁ SEKCE — sdílený "profi" vzhled kalkulaček
+   Důvod: odstranění duplikovaných <style> bloků v
+   hypotecni-kalkulacka.html, mzda.html a sporeni.html.
+   Stránka se přihlásí třídou .kalkulacka-profi na obalu
+   .kalkulacka. Vztahuje se jen na stránky s touto třídou,
+   ostatní (např. měnová kalkulačka) zůstávají beze změny.
+   ============================================================ */
+
+.kalkulacka-profi {
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid #e0e7ff !important;
+    box-shadow: 0 20px 50px -15px rgba(15, 12, 41, 0.35) !important;
+    position: relative;
+    overflow: hidden;
+}
+.kalkulacka-profi::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(165, 180, 252, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(165, 180, 252, 0.06) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+}
+.kalkulacka-profi > * { position: relative; z-index: 1; }
+
+.kalkulacka-profi h1 {
+    background: #1e1b4b;
+    width: auto;
+    margin: -32px -32px 24px;
+    padding: 30px 24px;
+    color: #ffffff !important;
+    letter-spacing: -0.02em;
+}
+
+.kalkulacka-profi label { color: #1e1b4b !important; }
+.kalkulacka-profi input[type="text"] {
+    background: #ffffff !important;
+    border: 1px solid #c7d2fe !important;
+    color: #0f172a !important;
+    border-radius: 10px !important;
+    font-weight: 600;
+}
+.kalkulacka-profi input[type="text"]:focus {
+    outline: none;
+    border-color: #818cf8 !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+.kalkulacka-profi input[type="range"] { accent-color: #1e1b4b; }
+.kalkulacka-profi input[type="checkbox"] { accent-color: #1e1b4b; }
+
+.kalkulacka-profi .ikona-otaznik {
+    background: #1e1b4b !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-weight: 800;
+    box-shadow: 0 2px 6px rgba(30, 27, 75, 0.35);
+}
+
+/* Hlavní tlačítko Vypočítat (sekundární tlačítka mají výjimku níže) */
+.kalkulacka-profi button:not(#tisk-pdf):not(#sdilet):not(#export-pdf):not(#tlacitko-tabulka) {
+    margin-top: 22px !important;
+    background: #1e1b4b !important;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 8px 24px -8px rgba(30, 27, 75, 0.6);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.kalkulacka-profi button:not(#tisk-pdf):not(#sdilet):not(#export-pdf):not(#tlacitko-tabulka):hover {
+    transform: translateY(-1px);
+}
+
+/* Výsledkový panel — tmavý gradient */
+.kalkulacka-profi #vysledek,
+.kalkulacka-profi #vysledekSporeni,
+.kalkulacka-profi #vysledekMzda,
+.kalkulacka-profi #text-vysledek,
+.kalkulacka-profi #vysledekMimoradna,
+.kalkulacka-profi #vysledekRefin,
+.kalkulacka-profi #vysledekCelkem,
+.kalkulacka-profi #vysledekHlavni {
+    background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 60%, #312e81 100%) !important;
+    border: none !important;
+    border-radius: 16px !important;
+    color: #ffffff !important;
+    font-size: 1.2rem !important;
+    padding: 22px 20px !important;
+    box-shadow: 0 14px 30px -12px rgba(30, 27, 75, 0.55) !important;
+}
+
+/* Nadpis "Výsledek" nad výsledkovým panelem (hypotéka) */
+.kalkulacka-profi .vysledek-nadpis {
+    background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 60%, #312e81 100%);
+    border-radius: 20px 20px 0 0;
+    margin: 28px 0 0;
+    padding: 20px 20px 2px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #a5b4fc;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+}
+/* NOVÉ — nadpis a výsledek tvoří jeden celek: žádná mezera mezi nimi,
+   zaoblení jen nahoře (nadpis) a dole (výsledek) */
+.kalkulacka-profi .vysledek-nadpis + #vysledek {
+    margin-top: 0 !important;
+    border-radius: 0 0 16px 16px !important;
+}
+
+/* Detaily výsledku — bílý kartičkový seznam (bez rámečku, jen jemný stín) */
+/* (ID varianty kvůli specificitě: stará pravidla #detaily / #detailyMzda výše v souboru nesmí vyhrát) */
+.kalkulacka-profi .detaily,
+.kalkulacka-profi #detaily,
+.kalkulacka-profi #detailyMzda {
+    background: #ffffff;
+    border: none;
+    border-radius: 12px;
+    padding: 4px 16px;
+    margin-top: 14px !important;
+    margin-bottom: 0 !important;
+    box-shadow: 0 4px 14px rgba(30, 27, 75, 0.08);
+    display: block;
+    gap: 0;
+    justify-content: flex-start;
+}
+.kalkulacka-profi .detaily p,
+.kalkulacka-profi #detaily p,
+.kalkulacka-profi #detailyMzda p {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    border: none;
+    padding: 11px 8px 11px 0 !important;
+    margin: 0 !important;
+    border-bottom: 1px solid #eef2f7;
+    font-size: 0.9rem;
+    color: #475569 !important;
+    background: transparent !important;
+    border-radius: 0;
+    max-width: none;
+    flex: none;
+}
+.kalkulacka-profi .detaily p:last-child,
+.kalkulacka-profi #detaily p:last-child,
+.kalkulacka-profi #detailyMzda p:last-child { border-bottom: none; }
+.kalkulacka-profi .detaily p strong,
+.kalkulacka-profi #detaily p strong,
+.kalkulacka-profi #detailyMzda p strong {
+    color: #1e1b4b !important;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    display: inline;
+}
+
+/* Prázdné výsledkové panely a detaily se nezobrazují (např. před prvním výpočtem) */
+.kalkulacka-profi #vysledek:empty,
+.kalkulacka-profi #vysledekSporeni:empty,
+.kalkulacka-profi #vysledekMzda:empty,
+.kalkulacka-profi #text-vysledek:empty,
+.kalkulacka-profi #vysledekMimoradna:empty,
+.kalkulacka-profi #vysledekRefin:empty,
+.kalkulacka-profi #vysledekCelkem:empty,
+.kalkulacka-profi #vysledekHlavni:empty,
+.kalkulacka-profi .detaily:empty,
+.kalkulacka-profi #detaily:empty,
+.kalkulacka-profi #detailyMzda:empty {
+    display: none !important;
+}
+
+/* Graf — bílý rámeček */
+.kalkulacka-profi #graf,
+.kalkulacka-profi #grafSporeni,
+.kalkulacka-profi #grafPujcka,
+.kalkulacka-profi #grafRefin,
+.kalkulacka-profi #grafMimoradna,
+.kalkulacka-profi #grafMzda,
+.kalkulacka-profi #grafRp {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 10px;
+    max-width: 100%;
+}
+
+/* Sekundární tlačítka (Tisk / Sdílet / PDF / tabulka) */
+.kalkulacka-profi #tisk-pdf,
+.kalkulacka-profi #sdilet,
+.kalkulacka-profi #export-pdf,
+.kalkulacka-profi #tlacitko-tabulka {
+    display: inline-block !important;
+    width: auto !important;
+    background: #ffffff !important;
+    color: #1e1b4b !important;
+    border: 2px solid #1e1b4b !important;
+    border-radius: 10px !important;
+    transition: background 0.2s, color 0.2s;
+}
+.kalkulacka-profi #tisk-pdf:hover,
+.kalkulacka-profi #sdilet:hover,
+.kalkulacka-profi #export-pdf:hover,
+.kalkulacka-profi #tlacitko-tabulka:hover {
+    background: #1e1b4b !important;
+    color: #ffffff !important;
+}
+
+/* Typografie a boxy uvnitř profi kalkulačky */
+.kalkulacka-profi h2 { color: #1e1b4b !important; }
+.kalkulacka-profi .clanek h2 { color: #1e1b4b !important; }
+.kalkulacka-profi .clanek h3 { color: #334155 !important; }
+.kalkulacka-profi .clanek p,
+.kalkulacka-profi .faq-polozka p { color: #475569 !important; }
+.kalkulacka-profi .info-box {
+    background: #f5f7ff !important;
+    border: 1px solid #c7d2fe !important;
+    color: #3730a3 !important;
+    border-radius: 14px !important;
+}
+.kalkulacka-profi .info-box span { color: #4f46e5 !important; }
+.kalkulacka-profi .chyba-text { color: #ef4444 !important; }
+
+@media (max-width: 600px) {
+    .kalkulacka-profi { padding: 20px !important; }
+    .kalkulacka-profi h1 { margin: -20px -20px 20px; padding: 22px 18px; font-size: 1.4rem; }
+    .kalkulacka-profi .detaily { flex-direction: column; align-items: stretch; }
+}
+
+/* ============================================================
+   NOVÉ — unikátní prvky hypoteční kalkulačky (dříve vlastní
+   <style> blok v hypotecni-kalkulacka.html; přesunuto sem, aby
+   veškeré stylování kalkulaček bylo v jednom souboru)
+   ============================================================ */
+.kalkulacka-profi .blok-mimoradna {
+    background: #eef2ff !important;
+    border: 1px solid #c7d2fe !important;
+    border-radius: 14px !important;
+    margin-top: 18px !important;
+}
+.kalkulacka-profi .mimoradna-prepinac {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 2px;
+}
+.kalkulacka-profi .mimoradna-prepinac label {
+    margin: 0 !important;
+    font-size: 0.95rem !important;
+    color: #1e1b4b !important;
+}
+.kalkulacka-profi .mimoradna-prepinac input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0 !important;
+}
+.kalkulacka-profi #blok-mimoradna-splatka {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 12px;
+    background: transparent;
+    border: none;
+    padding: 4px 0 0;
+    margin-top: 12px !important;
+    opacity: 0.55;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+.kalkulacka-profi #blok-mimoradna-splatka label:nth-of-type(1) { grid-column: 1; grid-row: 1; }
+.kalkulacka-profi #blok-mimoradna-splatka input#mimoradna-splatka { grid-column: 1; grid-row: 2; }
+.kalkulacka-profi #blok-mimoradna-splatka label:nth-of-type(2) { grid-column: 2; grid-row: 1; }
+.kalkulacka-profi #blok-mimoradna-splatka input#mimoradna-rok { grid-column: 2; grid-row: 2; }
+.kalkulacka-profi #blok-mimoradna-splatka label { margin-top: 0 !important; font-size: 0.8rem !important; color: #475569 !important; }
+
+.kalkulacka-profi #blokSrovnani p { color: #334155 !important; }
+.kalkulacka-profi #blokSrovnani strong { color: #1e1b4b; }
+
+.kalkulacka-profi #amortizacni-tabulka {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(30, 27, 75, 0.08) !important;
+}
+.kalkulacka-profi #amortizacni-tabulka thead tr { background: #1e1b4b !important; }
+.kalkulacka-profi #amortizacni-tabulka th { color: #ffffff !important; background: transparent !important; }
+.kalkulacka-profi #amortizacni-tabulka tbody tr { background: transparent !important; }
+.kalkulacka-profi #amortizacni-tabulka tbody tr:nth-child(even) { background: #f8fafc !important; }
+.kalkulacka-profi #amortizacni-tabulka td { color: #334155 !important; border-bottom: 1px solid #eef2f7 !important; background: transparent !important; }
+
+@media print {
+    #obal-tabulky { display: block !important; }
+    .kalkulacka-profi #amortizacni-tabulka thead tr { background: #eee !important; }
+    .kalkulacka-profi #amortizacni-tabulka th,
+    .kalkulacka-profi #amortizacni-tabulka td { color: #000 !important; }
+    .kalkulacka-profi #vysledek,
+    .kalkulacka-profi #detaily { background: #fff !important; border: 1px solid #ccc !important; }
+}
+
+@media print {
+    .kalkulacka-profi .menu,
+    .kalkulacka-profi .paticka,
+    .kalkulacka-profi .info-box,
+    .kalkulacka-profi .clanek,
+    .kalkulacka-profi button,
+    .kalkulacka-profi canvas {
+        display: none !important;
+    }
+    .kalkulacka-profi {
+        background: #ffffff !important;
+        color: #000 !important;
+        border: none !important;
+        box-shadow: none !important;
+        max-width: 100% !important;
+    }
+    .kalkulacka-profi h1,
+    .kalkulacka-profi h2,
+    .kalkulacka-profi label,
+    .kalkulacka-profi .detaily {
+        color: #000 !important;
+        -webkit-text-fill-color: #000 !important;
+    }
+}

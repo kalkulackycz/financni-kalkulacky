@@ -1,6 +1,7 @@
 (function () {
     var zpravy = [
         "<b>Novinka:</b> Měnová kalkulačka s kurzovním lístkem ČNB už je tady.",
+        "<b>Novinka:</b> Právě provádíme upravu designu stranek.",
         "<b>Vybíráme další:</b> Kalkulačku DPH – přepočet částek s DPH i bez DPH.",
         "<b>Plánujeme:</b> Kalkulačka úroků z prodlení – výpočet penále z nezaplacené faktury.",
         "<b>Chybí vám nějaká kalkulačka?</b> Napište nám."
