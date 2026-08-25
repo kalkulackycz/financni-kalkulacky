@@ -1857,7 +1857,7 @@ button { margin-top: 12px !important; }
 }
 
 /* Hlavní tlačítko Vypočítat (sekundární tlačítka mají výjimku níže) */
-.kalkulacka-profi button:not(#tisk-pdf):not(#sdilet):not(#export-pdf):not(#tlacitko-tabulka) {
+.kalkulacka-profi button:not(#tisk-pdf):not(#sdilet):not(#export-pdf):not(#tlacitko-tabulka):not(#prohoditMeny) {
     margin-top: 22px !important;
     background: #1e1b4b !important;
     border: none;
@@ -1870,8 +1870,53 @@ button { margin-top: 12px !important; }
     box-shadow: 0 8px 24px -8px rgba(30, 27, 75, 0.6);
     transition: transform 0.2s, box-shadow 0.2s;
 }
-.kalkulacka-profi button:not(#tisk-pdf):not(#sdilet):not(#export-pdf):not(#tlacitko-tabulka):hover {
+.kalkulacka-profi button:not(#tisk-pdf):not(#sdilet):not(#export-pdf):not(#tlacitko-tabulka):not(#prohoditMeny):hover {
     transform: translateY(-1px);
+}
+
+/* NOVÉ — tlačítko prohození měn (měnová kalkulačka): kompaktní, v řádku se selecty */
+.kalkulacka-profi #prohoditMeny {
+    display: inline-block !important;
+    width: auto !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 12px 16px;
+    background: #1e1b4b !important;
+    color: #ffffff !important;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 18px;
+    transition: transform 0.2s;
+}
+.kalkulacka-profi #prohoditMeny:hover { transform: rotate(180deg); }
+
+/* NOVÉ — tabulka odevzdání (měnová kalkulačka) */
+.kalkulacka-profi .tabulka-odecitky {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 28px 0;
+    font-size: 0.98rem;
+    box-shadow: 0 4px 14px rgba(30, 27, 75, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+}
+.kalkulacka-profi .tabulka-odecitky th {
+    background-color: #1e1b4b;
+    color: #ffffff;
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 600;
+}
+.kalkulacka-profi .tabulka-odecitky td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #eef2f7;
+    color: #334155 !important;
+}
+.kalkulacka-profi .tabulka-odecitky tr:nth-child(even) td {
+    background-color: #f8fafc;
 }
 
 /* Výsledkový panel — tmavý gradient */
@@ -1882,7 +1927,8 @@ button { margin-top: 12px !important; }
 .kalkulacka-profi #vysledekMimoradna,
 .kalkulacka-profi #vysledekRefin,
 .kalkulacka-profi #vysledekCelkem,
-.kalkulacka-profi #vysledekHlavni {
+.kalkulacka-profi #vysledekHlavni,
+.kalkulacka-profi #vysledekPrevodu {
     background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 60%, #312e81 100%) !important;
     border: none !important;
     border-radius: 16px !important;
@@ -1966,6 +2012,7 @@ button { margin-top: 12px !important; }
 .kalkulacka-profi #vysledekRefin:empty,
 .kalkulacka-profi #vysledekCelkem:empty,
 .kalkulacka-profi #vysledekHlavni:empty,
+.kalkulacka-profi #vysledekPrevodu:empty,
 .kalkulacka-profi .detaily:empty,
 .kalkulacka-profi #detaily:empty,
 .kalkulacka-profi #detailyMzda:empty {

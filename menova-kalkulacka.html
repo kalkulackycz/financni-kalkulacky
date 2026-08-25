@@ -7,32 +7,6 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💱</text></svg>">
     <title>Měnová kalkulačka a kurzovní lístek ČNB</title>
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        .tabulka-odecitky {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 28px 0;
-            font-size: 0.98rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        .tabulka-odecitky th {
-            background-color: #4f46e5;
-            color: #ffffff;
-            padding: 12px 14px;
-            text-align: left;
-            font-weight: 600;
-        }
-        .tabulka-odecitky td {
-            padding: 11px 14px;
-            border-bottom: 1px solid #e0e7ff;
-            color: #1f2937;
-        }
-        .tabulka-odecitky tr:nth-child(even) td {
-            background-color: #f5f7ff;
-        }
-    </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8651858140507312"
      crossorigin="anonymous"></script>
 </head>
@@ -52,7 +26,7 @@
         <a href="o-mne.html">👤 O mně</a>
     </nav>
 
-    <div class="kalkulacka">
+    <div class="kalkulacka kalkulacka-profi">
         <h1>💱 Měnová kalkulačka a kurzovní lístek ČNB</h1>
 
         <!-- Převodník -->
@@ -71,8 +45,7 @@
                 <select id="zMeny"></select>
             </div>
 
-            <button id="prohoditMeny" type="button" title="Prohodit měny"
-                style="padding: 12px 16px; background-color: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 18px;">⇄</button>
+            <button id="prohoditMeny" type="button" title="Prohodit měny">⇄</button>
 
             <div class="pole-s-napovedou" style="flex: 1; min-width: 140px; margin-top: 0;">
                 <div class="label-radek">
@@ -94,6 +67,11 @@
             ⚠️ Kurzy se nepodařilo načíst. Zkuste prosím stránku obnovit.
         </div>
 
+        <div style="text-align: center; margin-bottom: 20px;">
+            <button id="tisk-pdf" type="button">🖨️ Tisk / PDF</button>
+            <button type="button" id="sdilet">📤 Sdílet</button>
+        </div>
+
         <a href="kalkulacky.html" class="info-box">
             💡 Řešíte i hypotéku, půjčku nebo mzdu? <span>Prohlédněte si všechny kalkulačky →</span>
         </a>
@@ -101,12 +79,17 @@
         <a href="kurzovni-listek.html" class="info-box">
             📋 Chcete přehled všech kurzů? <span>Otevřít kurzovní lístek ČNB →</span>
         </a>
+
+        <div class="disclaimer-box">
+            <p>Kurzy přebíráme z aktuálního denního kurzovní lístku ČNB. Výpočet je informativní a nenahrazuje nabídku banky či směnárny — skutečný kurz i poplatky se mohou lišit.</p>
+        </div>
     </div>
 
     <footer id="paticka" class="paticka"></footer>
     <script src="js/paticka.js"></script>
 
     <script src="js/menova-kurz.js?v=6"></script>
+    <script src="js/tlacitka-sdileni.js"></script>
     <script src="js/cookie-analytics.js"></script>
 </body>
 </html>
