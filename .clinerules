@@ -193,3 +193,13 @@ Před tím, než nahlásíš úkol jako hotový, projdi si:
 - [ ] Jsem v samostatné feature větvi?
 - [ ] Aktualizoval jsem (nebo navrhl aktualizovat) menu a sitemap.xml?
 - [ ] Nezapsal jsem žádný commit/push bez souhlasu uživatele?
+
+## Chování při chybách API
+
+- Pokud se při volání nástroje nebo modelu vrátí chyba typu 
+  "Provider returned error" (nebo jiná dočasná/síťová chyba API providera),
+  automaticky zvol možnost **Retry** a pokus se akci zopakovat.
+- Zkus to maximálně 3× za sebou. Pokud chyba přetrvává i po 3 pokusech, 
+  zastav se a napiš mi, co se děje, místo dalšího automatického opakování.
+- Nepovažuj to za důvod k ukončení úkolu ani k vynechání kroku — 
+  jen počkej a zkus to znovu.
