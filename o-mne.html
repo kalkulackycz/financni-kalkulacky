@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🙋‍♂️</text></svg>">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🙋‍♂️</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>O mně - Finanční Mapa</title>
-
     <meta name="description" content="Kdo stojí za webem Finanční Mapa? Proč vznikl, jaké má cíle a jak přistupuji k tvorbě obsahu a výpočtům finančních kalkulaček.">
     <!-- NOVÉ (AdSense audit) – canonical + Open Graph -->
     <link rel="canonical" href="https://financnimapa.cz/o-mne.html">
@@ -16,53 +15,52 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
-
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        .o-mne-obsah {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 40px;
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-            border: 1px solid #f1f5f9;
-            text-align: left;
-        }
-        .o-mne-obsah h1 {
-            color: #1e1b4b;
-            margin-bottom: 24px;
-            text-align: left;
-        }
-        .o-mne-obsah p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #475569;
-            margin-bottom: 20px;
-        }
-        .o-mne-obsah a {
-            color: #4f46e5;
-            text-decoration: underline;
-            font-weight: 600;
-        }
-        @media (max-width: 600px) {
-            .o-mne-obsah {
-                padding: 24px;
-                margin: 20px 12px;
-            }
-        }
-    </style>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8651858140507312"
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Sjednocení stylu článku */
+        .clanek-obsah > p {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: #334155;
+            margin: 0;
+            padding: 0 44px;
+            margin-bottom: 20px;
+        }
+        .clanek-obsah > p:first-of-type {
+            margin-top: 30px;
+            font-size: 1.13rem;
+            color: #1e293b;
+            font-weight: 500;
+            line-height: 1.7;
+        }
+        .clanek-obsah h2 {
+            margin: 40px 44px 20px;
+            color: #1e1b4b;
+        }
+        @media (max-width: 600px) {
+            .clanek-obsah > p,
+            .clanek-obsah h2 {
+                padding-left: 20px;
+                padding-right: 20px;
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+    </style>
+
+
+    <!-- Style removed -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8651858140507312"
      crossorigin="anonymous"></script>
-</head>
-<body>
-
-        <nav class="menu">
+</head>
+
+<body>
+    <nav class="menu">
         <a href="index.html" class="menu-brand">💰 Finanční Mapa</a>
         <a href="index.html">🏠 Domů</a>
         <a href="kalkulacky.html">🧮 Kalkulačky</a>
         <a href="clanky/index.html">📰 Články</a>
-<div class="menu-polozka">
+        <div class="menu-polozka">
             <a href="menova-kalkulacka.html">🌍 Měny <span class="menu-sipka">▾</span></a>
             <div class="menu-dropdown">
                 <a href="menova-kalkulacka.html">💱 Měnová kalkulačka</a>
@@ -70,31 +68,36 @@
             </div>
         </div>
         <a href="o-mne.html" class="aktivni">👤 O mně</a>
-    </nav>
-
-    <div style="max-width: 800px; margin: 0 auto 15px auto; padding: 0 20px;">
-        <a href="index.html" style="color: #4f46e5; text-decoration: none; font-weight: 500;">← Zpět na úvod</a>
-    </div>
-
-    <div class="o-mne-obsah">
-        <h1>O mně</h1>
-        <p>Ahoj, jmenuji se Martin. Tenhle web nedělá žádná firma ani tým lidí v kravatách – jsem to jen já, jeden člověk, co si kdysi taky lámal hlavu nad tím, kolik mi vlastně zbyde na výplatní pásce nebo jak spočítat splátku půjčky.</p>
-        
-        <p>Kalkulačky na tomhle webu jsem si postupně dělal sám pro sebe a pro pár kamarádů, kterým jsem s podobnými věcmi pomáhal. Časem jsem si řekl, že by mohly pomoct i dalším lidem, tak jsou teď tady, zdarma a bez registrace.</p>
-        
-        <p>Práce na tom všem mě baví, ale zabírá čas – a i "jeden člověk, co rád pomáhá" musí z něčeho žít. Proto na webu najdete reklamy. Nejsou tu proto, abych vás otravoval, ale protože díky nim může web zůstat zdarma pro všechny a já se mu můžu dál věnovat. Snažím se je držet tak, aby vám nepřekážely v tom hlavním – ve výpočtu, kvůli kterému jste sem přišli.</p>
-        
-        <p>Pokud narazíte na chybu, chybí vám nějaká kalkulačka nebo máte prostě nápad na vylepšení, klidně se ozvěte na <a href="kontakt.html">stránce kontaktu</a>. Odepisuju sám, takže to chvíli může trvat, ale odepíšu.</p>
-        
-        <p>Díky, že web používáte.</p>
-    </div>
-
-    <div style="text-align: center; margin-top: 30px; margin-bottom: 20px;">
-        <a href="index.html" style="color: #4f46e5; text-decoration: none; font-weight: 500;">← Zpět na úvod</a>
-    </div>
-
-    <footer id="paticka" class="paticka"></footer>
-    <script defer src="js/paticka.js"></script>
-    <script defer src="js/cookie-analytics.js"></script>
-</body>
-</html>
+    </nav>
+
+    <div class="clanek-obsah">
+        <article>
+            <header class="clanek-hlavicka">
+                <span class="clanek-kategorie">👤 O mně</span>
+                <h1>O mně: Příběh Finanční Mapy</h1>
+                <div class="clanek-meta"><span>Finanční Mapa</span></div>
+            </header>
+
+            <p>Ahoj! Jmenuji se Martin a jsem tvůrcem projektu Finanční Mapa. Tenhle web nevznikl v zasedací místnosti žádné velké korporace, ale u mého vlastního stolu. Všechno začalo úplně jednoduše – potřeboval jsem si spočítat věci, které mě osobně pálily: kolik mi skutečně zbyde po zdanění výplaty, nebo jak se vlastně počítá úrok u hypotéky, když se mění tržní podmínky.</p>
+
+            <p>Když jsem si začal tvořit vlastní kalkulačky, zjistil jsem, že mnoho dostupných nástrojů online je buď nepřehledných, nebo až příliš svázaných s konkrétní nabídkou banky. Chtěl jsem vytvořit něco, co je prostě čisté, rychlé a férové. Postupně se k mým soukromým tabulkám přidali kamarádi, pak známí, a nakonec jsem se rozhodl web zpřístupnit všem, kdo hledají rychlou odpověď bez složitého registrování nebo zbytečných reklamních pastí.</p>
+
+            <h2>Proč to dělám a jak to funguje?</h2>
+            <p>Finanční Mapa je pro mě srdcová záležitost. Věřím, že finanční gramotnost začíná u správných čísel. Mým cílem je, aby si každý mohl během minuty udělat jasno ve svých financích, ať už řeší hypotéku, spoření nebo výplatu. Všechny nástroje zde na webu jsou a zůstanou zdarma.</p>
+
+            <p>A protože vývoj a provoz webu není jen o čase, ale i o nákladech, najdete na stránkách reklamy. Beru je jako nutné zlo, díky kterému může Finanční Mapa fungovat dál. Slibuji ale, že je vždy držím v rozumné míře – nikdy se nesnažím zastínit to nejdůležitější: váš výpočet, kvůli kterému jste sem přišli.</p>
+
+            <h2>Máte nápad na vylepšení?</h2>
+            <p>Tenhle projekt se neustále vyvíjí a nejvíc mi pomáhá vaše zpětná vazba. Pokud narazíte na chybu, chybí vám zde nějaká kalkulačka nebo máte nápad, co udělat lépe, dejte mi vědět. Odepisuji osobně, takže se nebojte ozvat přes <a href="kontakt.html">kontaktní formulář</a>.</p>
+            <p>Díky, že mě čtete a používáte moje kalkulačky. Moc si toho vážím.</p>
+
+            <a href="index.html" class="zpet-na-clanky">&larr; Zpět na úvod</a>
+        </article>
+    </div>
+
+    <footer id="paticka" class="paticka"></footer>
+
+    <script defer src="js/paticka.js"></script>
+    <script defer src="js/cookie-analytics.js"></script>
+</body>
+</html>
