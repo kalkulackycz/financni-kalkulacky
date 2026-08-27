@@ -4,90 +4,20 @@
 })();
 
 window.addEventListener("DOMContentLoaded", function() {
-    // Inicializace klikacích otazníků (aby fungovalo i v ostatních JS)
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('ikona-otaznik') || e.target.closest('.tabulka-napoveda')) {
-            const target = e.target.closest('.tabulka-napoveda') || e.target;
-            const bublina = target.nextElementSibling;
-            if (bublina && bublina.classList.contains('bublina-text')) {
-                document.querySelectorAll('.bublina-text').forEach(b => {
-                    if (b !== bublina) b.classList.remove('aktivni');
-                });
-                bublina.classList.toggle('aktivni');
-                if (bublina.classList.contains('aktivni')) {
-                    setTimeout(() => bublina.classList.remove('aktivni'), 3000);
-                }
-                e.stopPropagation();
-            }
-        } else {
-            document.querySelectorAll('.bublina-text').forEach(b => b.classList.remove('aktivni'));
-        }
-    });
+    initTooltipHandler();
 
     let mujGrafPujcka = null;
 
-    // Pomocná funkce pro validaci
-    function validujInput(input, chybaId, napoveda, podminka) {
-        const chybaEl = document.getElementById(chybaId);
-        if (!chybaEl) return true;
-        if (!podminka) {
-            chybaEl.innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
-            chybaEl.style.display = "block";
-            input.classList.add("input-chyba");
-            return false;
-        } else {
-            chybaEl.style.display = "none";
-            input.classList.remove("input-chyba");
-            return true;
-        }
-    }
-    // Funkce pro formátování a validaci vstupu
-    function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
-        const el = document.getElementById(inputId);
-        if (!el) return;
-        el.addEventListener('blur', function(e) {
-            let val = e.target.value.replace(/\s/g, '');
-            if (val !== "" && !isNaN(val.replace(",", "."))) {
-                 // U částek formátujeme, u procent/let necháváme nebo upravujeme dle typu
-                if (inputId !== 'urokPujcka' && inputId !== 'dobaPujcka') {
-                    e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
-                }
-            }
-            validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
-        });
-        el.addEventListener('focus', function(e) {
-            e.target.value = e.target.value.replace(/\s/g, '');
-        });
-    }
 
-    // Propojení sliderů s inputy
-    function propojSlider(inputId, sliderId, isFloat = false) {
-        const input = document.getElementById(inputId);
-        const slider = document.getElementById(sliderId);
-        if (!input || !slider) return;
 
-        slider.addEventListener('input', function() {
-            if (isFloat) {
-                input.value = slider.value.replace('.', ',');
-            } else {
-                input.value = parseInt(slider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
-            }
-            const tlacitko = document.getElementById("vypocitatPujcka");
-            if (tlacitko) tlacitko.click();
-        });
 
-        input.addEventListener('input', function() {
-            let val = input.value.replace(/\s/g, '').replace(',', '.');
-            if (!isNaN(val) && val !== '') {
-                slider.value = val;
-            }
-        });
-    }
 
-    propojSlider('vysePujcky', 'vysePujcky-slider');
-    propojSlider('urokPujcka', 'urokPujcka-slider', true);
-    propojSlider('poplatek', 'poplatek-slider');
-    propojSlider('dobaPujcka', 'dobaPujcka-slider');
+
+    bindSlider('vysePujcky', 'vysePujcky-slider', () => document.getElementById("vypocitatPujcka").click());
+    bindSlider('urokPujcka', 'urokPujcka-slider', () => document.getElementById("vypocitatPujcka").click(), true);
+    bindSlider('poplatek', 'poplatek-slider', () => document.getElementById("vypocitatPujcka").click());
+    bindSlider('dobaPujcka', 'dobaPujcka-slider', () => document.getElementById("vypocitatPujcka").click());
+
 
     const tlacitkoVypocet = document.getElementById("vypocitatPujcka");
     if (tlacitkoVypocet) {
@@ -218,10 +148,10 @@ window.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    zapnoutFormatovani('vysePujcky', 'vysePujcky-chyba', 'Např.: 100 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
-    zapnoutFormatovani('urokPujcka', 'urokPujcka-chyba', 'Např.: 8,9', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
-    zapnoutFormatovani('poplatek', 'poplatek-chyba', 'Např.: 1 500', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) >= 0);
-    zapnoutFormatovani('dobaPujcka', 'dobaPujcka-chyba', 'Např.: 5', v => !isNaN(v) && parseFloat(v) > 0);
+    bindInputFormatting('vysePujcky', 'vysePujcky-chyba', 'Např.: 100 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0, v => parseInt(v).toLocaleString('cs-CZ').replace(/\u00A0/g, ' '));
+    bindInputFormatting('urokPujcka', 'urokPujcka-chyba', 'Např.: 8,9', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0, v => v);
+    bindInputFormatting('poplatek', 'poplatek-chyba', 'Např.: 1 500', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) >= 0, v => parseInt(v).toLocaleString('cs-CZ').replace(/\u00A0/g, ' '));
+    bindInputFormatting('dobaPujcka', 'dobaPujcka-chyba', 'Např.: 5', v => !isNaN(v) && parseFloat(v) > 0, v => v);
     
     const inputVyse = document.getElementById("vysePujcky");
     const inputUrokPujcka = document.getElementById("urokPujcka");
