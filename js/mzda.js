@@ -20,20 +20,7 @@ const CONFIG = {
 let el = {};
 let mujGrafMzda = null;
 
-function validujInput(input, chybaId, napoveda, podminka) {
-    const chybaEl = document.getElementById(chybaId);
-    if (!chybaEl) return true;
-    if (!podminka) {
-        chybaEl.innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
-        chybaEl.style.display = "block";
-        input.classList.add("input-chyba");
-        return false;
-    } else {
-        chybaEl.style.display = "none";
-        input.classList.remove("input-chyba");
-        return true;
-    }
-}
+// Funkce validujInput byla odstraněna, nyní se používá sdílená funkce z js/utils.js
 
 function naformatujHrubou() {
     const input = el.hruba;
@@ -284,23 +271,7 @@ async function stahnoutPDFMzda() {
 }
 
 window.addEventListener("DOMContentLoaded", function() {
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('ikona-otaznik')) {
-            const bublina = e.target.nextElementSibling;
-            if (bublina && bublina.classList.contains('bublina-text')) {
-                document.querySelectorAll('.bublina-text').forEach(b => {
-                    if (b !== bublina) b.classList.remove('aktivni');
-                });
-                bublina.classList.toggle('aktivni');
-                if (bublina.classList.contains('aktivni')) {
-                    setTimeout(() => bublina.classList.remove('aktivni'), 3000);
-                }
-                e.stopPropagation();
-            }
-        } else {
-            document.querySelectorAll('.bublina-text').forEach(b => b.classList.remove('aktivni'));
-        }
-    });
+    initTooltipHandler();
 
     el = {
         hruba: document.getElementById("hrubaMzda"),
