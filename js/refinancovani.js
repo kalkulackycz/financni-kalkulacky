@@ -4,90 +4,19 @@
 })();
 
 window.addEventListener("DOMContentLoaded", function() {
-    // Inicializace klikacích otazníků
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('ikona-otaznik') || e.target.closest('.tabulka-napoveda')) {
-            const target = e.target.closest('.tabulka-napoveda') || e.target;
-            const bublina = target.nextElementSibling;
-            if (bublina && bublina.classList.contains('bublina-text')) {
-                document.querySelectorAll('.bublina-text').forEach(b => {
-                    if (b !== bublina) b.classList.remove('aktivni');
-                });
-                bublina.classList.toggle('aktivni');
-                if (bublina.classList.contains('aktivni')) {
-                    setTimeout(() => bublina.classList.remove('aktivni'), 3000);
-                }
-                e.stopPropagation();
-            }
-        } else {
-            document.querySelectorAll('.bublina-text').forEach(b => b.classList.remove('aktivni'));
-        }
-    });
+    initTooltipHandler();
 
     let mujGrafRefin = null;
 
-    // Pomocná funkce pro validaci
-    function validujInput(input, chybaId, napoveda, podminka) {
-        const chybaEl = document.getElementById(chybaId);
-        if (!chybaEl) return true;
-        if (!podminka) {
-            chybaEl.innerHTML = `Neplatný údaj. <span class="napoveda-format">${napoveda}</span>`;
-            chybaEl.style.display = "block";
-            input.classList.add("input-chyba");
-            return false;
-        } else {
-            chybaEl.style.display = "none";
-            input.classList.remove("input-chyba");
-            return true;
-        }
-    }
+    bindInputFormatting('zbytekDluhu', 'zbytekDluhu-chyba', 'Např.: 2 000 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0, v => parseInt(v).toLocaleString('cs-CZ').replace(/\u00A0/g, ' '));
+    bindInputFormatting('staryUrok', 'staryUrok-chyba', 'Např.: 5,9', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
+    bindInputFormatting('novyUrok', 'novyUrok-chyba', 'Např.: 4,2', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
+    bindInputFormatting('dobaRefin', 'dobaRefin-chyba', 'Např.: 20', v => !isNaN(v) && parseFloat(v) > 0);
 
-    // Funkce pro formátování a validaci vstupu
-    function zapnoutFormatovani(inputId, chybaId, napoveda, validacniFunkce) {
-        const el = document.getElementById(inputId);
-        if (!el) return;
-        el.addEventListener('blur', function(e) {
-            let val = e.target.value.replace(/\s/g, '');
-            if (val !== "" && !isNaN(val.replace(",", "."))) {
-                if (inputId === 'zbytekDluhu') {
-                    e.target.value = parseInt(val).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
-                }
-            }
-            validujInput(el, chybaId, napoveda, validacniFunkce(el.value));
-        });
-        el.addEventListener('focus', function(e) {
-            e.target.value = e.target.value.replace(/\s/g, '');
-        });
-    }
-
-    // Propojení sliderů s inputy
-    function propojSlider(inputId, sliderId, isFloat = false) {
-        const input = document.getElementById(inputId);
-        const slider = document.getElementById(sliderId);
-        if (!input || !slider) return;
-
-        slider.addEventListener('input', function() {
-            if (isFloat) {
-                input.value = slider.value.replace('.', ',');
-            } else {
-                input.value = parseInt(slider.value).toLocaleString('cs-CZ').replace(/\u00A0/g, ' ');
-            }
-            const tlacitko = document.getElementById("vypocitatRefin");
-            if (tlacitko) tlacitko.click();
-        });
-
-        input.addEventListener('input', function() {
-            let val = input.value.replace(/\s/g, '').replace(',', '.');
-            if (!isNaN(val) && val !== '') {
-                slider.value = val;
-            }
-        });
-    }
-
-    propojSlider('zbytekDluhu', 'zbytekDluhu-slider');
-    propojSlider('staryUrok', 'staryUrok-slider', true);
-    propojSlider('novyUrok', 'novyUrok-slider', true);
-    propojSlider('dobaRefin', 'dobaRefin-slider');
+    bindSlider('zbytekDluhu', 'zbytekDluhu-slider', () => document.getElementById("vypocitatRefin").click());
+    bindSlider('staryUrok', 'staryUrok-slider', () => document.getElementById("vypocitatRefin").click(), true);
+    bindSlider('novyUrok', 'novyUrok-slider', () => document.getElementById("vypocitatRefin").click(), true);
+    bindSlider('dobaRefin', 'dobaRefin-slider', () => document.getElementById("vypocitatRefin").click());
 
     const tlacitkoVypocetRefin = document.getElementById("vypocitatRefin");
     if (tlacitkoVypocetRefin) {
@@ -222,11 +151,6 @@ window.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
-
-    zapnoutFormatovani('zbytekDluhu', 'zbytekDluhu-chyba', 'Např.: 2 000 000', v => !isNaN(v.replace(/\s/g, '')) && parseFloat(v.replace(/\s/g, '')) > 0);
-    zapnoutFormatovani('staryUrok', 'staryUrok-chyba', 'Např.: 5,9', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
-    zapnoutFormatovani('novyUrok', 'novyUrok-chyba', 'Např.: 4,2', v => !isNaN(v.replace(',', '.')) && parseFloat(v.replace(',', '.')) >= 0);
-    zapnoutFormatovani('dobaRefin', 'dobaRefin-chyba', 'Např.: 20', v => !isNaN(v) && parseFloat(v) > 0);
 
     const inputZbytek = document.getElementById("zbytekDluhu");
     const inputStaryUrok = document.getElementById("staryUrok");
