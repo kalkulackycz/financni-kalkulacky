@@ -1836,6 +1836,8 @@ button { margin-top: 12px !important; }
     padding: 30px 24px;
     color: #ffffff !important;
     letter-spacing: -0.02em;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
 }
 
 .kalkulacka-profi label { color: #1e1b4b !important; }
