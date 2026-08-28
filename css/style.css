@@ -2497,3 +2497,91 @@ article > p strong { color: #0f172a; }
     }
 }
 
+
+/* ================= TISKOVÉ STYLY ================= */
+@media print {
+    /* 1. AGRESIVNÍ SKRYTÍ VŠECH NEPOTŘEBNÝCH PRVKŮ */
+    .menu, 
+    header, 
+    footer, 
+    .paticka, 
+    .tlacitka-sdileni, 
+    .adsbygoogle,
+    .tisk-skryt,
+    a[href="kalkulacky.html"],
+    .kalkulacka-info,        /* Info box */
+    .ikona-otaznik,          /* Nápovědné ikony */
+    .bublina-text,           /* Nápovědné bubliny */
+    input[type="range"],     /* Slidery */
+    button,                  /* Tlačítka (tisk, amortizační plán atd.) */
+    #amortizacni-tabulka,    /* Tabulka splátek */
+    .chyba-text {            /* Chybové hlášky */
+        display: none !important;
+    }
+
+    /* 2. RESET A ČISTÝ VZHLED PRO TISK */
+    body {
+        padding: 0 !important;
+        background: white !important;
+        color: black !important;
+    }
+
+    .kalkulacka, 
+    .kalkulacka-profi {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-shadow: none !important;
+        margin-top: 50px !important;   /* Posun obsahu níže */
+        margin-bottom: 50px !important; /* Vyvážení prostoru dole */
+        padding: 0 !important;
+        border: none !important;
+    }
+
+    /* 3. PŘEVOD VSTUPŮ NA ČISTÝ TEXT */
+    /* Vstupy parametrů (např. částka, úrok) se nyní tváří jako prostý text */
+    input[type="text"], 
+    input[type="number"],
+    select {
+        border: none !important;
+        background: transparent !important;
+        font-size: 1.1rem !important;
+        font-weight: 700 !important;
+        color: #1a1a2e !important;
+        padding: 0 !important;
+        margin-top: 5px !important;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    label {
+        font-size: 0.9rem !important;
+        color: #64748b !important;
+        margin-bottom: 2px !important;
+        display: block;
+    }
+
+    /* 4. OCHRANA BLOKŮ PŘED ROZTRŽENÍM A OPTIMALIZACE PRO 1 STRANU */
+    .pole-s-napovedou,
+    #vysledek, 
+    #vysledekSporeni, 
+    #vysledekMzda, 
+    #text-vysledek,
+    #vysledekMimoradna, 
+    #vysledekRefin, 
+    #vysledekCelkem,
+    #vysledekHlavni, 
+    #vysledekPrevodu {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        margin-bottom: 15px !important;
+    }
+
+    /* 5. ZVÝRAZNĚNÍ VÝSLEDKŮ */
+    #vysledek, .vysledek-box {
+        padding: 20px !important;
+        border-radius: 12px !important;
+        background: #f8fafc !important; /* Lehce šedé pozadí pro čitelnost výsledků v tisku */
+        border: 1px solid #e2e8f0 !important;
+    }
+}
+
