@@ -2609,6 +2609,8 @@ article > p strong { color: #0f172a; }
     #vysledekMimoradna, 
     #vysledekRefin, 
     #vysledekCelkem,
+    #vysledekCelkem,
+
     #vysledekHlavni, 
     #vysledekPrevodu,
     .detaily {
@@ -2627,6 +2629,8 @@ article > p strong { color: #0f172a; }
     }
 
     /* 5. ZVÝRAZNĚNÍ VÝSLEDKŮ */
+    #vysledekCelkem,
+
     #vysledek, #vysledekPujcka, .vysledek-box, .detaily {
         padding: 20px !important;
         border-radius: 12px !important;
