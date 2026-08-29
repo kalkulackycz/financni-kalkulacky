@@ -2518,9 +2518,41 @@ article > p strong { color: #0f172a; }
     canvas,                  /* Grafy */
     .clanek,                 /* Články / FAQ */
     .info-box,               /* Prolinkovací boxy */
-    .disclaimer-box,         /* Disclaimer */
-    .chyba-text {            /* Chybové hlášky */
+    .chyba-text,             /* Chybové hlášky */
+    /* Skrytí tlačítkových lišt, tlačítek a akčních sekcí (požadavek) */
+    .tlacitka-akce, 
+    .akce-box,
+    .tlacitka-container,
+    .btn,
+    /* Definitivní odstranění tiskových a sdílených tlačítek i jejich obalů při tisku */
+    #tisk-pdf,
+    #sdilet,
+    #export-pdf,
+    #tlacitko-tabulka,
+    #btnTisk,
+    #btnSdilet,
+    #btnCsv,
+    div:has(> #tisk-pdf),
+    div:has(> #btnTisk),
+    div:has(> #tisk-pdf) + hr,
+    div:has(> #btnTisk) + hr,
+    /* Skrytí konkrétních nadpisů sekcí před tlačítky a grafy */
+    h2, 
+    h3:has(+ .tlacitka-akce),
+    h3:has(+ button),
+    .sekce-nadpis {
         display: none !important;
+    }
+
+    .disclaimer-box {
+        display: block !important;
+        margin-top: 40px !important;
+        padding: 15px !important;
+        font-size: 11px !important; /* Menší písmo pro tisk */
+        color: #64748b !important;
+        border-top: 1px solid #cbd5e1 !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
     }
 
     /* 2. RESET A ČISTÝ VZHLED PRO TISK */
