@@ -2536,8 +2536,8 @@ article > p strong { color: #0f172a; }
     div:has(> #btnTisk),
     div:has(> #tisk-pdf) + hr,
     div:has(> #btnTisk) + hr,
-    /* Skrytí konkrétních nadpisů sekcí před tlačítky a grafy */
-    h2, 
+    /* Skrytí konkrétních nadpisů sekcí před tlačítky a grafy (kromě hlavního H1 kalkulačky) */
+    .kalkulacka-profi > h2:not(#vysledekPrevodu),
     h3:has(+ .tlacitka-akce),
     h3:has(+ button),
     .sekce-nadpis {
@@ -2587,6 +2587,8 @@ article > p strong { color: #0f172a; }
         margin-top: 5px !important;
         -webkit-appearance: none;
         appearance: none;
+        display: inline-block !important;
+        width: auto !important;
     }
 
     label {
@@ -2598,6 +2600,7 @@ article > p strong { color: #0f172a; }
 
     /* 4. OCHRANA BLOKŮ PŘED ROZTRŽENÍM A OPTIMALIZACE PRO 1 STRANU */
     .pole-s-napovedou,
+    .menovy-obal,
     #vysledek, 
     #vysledekSporeni, 
     #vysledekPujcka,
@@ -2612,6 +2615,15 @@ article > p strong { color: #0f172a; }
         break-inside: avoid !important;
         page-break-inside: avoid !important;
         margin-bottom: 15px !important;
+        display: block !important;
+    }
+    .menovy-obal {
+        display: flex !important;
+        gap: 20px !important;
+    }
+    .menovy-obal .pole-s-napovedou {
+        flex: 1 !important;
+        display: block !important;
     }
 
     /* 5. ZVÝRAZNĚNÍ VÝSLEDKŮ */
