@@ -2515,6 +2515,10 @@ article > p strong { color: #0f172a; }
     input[type="range"],     /* Slidery */
     button,                  /* Tlačítka (tisk, amortizační plán atd.) */
     #amortizacni-tabulka,    /* Tabulka splátek */
+    canvas,                  /* Grafy */
+    .clanek,                 /* Články / FAQ */
+    .info-box,               /* Prolinkovací boxy */
+    .disclaimer-box,         /* Disclaimer */
     .chyba-text {            /* Chybové hlášky */
         display: none !important;
     }
@@ -2564,20 +2568,22 @@ article > p strong { color: #0f172a; }
     .pole-s-napovedou,
     #vysledek, 
     #vysledekSporeni, 
+    #vysledekPujcka,
     #vysledekMzda, 
     #text-vysledek,
     #vysledekMimoradna, 
     #vysledekRefin, 
     #vysledekCelkem,
     #vysledekHlavni, 
-    #vysledekPrevodu {
+    #vysledekPrevodu,
+    .detaily {
         break-inside: avoid !important;
         page-break-inside: avoid !important;
         margin-bottom: 15px !important;
     }
 
     /* 5. ZVÝRAZNĚNÍ VÝSLEDKŮ */
-    #vysledek, .vysledek-box {
+    #vysledek, #vysledekPujcka, .vysledek-box, .detaily {
         padding: 20px !important;
         border-radius: 12px !important;
         background: #f8fafc !important; /* Lehce šedé pozadí pro čitelnost výsledků v tisku */
